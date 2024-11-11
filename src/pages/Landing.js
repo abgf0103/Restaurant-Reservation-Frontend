@@ -61,9 +61,6 @@ const Landing = () => {
             <div>
                 <h2>Landing page</h2>
                 <StoreList />
-                <p>
-                    <Link to="/user/searchresult">검색결과 페이지</Link>
-                </p>
 
                 <p>
                     <Link to="/store/info">가게 정보 페이지</Link>
