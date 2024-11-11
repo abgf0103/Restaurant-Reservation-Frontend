@@ -22,45 +22,51 @@ import SearchResult from "./pages/user/SearchReuslt";
 import MyReserve from "./pages/user/MyReserve";
 
 const ROLES = {
-    ROLE_USER: 1,
-    ROLE_ADMIN: 2,
-    ROLE_SYSTEM: 3,
+  ROLE_USER: 1,
+  ROLE_ADMIN: 2,
+  ROLE_SYSTEM: 3,
 };
 
 function App() {
-    return (
-        <AppLayout>
-            <Routes>
-                <Route path="/review" element={<Review />} />
-                <Route path="/review/list" element={<ReviewList />} />
-                <Route path="/review/edit" element={<ReviewEdit />} />
-                <Route path="/review/myreview" element={<MyReview />} />
+  return (
+    <AppLayout>
+      <Routes>
+        <Route path="/review" element={<Review />} />
+        <Route path="/review/list" element={<ReviewList />} />
+        {/* 리뷰 수정 페이지 라우트 */}
+        <Route path="/review/edit/:reviewId" element={<ReviewEdit />} />
+        <Route path="/review/myreview" element={<MyReview />} />
 
-                <Route path="/user/login" element={<Login />} />
-                <Route path="/user/signup" element={<Signup />} />
-                <Route path="/user/edit" element={<UserEdit />} />
-                <Route path="/user/mypage" element={<Mypage />} />
+        <Route path="/user/login" element={<Login />} />
+        <Route path="/user/signup" element={<Signup />} />
+        <Route path="/user/edit" element={<UserEdit />} />
+        <Route path="/user/mypage" element={<Mypage />} />
 
-                <Route path="/user/searchresult" element={<SearchResult />} />
+        <Route path="/user/searchresult" element={<SearchResult />} />
 
-                <Route path="/user/reserve" element={<Reserve />} />
-                <Route path="/user/MyReserve" element={<MyReserve />} />
+        <Route path="/user/reserve" element={<Reserve />} />
+        <Route path="/user/MyReserve" element={<MyReserve />} />
 
-                <Route path="/store/info" element={<StoreInfo />} />
-                <Route path="/store/edit" element={<StoreInfoEdit />} />
-                <Route path="/store/search" element={<StoreSearch />} />
-                <Route path="/map" element={<Map />} />
+        <Route path="/store/info" element={<StoreInfo />} />
+        <Route path="/store/edit" element={<StoreInfoEdit />} />
+        <Route path="/store/search" element={<StoreSearch />} />
+        <Route path="/map" element={<Map />} />
 
-                <Route path="/test" element={<Test />} />
-                <Route path="/" element={<Landing />} />
-                <Route path="*" element={<NotFound />} />
-                <Route path="/unauth" element={<UnAuth />} />
-                <Route path="/admin" element={<RequireAuth allowedRoles={[ROLES.ROLE_SYSTEM, ROLES.ROLE_ADMIN]} />}>
-                    <Route path="/admin/board" element={<div>board</div>} />
-                </Route>
-            </Routes>
-        </AppLayout>
-    );
+        <Route path="/test" element={<Test />} />
+        <Route path="/" element={<Landing />} />
+        <Route path="*" element={<NotFound />} />
+        <Route path="/unauth" element={<UnAuth />} />
+        <Route
+          path="/admin"
+          element={
+            <RequireAuth allowedRoles={[ROLES.ROLE_SYSTEM, ROLES.ROLE_ADMIN]} />
+          }
+        >
+          <Route path="/admin/board" element={<div>board</div>} />
+        </Route>
+      </Routes>
+    </AppLayout>
+  );
 }
 
 export default App;
