@@ -10,7 +10,7 @@ const StoreList = () => {
     // 가게 정보를 API로 받아서 state에 저장
     const getData = () => {
         instance.get("/store/list").then((res) => {
-            console.log(res.data);
+            //console.log(res.data);
             setStoreData(res.data);
         });
     };
@@ -30,7 +30,7 @@ const StoreList = () => {
                                 <Link to={"/Store/Info"} state={item.storeId}>
                             <Card.Img variant="top" src="holder.js/100px180" />
                                 <Card.Body>
-                                    <Card.Title><Link to={"/Store/Info"} state={item.storeId}>{item.storeName}</Link></Card.Title>
+                                    <Card.Title>{item.storeName}</Card.Title>
                                     <Card.Text>
                                     {item.description}
                                     </Card.Text>
