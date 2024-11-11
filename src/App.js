@@ -16,6 +16,9 @@ import ReviewEdit from "./pages/review/ReviewEdit";
 import ReviewList from "./pages/review/ReviewList";
 import UserEdit from "./pages/user/UserEdit";
 import Mypage from "./pages/user/Mypage";
+import Map from "./pages/user/Map";
+import StoreSearch from "./pages/store/StoreSearch";
+import MyReview from "./pages/review/MyReview";
 
 const ROLES = {
     ROLE_USER: 1,
@@ -30,6 +33,7 @@ function App() {
                 <Route path="/review" element={<Review />} />
                 <Route path="/review/list" element={<ReviewList />} />
                 <Route path="/review/edit" element={<ReviewEdit />} />
+                <Route path="/review/myreview" element={<MyReview />} />
 
                 <Route path="/user/login" element={<Login />} />
                 <Route path="/user/signup" element={<Signup />} />
@@ -42,6 +46,9 @@ function App() {
 
                 <Route path="/store/info" element={<StoreInfo />} />
                 <Route path="/store/edit" element={<StoreInfoEdit />} />
+                <Route path="/store/search" element={<StoreSearch />} />
+                <Route path="/map" element={<Map />} />
+
                 <Route path="/test" element={<Test />} />
                 <Route path="/" element={<Landing />} />
                 <Route path="*" element={<NotFound />} />
