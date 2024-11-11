@@ -1,4 +1,4 @@
-import { Link, Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import AppLayout from "./layout/AppLayout";
 import Landing from "./pages/Landing";
 import Login from "./pages/user/Login";
@@ -8,7 +8,6 @@ import RequireAuth from "./components/RequireAuth";
 import Test from "./pages/test/Test";
 import Review from "./pages/review/Review";
 import Signup from "./pages/user/Signup";
-import Search from "./pages/user/Search";
 import Reserve from "./pages/user/Reserve";
 import StoreInfo from "./pages/store/StoreInfo";
 import StoreInfoEdit from "./pages/store/StoreInfoEdit";
@@ -19,10 +18,8 @@ import Mypage from "./pages/user/Mypage";
 import Map from "./pages/user/Map";
 import StoreSearch from "./pages/store/StoreSearch";
 import MyReview from "./pages/review/MyReview";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
-import { getUserInfo, removeUserInfo } from "./hooks/userSlice";
-import { removeTokenInfo } from "./hooks/tokenSlice";
+import SearchResult from "./pages/user/SearchReuslt";
+import MyReserve from "./pages/user/MyReserve";
 
 const ROLES = {
     ROLE_USER: 1,
@@ -31,24 +28,6 @@ const ROLES = {
 };
 
 function App() {
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const userInfo = useSelector(getUserInfo); // Redux에서 로그인된 사용자 정보 가져오기
-
-    // 로그아웃 처리
-    const handleLogout = () => {
-        // 로컬스토리지에서 로그인 정보 및 토큰 삭제
-        localStorage.removeItem("tokenInfo");
-        localStorage.removeItem("userInfo");
-
-        // Redux 상태 초기화
-        dispatch(removeUserInfo());
-        dispatch(removeTokenInfo());
-
-        // 메인 페이지로 리다이렉트
-        navigate("/");
-    };
-
     return (
         <AppLayout>
             <Routes>
@@ -62,9 +41,10 @@ function App() {
                 <Route path="/user/edit" element={<UserEdit />} />
                 <Route path="/user/mypage" element={<Mypage />} />
 
-                <Route path="/user/search" element={<Search />} />
+                <Route path="/user/searchresult" element={<SearchResult />} />
 
                 <Route path="/user/reserve" element={<Reserve />} />
+                <Route path="/user/MyReserve" element={<MyReserve />} />
 
                 <Route path="/store/info" element={<StoreInfo />} />
                 <Route path="/store/edit" element={<StoreInfoEdit />} />

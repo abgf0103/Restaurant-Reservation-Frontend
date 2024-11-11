@@ -62,7 +62,7 @@ const Landing = () => {
                 <h2>Landing page</h2>
                 <StoreList />
                 <p>
-                    <Link to="/user/search">검색결과 페이지</Link>
+                    <Link to="/user/searchresult">검색결과 페이지</Link>
                 </p>
 
                 <p>
