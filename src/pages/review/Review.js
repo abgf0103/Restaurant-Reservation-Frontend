@@ -1,45 +1,29 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import { useSelector } from "react-redux";
 import { getTokenInfo } from "../../hooks/tokenSlice";
-import { getUserInfo } from "../../hooks/userSlice";
-import axios from "axios";
+import { getUserInfo } from "../../hooks/userSlice"; // 로그인된 사용자 정보
 import Swal from "sweetalert2";
 
 const Review = () => {
     const navigate = useNavigate();
-
-    // Redux에서 로그인 정보를 가져옴
     const tokenInfo = useSelector(getTokenInfo);
     const userInfo = useSelector(getUserInfo);
 
-    // 리뷰 작성 상태
     const [review, setReview] = useState({
-        storeId: "", // 예시로 storeId를 추가, 실제로 필요한 storeId를 받아와야 함
+        storeId: "",
         rating: "",
         reviewComment: "",
     });
 
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-
+    // 로그인 상태 체크
     useEffect(() => {
-        // 로그인된 상태인지 확인
-        const storedTokenInfo = JSON.parse(localStorage.getItem("tokenInfo"));
-        const storedUserInfo = JSON.parse(localStorage.getItem("userInfo"));
-
-        if (storedTokenInfo && storedUserInfo) {
-            setIsAuthenticated(true);
-        } else if (tokenInfo && userInfo) {
-            setIsAuthenticated(true);
-        } else {
-            // 로그인 안 되어 있으면 로그인 페이지로 리다이렉트
+        if (!tokenInfo.accessToken || !userInfo.username) {
+            // 로그인 안되어 있으면 로그인 페이지로 리다이렉트
             navigate("/user/login");
         }
-    }, [tokenInfo, userInfo, navigate]);
-
-    if (!isAuthenticated) {
-        return <div>Loading...</div>; // 로그인 상태가 아닌 경우 로딩 화면
-    }
+    }, [navigate, tokenInfo, userInfo]);
 
     // 리뷰 작성 상태 업데이트
     const handleChange = (e) => {
@@ -54,16 +38,16 @@ const Review = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            // 로그인 상태에서 인증된 토큰을 헤더에 추가
             const token = `${tokenInfo.tokenType} ${tokenInfo.accessToken}`;
 
-            // 리뷰를 백엔드로 전송 (엔드포인트 수정)
             const response = await axios.post(
-                `${process.env.REACT_APP_HOST}/review/save`, // URL 수정
+                `${process.env.REACT_APP_HOST}/review/save`,
                 {
                     storeId: review.storeId,
                     rating: review.rating,
                     reviewComment: review.reviewComment,
+                    userId: userInfo.userId,
+                    username: userInfo.username, // username 추가
                 },
                 {
                     headers: {
@@ -78,8 +62,7 @@ const Review = () => {
                     text: "리뷰가 저장되었습니다.",
                     icon: "success",
                 });
-                // 리뷰 저장 후 메인 페이지로 이동
-                navigate("/"); // or navigate("/reviews") 등
+                navigate("/reviewList"); // 리뷰 목록으로 이동
             }
         } catch (err) {
             console.error("Review save error:", err);
@@ -93,7 +76,7 @@ const Review = () => {
 
     return (
         <div>
-            <h1>리뷰 작성 페이지</h1>
+            <h1>{userInfo.username} 고객님 리뷰 작성</h1>
             <form onSubmit={handleSubmit}>
                 <div>
                     <label>Store ID:</label>

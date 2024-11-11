@@ -15,10 +15,10 @@ const Login = () => {
     const dispath = useDispatch();
 
     const [loginInfo, setLoginInfo] = useState({
-        username: "",
-        password: "",
+        username: "111",
+        password: "111",
         deviceInfo: {
-            deviceId: "1",
+            deviceId: "2",
             deviceType: "DEVICE_TYPE_WINDOWS",
             notificationToken: "111",
         },
@@ -26,6 +26,7 @@ const Login = () => {
 
     // form의 변경이 일어나면...
     const onChange = (e) => {
+        console.log(e.target.id);
         if (e.target.id === "username") {
             setLoginInfo({
                 ...loginInfo,

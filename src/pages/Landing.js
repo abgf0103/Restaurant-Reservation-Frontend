@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { getTokenInfo } from "../hooks/tokenSlice";
 import { getUserInfo } from "../hooks/userSlice";
 import { Link } from "react-router-dom";
+import StoreList from "./../components/StoreList";
 
 const Landing = () => {
     // redux 저장소에 저장된 토큰 정보 호출
@@ -59,11 +60,20 @@ const Landing = () => {
         <>
             <div>
                 <h2>Landing page</h2>
+                <StoreList />
+                <p>
+                    <Link to="/user/search">검색결과 페이지</Link>
+                </p>
 
-                <p><Link to="/user/search">검색결과 페이지</Link></p>
-
-                <p><Link to="/store/info">가게 정보 페이지</Link></p>
-
+                <p>
+                    <Link to="/store/info">가게 정보 페이지</Link>
+                </p>
+                <p>
+                    <Link to="/review/list">전체 리뷰 페이지</Link>
+                </p>
+                <p>
+                    <Link to="/review">리뷰작성 페이지</Link>
+                </p>
             </div>
         </>
     );

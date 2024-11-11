@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Link, Route, Routes, useNavigate } from "react-router-dom";
 import AppLayout from "./layout/AppLayout";
 import Landing from "./pages/Landing";
 import Login from "./pages/user/Login";
@@ -19,6 +19,10 @@ import Mypage from "./pages/user/Mypage";
 import Map from "./pages/user/Map";
 import StoreSearch from "./pages/store/StoreSearch";
 import MyReview from "./pages/review/MyReview";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { getUserInfo, removeUserInfo } from "./hooks/userSlice";
+import { removeTokenInfo } from "./hooks/tokenSlice";
 
 const ROLES = {
     ROLE_USER: 1,
@@ -27,6 +31,24 @@ const ROLES = {
 };
 
 function App() {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const userInfo = useSelector(getUserInfo); // Redux에서 로그인된 사용자 정보 가져오기
+
+    // 로그아웃 처리
+    const handleLogout = () => {
+        // 로컬스토리지에서 로그인 정보 및 토큰 삭제
+        localStorage.removeItem("tokenInfo");
+        localStorage.removeItem("userInfo");
+
+        // Redux 상태 초기화
+        dispatch(removeUserInfo());
+        dispatch(removeTokenInfo());
+
+        // 메인 페이지로 리다이렉트
+        navigate("/");
+    };
+
     return (
         <AppLayout>
             <Routes>
