@@ -1,4 +1,4 @@
-import instance from "../api/api";
+import instance from "../api/instance";
 import { useEffect, useState } from "react";
 import { Button, Card } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
