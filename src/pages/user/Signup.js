@@ -9,10 +9,11 @@ const MemberSignup = () => {
   const [formData, setFormData] = useState({
     id: 0,
     username: "",
+    nikname: "",
     email: "",
+    phone: "",
     password: "",
     passwordConfirm: "",
-    name: "",
     roleNum: "1",
     active: true,
   });
@@ -30,42 +31,44 @@ const MemberSignup = () => {
 
   // 입력값 유효성 검증 함수
   // const validateForm = () => {
-  //   const newErrors = {};
+  // const newErrors = {};
 
-  //   // 아이디: 영어로 5글자 이상
-  //   if (!/^[a-zA-Z0-9]{4,12}$/.test(formData.username)) {
-  //     newErrors.username = "아이디는 영문 또는 숫자로 4~12글자이어야 합니다.";
-  //   }
-  //   // 이름: 한글로 2글자 이상
-  //   if (!/^[가-힣]{2,}$/.test(formData.name)) {
-  //     newErrors.name = "이름은 한글로 2글자 이상이어야 합니다.";
-  //   }
+  // // 아이디: 영어로 5글자 이상
+  // if (!/^[a-zA-Z0-9]{4,12}$/.test(formData.username)) {
+  // newErrors.username = "아이디는 영문 또는 숫자로 4~12글자이어야 합니다.";
+  // }
+  // // 이름: 한글로 2글자 이상
+  // if (!/^[가-힣]{2,}$/.test(formData.name)) {
+  // newErrors.name = "이름은 한글로 2글자 이상이어야 합니다.";
+  // }
 
-  //   // 비밀번호: 영어 5글자 이상 + 특수문자 1글자 이상
-  //   if (
-  //     !/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[a-zA-Z\d!@#$%^&*]{8,}$/.test(
-  //       formData.password
-  //     )
-  //   ) {
-  //     newErrors.password =
-  //       "비밀번호는 8글자 이상, 영문, 숫자, 특수문자를 모두 포함해야 합니다.";
-  //   }
+  // // 비밀번호: 영어 5글자 이상 + 특수문자 1글자 이상
+  // if (
+  // !/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[a-zA-Z\d!@#$%^&*]{8,}$/.test(
+  // formData.password
+  // )
+  // ) {
+  // newErrors.password =
+  // "비밀번호는 8글자 이상, 영문, 숫자, 특수문자를 모두 포함해야 합니다.";
+  // }
 
-  //   // 비밀번호 재입력: 비밀번호와 일치해야 함
-  //   if (formData.password !== formData.passwordConfirm) {
-  //     newErrors.passwordConfirm = "비밀번호가 일치하지 않습니다.";
-  //   }
+  // // 비밀번호 재입력: 비밀번호와 일치해야 함
+  // if (formData.password !== formData.passwordConfirm) {
+  // newErrors.passwordConfirm = "비밀번호가 일치하지 않습니다.";
+  // }
 
-  //   setErrors(newErrors);
-  //   return Object.keys(newErrors).length === 0;
+  // setErrors(newErrors);
+  // return Object.keys(newErrors).length === 0;
   // };
 
   // 회원가입 요청
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    console.log(formData);
+
     // if (!validateForm()) {
-    //   return; // 유효성 검사를 통과하지 못하면 폼 제출을 막음
+    // return; // 유효성 검사를 통과하지 못하면 폼 제출을 막음
     // }
 
     try {
@@ -148,6 +151,17 @@ const MemberSignup = () => {
             id="email"
             name="email"
             value={formData.email}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div>
+          <label htmlFor="phone">전화번호:</label>
+          <input
+            type="tel"
+            id="phone"
+            name="phone"
+            value={formData.phone}
             onChange={handleChange}
             required
           />
