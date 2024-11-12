@@ -38,7 +38,7 @@ instance.interceptors.response.use(
         // 401 : 인증 오류
         // 403 : 권한 없음 (일반 사용자가 관리자 리소스에 접근)
         // 404 : 리소스 없음 (페이지를 찾을 수 없습니다)
-        // 406 : 잘못된 요청방식 (GET, POST)
+        // 405 : 잘못된 요청방식 (GET, POST)
         // 500 : 서버 측 연산 오류
         let msg = "";
         if (error.response) {
@@ -55,8 +55,8 @@ instance.interceptors.response.use(
                 case 404:
                     msg = "요청한 리소스를 찾을 수 없습니다";
                     break;
-                case 406:
-                    msg = "요청방식이 바뀌었습니다";
+                case 405:
+                    msg = "지원하지 않는 메서드입니다";
                     break;
                 case 500:
                     msg = "서버 오류입니다 잠시후 다시 시도해주세요";
