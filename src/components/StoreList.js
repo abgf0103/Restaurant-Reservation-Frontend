@@ -25,20 +25,20 @@ const StoreList = () => {
             <ul>
                 {storeData.map((item) => {
                     return (
-                        <li key={item.storeId}>
-                            <Card style={{ width: '18rem' }}>
-                                <Link to={"/Store/Info"} state={item.storeId}>
-                            <Card.Img variant="top" src="holder.js/100px180" />
-                                <Card.Body>
-                                    <Card.Title>{item.storeName}</Card.Title>
-                                    <Card.Text>
-                                    {item.description}
-                                    </Card.Text>
-                                    <Button variant="primary">Go somewhere</Button>
-                                </Card.Body>
-                                </Link>
-                            </Card>
-                        </li>
+                        <Link to={"/store/info"} state={item.storeId}>
+                            <li key={item.storeId}>
+                                <Card style={{ width: '18rem' }}>
+                                <Card.Img variant="top" src="holder.js/100px180" />
+                                    <Card.Body>
+                                        <Card.Title>{item.storeName}</Card.Title>
+                                        <Card.Text>
+                                        {item.description}
+                                        </Card.Text>
+                                        <Button variant="primary">Go somewhere</Button>
+                                    </Card.Body>
+                                </Card>
+                            </li>
+                        </Link>
                     );
                 })}
             </ul>
