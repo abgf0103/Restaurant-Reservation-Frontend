@@ -1,28 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Map as KakaoMap, useMap, MapMarker } from "react-kakao-maps-sdk";
-const data = [
-  {
-    content: <div style={{ color: "#000" }}>맥도날드 서울시청점</div>,
-    latlng: { lat: 37.5668136314671, lng: 126.979502322878 },
-  },
-  {
-    content: <div style={{ color: "#000" }}>모수</div>,
-    latlng: { lat: 37.5364779881564, lng: 126.999399541156 },
-  },
-  {
-    content: <div style={{ color: "#000" }}>롯데리아 제기역점</div>,
-    latlng: { lat: 37.5777504650845, lng: 127.032477193881 },
-  },
-  {
-    content: <div style={{ color: "#000" }}>맥도날드 종로 3가점</div>,
-    latlng: { lat: 37.5706083074284, lng: 126.990464570479 },
-  },
-];
+// import { apiAllStoreList } from "../../api/apiList";
+import instance from "../../api/instance";
+
+const { kakao } = window;
 
 const EventMarkerContainer = ({ position, content }) => {
   const map = useMap();
   const [isVisible, setIsVisible] = useState(false);
 
+  console.log(position);
+  console.log(content);
   return (
     <MapMarker
       position={position} // 마커를 표시할 위치
@@ -37,6 +25,55 @@ const EventMarkerContainer = ({ position, content }) => {
 };
 
 const Map = () => {
+  const [storeList, setStoreList] = useState([]);
+  const [isReady, setIsReady] = useState(false);
+
+  const getStoreList = () => {
+    instance.get("/store/list").then((res) => {
+      console.log(res.data);
+      let i = 0;
+      let datas = [];
+      res.data.forEach((item, index) => {
+        console.log(item.address);
+        if (window.kakao) {
+          const geocoder = new kakao.maps.services.Geocoder();
+
+          geocoder.addressSearch(item.address, function (result, status) {
+            if (status === kakao.maps.services.Status.OK) {
+              const coords = new kakao.maps.LatLng(
+                Number(result[0].y),
+                Number(result[0].x)
+              );
+              console.log("위도:", coords.getLat());
+              console.log("경도:", coords.getLng());
+              const dataItem = {};
+              dataItem.latlng = {
+                lat: coords.getLat(),
+                lng: coords.getLng(),
+              };
+              dataItem.content = item.storeName;
+              datas.push(dataItem);
+              if (i === res.data.length - 1) {
+                console.log(datas);
+                setStoreList(datas);
+                setIsReady(true);
+              } else {
+                setIsReady(false);
+              }
+              i++;
+            } else {
+              console.error("Geocoder failed due to:", status);
+            }
+          });
+        }
+      });
+    });
+  };
+
+  useEffect(() => {
+    getStoreList();
+  }, []);
+
   return (
     <div>
       <h2>지도 화면</h2>
@@ -45,13 +82,14 @@ const Map = () => {
         style={{ width: "1000px", height: "600px" }}
         level={3}
       >
-        {data.map((value) => (
-          <EventMarkerContainer
-            key={`EventMarkerContainer-${value.latlng.lat}-${value.latlng.lng}`}
-            position={value.latlng}
-            content={value.content}
-          />
-        ))}
+        {isReady &&
+          storeList.map((value) => (
+            <EventMarkerContainer
+              key={`EventMarkerContainer-${value.latlng.lat}-${value.latlng.lng}`}
+              position={value.latlng}
+              content={value.content}
+            />
+          ))}
       </KakaoMap>
     </div>
   );
