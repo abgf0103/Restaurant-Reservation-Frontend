@@ -6,11 +6,11 @@ import Swal from "sweetalert2";
 import instance from "../../api/instance";
 
 const ReserveEdit = () => {
-  const { reservationId } = useParams();
+  const { reserveId } = useParams();
   const navigate = useNavigate();
   const userInfo = useSelector(getUserInfo);
 
-  const [reserve, setReservation] = useState({
+  const [reserve, setReserve] = useState({
     storeId: "",
     date: "",
     time: "",
@@ -25,11 +25,11 @@ const ReserveEdit = () => {
   }, [navigate, userInfo]);
 
   useEffect(() => {
-    const fetchReservation = () => {
+    const fetchReserve = () => {
       instance
-        .get(`/reserve/view/${reservationId}`)
+        .get(`/reserve/view/${reserveId}`)
         .then((res) => {
-          setReservation(res.data || {});
+          setReserve(res.data || {});
         })
         .catch((error) => {
           console.error("예약 데이터 가져오기 실패:", error);
@@ -40,21 +40,21 @@ const ReserveEdit = () => {
         });
     };
 
-    fetchReservation();
-  }, [reservationId]);
+    fetchReserve();
+  }, [reserveId]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     instance
-      .put(`/reserve/update/${reservationId}`, {
+      .put(`/reserve/update/${reserveId}`, {
         ...reserve,
         userId: userInfo.userId,
         username: userInfo.username,
       })
       .then(() => {
         Swal.fire("성공", "예약이 수정되었습니다.", "success");
-        navigate("/reserve/myreservation");
+        navigate("/reserve/myreserve");
       })
       .catch((error) => {
         console.error("예약 수정 오류:", error);
@@ -77,7 +77,7 @@ const ReserveEdit = () => {
             name="storeId"
             value={reserve.storeId}
             onChange={(e) =>
-              setReservation({ ...reserve, storeId: e.target.value })
+              setReserve({ ...reserve, storeId: e.target.value })
             }
             required
           />
@@ -88,9 +88,7 @@ const ReserveEdit = () => {
             type="date"
             name="date"
             value={reserve.date}
-            onChange={(e) =>
-              setReservation({ ...reserve, date: e.target.value })
-            }
+            onChange={(e) => setReserve({ ...reserve, date: e.target.value })}
             required
           />
         </div>
@@ -100,9 +98,7 @@ const ReserveEdit = () => {
             type="time"
             name="time"
             value={reserve.time}
-            onChange={(e) =>
-              setReservation({ ...reserve, time: e.target.value })
-            }
+            onChange={(e) => setReserve({ ...reserve, time: e.target.value })}
             required
           />
         </div>

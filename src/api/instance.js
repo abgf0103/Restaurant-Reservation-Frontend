@@ -74,7 +74,7 @@ instance.interceptors.response.use(
             text: msg,
             icon: "error",
         });
-        //return Promise.reject(error);    //컴파일때 사용
-        return { message: error.message }; //개발할때 사용
+        return Promise.reject(error); //컴파일때 사용
+        //return { message: error.message }; //개발할때 사용
     }
 );

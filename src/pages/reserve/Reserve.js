@@ -9,7 +9,7 @@ const Reserve = () => {
   const navigate = useNavigate();
   const userInfo = useSelector(getUserInfo);
 
-  const [reserve, setReservation] = useState({
+  const [reserve, setReserve] = useState({
     storeId: "",
     date: "",
     time: "",
@@ -17,7 +17,7 @@ const Reserve = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setReservation((prevState) => ({
+    setReserve((prevState) => ({
       ...prevState,
       [name]: value,
     }));
@@ -34,7 +34,7 @@ const Reserve = () => {
       })
       .then(() => {
         Swal.fire("성공", "예약이 저장되었습니다.", "success");
-        navigate("/reserve/myreservation");
+        navigate("/reserve/myreserve");
       })
       .catch((error) => {
         console.error("예약 저장 오류:", error);

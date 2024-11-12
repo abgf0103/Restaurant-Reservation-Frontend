@@ -9,7 +9,7 @@ const ReserveList = () => {
   const navigate = useNavigate();
   const userInfo = useSelector(getUserInfo);
 
-  const [reservations, setReservations] = useState([]);
+  const [reserves, setReserves] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -22,7 +22,7 @@ const ReserveList = () => {
     instance
       .get("/reserve/list")
       .then((res) => {
-        setReservations(res.data.data || []);
+        setReserves(res.data.data || []);
       })
       .catch((error) => {
         console.error("예약 목록 가져오기 실패:", error);
@@ -40,9 +40,9 @@ const ReserveList = () => {
   return (
     <div>
       <h1>예약 목록</h1>
-      {reservations && reservations.length > 0 ? (
+      {reserves && reserves.length > 0 ? (
         <ul>
-          {reservations.map((reserve) => (
+          {reserves.map((reserve) => (
             <li key={reserve.id}>
               <strong>가게 이름:</strong> {reserve.storeName} <br />
               <strong>예약 날짜:</strong> {reserve.date} <br />

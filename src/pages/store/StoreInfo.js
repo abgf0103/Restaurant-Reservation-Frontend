@@ -1,6 +1,11 @@
+<<<<<<< HEAD
 import { Link, useLocation, useParams } from "react-router-dom";
 import Reserve from "../reserve/Reserve";
 import { useSelector } from "react-redux";
+=======
+import { Link, useLocation } from "react-router-dom";
+import Reserve from "../user/Reserve";
+>>>>>>> 909298fb7621cda15af29c18e1a58cf0c4327a52
 import { useEffect, useState } from "react";
 import instance from "./../../api/instance";
 
