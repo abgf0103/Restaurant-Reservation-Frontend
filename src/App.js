@@ -8,7 +8,7 @@ import RequireAuth from "./components/RequireAuth";
 import Test from "./pages/test/Test";
 import Review from "./pages/review/Review";
 import Signup from "./pages/user/Signup";
-import Reserve from "./pages/user/Reserve";
+import Reserve from "./pages/reserve/Reserve";
 import StoreInfo from "./pages/store/StoreInfo";
 import StoreInfoEdit from "./pages/store/StoreInfoEdit";
 import ReviewEdit from "./pages/review/ReviewEdit";
@@ -19,52 +19,59 @@ import Map from "./pages/user/Map";
 import StoreSearch from "./pages/store/StoreSearch";
 import MyReview from "./pages/review/MyReview";
 import SearchResult from "./pages/user/SearchReuslt";
-import MyReserve from "./pages/user/MyReserve";
+import MyReserve from "./pages/reserve/MyReserve";
 import { Provider } from "react-redux";
 import store from "./hooks/store";
 
 const ROLES = {
-    ROLE_USER: 1,
-    ROLE_ADMIN: 2,
-    ROLE_SYSTEM: 3,
+  ROLE_USER: 1,
+  ROLE_ADMIN: 2,
+  ROLE_SYSTEM: 3,
 };
 
 function App() {
-    return (
-        <Provider store={store}>
-            <AppLayout>
-                <Routes>
-                    <Route path="/review" element={<Review />} />
-                    <Route path="/review/list" element={<ReviewList />} />
-                    <Route path="/review/edit" element={<ReviewEdit />} />
-                    <Route path="/review/myreview" element={<MyReview />} />
+  return (
+    <Provider store={store}>
+      <AppLayout>
+        <Routes>
+          <Route path="/review" element={<Review />} />
+          <Route path="/review/list" element={<ReviewList />} />
+          <Route path="/review/edit" element={<ReviewEdit />} />
+          <Route path="/review/myreview" element={<MyReview />} />
 
-                    <Route path="/user/login" element={<Login />} />
-                    <Route path="/user/signup" element={<Signup />} />
-                    <Route path="/user/edit" element={<UserEdit />} />
-                    <Route path="/user/mypage" element={<Mypage />} />
+          <Route path="/user/login" element={<Login />} />
+          <Route path="/user/signup" element={<Signup />} />
+          <Route path="/user/edit" element={<UserEdit />} />
+          <Route path="/user/mypage" element={<Mypage />} />
 
-                    <Route path="/user/searchresult" element={<SearchResult />} />
+          <Route path="/user/searchresult" element={<SearchResult />} />
 
-                    <Route path="/user/reserve" element={<Reserve />} />
-                    <Route path="/user/MyReserve" element={<MyReserve />} />
+          <Route path="/reserve/reserve" element={<Reserve />} />
+          <Route path="/reserve/MyReserve" element={<MyReserve />} />
 
-                    <Route path="/store/info" element={<StoreInfo />} />
-                    <Route path="/store/edit" element={<StoreInfoEdit />} />
-                    <Route path="/store/search" element={<StoreSearch />} />
-                    <Route path="/map" element={<Map />} />
+          <Route path="/store/info" element={<StoreInfo />} />
+          <Route path="/store/edit" element={<StoreInfoEdit />} />
+          <Route path="/store/search" element={<StoreSearch />} />
+          <Route path="/map" element={<Map />} />
 
-                    <Route path="/test" element={<Test />} />
-                    <Route path="/" element={<Landing />} />
-                    <Route path="*" element={<NotFound />} />
-                    <Route path="/unauth" element={<UnAuth />} />
-                    <Route path="/admin" element={<RequireAuth allowedRoles={[ROLES.ROLE_SYSTEM, ROLES.ROLE_ADMIN]} />}>
-                        <Route path="/admin/board" element={<div>board</div>} />
-                    </Route>
-                </Routes>
-            </AppLayout>
-        </Provider>
-    );
+          <Route path="/test" element={<Test />} />
+          <Route path="/" element={<Landing />} />
+          <Route path="*" element={<NotFound />} />
+          <Route path="/unauth" element={<UnAuth />} />
+          <Route
+            path="/admin"
+            element={
+              <RequireAuth
+                allowedRoles={[ROLES.ROLE_SYSTEM, ROLES.ROLE_ADMIN]}
+              />
+            }
+          >
+            <Route path="/admin/board" element={<div>board</div>} />
+          </Route>
+        </Routes>
+      </AppLayout>
+    </Provider>
+  );
 }
 
 export default App;
