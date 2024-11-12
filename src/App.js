@@ -49,7 +49,7 @@ function App() {
                     <Route path="/user/reserve" element={<Reserve />} />
                     <Route path="/user/MyReserve" element={<MyReserve />} />
 
-                    <Route path="/store/info" element={<StoreInfo />} />
+                    <Route path="/store/info/*" element={<StoreInfo />} />
                     <Route path="/store/edit" element={<StoreInfoEdit />} />
                     <Route path="/store/search" element={<StoreSearch />} />
                     <Route path="/map" element={<Map />} />

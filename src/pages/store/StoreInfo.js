@@ -1,6 +1,5 @@
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Reserve from "../user/Reserve";
-import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import instance from "./../../api/instance";
 
