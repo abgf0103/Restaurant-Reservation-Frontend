@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import instance from "../../api/api";
+import instance from "../../api/instance";
 import { useEffect, useState } from "react";
 
 const Test = () => {

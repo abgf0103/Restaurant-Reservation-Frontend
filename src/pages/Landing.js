@@ -3,14 +3,15 @@ import { useSelector } from "react-redux";
 import { getTokenInfo } from "../hooks/tokenSlice";
 import { getUserInfo } from "../hooks/userSlice";
 import { Link } from "react-router-dom";
+import StoreList from "./../components/StoreList";
 
 const Landing = () => {
     // redux 저장소에 저장된 토큰 정보 호출
-    const tokenInfo = useSelector(getTokenInfo);
-    const userInfo = useSelector(getUserInfo);
+    //const tokenInfo = useSelector(getTokenInfo);
+    //const userInfo = useSelector(getUserInfo);
 
-    console.table(tokenInfo);
-    console.log(userInfo);
+    //console.table(tokenInfo);
+    //console.log(userInfo);
 
     useEffect(() => {
         // console.table(tokenInfo);
@@ -58,22 +59,14 @@ const Landing = () => {
     return (
         <>
             <div>
+                <p>
+                    <Link to="/review/list">전체 리뷰 페이지</Link>
+                </p>
+                <p>
+                    <Link to="/review">리뷰작성 페이지</Link>
+                </p>
                 <h2>Landing page</h2>
-                <p><Link to="/user/login">로그인 페이지</Link></p>
-                <p><Link to="/user/signup">회원가입 페이지</Link></p>
-                <p><Link to="/user/edit">회원수정 페이지</Link></p>
-                <p><Link to="/user/mypage">마이페이지</Link></p>
-
-                <p><Link to="/user/search">검색결과 페이지</Link></p>
-
-                <p><Link to="/user/reserve">예약 페이지</Link></p>
-
-                <p><Link to="/store/info">가게 정보 페이지</Link></p>
-                <p><Link to="/store/edit">가게 정보 수정 페이지</Link></p>
-
-                <p><Link to="/review">리뷰작성 페이지</Link></p>
-                <p><Link to="/review/edit">리뷰수정 페이지</Link></p>
-                <p><Link to="/review/list">전체 리뷰 페이지</Link></p>
+                <StoreList />
             </div>
         </>
     );

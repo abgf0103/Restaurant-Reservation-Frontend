@@ -1,33 +1,31 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { removeStorageToken, setStorageToken } from "../helper/storage";
-
-// npm install redux-persist redux-thunk
+import { removeStorageToken, setStorageToken } from "../helper/storage"; // 로컬스토리지 관리 유틸리티 함수들
 
 const tokenSlice = createSlice({
-  name: "token",
-  initialState: {
-    info: {
-      accessToken: "",
-      refreshToken: "",
-      tokenType: "",
-      expiryDuration: 0,
+    name: "token",
+    initialState: {
+        info: {
+            accessToken: "",
+            refreshToken: "",
+            tokenType: "",
+            expiryDuration: 0,
+        },
     },
-  },
-  reducers: {
-    setTokenInfo: (state, action) => {
-      state.info = action.payload;
-      setStorageToken(action.payload);
+    reducers: {
+        setTokenInfo: (state, action) => {
+            state.info = action.payload;
+            setStorageToken(action.payload); // 토큰을 로컬스토리지에 저장
+        },
+        removeTokenInfo: (state) => {
+            state.info = {
+                accessToken: "",
+                refreshToken: "",
+                tokenType: "",
+                expiryDuration: 0,
+            };
+            removeStorageToken(); // 로컬스토리지에서 토큰 삭제
+        },
     },
-    removeTokenInfo: (state) => {
-      state.info = {
-        accessToken: "",
-        refreshToken: "",
-        tokenType: "",
-        expiryDuration: 0,
-      };
-      removeStorageToken();
-    },
-  },
 });
 
 export default tokenSlice.reducer;
