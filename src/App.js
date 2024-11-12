@@ -22,6 +22,7 @@ import SearchResult from "./pages/user/SearchReuslt";
 import MyReserve from "./pages/user/MyReserve";
 import { Provider } from "react-redux";
 import store from "./hooks/store";
+import MyStore from "./pages/store/MyStore";
 
 const ROLES = {
     ROLE_USER: 1,
@@ -50,7 +51,8 @@ function App() {
                     <Route path="/user/MyReserve" element={<MyReserve />} />
 
                     <Route path="/store/info/*" element={<StoreInfo />} />
-                    <Route path="/store/edit" element={<StoreInfoEdit />} />
+                    <Route path="/store/mystore" element={<MyStore />} />
+                    <Route path="/store/edit/*" element={<StoreInfoEdit />} />
                     <Route path="/store/search" element={<StoreSearch />} />
                     <Route path="/map" element={<Map />} />
 
