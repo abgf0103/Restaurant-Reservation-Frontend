@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 import instance from "../../api/instance";
 
 const ReserveEdit = () => {
-  const { reserveId } = useParams();
+  const { reserveId } = useParams(); // URL에서 reserveId를 가져옴
   const navigate = useNavigate();
   const userInfo = useSelector(getUserInfo);
 
@@ -18,12 +18,14 @@ const ReserveEdit = () => {
 
   const [loading, setLoading] = useState(true);
 
+  // 로그인 상태 체크
   useEffect(() => {
     if (!userInfo || !userInfo.username) {
-      navigate("/user/login");
+      navigate("/user/login"); // 로그인 안 되어 있으면 로그인 페이지로 리다이렉트
     }
   }, [navigate, userInfo]);
 
+  // 예약 데이터 가져오기
   useEffect(() => {
     const fetchReserve = () => {
       instance
@@ -42,7 +44,7 @@ const ReserveEdit = () => {
 
     fetchReserve();
   }, [reserveId]);
-
+  // 예약 수정 처리 함수
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -54,7 +56,7 @@ const ReserveEdit = () => {
       })
       .then(() => {
         Swal.fire("성공", "예약이 수정되었습니다.", "success");
-        navigate("/reserve/myreserve");
+        navigate("/reserve/myreserve"); // 수정 후, 내 예약 페이지로 이동
       })
       .catch((error) => {
         console.error("예약 수정 오류:", error);

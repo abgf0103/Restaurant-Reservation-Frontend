@@ -7,17 +7,19 @@ import instance from "../../api/instance";
 
 const ReserveList = () => {
   const navigate = useNavigate();
-  const userInfo = useSelector(getUserInfo);
+  const userInfo = useSelector(getUserInfo); // 로그인된 사용자 정보
 
   const [reserves, setReserves] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // 로그인 상태 체크
   useEffect(() => {
     if (!userInfo || !userInfo.username) {
-      navigate("/user/login");
+      navigate("/user/login"); // 로그인 안 되어 있으면 로그인 페이지로 리다이렉트
     }
   }, [navigate, userInfo]);
 
+  // 예약 목록 가져오기
   useEffect(() => {
     instance
       .get("/reserve/list")
@@ -51,7 +53,7 @@ const ReserveList = () => {
           ))}
         </ul>
       ) : (
-        <p>작성된 예약이 없습니다.</p>
+        <p>예약이 없습니다.</p>
       )}
     </div>
   );

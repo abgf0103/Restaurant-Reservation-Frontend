@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getUserInfo } from "../../hooks/userSlice";
@@ -7,13 +7,21 @@ import instance from "../../api/instance";
 
 const Reserve = () => {
   const navigate = useNavigate();
-  const userInfo = useSelector(getUserInfo);
+  const userInfo = useSelector(getUserInfo); // 로그인된 사용자 정보
 
   const [reserve, setReserve] = useState({
     storeId: "",
     date: "",
     time: "",
   });
+
+  // 로그인 상태 체크
+  useEffect(() => {
+    if (!userInfo || !userInfo.username) {
+      // 로그인 안 되어 있으면 로그인 페이지로 리다이렉트
+      navigate("/user/login");
+    }
+  }, [navigate, userInfo]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -33,18 +41,18 @@ const Reserve = () => {
         username: userInfo.username,
       })
       .then(() => {
-        Swal.fire("성공", "예약이 저장되었습니다.", "success");
+        Swal.fire("성공", "예약 되었습니다.", "success");
         navigate("/reserve/myreserve");
       })
       .catch((error) => {
-        console.error("예약 저장 오류:", error);
-        Swal.fire("실패", "예약 저장에 실패했습니다.", "error");
+        console.error("예약 오류:", error);
+        Swal.fire("실패", "예약 실패했습니다.", "error");
       });
   };
 
   return (
     <div>
-      <h1>예약 작성</h1>
+      <h1>예약하기</h1>
       <form onSubmit={handleSubmit}>
         <div>
           <label>Store ID:</label>
@@ -77,7 +85,7 @@ const Reserve = () => {
             required
           />
         </div>
-        <button type="submit">예약 작성</button>
+        <button type="submit">예약</button>
       </form>
     </div>
   );

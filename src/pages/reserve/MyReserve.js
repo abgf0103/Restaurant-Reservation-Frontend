@@ -18,6 +18,7 @@ const MyReserve = () => {
     }
   }, [navigate, userInfo]);
 
+  // 예약 목록 조회
   useEffect(() => {
     const fetchMyReserves = () => {
       instance
@@ -40,7 +41,7 @@ const MyReserve = () => {
   const handleEditClick = (reserveId) => {
     navigate(`/reserve/edit/${reserveId}`);
   };
-
+  //  예약 취소기능
   const handleDeleteClick = (reserveId) => {
     Swal.fire({
       title: "예약 취소",
