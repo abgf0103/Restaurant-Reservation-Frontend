@@ -23,6 +23,7 @@ import MyStore from "./pages/store/MyStore";
 import SearchResult from './pages/user/SearchReuslt';
 import Reserve from './pages/reserve/Reserve';
 import MyReserve from './pages/reserve/MyReserve';
+import RegisterStore from "./pages/store/RegisterStore";
 
 const ROLES = {
   ROLE_USER: 1,
@@ -54,6 +55,7 @@ function App() {
           <Route path="/store/mystore" element={<MyStore />} />
           <Route path="/store/edit/*" element={<StoreInfoEdit />} />
           <Route path="/store/search" element={<StoreSearch />} />
+          <Route path="/store/register" element={<RegisterStore />} />
           <Route path="/map" element={<Map />} />
 
           <Route path="/test" element={<Test />} />

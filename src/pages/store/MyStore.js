@@ -46,12 +46,21 @@ const MyStore = () => {
         navigate(`/store/edit/${storeId}`);
     };
 
+    const registerStoreClick = () => {
+        navigate(`/store/register`);
+    }
+
     if (loading) {
         return <div>로딩 중...</div>;
     }
     return (
         <div>
             <h2>나의 가게 정보 페이지</h2>
+            <Button variant="primary" 
+                    onClick={() => registerStoreClick()}
+            >
+                등록 요청
+            </Button>
             {stores.length > 0 ? (
                 <ul>
                     {stores.map((item) => (
