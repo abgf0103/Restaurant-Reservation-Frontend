@@ -20,7 +20,7 @@ import MyReview from "./pages/review/MyReview";
 import { Provider } from "react-redux";
 import store from "./hooks/store";
 import MyStore from "./pages/store/MyStore";
-import SearchResult from './pages/user/SearchReuslt';
+import SearchResult from './pages/user/SearchResult';
 import Reserve from './pages/reserve/Reserve';
 import MyReserve from './pages/reserve/MyReserve';
 import RegisterStore from "./pages/store/RegisterStore";
