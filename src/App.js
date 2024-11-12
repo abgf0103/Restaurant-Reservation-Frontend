@@ -8,7 +8,6 @@ import RequireAuth from "./components/RequireAuth";
 import Test from "./pages/test/Test";
 import Review from "./pages/review/Review";
 import Signup from "./pages/user/Signup";
-import Reserve from "./pages/user/Reserve";
 import StoreInfo from "./pages/store/StoreInfo";
 import StoreInfoEdit from "./pages/store/StoreInfoEdit";
 import ReviewEdit from "./pages/review/ReviewEdit";
@@ -18,11 +17,12 @@ import Mypage from "./pages/user/Mypage";
 import Map from "./pages/user/Map";
 import StoreSearch from "./pages/store/StoreSearch";
 import MyReview from "./pages/review/MyReview";
-import SearchResult from "./pages/user/SearchResult";
-import MyReserve from "./pages/user/MyReserve";
 import { Provider } from "react-redux";
 import store from "./hooks/store";
 import MyStore from "./pages/store/MyStore";
+import SearchResult from './pages/user/SearchReuslt';
+import Reserve from './pages/reserve/Reserve';
+import MyReserve from './pages/reserve/MyReserve';
 
 const ROLES = {
   ROLE_USER: 1,
