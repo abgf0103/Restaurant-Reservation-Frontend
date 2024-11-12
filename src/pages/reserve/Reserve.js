@@ -62,37 +62,7 @@ const Reserve = ({ isPanelOpen, setIsPanelOpen, selectedStoreId }) => {
     <div className={`slide-up ${isPanelOpen ? "active" : ""}`}>
       <h1>예약하기</h1>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>Store ID:</label>
-          <input
-            type="text"
-            name="storeId"
-            value={reserve.storeId}
-            onChange={handleChange}
-            placeholder="가게 ID를 입력하세요."
-            readOnly
-          />
-        </div>
-        <div>
-          <label>Date:</label>
-          <input
-            type="date"
-            name="date"
-            value={reserve.date}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label>Time:</label>
-          <input
-            type="time"
-            name="time"
-            value={reserve.time}
-            onChange={handleChange}
-            required
-          />
-        </div>
+        {/* 추후 달력, 시간 삽입 */}
         <button type="submit">예약</button>
         <button type="button" onClick={() => setIsPanelOpen(false)}>
           닫기

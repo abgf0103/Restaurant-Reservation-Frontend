@@ -28,7 +28,23 @@ const StoreList = () => {
   const handleReserveClick = (storeId) => {
     setSelectedStoreId(storeId);
     setIsPanelOpen(true);
+    document.body.style.overflow = "hidden"; // 스크롤 비활성화
   };
+
+  // 모달창 바깥을 클릭했을 때 모달을 닫는 함수
+  const handleBackgroundClick = (e) => {
+    if (e.target.className === "modal-background") {
+      setIsPanelOpen(false);
+      document.body.style.overflow = "auto"; // 스크롤 다시 활성화
+    }
+  };
+
+  // 모달이 닫힐 때 스크롤 다시 활성화
+  useEffect(() => {
+    if (!isPanelOpen) {
+      document.body.style.overflow = "auto";
+    }
+  }, [isPanelOpen]);
 
   return (
     <div>
@@ -65,11 +81,13 @@ const StoreList = () => {
 
       {/* 슬라이드 업 예약 폼 모달 */}
       {isPanelOpen && (
-        <Reserve
-          isPanelOpen={isPanelOpen}
-          setIsPanelOpen={setIsPanelOpen}
-          selectedStoreId={selectedStoreId}
-        />
+        <div className="modal-background" onClick={handleBackgroundClick}>
+          <Reserve
+            isPanelOpen={isPanelOpen}
+            setIsPanelOpen={setIsPanelOpen}
+            selectedStoreId={selectedStoreId}
+          />
+        </div>
       )}
     </div>
   );
