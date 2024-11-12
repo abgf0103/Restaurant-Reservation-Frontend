@@ -4,24 +4,23 @@ import { useSelector } from "react-redux";
 import { getUserInfo } from "../../hooks/userSlice";
 import Swal from "sweetalert2";
 import instance from "../../api/instance";
+import "./../../css/SlideUpPanel.css";
 
-const Reserve = () => {
+const Reserve = ({ isPanelOpen, setIsPanelOpen, selectedStoreId }) => {
   const navigate = useNavigate();
   const userInfo = useSelector(getUserInfo); // 로그인된 사용자 정보
 
   const [reserve, setReserve] = useState({
-    storeId: "",
+    storeId: selectedStoreId || "",
     date: "",
     time: "",
   });
 
-  // 로그인 상태 체크
   useEffect(() => {
-    if (!userInfo || !userInfo.username) {
-      // 로그인 안 되어 있으면 로그인 페이지로 리다이렉트
-      navigate("/user/login");
+    if (selectedStoreId) {
+      setReserve((prev) => ({ ...prev, storeId: selectedStoreId }));
     }
-  }, [navigate, userInfo]);
+  }, [selectedStoreId]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -35,13 +34,22 @@ const Reserve = () => {
     e.preventDefault();
 
     instance
-      .post("/reserve/save", {
-        ...reserve,
-        userId: userInfo.userId,
-        username: userInfo.username,
-      })
+      .post(
+        "/reserve/save",
+        {
+          ...reserve,
+          userId: userInfo.userId,
+          username: userInfo.username,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${userInfo.token}`,
+          },
+        }
+      )
       .then(() => {
         Swal.fire("성공", "예약 되었습니다.", "success");
+        setIsPanelOpen(false); // 예약 후 패널 닫기
         navigate("/reserve/myreserve");
       })
       .catch((error) => {
@@ -51,7 +59,7 @@ const Reserve = () => {
   };
 
   return (
-    <div>
+    <div className={`slide-up ${isPanelOpen ? "active" : ""}`}>
       <h1>예약하기</h1>
       <form onSubmit={handleSubmit}>
         <div>
@@ -62,7 +70,7 @@ const Reserve = () => {
             value={reserve.storeId}
             onChange={handleChange}
             placeholder="가게 ID를 입력하세요."
-            required
+            readOnly
           />
         </div>
         <div>
@@ -86,6 +94,9 @@ const Reserve = () => {
           />
         </div>
         <button type="submit">예약</button>
+        <button type="button" onClick={() => setIsPanelOpen(false)}>
+          닫기
+        </button>
       </form>
     </div>
   );

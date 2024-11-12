@@ -22,7 +22,11 @@ const MyReserve = () => {
   useEffect(() => {
     const fetchMyReserves = () => {
       instance
-        .get("/reserve/my-reserves")
+        .get("/reserve/my-reserves", {
+          headers: {
+            Authorization: `Bearer ${userInfo.token}`,
+          },
+        })
         .then((res) => {
           setReserves(res.data);
         })
@@ -38,10 +42,6 @@ const MyReserve = () => {
     fetchMyReserves();
   }, []);
 
-  const handleEditClick = (reserveId) => {
-    navigate(`/reserve/edit/${reserveId}`);
-  };
-  //  예약 취소기능
   const handleDeleteClick = (reserveId) => {
     Swal.fire({
       title: "예약 취소",
@@ -54,9 +54,23 @@ const MyReserve = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         instance
-          .delete(`/reserve/delete/${reserveId}`)
+          .delete(`/reserve/delete/${reserveId}`, {
+            headers: {
+              Authorization: `Bearer ${userInfo.token}`,
+            },
+          })
           .then(() => {
-            Swal.fire("예약 취소됨!", "예약이 취소되었습니다.", "success");
+            Swal.fire({
+              title: "취소됨!",
+              text: "예약이 취소되었습니다. 다시 예약하시겠습니까?",
+              icon: "success",
+              showCancelButton: true,
+              confirmButtonText: "예약하기",
+            }).then((result) => {
+              if (result.isConfirmed) {
+                navigate("/reserve"); // 예약 페이지로 이동
+              }
+            });
             setReserves((prevReserves) =>
               prevReserves.filter((reserve) => reserve.id !== reserveId)
             );
@@ -83,7 +97,6 @@ const MyReserve = () => {
               <strong>가게 이름:</strong> {reserve.storeName} <br />
               <strong>예약 날짜:</strong> {reserve.date} <br />
               <strong>예약 시간:</strong> {reserve.time} <br />
-              <button onClick={() => handleEditClick(reserve.id)}>수정</button>
               <button onClick={() => handleDeleteClick(reserve.id)}>
                 예약 취소
               </button>
@@ -92,7 +105,7 @@ const MyReserve = () => {
           ))}
         </ul>
       ) : (
-        <p>작성된 예약이 없습니다.</p>
+        <p>예약이 없습니다.</p>
       )}
     </div>
   );

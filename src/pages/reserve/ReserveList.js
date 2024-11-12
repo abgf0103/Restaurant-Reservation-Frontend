@@ -22,7 +22,11 @@ const ReserveList = () => {
   // 예약 목록 가져오기
   useEffect(() => {
     instance
-      .get("/reserve/list")
+      .get("/reserve/list", {
+        headers: {
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      })
       .then((res) => {
         setReserves(res.data.data || []);
       })
