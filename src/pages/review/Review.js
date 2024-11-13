@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getUserInfo } from "../../hooks/userSlice"; // 로그인된 사용자 정보
 import Swal from "sweetalert2";
@@ -7,10 +7,11 @@ import instance from "../../api/instance"; // instance 임포트
 
 const Review = () => {
   const navigate = useNavigate();
+  const { storeId } = useParams(); // URL에서 storeId를 추출
   const userInfo = useSelector(getUserInfo); // 로그인된 사용자 정보
 
   const [review, setReview] = useState({
-    storeId: "",
+    storeId: storeId, // storeId는 URL 파라미터에서 자동으로 받아옴
     rating: "",
     reviewComment: "",
   });
@@ -66,17 +67,7 @@ const Review = () => {
     <div>
       <h1>{userInfo.username} 고객님 리뷰 작성</h1>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>Store ID:</label>
-          <input
-            type="text"
-            name="storeId"
-            value={review.storeId}
-            onChange={handleChange}
-            placeholder="가게 ID를 입력하세요."
-            required
-          />
-        </div>
+        {/* Store ID 입력란 제거, URL에서 자동으로 받아온 storeId를 사용 */}
         <div>
           <label>Rating:</label>
           <input

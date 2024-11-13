@@ -38,7 +38,8 @@ function App() {
     <Provider store={store}>
       <AppLayout>
         <Routes>
-          <Route path="/review" element={<Review />} />
+          <Route path="/writeReview/:storeId" element={<Review />} />{" "}
+          {/* storeId를 URL 파라미터로 전달 */}
           <Route path="/review/list" element={<ReviewList />} />
           <Route path="/review/edit/:reviewId" element={<ReviewEdit />} />
           <Route path="/review/myreview" element={<MyReview />} />

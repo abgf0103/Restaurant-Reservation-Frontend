@@ -110,15 +110,17 @@ const ReviewList = () => {
           {reviews.map((review) => (
             <li key={review.reviewId}>
               <strong>작성자:</strong>
-              <Link to={`/review/${review.username}`}>
-                {review.username}
-              </Link>{" "}
-              {/* 작성자 아이디누르면 해당 작성자 리뷰페이지로 이동 */}
+              <Link to={`/review/${review.username}`}>{review.username}</Link>
               <br />
-              <strong>가게 ID:</strong> {review.storeId} <br />
-              <strong>별점:</strong> {review.rating} ⭐ <br />
-              <strong>리뷰:</strong> {review.reviewComment} <br />
-              <strong>좋아요:</strong> {review.likeCount} ❤️ <br />
+              <strong>가게 이름:</strong> {review.storeName}{" "}
+              {/* storeName 표시 */}
+              <br />
+              <strong>별점:</strong> {review.rating} ⭐
+              <br />
+              <strong>리뷰:</strong> {review.reviewComment}
+              <br />
+              <strong>좋아요:</strong> {review.likeCount} ❤️
+              <br />
               <button
                 onClick={() => handleLikeClick(review.reviewId, review.liked)}
               >
