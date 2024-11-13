@@ -54,8 +54,8 @@ const StoreList = () => {
           return (
             <li key={item.storeId}>
               <Link
-                to={{ pathname: "/store/info" }}
-                state={{ storeId: item.storeId }}
+                to={"/store/info" }
+                state={ item.storeId }
               >
                 <Card style={{ width: "18rem" }}>
                   <Card.Img variant="top" src="holder.js/100px180" />
