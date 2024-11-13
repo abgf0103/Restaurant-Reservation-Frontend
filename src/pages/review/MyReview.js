@@ -24,6 +24,7 @@ const MyReview = () => {
     instance
       .get("/review/my-reviews")
       .then((res) => {
+        console.log(res.data); // 이곳에서 실제로 받아오는 데이터 확인
         setReviews(res.data); // 사용자 리뷰 목록 설정
       })
       .catch((error) => {
@@ -89,8 +90,9 @@ const MyReview = () => {
         <ul>
           {reviews.map((review) => (
             <li key={review.reviewId}>
-              <strong>작성자:</strong> {review.username} <br />
-              <strong>가게 ID:</strong> {review.storeId} <br />
+              <strong>작성자:</strong> {review.username} <br />{" "}
+              {/* reviewUsername 사용 */}
+              <strong>가게 이름:</strong> {review.storeName} <br />{" "}
               <strong>별점:</strong> {review.rating} ⭐ <br />
               <strong>리뷰:</strong> {review.reviewComment} <br />
               {/* 수정 버튼 */}

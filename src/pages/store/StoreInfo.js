@@ -1,4 +1,4 @@
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Reserve from "../reserve/Reserve";
 import { useSelector } from "react-redux";
 import instance from "../../api/instance";
@@ -30,6 +30,7 @@ const EventMarkerContainer = ({ position, content }) => {
 const StoreInfo = () => {
   const location = useLocation();
 
+  // 현재 storeId를 location state에서 가져옴
   const storeId = location.state;
 
   // 가게 정보를 저장하기 위한 state 선언
@@ -76,14 +77,17 @@ const StoreInfo = () => {
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [storeId]); // storeId가 변경될 때마다 데이터 재요청
 
   return (
     <>
       <h2>{storeData.storeName}</h2>
       <p>별점 : ? 리뷰개수, tel : {storeData.phone}</p>
       <p>{storeData.description}</p>
-      <Link to="/review">리뷰작성 페이지</Link>
+
+      {/* storeId를 URL 파라미터로 전달하는 방식으로 Link 수정 */}
+      <Link to={`/writeReview/${storeId}`}>리뷰작성 페이지</Link>
+
       <p>
         <Link to={`/map/${storeId}`}>지도 자세히 보기</Link>
       </p>
@@ -107,4 +111,5 @@ const StoreInfo = () => {
     </>
   );
 };
+
 export default StoreInfo;
