@@ -15,31 +15,31 @@ const MyReview = () => {
   // 로그인 상태 체크
   useEffect(() => {
     if (!userInfo.username) {
-      navigate("/user/login");
+      navigate("/user/login"); // 로그인 안 되어 있으면 로그인 페이지로 리다이렉트
     }
   }, [navigate, userInfo]);
 
   // 내 리뷰 가져오기
-  useEffect(() => {
-    const fetchMyReviews = () => {
-      instance
-        .get("/review/my-reviews")
-        .then((res) => {
-          setReviews(res.data); // 사용자 리뷰 목록 설정
-        })
-        .catch((error) => {
-          console.error("나의 리뷰 가져오기 실패:", error);
-          Swal.fire({
-            title: "실패",
-            text: "나의 리뷰를 가져오는 데 실패했습니다.",
-            icon: "error",
-          });
-        })
-        .finally(() => {
-          setLoading(false);
+  const fetchMyReviews = () => {
+    instance
+      .get("/review/my-reviews")
+      .then((res) => {
+        setReviews(res.data); // 사용자 리뷰 목록 설정
+      })
+      .catch((error) => {
+        console.error("나의 리뷰 가져오기 실패:", error);
+        Swal.fire({
+          title: "실패",
+          text: "나의 리뷰를 가져오는 데 실패했습니다.",
+          icon: "error",
         });
-    };
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
 
+  useEffect(() => {
     fetchMyReviews();
   }, []);
 
@@ -62,13 +62,13 @@ const MyReview = () => {
       if (result.isConfirmed) {
         // 리뷰 삭제 API 호출
         instance
-          .delete(`/review/delete/${reviewId}`)
+          .delete(`/review/delete/${reviewId}`, {
+            params: { userId: userInfo.id }, // 현재 로그인된 사용자 ID 전달
+          })
           .then(() => {
             Swal.fire("삭제됨!", "리뷰가 삭제되었습니다.", "success");
             // 리뷰 목록을 새로고침
-            setReviews((prevReviews) =>
-              prevReviews.filter((review) => review.reviewId !== reviewId)
-            );
+            fetchMyReviews(); // 삭제 후 `fetchMyReviews` 호출
           })
           .catch((error) => {
             console.error("리뷰 삭제 실패:", error);

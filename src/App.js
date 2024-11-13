@@ -20,9 +20,9 @@ import MyReview from "./pages/review/MyReview";
 import { Provider } from "react-redux";
 import store from "./hooks/store";
 import MyStore from "./pages/store/MyStore";
-import SearchResult from "./pages/user/SearchResult";
+import SearchResult from "./pages/user/SearchReuslt";
 import Reserve from "./pages/reserve/Reserve";
-import MyReserve from "./pages/user/MyReserve";
+import MyReserve from "./pages/reserve/MyReserve";
 import RegisterStore from "./pages/store/RegisterStore";
 
 const ROLES = {
@@ -38,7 +38,7 @@ function App() {
         <Routes>
           <Route path="/review" element={<Review />} />
           <Route path="/review/list" element={<ReviewList />} />
-          <Route path="/review/edit" element={<ReviewEdit />} />
+          <Route path="/review/edit/:reviewId" element={<ReviewEdit />} />
           <Route path="/review/myreview" element={<MyReview />} />
 
           <Route path="/user/login" element={<Login />} />
@@ -48,7 +48,7 @@ function App() {
 
           <Route path="/user/searchresult" element={<SearchResult />} />
 
-          <Route path="/reserve/reserve" element={<Reserve />} />
+          <Route path="/user/reserve" element={<Reserve />} />
           <Route path="/user/MyReserve" element={<MyReserve />} />
 
           <Route path="/store/info/*" element={<StoreInfo />} />
@@ -77,5 +77,3 @@ function App() {
     </Provider>
   );
 }
-
-export default App;
