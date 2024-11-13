@@ -92,7 +92,8 @@ const ReviewEdit = () => {
     <div>
       <h1>{userInfo.username} 고객님 리뷰 수정</h1>
       <form onSubmit={handleSubmit}>
-        <div>
+        {/* Store ID 필드는 아예 표시하지 않음 */}
+        {/* <div>
           <label>Store ID:</label>
           <input
             type="text"
@@ -102,7 +103,8 @@ const ReviewEdit = () => {
             placeholder="가게 ID를 입력하세요."
             required
           />
-        </div>
+        </div> */}
+
         <div>
           <label>Rating:</label>
           <input

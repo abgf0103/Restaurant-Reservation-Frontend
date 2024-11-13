@@ -10,19 +10,25 @@ const ReviewList = () => {
   const userInfo = useSelector((state) => state.user);
 
   useEffect(() => {
+    // 리뷰 목록 가져오기
     instance
-      .get("/review/list")
+      .get("/review/list") // 백엔드에서 전체 리뷰 목록을 가져오는 API
       .then((res) => {
+        // 서버에서 반환되는 리뷰 데이터에 좋아요 수(likeCount)를 포함해서 처리
         const reviewsWithLikes = res.data.data.map((review) => ({
           ...review,
-          liked: false,
+          liked: false, // 좋아요 상태는 기본적으로 false
+          likeCount: review.likeCount || 0, // 서버에서 받은 likeCount 값을 사용하여 초기값 설정
         }));
-        setReviews(reviewsWithLikes);
 
+        setReviews(reviewsWithLikes); // 리뷰 목록 상태 업데이트
+
+        // 리뷰별로 좋아요 상태 가져오기
         reviewsWithLikes.forEach((review) => {
           instance
             .get(`/review/likes/status?reviewId=${review.reviewId}`)
             .then((statusRes) => {
+              // 해당 리뷰에 대한 좋아요 상태를 갱신
               setReviews((prevReviews) =>
                 prevReviews.map((r) =>
                   r.reviewId === review.reviewId
@@ -47,16 +53,17 @@ const ReviewList = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, []);
+  }, []); // 컴포넌트가 처음 렌더링될 때만 실행
 
   const handleLikeClick = (reviewId, isLiked) => {
     const apiCall = isLiked
-      ? instance.delete(`/review/unlike/${reviewId}`)
-      : instance.post(`/review/like/${reviewId}`);
+      ? instance.delete(`/review/unlike/${reviewId}`) // 좋아요 취소
+      : instance.post(`/review/like/${reviewId}`); // 좋아요 추가
 
     apiCall
       .then((res) => {
         if (res.data.success) {
+          // 좋아요 상태가 변경되면 리뷰 업데이트
           instance
             .get(`/review/view/${reviewId}`)
             .then((updatedReviewRes) => {
@@ -66,8 +73,8 @@ const ReviewList = () => {
                   r.reviewId === reviewId
                     ? {
                         ...r,
-                        liked: !isLiked,
-                        likeCount: updatedReview.likeCount,
+                        liked: !isLiked, // 상태 변경
+                        likeCount: updatedReview.likeCount, // 업데이트된 좋아요 수 (서버에서 받은 값으로 갱신)
                       }
                     : r
                 )
@@ -112,9 +119,7 @@ const ReviewList = () => {
               <strong>작성자:</strong>
               <Link to={`/review/${review.username}`}>{review.username}</Link>
               <br />
-              <strong>가게 이름:</strong> {review.storeName}{" "}
-              {/* storeName 표시 */}
-              <br />
+              <strong>가게 이름:</strong> {review.storeName} <br />
               <strong>별점:</strong> {review.rating} ⭐
               <br />
               <strong>리뷰:</strong> {review.reviewComment}

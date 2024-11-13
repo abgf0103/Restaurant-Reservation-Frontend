@@ -90,11 +90,12 @@ const MyReview = () => {
         <ul>
           {reviews.map((review) => (
             <li key={review.reviewId}>
-              <strong>작성자:</strong> {review.username} <br />{" "}
-              {/* reviewUsername 사용 */}
-              <strong>가게 이름:</strong> {review.storeName} <br />{" "}
+              <strong>작성자:</strong> {review.username} <br />
+              <strong>가게 이름:</strong> {review.storeName} <br />
               <strong>별점:</strong> {review.rating} ⭐ <br />
               <strong>리뷰:</strong> {review.reviewComment} <br />
+              <strong>좋아요 수:</strong> {review.likeCount} ❤️ <br />{" "}
+              {/* 좋아요 수 표시 */}
               {/* 수정 버튼 */}
               <button onClick={() => handleEditClick(review.reviewId)}>
                 수정
