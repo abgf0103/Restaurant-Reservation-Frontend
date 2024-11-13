@@ -1,9 +1,6 @@
-import { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
-import { getTokenInfo } from "../hooks/tokenSlice";
-import { getUserInfo } from "../hooks/userSlice";
+import { useEffect} from "react";
 import { Link } from "react-router-dom";
-import StoreList from "./../components/StoreList";
+import StoreList from './pages/store/StoreList';
 
 const Landing = () => {
     // redux 저장소에 저장된 토큰 정보 호출

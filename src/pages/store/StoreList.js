@@ -1,9 +1,9 @@
-import instance from "../api/instance";
+import instance from "../../api/instance";
 import { useEffect, useState } from "react";
 import { Button, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import Reserve from "./../pages/reserve/Reserve"; // 예약 폼 컴포넌트 import
-import "./../css/SlideUpPanel.css"; // 슬라이드 업 패널 CSS import
+import Reserve from "../reserve/Reserve"; // 예약 폼 컴포넌트 import
+import "../../css/SlideUpPanel.css"; // 슬라이드 업 패널 CSS import
 
 const StoreList = () => {
   // 가게 정보를 저장하기 위한 state 선언

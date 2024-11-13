@@ -1,6 +1,5 @@
 import { Route, Routes } from "react-router-dom";
 import AppLayout from "./layout/AppLayout";
-import Landing from "./pages/Landing";
 import Login from "./pages/user/Login";
 import NotFound from "./pages/error/NotFound";
 import UnAuth from "./pages/error/UnAuth";
@@ -14,16 +13,18 @@ import ReviewEdit from "./pages/review/ReviewEdit";
 import ReviewList from "./pages/review/ReviewList";
 import UserEdit from "./pages/user/UserEdit";
 import Mypage from "./pages/user/Mypage";
-import Map from "./pages/user/Map";
 import StoreSearch from "./pages/store/StoreSearch";
 import MyReview from "./pages/review/MyReview";
 import { Provider } from "react-redux";
 import store from "./hooks/store";
 import MyStore from "./pages/store/MyStore";
-import SearchResult from "./pages/user/SearchResult";
+import SearchResult from "./pages/store/SearchResult";
 import Reserve from "./pages/reserve/Reserve";
-import MyReserve from "./pages/user/MyReserve";
+import MyReserve from "./pages/reserve/MyReserve";
 import RegisterStore from "./pages/store/RegisterStore";
+import Map from "./map/Map";
+import Landing from './Landing';
+import StoreList from './pages/store/StoreList';
 
 const ROLES = {
   ROLE_USER: 1,
@@ -52,6 +53,7 @@ function App() {
           <Route path="/user/MyReserve" element={<MyReserve />} />
 
           <Route path="/store/info/*" element={<StoreInfo />} />
+          <Route path="/store/list" element={<StoreList />} />
           <Route path="/store/mystore" element={<MyStore />} />
           <Route path="/store/edit/*" element={<StoreInfoEdit />} />
           <Route path="/store/search" element={<StoreSearch />} />
