@@ -40,7 +40,8 @@ const UserReviewPage = () => {
           {reviews.map((review) => (
             <li key={review.reviewId}>
               <strong>작성자:</strong> {review.username} <br />
-              <strong>가게 ID:</strong> {review.storeId} <br />
+              <strong>가게 이름:</strong> {review.storeName} <br />{" "}
+              {/* 가게 이름으로 수정 */}
               <strong>별점:</strong> {review.rating} ⭐ <br />
               <strong>리뷰:</strong> {review.reviewComment} <br />
               <hr />
