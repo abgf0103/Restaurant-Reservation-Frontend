@@ -1,10 +1,10 @@
-
 // import { apiAllStoreList } from "../../api/apiList";
-import { useMap } from 'react-kakao-maps-sdk';
-import { useState } from 'react';
+import { useMap } from "react-kakao-maps-sdk";
+import { useState } from "react";
 import { Map as KakaoMap, MapMarker } from "react-kakao-maps-sdk";
-import { useEffect } from 'react';
-import instance from './../api/instance';
+import { useEffect } from "react";
+import instance from "./../api/instance";
+import { useParams } from "react-router-dom";
 
 const { kakao } = window;
 
@@ -30,6 +30,12 @@ const EventMarkerContainer = ({ position, content }) => {
 const Map = () => {
   const [storeList, setStoreList] = useState([]);
   const [isReady, setIsReady] = useState(false);
+  // 파라미터로 넘어온 가계 id 확인
+  const params = useParams();
+  const [selectedStoreInfo, setSelectedStoreInfo] = useState({
+    lat: 0,
+    lng: 0,
+  });
 
   const getStoreList = () => {
     instance.get("/store/list").then((res) => {
@@ -56,6 +62,21 @@ const Map = () => {
               };
               dataItem.content = item.storeName;
               datas.push(dataItem);
+
+              // 파라미터로 넘어온 가계 id가 비동기통신으로 가져온 항목의 id와 같으면
+              // 아래의 코드 실행
+              if (Number(params.storeId) === item.storeId) {
+                {
+                  console.log(datas);
+                  console.log(datas[0]);
+                  console.log(datas[item.storeId]);
+                  console.log(Number(params.storeId));
+                  console.log(item.storeId);
+                  setSelectedStoreInfo(coords.getLat(), coords.getLng());
+                  // setSelectedStoreInfo에 좌표값을 넣어준다.
+                }
+              }
+
               if (i === res.data.length - 1) {
                 console.log(datas);
                 setStoreList(datas);
@@ -74,6 +95,7 @@ const Map = () => {
   };
 
   useEffect(() => {
+    console.log(params.storeId);
     getStoreList();
   }, []);
 
@@ -81,7 +103,7 @@ const Map = () => {
     <div>
       <h2>지도 화면</h2>
       <KakaoMap
-        center={{ lat: 37.5679554, lng: 126.9829607 }}
+        center={{ lat: selectedStoreInfo.lat, lng: selectedStoreInfo.lng }}
         style={{ width: "1000px", height: "600px" }}
         level={3}
       >
