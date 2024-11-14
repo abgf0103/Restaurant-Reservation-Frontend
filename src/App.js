@@ -44,25 +44,20 @@ function App() {
           <Route path="/review/edit/:reviewId" element={<ReviewEdit />} />
           <Route path="/review/myreview" element={<MyReview />} />
           <Route path="/review/:username" element={<UserReviewPage />} />
-
           <Route path="/user/login" element={<Login />} />
           <Route path="/user/signup" element={<Signup />} />
           <Route path="/user/edit" element={<UserEdit />} />
           <Route path="/user/mypage" element={<Mypage />} />
           <Route path="/user/searchresult" element={<SearchResult />} />
-
           <Route path="/user/reserve" element={<Reserve />} />
           <Route path="/user/MyReserve" element={<MyReserve />} />
-
           <Route path="/store/info/*" element={<StoreInfo />} />
           <Route path="/store/list" element={<StoreList />} />
           <Route path="/store/mystore" element={<MyStore />} />
           <Route path="/store/edit/*" element={<StoreInfoEdit />} />
           <Route path="/store/search" element={<StoreSearch />} />
           <Route path="/store/register" element={<RegisterStore />} />
-
-
-          <Route path="/map" element={<Map />} />
+          <Route path="/map/:storeId" element={<Map />} />
           <Route path="/test" element={<Test />} />
           <Route path="/" element={<Landing />} />
           <Route path="*" element={<NotFound />} />

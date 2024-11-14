@@ -67,13 +67,10 @@ const Map = () => {
               // 아래의 코드 실행
               if (Number(params.storeId) === item.storeId) {
                 {
-                  console.log(datas);
-                  console.log(datas[0]);
-                  console.log(datas[item.storeId]);
-                  console.log(Number(params.storeId));
-                  console.log(item.storeId);
-                  setSelectedStoreInfo(coords.getLat(), coords.getLng());
-                  // setSelectedStoreInfo에 좌표값을 넣어준다.
+                  setSelectedStoreInfo({
+                    lat: coords.getLat(),
+                    lng: coords.getLng(),
+                  });
                 }
               }
 
