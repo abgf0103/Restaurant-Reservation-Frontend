@@ -18,7 +18,7 @@ const UserEdit = () => {
     email: userInfo.email,
     phone: userInfo.phone,
     password: "",
-    isActive: userInfo.isActive,
+    active: userInfo.active,
     roleNum: `${userInfo.roles[0].id}`,
   });
 
@@ -42,11 +42,12 @@ const UserEdit = () => {
     instance
       .put(`/member/user/update`, {
         id: userInfo.id,
+        username: userInfo.username,
         name: formData.name,
         phone: formData.phone,
         email: userInfo.email,
         roleNum: formData.roleNum,
-        isActive: true,
+        active: true,
         password: formData.password || userInfo.password,
       })
       .then((response) => {
