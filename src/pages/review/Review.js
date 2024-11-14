@@ -16,6 +16,8 @@ const Review = () => {
     reviewComment: "",
   });
 
+  const [canWriteReview, setCanWriteReview] = useState(true); // 리뷰 작성 가능 여부 상태
+
   // 로그인 상태 체크
   useEffect(() => {
     if (!userInfo.username) {
@@ -23,6 +25,25 @@ const Review = () => {
       navigate("/user/login");
     }
   }, [navigate, userInfo]);
+
+  // 매장 예약 상태 체크
+  useEffect(() => {
+    instance
+      .get(
+        `/review/check-reserve-status?storeId=${storeId}&userId=${userInfo.id}`
+      )
+      .then((response) => {
+        setCanWriteReview(response.data);
+      })
+      .catch((error) => {
+        console.error("예약 상태 체크 오류:", error);
+        Swal.fire({
+          title: "실패",
+          text: "예약 상태를 확인할 수 없습니다.",
+          icon: "error",
+        });
+      });
+  }, [storeId, userInfo.userId]);
 
   // 리뷰 작성 상태 업데이트
   const handleChange = (e) => {
@@ -36,6 +57,15 @@ const Review = () => {
   // 리뷰 저장하기 (백엔드로 POST 요청)
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (!canWriteReview) {
+      Swal.fire({
+        title: "리뷰 작성 불가",
+        text: "예약 상태가 완료되지 않았습니다. 리뷰를 작성하려면 예약 상태가 2여야 합니다.",
+        icon: "warning",
+      });
+      return;
+    }
 
     instance
       .post("/review/save", {
@@ -67,7 +97,6 @@ const Review = () => {
     <div>
       <h1>{userInfo.username} 고객님 리뷰 작성</h1>
       <form onSubmit={handleSubmit}>
-        {/* Store ID 입력란 제거, URL에서 자동으로 받아온 storeId를 사용 */}
         <div>
           <label>Rating:</label>
           <input
@@ -91,7 +120,12 @@ const Review = () => {
             required
           />
         </div>
-        <button type="submit">리뷰 작성</button>
+        <button type="submit" disabled={!canWriteReview}>
+          리뷰 작성
+        </button>
+        {!canWriteReview && (
+          <p>예약 상태가 2인 경우에만 리뷰를 작성할 수 있습니다.</p>
+        )}
       </form>
     </div>
   );
