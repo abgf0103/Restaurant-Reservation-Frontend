@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
-import DaumPost from './DaumPost';
+import { useDaumPostcodePopup } from 'react-daum-postcode';
 
 
 const RegisterStore = () => {
@@ -57,6 +57,37 @@ const RegisterStore = () => {
         setStoreCategory(e.target.value);
     }
 
+    const [address, setAddress] = useState('');
+
+
+    const postcodeScriptUrl = 'https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
+    const open = useDaumPostcodePopup(postcodeScriptUrl);
+
+    const handleComplete = (data) => {
+        let fullAddress = data.address;
+        let extraAddress = '';
+        let localAddress = data.sido + ' ' + data.sigungu;
+
+        if (data.addressType === 'R') {
+            if (data.bname !== '') {
+                extraAddress += data.bname;
+            }
+            if (data.buildingName !== '') {
+                extraAddress += (extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName);
+            }
+            fullAddress = fullAddress.replace(localAddress, '');
+            fullAddress += (extraAddress !== '' ? ` (${extraAddress})` : '');
+            console.log(fullAddress);
+            setAddress(fullAddress);
+        }
+
+         // setAddress를 호출하여 부모 컴포넌트의 상태를 업데이트
+    };
+
+    const handleClick = () => {
+        open({ onComplete: handleComplete });
+    };
+
     //가게 등록 API 호출
     const requestStoreRegister = (e) => {
         e.preventDefault();
@@ -103,7 +134,7 @@ const RegisterStore = () => {
         instance.post("/store/insert", {
             userId: userInfo.id,
             storeName: storeData.storeName,
-            address: storeData.address,
+            address: address,
             storeHours: storeData.storeHours,
             phone: storeData.phone,
             description: storeData.description,
@@ -149,6 +180,8 @@ const RegisterStore = () => {
         });
     };
 
+    
+
     return (
         <div>
             <h2>가게 등록 페이지</h2>
@@ -175,12 +208,13 @@ const RegisterStore = () => {
                 </Form.Group>
 
                 <Form.Group className="mb-3">
-                    <Form.Label>주소</Form.Label>
+                        <Button variant="primary" type="button" onClick={handleClick}>
+                        주소 검색
+                        </Button>
                     {/* 주소입력 다음 api 추가해서 도로명 주소 받도록 */}
-                    <Form.Control placeholder="주소를 입력하세요" name='address'onChange={onChangeHandler} required/>
+                    <Form.Control placeholder="주소를 입력하세요" name='address'onChange={onChangeHandler} value={address} required/>
                 </Form.Group>
 
-                <DaumPost></DaumPost>
 
                 <Form.Group className="mb-3">
                     <Form.Label>영업시간 (ex/17:00~23:00)</Form.Label>

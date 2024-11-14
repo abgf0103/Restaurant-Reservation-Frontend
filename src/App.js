@@ -26,7 +26,6 @@ import Map from "./map/Map";
 import Landing from "./Landing";
 import StoreList from "./pages/store/StoreList";
 import UserReviewPage from "./pages/review/UserReviewPage";
-import DaumPost from "./pages/store/DaumPost";
 
 const ROLES = {
   ROLE_USER: 1,
@@ -51,7 +50,7 @@ function App() {
           <Route path="/user/edit" element={<UserEdit />} />
           <Route path="/user/mypage" element={<Mypage />} />
           <Route path="/user/searchresult" element={<SearchResult />} />
-          
+
           <Route path="/user/reserve" element={<Reserve />} />
           <Route path="/user/MyReserve" element={<MyReserve />} />
 
@@ -61,7 +60,6 @@ function App() {
           <Route path="/store/edit/*" element={<StoreInfoEdit />} />
           <Route path="/store/search" element={<StoreSearch />} />
           <Route path="/store/register" element={<RegisterStore />} />
-          <Route path="/store/post" element={<DaumPost />} />
 
 
           <Route path="/map" element={<Map />} />
