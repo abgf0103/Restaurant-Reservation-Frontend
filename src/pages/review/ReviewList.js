@@ -57,15 +57,15 @@ const ReviewList = () => {
 
   const handleLikeClick = (reviewId, isLiked) => {
     const apiCall = isLiked
-      ? instance.delete(`/review/unlike/${reviewId}`) // 좋아요 취소
-      : instance.post(`/review/like/${reviewId}`); // 좋아요 추가
+      ? instance.delete(`/review/unlike/${reviewId}`, FormData) // 좋아요 취소
+      : instance.post(`/review/like/${reviewId}`, FormData); // 좋아요 추가
 
     apiCall
       .then((res) => {
         if (res.data.success) {
           // 좋아요 상태가 변경되면 리뷰 업데이트
           instance
-            .get(`/review/view/${reviewId}`)
+            .get(`/review/view/${reviewId}`, FormData)
             .then((updatedReviewRes) => {
               const updatedReview = updatedReviewRes.data.data;
               setReviews((prevReviews) =>
