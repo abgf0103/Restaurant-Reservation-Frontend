@@ -1,5 +1,4 @@
 import React from 'react';
-import style from './DaumPost.module.css';
 import { useDaumPostcodePopup } from 'react-daum-postcode'; // Daum 주소 검색 관련 hook
 //주소 api
 
@@ -30,7 +29,7 @@ const DaumPost = ({ setAddress }) => {
         open({ onComplete: handleComplete });
     };
 
-    return <div className={style.find_address_button} type="button" onClick={handleClick}>주소검색</div>;
+    return <div  type="button" onClick={handleClick}>주소검색</div>;
 };
 
 export default DaumPost;

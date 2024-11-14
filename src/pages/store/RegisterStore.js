@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
-import DaumPostcode from 'react-daum-postcode';
+import DaumPost from './DaumPost';
 
 
 const RegisterStore = () => {
@@ -180,8 +180,7 @@ const RegisterStore = () => {
                     <Form.Control placeholder="주소를 입력하세요" name='address'onChange={onChangeHandler} required/>
                 </Form.Group>
 
-                <DaumPostcode
-                ></DaumPostcode>
+                <DaumPost></DaumPost>
 
                 <Form.Group className="mb-3">
                     <Form.Label>영업시간 (ex/17:00~23:00)</Form.Label>
