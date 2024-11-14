@@ -30,7 +30,8 @@ const Review = () => {
   useEffect(() => {
     instance
       .get(
-        `/review/check-reserve-status?storeId=${storeId}&userId=${userInfo.id}`
+        `/review/check-reserve-status?storeId=${storeId}&userId=${userInfo.id}`,
+        FormData
       )
       .then((response) => {
         setCanWriteReview(response.data);
@@ -123,9 +124,7 @@ const Review = () => {
         <button type="submit" disabled={!canWriteReview}>
           리뷰 작성
         </button>
-        {!canWriteReview && (
-          <p>예약 상태가 2인 경우에만 리뷰를 작성할 수 있습니다.</p>
-        )}
+        {!canWriteReview && <p>예약 완료된 후에 리뷰작성이 가능합니다.</p>}
       </form>
     </div>
   );
