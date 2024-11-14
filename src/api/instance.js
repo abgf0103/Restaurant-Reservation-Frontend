@@ -17,7 +17,7 @@ instance.interceptors.request.use(
         const token = getStorageToken();
         config.headers = {
             Authorization: `${token?.tokenType}${token?.accessToken}`,
-            "Content-Type": "application/json",
+            //"Content-Type": "application/json",
         };
         return config;
     },

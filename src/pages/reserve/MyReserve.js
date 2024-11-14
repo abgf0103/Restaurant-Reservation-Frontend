@@ -1,111 +1,86 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import instance from "../../api/instance";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getUserInfo } from "../../hooks/userSlice";
 import Swal from "sweetalert2";
-import instance from "../../api/instance";
+import { Card, Button } from "react-bootstrap";
 
 const MyReserve = () => {
   const navigate = useNavigate();
-  const userInfo = useSelector(getUserInfo);
+  const userInfo = useSelector(getUserInfo); // 로그인된 사용자 정보
+  const [reservations, setReservations] = useState([]); // 예약 정보 상태 관리
+  const [loading, setLoading] = useState(true); // 로딩 상태 관리
 
-  const [reserves, setReserves] = useState([]);
-  const [loading, setLoading] = useState(true);
-
+  // 예약 상태와 사용자 정보 확인 및 로그인 상태 체크
   useEffect(() => {
     if (!userInfo.username) {
-      navigate("/user/login");
-    }
-  }, [navigate, userInfo]);
-
-  // 예약 목록 조회
-  useEffect(() => {
-    const fetchMyReserves = () => {
+      Swal.fire({
+        title: "권한 없음",
+        text: "로그인이 필요합니다. 로그인 페이지로 이동합니다.",
+        icon: "warning",
+      }).then(() => {
+        navigate("/user/login");
+      });
+    } else {
       instance
-        .get("/reserve/my-reserves", {
-          headers: {
-            Authorization: `Bearer ${userInfo.token}`,
-          },
-        })
+        .get("/reservations/user")
         .then((res) => {
-          setReserves(res.data);
+          console.log("User Info:", userInfo);
+          console.log("Reservations:", res.data);
+          setReservations(res.data); // 가져온 예약 정보를 상태에 저장
         })
         .catch((error) => {
-          console.error("나의 예약 가져오기 실패:", error);
-          Swal.fire("실패", "나의 예약을 가져오는 데 실패했습니다.", "error");
+          console.error("예약 정보 가져오기 실패:", error);
+          Swal.fire({
+            title: "실패",
+            text: "예약 정보를 불러오는 데 실패했습니다.",
+            icon: "error",
+          });
         })
         .finally(() => {
           setLoading(false);
         });
-    };
-
-    fetchMyReserves();
-  }, []);
-
-  const handleDeleteClick = (reserveId) => {
-    Swal.fire({
-      title: "예약 취소",
-      text: "정말로 이 예약을 취소하시겠습니까?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#d33",
-      cancelButtonColor: "#3085d6",
-      confirmButtonText: "예약 취소",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        instance
-          .delete(`/reserve/delete/${reserveId}`, {
-            headers: {
-              Authorization: `Bearer ${userInfo.token}`,
-            },
-          })
-          .then(() => {
-            Swal.fire({
-              title: "취소됨!",
-              text: "예약이 취소되었습니다. 다시 예약하시겠습니까?",
-              icon: "success",
-              showCancelButton: true,
-              confirmButtonText: "예약하기",
-            }).then((result) => {
-              if (result.isConfirmed) {
-                navigate("/reserve"); // 예약 페이지로 이동
-              }
-            });
-            setReserves((prevReserves) =>
-              prevReserves.filter((reserve) => reserve.id !== reserveId)
-            );
-          })
-          .catch((error) => {
-            console.error("예약 삭제 실패:", error);
-            Swal.fire("예약 취소 실패", "예약 취소에 실패했습니다.", "error");
-          });
-      }
-    });
-  };
-
-  if (loading) {
-    return <div>로딩 중...</div>;
-  }
+    }
+  }, [userInfo, navigate]);
 
   return (
-    <div>
-      <h2>나의 예약 페이지</h2>
-      {reserves.length > 0 ? (
-        <ul>
-          {reserves.map((reserve) => (
-            <li key={reserve.id}>
-              <strong>가게 이름:</strong> {reserve.storeName} <br />
-              <strong>예약 날짜:</strong> {reserve.date} <br />
-              <strong>예약 시간:</strong> {reserve.time} <br />
-              <button onClick={() => handleDeleteClick(reserve.id)}>
-                예약 취소
-              </button>
-              <hr />
-            </li>
-          ))}
-        </ul>
+    <div className="my-reserve">
+      <h4>나의 예약 정보</h4>
+      {loading ? (
+        <p>로딩 중...</p>
+      ) : reservations.length === 0 ? (
+        <p>예약 내역이 없습니다.</p>
       ) : (
-        <p>예약이 없습니다.</p>
+        <div className="reserve-card-container">
+          {reservations.map((reservation) => (
+            <Card
+              key={reservation.reservationId}
+              style={{ width: "18rem", margin: "10px" }}
+            >
+              <Card.Body>
+                <Card.Title>가게 이름: {reservation.storeName}</Card.Title>
+                <Card.Text>
+                  <strong>예약 날짜:</strong>{" "}
+                  {new Date(reservation.reserveDate).toLocaleString()} <br />
+                  <strong>인원 수:</strong> {reservation.partySize} <br />
+                  <strong>상태:</strong> {reservation.reserveStatus}
+                </Card.Text>
+                {reservation.reserveStatus === "2" && (
+                  <Button
+                    variant="primary"
+                    onClick={() =>
+                      navigate(`/writeReview/${reservation.storeId}`)
+                    }
+                    style={{ marginTop: "10px" }}
+                  >
+                    리뷰 쓰기
+                  </Button>
+                )}
+              </Card.Body>
+            </Card>
+          ))}
+        </div>
       )}
     </div>
   );

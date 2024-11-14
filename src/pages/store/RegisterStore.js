@@ -11,13 +11,13 @@ import { useDaumPostcodePopup } from 'react-daum-postcode';
 const RegisterStore = () => {
     const navigate = useNavigate();
 
-    // 카테고리를 저장하기 위한 state 선언
-    const [categoryData, setCategory] = useState([]);
+    // 카테고리 리스트를 저장하기 위한 state 선언
+    const [categoryList, setCategoryList] = useState([]);
 
-    // 카테고리 정보를 API로 받아서 state에 저장
+    // 카테고리 리스트를 API로 받아서 state에 저장
     const getCategoryData = () => {
         instance.get("/category/list").then((res) => {
-            setCategory(res.data);
+            setCategoryList(res.data);
         });
     };
 
@@ -198,7 +198,7 @@ const RegisterStore = () => {
                     <Form.Label>카테고리를 선택하세요</Form.Label>
                     <Form.Select name='category' onChange={storeCategoryHandler} value={storeCategory} required>
                         <option value="" hidden>카테고리를 선택하세요</option>
-                        {categoryData.map((item) => {
+                        {categoryList.map((item) => {
                             return (       
                                 // categoryData에 저장된 DB에서 가져온 카테고리를 select option에 하나씩 추가
                                 <option key={item.categoryId} value={item.categoryId}>{item.categoryTitle}</option>

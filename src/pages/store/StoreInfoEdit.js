@@ -11,15 +11,21 @@ import { useDaumPostcodePopup } from 'react-daum-postcode';
 const RegisterStore = () => {
     const navigate = useNavigate();
     const { storeId } = useParams(); // URL에서 storeId를 추출
-    console.log(storeId);
+    // 카테고리 리스트를 저장하기 위한 state 선언
+    const [categoryList, setCategoryList] = useState([]);
+    const [address, setAddress] = useState('');
 
-    // 카테고리를 저장하기 위한 state 선언
-    const [categoryData, setCategory] = useState([]);
+    // 가게의 카테고리 정보를 가져오기
+    const [categoryInfo, setCategoryInfo] = useState([]);
 
-    // 카테고리 정보를 API로 받아서 state에 저장
+    const getCategoryInfo = () => {
+        instance.get()
+    }
+
+    // 카테고리 리스트를 API로 받아서 state에 저장
     const getCategoryData = () => {
         instance.get("/category/list").then((res) => {
-            setCategory(res.data);
+            setCategoryList(res.data);
         });
     };
 
@@ -38,11 +44,17 @@ const RegisterStore = () => {
     // 가게 정보 가져오기
     const [storeData, setStoreData] = useState([]);
 
-    // instance.get("/store/view", {
-
-    // })
-
+    const getStoreData = () =>{
+        instance.get(`/store/view/${storeId}`).then((res) => {
+            setStoreData(res.data);
+        });
+    };
     console.log(storeData);
+
+    useEffect(() => {
+        getStoreData();
+    }, []);
+
 
     // 가게 정보를 입력할때마다 이벤트를 발생시켜 값을 저장
     const onChangeHandler = (e) => {
@@ -66,7 +78,6 @@ const RegisterStore = () => {
         setStoreCategory(e.target.value);
     }
 
-    const [address, setAddress] = useState('');
 
 
     const postcodeScriptUrl = 'https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
@@ -87,6 +98,7 @@ const RegisterStore = () => {
             fullAddress = fullAddress.replace(localAddress, '');
             fullAddress += (extraAddress !== '' ? ` (${extraAddress})` : '');
             console.log(fullAddress);
+            storeData.address = fullAddress;
             setAddress(fullAddress);
         }
 
@@ -96,7 +108,6 @@ const RegisterStore = () => {
     const handleClick = () => {
         open({ onComplete: handleComplete });
     };
-
     //가게 수정 API 호출
     const requestStoreRegister = (e) => {
         e.preventDefault();
@@ -193,7 +204,7 @@ const RegisterStore = () => {
             <Form onSubmit={requestStoreRegister}>
                 <Form.Group className="mb-3">
                     <Form.Label>가게 이름</Form.Label>
-                    <Form.Control type="text" placeholder="가게 이름을 입력하세요" name='storeName' onChange={onChangeHandler} required/>
+                    <Form.Control type="text" placeholder="가게 이름을 입력하세요" value={storeData.storeName} onChange={onChangeHandler} required/>
                     <Form.Text className="text-muted">
                     We'll never share your email with anyone else.
                     </Form.Text>
@@ -203,9 +214,9 @@ const RegisterStore = () => {
                     <Form.Label>카테고리를 선택하세요</Form.Label>
                     <Form.Select name='category' onChange={storeCategoryHandler} value={storeCategory} required>
                         <option value="" hidden>카테고리를 선택하세요</option>
-                        {categoryData.map((item) => {
+                        {categoryList.map((item) => {
                             return (       
-                                // categoryData에 저장된 DB에서 가져온 카테고리를 select option에 하나씩 추가
+                                // categoryList 저장된 DB에서 가져온 카테고리를 select option에 하나씩 추가
                                 <option key={item.categoryId} value={item.categoryId}>{item.categoryTitle}</option>
                             );
                         })}
@@ -217,23 +228,23 @@ const RegisterStore = () => {
                         주소 검색
                         </Button>
                     {/* 주소입력 다음 api 추가해서 도로명 주소 받도록 */}
-                    <Form.Control placeholder="주소를 입력하세요" name='address'onChange={onChangeHandler} value={address} required/>
+                    <Form.Control placeholder="주소를 입력하세요" value={storeData.address} onChange={onChangeHandler} required/>
                 </Form.Group>
 
 
                 <Form.Group className="mb-3">
                     <Form.Label>영업시간 (ex/17:00~23:00)</Form.Label>
-                    <Form.Control placeholder="영업시간을 입력하세요" name='storeHours'onChange={onChangeHandler} required/>
+                    <Form.Control placeholder="영업시간을 입력하세요" value={storeData.storeHours} onChange={onChangeHandler} required/>
                 </Form.Group>
 
                 <Form.Group className="mb-3">
                     <Form.Label>연락처</Form.Label>
-                    <Form.Control placeholder="연락처를 입력하세요" name='phone'onChange={onChangeHandler} required/>
+                    <Form.Control placeholder="연락처를 입력하세요" value={storeData.phone} onChange={onChangeHandler} required/>
                 </Form.Group>
 
                 <Form.Group className="mb-3">
                     <Form.Label>가게 소개</Form.Label>
-                    <Form.Control as="textarea" rows={4} placeholder="소개글을 입력하세요" name='description' onChange={onChangeHandler} required/>
+                    <Form.Control as="textarea" rows={4} placeholder="소개글을 입력하세요" value={storeData.description} onChange={onChangeHandler} required/>
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicCheckbox">
