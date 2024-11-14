@@ -54,7 +54,7 @@ function App() {
           <Route path="/store/info/*" element={<StoreInfo />} />
           <Route path="/store/list" element={<StoreList />} />
           <Route path="/store/mystore" element={<MyStore />} />
-          <Route path="/store/edit/*" element={<StoreInfoEdit />} />
+          <Route path="/store/edit/:storeId" element={<StoreInfoEdit />} />
           <Route path="/store/search" element={<StoreSearch />} />
           <Route path="/store/register" element={<RegisterStore />} />
           <Route path="/map/:storeId" element={<Map />} />
