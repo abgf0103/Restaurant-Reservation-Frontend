@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getUserInfo } from "../../hooks/userSlice";
 import Swal from "sweetalert2";
-import { Card } from "react-bootstrap";
+import { Card, Button } from "react-bootstrap";
 
 const MyReserve = () => {
   const navigate = useNavigate();
@@ -49,7 +49,7 @@ const MyReserve = () => {
       <h4>나의 예약 정보</h4>
       {loading ? (
         <p>로딩 중...</p>
-      ) : reservations.length === 0 ? ( // 예약 내역이 없을 때 조건 수정
+      ) : reservations.length === 0 ? (
         <p>예약 내역이 없습니다.</p>
       ) : (
         <div className="reserve-card-container">
@@ -59,14 +59,24 @@ const MyReserve = () => {
               style={{ width: "18rem", margin: "10px" }}
             >
               <Card.Body>
-                <Card.Title>가게 이름: {}</Card.Title>
+                <Card.Title>가게 이름: {reservation.storeName}</Card.Title>
                 <Card.Text>
-                  <strong>가게 ID:</strong> {reservation.storeId} <br />
                   <strong>예약 날짜:</strong>{" "}
                   {new Date(reservation.reserveDate).toLocaleString()} <br />
                   <strong>인원 수:</strong> {reservation.partySize} <br />
                   <strong>상태:</strong> {reservation.reserveStatus}
                 </Card.Text>
+                {reservation.reserveStatus === "2" && (
+                  <Button
+                    variant="primary"
+                    onClick={() =>
+                      navigate(`/writeReview/${reservation.storeId}`)
+                    }
+                    style={{ marginTop: "10px" }}
+                  >
+                    리뷰 쓰기
+                  </Button>
+                )}
               </Card.Body>
             </Card>
           ))}
