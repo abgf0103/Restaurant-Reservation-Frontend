@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { getUserInfo } from "../../hooks/userSlice";
 import { useEffect, useState } from "react";
@@ -67,14 +67,19 @@ const MyStore = () => {
                         <li key={item.storeId}>
                             <Card style={{ width: "18rem" }}>
                                 <Card.Img variant="top" src="holder.js/100px180" />
-                                <Card.Body>
-                                    <Card.Title>{item.storeName}</Card.Title>
-                                    <Card.Text>{item.description}</Card.Text>
-                                    <Button variant="primary" onClick={() => handleEditClick(item.storeId)}>
-                                        {/* 버튼을 누르면 가게ID를 들고 수정 페이지로 이동 */}
-                                        수정
-                                    </Button>
-                                </Card.Body>
+                                    <Card.Body>
+                                        <Link
+                                        to={"/store/info" }
+                                        state={ item.storeId }
+                                        >
+                                        <Card.Title>{item.storeName}</Card.Title>
+                                        </Link>
+                                        <Card.Text>{item.description}</Card.Text>
+                                        <Button variant="primary" onClick={() => handleEditClick(item.storeId)}>
+                                            {/* 버튼을 누르면 가게ID를 들고 수정 페이지로 이동 */}
+                                            수정
+                                        </Button>
+                                    </Card.Body>
                             </Card>
                         </li>
                     ))}

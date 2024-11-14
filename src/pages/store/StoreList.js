@@ -53,19 +53,19 @@ const StoreList = () => {
         {storeData.map((item) => {
           return (
             <li key={item.storeId}>
-              <Link
-                to={"/store/info" }
-                state={ item.storeId }
-              >
+              
                 <Card style={{ width: "18rem" }}>
+                    <Link
+                    to={"/store/info" }
+                    state={ item.storeId }
+                    >
                   <Card.Img variant="top" src="holder.js/100px180" />
                   <Card.Body>
                     <Card.Title>{item.storeName}</Card.Title>
                     <Card.Text>{item.description}</Card.Text>
-                    <Button variant="primary">가게 정보 보기</Button>
                   </Card.Body>
+                  </Link>
                 </Card>
-              </Link>
               <Button
                 variant="success"
                 onClick={() => handleReserveClick(item.storeId)}
