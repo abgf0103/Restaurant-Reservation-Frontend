@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 const MemberSignup = () => {
   const navigate = useNavigate();
+  const [userType, setUserType] = useState("regular");
 
   // 회원가입 상태 데이터
   const [formData, setFormData] = useState({
@@ -16,6 +17,7 @@ const MemberSignup = () => {
     passwordConfirm: "",
     roleNum: "1",
     active: true,
+    businessLicense: "", // 사업자 등록 번호 추가 (예시)
   });
 
   const [errors, setErrors] = useState({});
@@ -29,47 +31,9 @@ const MemberSignup = () => {
     });
   };
 
-  // 입력값 유효성 검증 함수
-  // const validateForm = () => {
-  // const newErrors = {};
-
-  // // 아이디: 영어로 5글자 이상
-  // if (!/^[a-zA-Z0-9]{4,12}$/.test(formData.username)) {
-  // newErrors.username = "아이디는 영문 또는 숫자로 4~12글자이어야 합니다.";
-  // }
-  // // 이름: 한글로 2글자 이상
-  // if (!/^[가-힣]{2,}$/.test(formData.name)) {
-  // newErrors.name = "이름은 한글로 2글자 이상이어야 합니다.";
-  // }
-
-  // // 비밀번호: 영어 5글자 이상 + 특수문자 1글자 이상
-  // if (
-  // !/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[a-zA-Z\d!@#$%^&*]{8,}$/.test(
-  // formData.password
-  // )
-  // ) {
-  // newErrors.password =
-  // "비밀번호는 8글자 이상, 영문, 숫자, 특수문자를 모두 포함해야 합니다.";
-  // }
-
-  // // 비밀번호 재입력: 비밀번호와 일치해야 함
-  // if (formData.password !== formData.passwordConfirm) {
-  // newErrors.passwordConfirm = "비밀번호가 일치하지 않습니다.";
-  // }
-
-  // setErrors(newErrors);
-  // return Object.keys(newErrors).length === 0;
-  // };
-
   // 회원가입 요청
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    console.log(formData);
-
-    // if (!validateForm()) {
-    // return; // 유효성 검사를 통과하지 못하면 폼 제출을 막음
-    // }
 
     try {
       // 백엔드 API 호출
@@ -93,6 +57,29 @@ const MemberSignup = () => {
   return (
     <>
       <h2>회원가입</h2>
+      <div>
+        <label>
+          <input
+            type="radio"
+            name="userType"
+            value="regular"
+            checked={userType === "regular"}
+            onChange={() => setUserType("regular")}
+          />
+          일반 사용자
+        </label>
+        <label>
+          <input
+            type="radio"
+            name="userType"
+            value="business"
+            checked={userType === "business"}
+            onChange={() => setUserType("business")}
+          />
+          사업자
+        </label>
+      </div>
+
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="username">아이디:</label>
@@ -119,6 +106,7 @@ const MemberSignup = () => {
           />
           {errors.password && <p style={{ color: "red" }}>{errors.password}</p>}
         </div>
+
         <div>
           <label htmlFor="passwordConfirm">비밀번호 재입력:</label>
           <input
@@ -133,6 +121,7 @@ const MemberSignup = () => {
             <p style={{ color: "red" }}>{errors.passwordConfirm}</p>
           )}
         </div>
+
         <div>
           <label htmlFor="name">이름:</label>
           <input
@@ -145,6 +134,7 @@ const MemberSignup = () => {
           />
           {errors.name && <p style={{ color: "red" }}>{errors.name}</p>}
         </div>
+
         <div>
           <label htmlFor="email">이메일:</label>
           <input
@@ -156,6 +146,7 @@ const MemberSignup = () => {
             required
           />
         </div>
+
         <div>
           <label htmlFor="phone">전화번호:</label>
           <input
@@ -167,6 +158,22 @@ const MemberSignup = () => {
             required
           />
         </div>
+
+        {/* 사업자 폼 추가 */}
+        {userType === "business" && (
+          <div>
+            <label htmlFor="businessLicense">사업자등록번호:</label>
+            <input
+              type="text"
+              id="businessLicense"
+              name="businessLicense"
+              value={formData.businessLicense}
+              onChange={handleChange}
+              required
+            />
+          </div>
+        )}
+
         <button type="submit">가입</button>
       </form>
     </>
