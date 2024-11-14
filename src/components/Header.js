@@ -53,6 +53,9 @@ const Header = () => {
                 <button>회원가입</button>
               </Link>
             )}
+            <Link to="/fileTest">
+                <button>파일 업로드 테스트</button>
+              </Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

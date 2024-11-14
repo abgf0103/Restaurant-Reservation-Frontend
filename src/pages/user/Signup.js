@@ -106,18 +106,7 @@ const MemberSignup = () => {
           />
           {errors.username && <p style={{ color: "red" }}>{errors.username}</p>}
         </div>
-        <div>
-          <label htmlFor="name">이름:</label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-          />
-          {errors.name && <p style={{ color: "red" }}>{errors.name}</p>}
-        </div>
+
         <div>
           <label htmlFor="password">비밀번호:</label>
           <input
@@ -143,6 +132,18 @@ const MemberSignup = () => {
           {errors.passwordConfirm && (
             <p style={{ color: "red" }}>{errors.passwordConfirm}</p>
           )}
+        </div>
+        <div>
+          <label htmlFor="name">이름:</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+          />
+          {errors.name && <p style={{ color: "red" }}>{errors.name}</p>}
         </div>
         <div>
           <label htmlFor="email">이메일:</label>
