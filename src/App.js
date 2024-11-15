@@ -13,13 +13,12 @@ import ReviewEdit from "./pages/review/ReviewEdit";
 import ReviewList from "./pages/review/ReviewList";
 import UserEdit from "./pages/user/UserEdit";
 import Mypage from "./pages/user/Mypage";
-import FindIdForm from "./pages/user/findID";
 import StoreSearch from "./pages/store/StoreSearch";
 import MyReview from "./pages/review/MyReview";
 import { Provider } from "react-redux";
 import store from "./hooks/store";
 import MyStore from "./pages/store/MyStore";
-import SearchResult from "./pages/store/SearchResult";
+import SearchResult from "./pages/user/SearchReuslt";
 import Reserve from "./pages/reserve/Reserve";
 import MyReserve from "./pages/reserve/MyReserve";
 import RegisterStore from "./pages/store/RegisterStore";
@@ -27,6 +26,7 @@ import Map from "./map/Map";
 import Landing from "./Landing";
 import StoreList from "./pages/store/StoreList";
 import UserReviewPage from "./pages/review/UserReviewPage";
+import FileTest from "./pages/file/FileTest";
 
 const ROLES = {
   ROLE_USER: 1,
@@ -39,7 +39,7 @@ function App() {
     <Provider store={store}>
       <AppLayout>
         <Routes>
-          <Route path="/writeReview/:storeId" element={<Review />} />{" "}
+          <Route path="/review/edit" element={<ReviewEdit />} />
           {/* storeId를 URL 파라미터로 전달 */}
           <Route path="/review/list" element={<ReviewList />} />
           <Route path="/review/edit/:reviewId" element={<ReviewEdit />} />
@@ -49,7 +49,6 @@ function App() {
           <Route path="/user/signup" element={<Signup />} />
           <Route path="/user/edit" element={<UserEdit />} />
           <Route path="/user/mypage" element={<Mypage />} />
-          <Route path="/user/findID" element={<FindIdForm />} />
           <Route path="/user/searchresult" element={<SearchResult />} />
           <Route path="/user/reserve" element={<Reserve />} />
           <Route path="/user/MyReserve" element={<MyReserve />} />
@@ -59,6 +58,7 @@ function App() {
           <Route path="/store/edit/:storeId" element={<StoreInfoEdit />} />
           <Route path="/store/search" element={<StoreSearch />} />
           <Route path="/store/register" element={<RegisterStore />} />
+          <Route path="/fileTest" element={<FileTest />} />
           <Route path="/map/:storeId" element={<Map />} />
           <Route path="/test" element={<Test />} />
           <Route path="/" element={<Landing />} />
