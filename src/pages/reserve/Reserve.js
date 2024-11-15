@@ -4,6 +4,8 @@ import { useSelector } from "react-redux";
 import { getUserInfo } from "../../hooks/userSlice";
 import Swal from "sweetalert2";
 import instance from "../../api/instance";
+import DatePicker from "react-datepicker"; // react-datepicker import
+import "react-datepicker/dist/react-datepicker.css"; // datepicker css import
 import "./../../css/SlideUpPanel.css";
 
 const Reserve = ({ isPanelOpen, setIsPanelOpen, selectedStoreId }) => {
@@ -12,7 +14,7 @@ const Reserve = ({ isPanelOpen, setIsPanelOpen, selectedStoreId }) => {
 
   const [reserve, setReserve] = useState({
     storeId: selectedStoreId || "",
-    date: "",
+    date: new Date(), // 초기 날짜 설정
     time: "",
   });
 
@@ -22,11 +24,10 @@ const Reserve = ({ isPanelOpen, setIsPanelOpen, selectedStoreId }) => {
     }
   }, [selectedStoreId]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+  const handleDateChange = (date) => {
     setReserve((prevState) => ({
       ...prevState,
-      [name]: value,
+      date: date, // 선택한 날짜를 상태에 저장
     }));
   };
 
@@ -60,13 +61,43 @@ const Reserve = ({ isPanelOpen, setIsPanelOpen, selectedStoreId }) => {
 
   return (
     <div className={`slide-up ${isPanelOpen ? "active" : ""}`}>
-      <h1>예약하기</h1>
       <form onSubmit={handleSubmit}>
-        {/* 추후 달력, 시간 삽입 */}
-        <button type="submit">예약</button>
-        <button type="button" onClick={() => setIsPanelOpen(false)}>
-          닫기
-        </button>
+        <DatePicker
+          formatWeekDay={(nameOfDay) => nameOfDay.substring(0, 1)}
+          selected={reserve.date}
+          onChange={(date) => handleDateChange(date)}
+          inline
+          renderCustomHeader={({
+            date,
+            changeYear,
+            changeMonth,
+            decreaseMonth,
+            increaseMonth,
+            prevMonthButtonDisabled,
+            nextMonthButtonDisabled,
+          }) => (
+            <div className="datepicker-header">
+              <button
+                onClick={decreaseMonth}
+                disabled={prevMonthButtonDisabled}
+                className="datepicker-nav-button"
+              >
+                {"<"}
+              </button>
+              <span className="datepicker-title">
+                {date.getFullYear()}년{" "}
+                {date.toLocaleString("ko-KR", { month: "long" })}
+              </span>
+              <button
+                onClick={increaseMonth}
+                disabled={nextMonthButtonDisabled}
+                className="datepicker-nav-button"
+              >
+                {">"}
+              </button>
+            </div>
+          )}
+        />
       </form>
     </div>
   );

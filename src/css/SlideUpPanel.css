@@ -1,51 +1,31 @@
+/* SlideUpPanel.css */
 .slide-up {
-  position: fixed;
+  position: grid;
   bottom: -100%;
-  left: 0;
-  right: 0;
   background: white;
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
   transition: bottom 0.5s ease-in-out;
   z-index: 1000;
-  padding: 20px;
-}
-
-.slide-up.active {
-  bottom: 0;
+  padding: 30px;
+  height: auto;
+  width: auto;
+  justify-items: center;
 }
 
 /* Reserve.js 관련 스타일 */
-.reserve-form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.reserve-form label {
-  font-weight: bold;
-}
-
-.reserve-form input {
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-.reserve-form button {
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  background-color: #ff7f50;
+.custom-button {
+  background-color: #ff5733;
   color: white;
-  font-weight: bold;
+  border-radius: 5px;
+  border: none;
+  padding-bottom: 5px;
+  padding-top: 5px;
 }
 
-.reserve-form button[type="button"] {
-  background-color: #ccc;
-  margin-top: 10px;
+.custom-button:hover {
+  background-color: #ff451a;
 }
 
 .modal-background {
@@ -58,4 +38,76 @@
   display: flex;
   justify-content: center;
   align-items: flex-end; /* 슬라이드 업 패널이 아래에서 올라오도록 설정 */
+}
+
+.datepicker-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.datepicker-title {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.datepicker-nav-button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.datepicker-nav-button:disabled {
+  color: #ccc;
+}
+
+.reserve-button {
+  background-color: #ff5733;
+  color: white;
+  border-radius: 5px;
+  border: none;
+  padding: 10px 20px;
+  margin-top: 20px;
+  cursor: pointer;
+}
+
+.reserve-button:hover {
+  background-color: #ff451a;
+}
+
+.react-datepicker {
+  font-family: "Helvetica Neue", helvetica, arial, sans-serif;
+  font-size: 0.8rem;
+  color: #000;
+  border: none;
+  border-bottom: rgb(0, 0, 0, 0.5);
+  display: inline-block;
+  position: relative;
+  line-height: initial;
+}
+
+.react-datepicker__day--selected {
+  border-radius: 1rem;
+  background-color: #ff451a;
+  color: #fff;
+}
+
+.react-datepicker__day:not([aria-disabled="true"]):hover {
+  border-radius: 5px;
+  background-color: #ff451a;
+  color: white;
+  transition: 0.2s;
+}
+
+.react-datepicker__header:not(.react-datepicker__header--has-time-select) {
+  border-top-right-radius: 0.3rem;
+}
+
+.react-datepicker__header {
+  text-align: center;
+  background-color: white;
+  padding: 8px 0;
+  position: relative;
 }
