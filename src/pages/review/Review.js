@@ -42,7 +42,7 @@ const Review = () => {
           console.error("예약 상태 체크 오류:", error);
           Swal.fire({
             title: "실패",
-            text: "예약 상태를 확인할 수 없습니다.",
+            text: "예약 후 이용해 주세요.",
             icon: "error",
           });
         });
