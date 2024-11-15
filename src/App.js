@@ -13,6 +13,7 @@ import ReviewEdit from "./pages/review/ReviewEdit";
 import ReviewList from "./pages/review/ReviewList";
 import UserEdit from "./pages/user/UserEdit";
 import Mypage from "./pages/user/Mypage";
+import FindIdForm from "./pages/user/findID";
 import StoreSearch from "./pages/store/StoreSearch";
 import MyReview from "./pages/review/MyReview";
 import { Provider } from "react-redux";
@@ -26,7 +27,6 @@ import Map from "./map/Map";
 import Landing from "./Landing";
 import StoreList from "./pages/store/StoreList";
 import UserReviewPage from "./pages/review/UserReviewPage";
-import FileTest from "./pages/file/FileTest";
 
 const ROLES = {
   ROLE_USER: 1,
@@ -35,53 +35,49 @@ const ROLES = {
 };
 
 function App() {
-    return (
-        <Provider store={store}>
-            <AppLayout>
-                <Routes>
-                <Route path="/writeReview/:storeId" element={<Review />} />{" "}
-                {/* storeId를 URL 파라미터로 전달 */}
-                <Route path="/review/list" element={<ReviewList />} />
-                <Route path="/review/edit/:reviewId" element={<ReviewEdit />} />
-                <Route path="/review/myreview" element={<MyReview />} />
-                <Route path="/review/:username" element={<UserReviewPage />} />
-
-                <Route path="/user/login" element={<Login />} />
-                <Route path="/user/signup" element={<Signup />} />
-                <Route path="/user/edit" element={<UserEdit />} />
-                <Route path="/user/mypage" element={<Mypage />} />
-                <Route path="/user/searchresult" element={<SearchResult />} />
-                <Route path="/user/reserve" element={<Reserve />} />
-                <Route path="/user/MyReserve" element={<MyReserve />} />
-
-                <Route path="/store/info/*" element={<StoreInfo />} />
-                <Route path="/store/list" element={<StoreList />} />
-                <Route path="/store/mystore" element={<MyStore />} />
-                <Route path="/store/edit/:storeId" element={<StoreInfoEdit />} />
-                <Route path="/store/search" element={<StoreSearch />} />
-                <Route path="/store/register" element={<RegisterStore />} />
-
-                <Route path="/fileTest" element={<FileTest />} />
-
-                <Route path="/map/:storeId" element={<Map />} />
-                <Route path="/test" element={<Test />} />
-                <Route path="/" element={<Landing />} />
-                <Route path="*" element={<NotFound />} />
-                <Route path="/unauth" element={<UnAuth />} />
-                <Route
-                    path="/admin"
-                    element={
-                    <RequireAuth
-                        allowedRoles={[ROLES.ROLE_SYSTEM, ROLES.ROLE_ADMIN]}
-                    />
-                    }
-                >
-                    <Route path="/admin/board" element={<div>board</div>} />
-                </Route>
-                </Routes>
-            </AppLayout>
-        </Provider>
-    );
-    }
+  return (
+    <Provider store={store}>
+      <AppLayout>
+        <Routes>
+          <Route path="/writeReview/:storeId" element={<Review />} />{" "}
+          {/* storeId를 URL 파라미터로 전달 */}
+          <Route path="/review/list" element={<ReviewList />} />
+          <Route path="/review/edit/:reviewId" element={<ReviewEdit />} />
+          <Route path="/review/myreview" element={<MyReview />} />
+          <Route path="/review/:username" element={<UserReviewPage />} />
+          <Route path="/user/login" element={<Login />} />
+          <Route path="/user/signup" element={<Signup />} />
+          <Route path="/user/edit" element={<UserEdit />} />
+          <Route path="/user/mypage" element={<Mypage />} />
+          <Route path="/user/findID" element={<FindIdForm />} />
+          <Route path="/user/searchresult" element={<SearchResult />} />
+          <Route path="/user/reserve" element={<Reserve />} />
+          <Route path="/user/MyReserve" element={<MyReserve />} />
+          <Route path="/store/info/*" element={<StoreInfo />} />
+          <Route path="/store/list" element={<StoreList />} />
+          <Route path="/store/mystore" element={<MyStore />} />
+          <Route path="/store/edit/:storeId" element={<StoreInfoEdit />} />
+          <Route path="/store/search" element={<StoreSearch />} />
+          <Route path="/store/register" element={<RegisterStore />} />
+          <Route path="/map/:storeId" element={<Map />} />
+          <Route path="/test" element={<Test />} />
+          <Route path="/" element={<Landing />} />
+          <Route path="*" element={<NotFound />} />
+          <Route path="/unauth" element={<UnAuth />} />
+          <Route
+            path="/admin"
+            element={
+              <RequireAuth
+                allowedRoles={[ROLES.ROLE_SYSTEM, ROLES.ROLE_ADMIN]}
+              />
+            }
+          >
+            <Route path="/admin/board" element={<div>board</div>} />
+          </Route>
+        </Routes>
+      </AppLayout>
+    </Provider>
+  );
+}
 
 export default App;

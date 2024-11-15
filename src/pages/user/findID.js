@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import instance from "../../api/instance"; // 커스텀 axios 인스턴스를 임포트
 
 const FindIdForm = () => {
   const [email, setEmail] = useState("");
@@ -21,13 +21,16 @@ const FindIdForm = () => {
     setLoading(true);
     setMessage("");
 
+    //백엔드에 email전달
     try {
-      const response = await axios.get("/member/user/findID", { email });
+      const response = await instance.get("/member/user/findID", {
+        params: { email },
+      });
 
       console.log(response.data);
 
       if (response.data.success) {
-        setMessage(`아이디: ${response.data.id}`);
+        setMessage(`아이디: ${response.data.cause}`);
       } else {
         setMessage("이메일에 해당하는 아이디가 없습니다.");
       }
