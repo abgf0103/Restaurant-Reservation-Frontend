@@ -18,7 +18,7 @@ import MyReview from "./pages/review/MyReview";
 import { Provider } from "react-redux";
 import store from "./hooks/store";
 import MyStore from "./pages/store/MyStore";
-import SearchResult from "./pages/user/SearchReuslt";
+import SearchResult from "./pages/store/SearchResult";
 import Reserve from "./pages/reserve/Reserve";
 import MyReserve from "./pages/reserve/MyReserve";
 import RegisterStore from "./pages/store/RegisterStore";
@@ -39,7 +39,7 @@ function App() {
     <Provider store={store}>
       <AppLayout>
         <Routes>
-          <Route path="/review/edit" element={<ReviewEdit />} />
+          <Route path="/writeReview/:storeId/:reserveId" element={<Review />} />{" "}
           {/* storeId를 URL 파라미터로 전달 */}
           <Route path="/review/list" element={<ReviewList />} />
           <Route path="/review/edit/:reviewId" element={<ReviewEdit />} />

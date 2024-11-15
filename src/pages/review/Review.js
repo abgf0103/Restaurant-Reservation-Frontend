@@ -7,7 +7,7 @@ import instance from "../../api/instance"; // instance 임포트
 
 const Review = () => {
   const navigate = useNavigate();
-  const { storeId } = useParams(); // URL에서 storeId를 추출
+  const { storeId, reserveId } = useParams(); // URL에서 storeId, reserveId 추출
   const userInfo = useSelector(getUserInfo); // 로그인된 사용자 정보
 
   const [review, setReview] = useState({
@@ -17,6 +17,7 @@ const Review = () => {
   });
 
   const [canWriteReview, setCanWriteReview] = useState(true); // 리뷰 작성 가능 여부 상태
+  const [isReviewExist, setIsReviewExist] = useState(false); // 중복 리뷰 여부 상태
 
   // 로그인 상태 체크
   useEffect(() => {
@@ -26,25 +27,39 @@ const Review = () => {
     }
   }, [navigate, userInfo]);
 
-  // 매장 예약 상태 체크
+  // 매장 예약 상태 체크 및 중복 리뷰 여부 체크
   useEffect(() => {
-    instance
-      .get(
-        `/review/check-reserve-status?storeId=${storeId}&userId=${userInfo.id}`,
-        FormData
-      )
-      .then((response) => {
-        setCanWriteReview(response.data);
-      })
-      .catch((error) => {
-        console.error("예약 상태 체크 오류:", error);
-        Swal.fire({
-          title: "실패",
-          text: "예약 상태를 확인할 수 없습니다.",
-          icon: "error",
+    if (userInfo.id && storeId && reserveId) {
+      // 예약 상태 체크
+      instance
+        .get(
+          `/review/check-reserve-status?storeId=${storeId}&userId=${userInfo.id}`
+        )
+        .then((response) => {
+          setCanWriteReview(response.data); // 예약 상태에 따라 리뷰 작성 가능 여부 설정
+        })
+        .catch((error) => {
+          console.error("예약 상태 체크 오류:", error);
+          Swal.fire({
+            title: "실패",
+            text: "예약 상태를 확인할 수 없습니다.",
+            icon: "error",
+          });
         });
-      });
-  }, [storeId, userInfo.userId]);
+
+      // 중복 리뷰 여부 체크
+      instance
+        .get(
+          `/review/check-exist?storeId=${storeId}&userId=${userInfo.id}&reserveId=${reserveId}`
+        )
+        .then((response) => {
+          setIsReviewExist(response.data); // 중복 리뷰 여부
+        })
+        .catch((error) => {
+          console.error("중복 리뷰 체크 오류:", error);
+        });
+    }
+  }, [storeId, reserveId, userInfo.id]);
 
   // 리뷰 작성 상태 업데이트
   const handleChange = (e) => {
@@ -59,22 +74,35 @@ const Review = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // 예약 상태 체크
     if (!canWriteReview) {
       Swal.fire({
         title: "리뷰 작성 불가",
-        text: "예약 상태가 완료되지 않았습니다. 리뷰를 작성하려면 예약 상태가 2여야 합니다.",
+        text: "예약 상태가 완료되지 않았습니다. 리뷰를 작성하려면 예약 상태가 완료되어야 합니다.",
         icon: "warning",
       });
       return;
     }
 
+    // 중복 리뷰 체크
+    if (isReviewExist) {
+      Swal.fire({
+        title: "리뷰 작성 불가",
+        text: "이미 이 예약에 대해 리뷰를 작성하셨습니다.",
+        icon: "warning",
+      });
+      return;
+    }
+
+    // 리뷰 저장 API 호출
     instance
       .post("/review/save", {
         storeId: review.storeId,
         rating: review.rating,
         reviewComment: review.reviewComment,
-        userId: userInfo.userId,
+        userId: userInfo.id, // userId를 보내는 부분
         username: userInfo.username, // username 추가
+        reserveId: reserveId, // 예약 ID도 함께 보내기
       })
       .then((res) => {
         Swal.fire({
@@ -121,10 +149,11 @@ const Review = () => {
             required
           />
         </div>
-        <button type="submit" disabled={!canWriteReview}>
+        <button type="submit" disabled={!canWriteReview || isReviewExist}>
           리뷰 작성
         </button>
         {!canWriteReview && <p>예약 완료된 후에 리뷰작성이 가능합니다.</p>}
+        {isReviewExist && <p>이미 이 예약에 대한 리뷰를 작성하셨습니다.</p>}
       </form>
     </div>
   );
