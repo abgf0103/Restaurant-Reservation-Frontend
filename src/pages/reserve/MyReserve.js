@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import instance from "../../api/instance";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getUserInfo } from "../../hooks/userSlice";
 import Swal from "sweetalert2";
-import { Card, Button } from "react-bootstrap";
+import { Card } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import { getAllReservationsByUserId } from "../../webapi/webApiList"; // API 호출 함수 추가
 
 const MyReserve = () => {
   const navigate = useNavigate();
@@ -23,12 +24,15 @@ const MyReserve = () => {
         navigate("/user/login");
       });
     } else {
-      instance
-        .get("/reservations/user")
+      // 로그인된 사용자 정보로 예약 목록 가져오기
+      getAllReservationsByUserId(userInfo.id) // StoreInfo.js에서 사용했던 함수를 사용
         .then((res) => {
-          console.log("User Info:", userInfo);
-          console.log("Reservations:", res.data);
-          setReservations(res.data); // 가져온 예약 정보를 상태에 저장
+          console.log("예약 목록:", res); // API 응답 확인
+          if (res && Array.isArray(res)) {
+            setReservations(res); // 예약 목록 상태 업데이트
+          } else {
+            setReservations([]); // 예약이 없으면 빈 배열로 처리
+          }
         })
         .catch((error) => {
           console.error("예약 정보 가져오기 실패:", error);
@@ -39,7 +43,7 @@ const MyReserve = () => {
           });
         })
         .finally(() => {
-          setLoading(false);
+          setLoading(false); // 로딩 완료
         });
     }
   }, [userInfo, navigate]);
@@ -55,7 +59,7 @@ const MyReserve = () => {
         <div className="reserve-card-container">
           {reservations.map((reservation) => (
             <Card
-              key={reservation.reservationId}
+              key={reservation.reservationId} // reservationId를 키로 사용
               style={{ width: "18rem", margin: "10px" }}
             >
               <Card.Body>
@@ -66,17 +70,12 @@ const MyReserve = () => {
                   <strong>인원 수:</strong> {reservation.partySize} <br />
                   <strong>상태:</strong> {reservation.reserveStatus}
                 </Card.Text>
-                {reservation.reserveStatus === "2" && (
-                  <Button
-                    variant="primary"
-                    onClick={() =>
-                      navigate(`/writeReview/${reservation.storeId}`)
-                    }
-                    style={{ marginTop: "10px" }}
-                  >
-                    리뷰 쓰기
-                  </Button>
-                )}
+                {/* 리뷰 작성 링크는 모든 예약에 대해 항상 표시 */}
+                <Link
+                  to={`/writeReview/${reservation.storeId}/${reservation.reserveId}`}
+                >
+                  리뷰 작성
+                </Link>
               </Card.Body>
             </Card>
           ))}
