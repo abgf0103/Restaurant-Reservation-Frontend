@@ -125,14 +125,53 @@ const RegisterStore = () => {
         });
     };
 
+    //삭제 요청 상태 관리
+    const [isDelete, setIsDelete] = useState(false);
+
+
+    // 삭제 버튼 관련
+    const handleDelete = (storeId) => {
+        Swal.fire({
+            title: storeData.storeName + '을 삭제하겠습니까?',
+            text: "삭제 후 복구할 수 없습니다",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "삭제",
+            cancelButtonText: "취소",
+          }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: storeData.storeName + "을 <br>삭제했습니다",
+                    text: "삭제된 매장은 복구할 수 없습니다",
+                    icon: "success"
+                });
+                setIsDelete(true);
+                console.log(storeId + "삭제 요청");
+                instance.get(`/store/requestStoreDelete?storeId=` + storeId)
+                .catch((error) => {
+                    console.error("가게 삭제 요청 오류:", error);
+                    Swal.fire({
+                        title: "실패",
+                        text: "가게 삭제 요청에 실패했습니다.",
+                        icon: "error",
+                    });
+                });
+                navigate(`/store/mystore`);
+            }
+        });
+    }
+
     return (
         <div>
-            <h2>가게 수정 페이지</h2>
+            
             <Form onSubmit={requestStoreRegister}>
                 <Form.Group className="mb-3">
-                    <Form.Label>{storeData.storeName}</Form.Label>
+                    <Form.Label><h2>{storeData.storeName}</h2></Form.Label>
                     
                 </Form.Group>
+                <Button variant="danger" onClick={() => handleDelete(storeId)} disabled={isDelete}>{isDelete ? '삭제 중' : '삭제 요청'}</Button>
 
                 <Form.Group className="mb-3">
                         <Button variant="primary" type="button" onClick={handleClick}>

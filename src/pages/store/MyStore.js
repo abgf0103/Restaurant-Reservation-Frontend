@@ -46,13 +46,18 @@ const MyStore = () => {
         navigate(`/store/edit/${storeId}`);
     };
 
+    //가게 등록 버튼 클릭시 가게 등록 url로 이동
     const registerStoreClick = () => {
         navigate(`/store/register`);
     }
 
+
+
     if (loading) {
         return <div>로딩 중...</div>;
     }
+
+
     return (
         <div>
             <h2>나의 가게 정보 페이지</h2>
