@@ -59,7 +59,7 @@ const MyReserve = () => {
         <div className="reserve-card-container">
           {reservations.map((reservation) => (
             <Card
-              key={reservation.reservationId} // reservationId를 키로 사용
+              key={reservation.reserveId} // reservationId를 키로 사용
               style={{ width: "18rem", margin: "10px" }}
             >
               <Card.Body>

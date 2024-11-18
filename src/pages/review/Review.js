@@ -33,18 +33,25 @@ const Review = () => {
       // 예약 상태 체크
       instance
         .get(
-          `/review/check-reserve-status?storeId=${storeId}&userId=${userInfo.id}`
+          `/review/check-reserve-status?storeId=${storeId}&userId=${userInfo.id}&reserveId=${reserveId}`
         )
         .then((response) => {
+          console.log(response);
           setCanWriteReview(response.data); // 예약 상태에 따라 리뷰 작성 가능 여부 설정
-        })
-        .catch((error) => {
-          console.error("예약 상태 체크 오류:", error);
-          Swal.fire({
-            title: "실패",
-            text: "예약 후 이용해 주세요.",
-            icon: "error",
-          });
+
+          if (!response.data?.success) {
+            // 작성불가
+            Swal.fire({
+              title: "리뷰 작성 불가",
+              text: "예약이 완료된 후에 리뷰 작성을 할 수 있습니다.",
+              icon: "warning",
+              confirmButtonText: "확인",
+            }).then((result) => {
+              if (result.isConfirmed) {
+                navigate("/user/myreserve"); // 예약 목록 페이지로 이동
+              }
+            });
+          }
         });
 
       // 중복 리뷰 여부 체크
@@ -53,13 +60,26 @@ const Review = () => {
           `/review/check-exist?storeId=${storeId}&userId=${userInfo.id}&reserveId=${reserveId}`
         )
         .then((response) => {
-          setIsReviewExist(response.data); // 중복 리뷰 여부
+          setIsReviewExist(response.data); // 중복 리뷰 여부 설정
+          // 이미 리뷰를 작성한 경우 경고창 띄우기
+          if (response.data) {
+            Swal.fire({
+              title: "리뷰 중복 작성 불가",
+              text: "이미 이 예약에 대한 리뷰를 작성하셨습니다.",
+              icon: "warning", // warning 아이콘 사용
+              confirmButtonText: "확인", // 확인 버튼 텍스트 설정
+            }).then((result) => {
+              if (result.isConfirmed) {
+                navigate("/user/myreserve"); // 예약 목록 페이지로 이동
+              }
+            });
+          }
         })
         .catch((error) => {
           console.error("중복 리뷰 체크 오류:", error);
         });
     }
-  }, [storeId, reserveId, userInfo.id]);
+  }, [storeId, reserveId, userInfo.id, navigate]);
 
   // 리뷰 작성 상태 업데이트
   const handleChange = (e) => {
@@ -74,22 +94,32 @@ const Review = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // 예약 상태 체크
+    // 예약 상태 체크: 리뷰 작성 가능 여부 확인
     if (!canWriteReview) {
       Swal.fire({
         title: "리뷰 작성 불가",
-        text: "예약 상태가 완료되지 않았습니다. 리뷰를 작성하려면 예약 상태가 완료되어야 합니다.",
-        icon: "warning",
+        text: "예약 완료된 후에 리뷰작성이 가능합니다.",
+        icon: "warning", // warning 아이콘 사용
+        confirmButtonText: "확인", // 확인 버튼 텍스트 설정
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/user/myreserve"); // 예약 목록 페이지로 이동
+        }
       });
       return;
     }
 
-    // 중복 리뷰 체크
+    // 중복 리뷰 체크: 이미 리뷰를 작성한 경우
     if (isReviewExist) {
       Swal.fire({
         title: "리뷰 작성 불가",
-        text: "이미 이 예약에 대해 리뷰를 작성하셨습니다.",
-        icon: "warning",
+        text: "이미 이 예약에 대한 리뷰를 작성하셨습니다.",
+        icon: "warning", // warning 아이콘 사용
+        confirmButtonText: "확인", // 확인 버튼 텍스트 설정
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/user/myreserve"); // 예약 목록 페이지로 이동
+        }
       });
       return;
     }
@@ -109,15 +139,24 @@ const Review = () => {
           title: "성공",
           text: "리뷰가 저장되었습니다.",
           icon: "success",
+          confirmButtonText: "확인", // 확인 버튼 텍스트 설정
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate("/user/myreserve"); // 예약 목록 페이지로 이동
+          }
         });
-        navigate("/review/myreview"); // 내가 작성한 리뷰 페이지로 이동
       })
       .catch((error) => {
         console.error("리뷰 저장 오류:", error);
         Swal.fire({
           title: "실패",
           text: "리뷰 저장에 실패했습니다.",
-          icon: "error",
+          icon: "error", // error 아이콘 사용
+          confirmButtonText: "확인", // 확인 버튼 텍스트 설정
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate("/user/myreserve"); // 예약 목록 페이지로 이동
+          }
         });
       });
   };
@@ -149,11 +188,7 @@ const Review = () => {
             required
           />
         </div>
-        <button type="submit" disabled={!canWriteReview || isReviewExist}>
-          리뷰 작성
-        </button>
-        {!canWriteReview && <p>예약 완료된 후에 리뷰작성이 가능합니다.</p>}
-        {isReviewExist && <p>이미 이 예약에 대한 리뷰를 작성하셨습니다.</p>}
+        <button type="submit">리뷰 작성</button>
       </form>
     </div>
   );
