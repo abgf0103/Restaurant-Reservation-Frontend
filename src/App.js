@@ -66,7 +66,7 @@ function App() {
             <Route path="/store/edit/:storeId" element={<StoreInfoEdit />} />
             <Route path="/store/search" element={<StoreSearch />} />
             <Route path="/store/register" element={<RegisterStore />} />
-            <Route path="/store/menu/edit" element={<MenuEdit />} />
+            <Route path="/store/menu/edit/:storeId" element={<MenuEdit />} />
             
             {/* 기타 */}
             <Route path="/fileTest" element={<FileTest />} />
