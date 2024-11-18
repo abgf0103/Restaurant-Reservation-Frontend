@@ -98,7 +98,7 @@
   border-radius: 5px;
   background-color: #ff451a;
   color: white;
-  transition: 0.2s;
+  transition: 0.3s;
 }
 
 .react-datepicker__header:not(.react-datepicker__header--has-time-select) {

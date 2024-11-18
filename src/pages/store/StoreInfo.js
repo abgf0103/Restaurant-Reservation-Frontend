@@ -49,14 +49,14 @@ const StoreInfo = () => {
 
   // 가게 정보 및 리뷰, 예약 데이터 가져오기
   const getData = () => {
-    // getAllReservationsByUserId(userInfo.id).then((res) => {
-    //   console.log("예약 목록:", res); // 여기서 확인
-    //   if (res && Array.isArray(res)) {
-    //     setReservations(res); // 배열이 맞으면 상태 업데이트
-    //   } else {
-    //     setReservations([]); // 데이터가 없으면 빈 배열로 처리
-    //   }
-    // });
+    getAllReservationsByUserId(userInfo.id).then((res) => {
+      console.log("예약 목록:", res); // 여기서 확인
+      if (res && Array.isArray(res)) {
+        setReservations(res); // 배열이 맞으면 상태 업데이트
+      } else {
+        setReservations([]); // 데이터가 없으면 빈 배열로 처리
+      }
+    });
 
     // 가게 정보 받아오기
     apiStoreViewByStoreId(storeId).then((res) => {
