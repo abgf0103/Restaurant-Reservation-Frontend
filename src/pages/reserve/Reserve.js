@@ -4,8 +4,8 @@ import { useSelector } from "react-redux";
 import { getUserInfo } from "../../hooks/userSlice";
 import Swal from "sweetalert2";
 import instance from "../../api/instance";
-import DatePicker from "react-datepicker"; // react-datepicker import
-import "react-datepicker/dist/react-datepicker.css"; // datepicker css import
+//import DatePicker from "react-datepicker"; // react-datepicker import
+//import "react-datepicker/dist/react-datepicker.css"; // datepicker css import
 import "./../../css/SlideUpPanel.css";
 
 const Reserve = ({ isPanelOpen, setIsPanelOpen, selectedStoreId }) => {
@@ -62,7 +62,7 @@ const Reserve = ({ isPanelOpen, setIsPanelOpen, selectedStoreId }) => {
   return (
     <div className={`slide-up ${isPanelOpen ? "active" : ""}`}>
       <form onSubmit={handleSubmit}>
-        <DatePicker
+        {/* <DatePicker
           formatWeekDay={(nameOfDay) => nameOfDay.substring(0, 1)}
           selected={reserve.date}
           onChange={(date) => handleDateChange(date)}
@@ -97,7 +97,7 @@ const Reserve = ({ isPanelOpen, setIsPanelOpen, selectedStoreId }) => {
               </button>
             </div>
           )}
-        />
+        /> */}
       </form>
     </div>
   );
