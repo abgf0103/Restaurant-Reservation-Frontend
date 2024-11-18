@@ -5,11 +5,9 @@ import instance from "../../api/instance";
 import { useEffect, useState } from "react";
 import { Map as KakaoMap, MapMarker } from "react-kakao-maps-sdk";
 import { useMap } from "react-kakao-maps-sdk";
-import { getUserInfo } from "../../hooks/userSlice"; // 로그인된 사용자 정보 가져오기
-import {
-  getAllReservationsByUserId,
-  apiStoreViewByStoreId,
-} from "../../webapi/webApiList";
+import { getUserInfo } from "../../hooks/userSlice";
+import { apiStoreViewByStoreId } from "../../webapi/webApiList";
+import "../../css/SlideUpPanel.css";
 
 const { kakao } = window;
 
@@ -31,34 +29,22 @@ const EventMarkerContainer = ({ position, content }) => {
 
 const StoreInfo = () => {
   const location = useLocation();
-  const storeId = location.state; // storeId는 useLocation에서 전달된 상태로 받음
+  const storeId = location.state;
 
-  // 가게 정보와 리뷰 상태 설정
   const [storeData, setStoreData] = useState({
     storeName: "",
     latlng: { lat: 0, lng: 0 },
   });
   const [isReady, setIsReady] = useState(false);
-  const [reviews, setReviews] = useState([]); // 초기값을 빈 배열로 설정
-  const [reservations, setReservations] = useState([]); // 초기값을 빈 배열로 설정
+  const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // 로그인된 사용자 정보 가져오기
-  const userInfo = useSelector(getUserInfo); // Redux에서 사용자 정보 가져오기
-  const username = userInfo?.username; // 로그인된 사용자의 username
+  const [isPanelOpen, setIsPanelOpen] = useState(false);
+  const [selectedStoreId, setSelectedStoreId] = useState(null);
 
-  // 가게 정보 및 리뷰, 예약 데이터 가져오기
+  const userInfo = useSelector(getUserInfo);
+
   const getData = () => {
-    getAllReservationsByUserId(userInfo.id).then((res) => {
-      console.log("예약 목록:", res); // 여기서 확인
-      if (res && Array.isArray(res)) {
-        setReservations(res); // 배열이 맞으면 상태 업데이트
-      } else {
-        setReservations([]); // 데이터가 없으면 빈 배열로 처리
-      }
-    });
-
-    // 가게 정보 받아오기
     apiStoreViewByStoreId(storeId).then((res) => {
       if (window.kakao && res?.address) {
         const geocoder = new kakao.maps.services.Geocoder();
@@ -79,14 +65,12 @@ const StoreInfo = () => {
       }
     });
 
-    // 해당 가게의 리뷰 목록을 가져오기
     instance
-      .get(`/review/list`) // 전체 리뷰 목록을 가져오는 API
+      .get(`/review/list`)
       .then((res) => {
         const filteredReviews = res.data.data.filter(
           (review) => review.storeId === storeId
         );
-        console.log("리뷰 목록:", filteredReviews); // 여기서 확인
         setReviews(filteredReviews);
       })
       .catch((error) => {
@@ -99,13 +83,59 @@ const StoreInfo = () => {
 
   useEffect(() => {
     getData();
-  }, [storeId]); // storeId가 변경될 때마다 데이터 재요청
 
-  // 예약 목록 표시용 날짜 포맷 함수
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleString(); // 로케일에 맞는 날짜 형식으로 변환
+    const handleScroll = () => {
+      const footer = document.querySelector("footer");
+      const reserveButtonHeight = 60;
+
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+        footer.style.marginBottom = `${reserveButtonHeight}px`;
+      } else {
+        footer.style.marginBottom = `0px`;
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [storeId]);
+
+  // 예약 버튼 클릭 시 패널을 여는 함수
+  const handleReserveClick = (storeId) => {
+    setSelectedStoreId(storeId);
+    setIsPanelOpen(true);
+    setTimeout(() => {
+      const modalBackground = document.querySelector(".modal-background");
+      const slideUpPanel = document.querySelector(".slide-up");
+      if (modalBackground && slideUpPanel) {
+        modalBackground.classList.add("active");
+        slideUpPanel.classList.add("active");
+      }
+    }, 100); // 약간의 딜레이 후 애니메이션을 위한 클래스 추가
+    document.body.style.overflow = "hidden"; // 스크롤 비활성화
   };
+
+  // 모달창 바깥을 클릭했을 때 모달을 닫는 함수
+  const handleBackgroundClick = (e) => {
+    if (e.target.className.includes("modal-background")) {
+      const modalBackground = document.querySelector(".modal-background");
+      const slideUpPanel = document.querySelector(".slide-up");
+      if (modalBackground && slideUpPanel) {
+        modalBackground.classList.remove("active");
+        slideUpPanel.classList.remove("active");
+      }
+      setTimeout(() => {
+        setIsPanelOpen(false);
+        document.body.style.overflow = "auto"; // 스크롤 다시 활성화
+      }, 500); // 모달 애니메이션 시간 후에 스크롤을 다시 활성화
+    }
+  };
+
+  // 모달이 닫힐 때 스크롤 다시 활성화
+  useEffect(() => {
+    if (!isPanelOpen) {
+      document.body.style.overflow = "auto";
+    }
+  }, [isPanelOpen]);
 
   if (loading) {
     return <div>로딩 중...</div>;
@@ -117,7 +147,6 @@ const StoreInfo = () => {
       <p>별점 : ? 리뷰개수, tel : {storeData.phone}</p>
       <p>{storeData.description}</p>
 
-      {/* 리뷰 작성 페이지 링크 */}
       {reviews.length > 0 && <h3>리뷰 목록</h3>}
       {reviews.length > 0 ? (
         <ul>
@@ -141,29 +170,6 @@ const StoreInfo = () => {
         <p>{storeData.storeName}에 대한 작성된 리뷰가 없습니다.</p>
       )}
 
-      {/* 예약 목록 표시 */}
-      <h3>예약 목록</h3>
-      {reservations && reservations.length > 0 ? (
-        <ul>
-          {reservations.map((reservation) => (
-            <li key={reservation.reserveId}>
-              <strong>예약자:</strong> {reservation.username}
-              <br />
-              <strong>예약 날짜:</strong> {formatDate(reservation.reserveDate)}
-              <br />
-              {/* 리뷰 작성 링크 */}
-              <Link to={`/writeReview/${storeId}/${reservation.reserveId}`}>
-                리뷰 작성
-              </Link>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>예약 목록이 없습니다.</p>
-      )}
-
-      {/* 지도 표시 */}
-      <p>지도</p>
       <KakaoMap
         center={{ lat: storeData.latlng.lat, lng: storeData.latlng.lng }}
         style={{ width: "1000px", height: "600px" }}
@@ -180,7 +186,27 @@ const StoreInfo = () => {
 
       <p>{storeData.storeStatus}</p>
       <p>{storeData.storeHours}</p>
-      <Reserve />
+
+      {/* 예약 버튼 */}
+      <button
+        className="reserve-button-info"
+        onClick={() => handleReserveClick(storeId)}
+      >
+        예약하기
+      </button>
+
+      {/* 슬라이드 업 예약 폼 모달 */}
+      {isPanelOpen && (
+        <div className="modal-background" onClick={handleBackgroundClick}>
+          <div className={`slide-up ${isPanelOpen ? "active" : ""}`}>
+            <Reserve
+              isPanelOpen={isPanelOpen}
+              setIsPanelOpen={setIsPanelOpen}
+              selectedStoreId={selectedStoreId}
+            />
+          </div>
+        </div>
+      )}
     </>
   );
 };

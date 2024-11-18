@@ -1,33 +1,26 @@
-/* SlideUpPanel.css */
+/* 모달 창 */
 .slide-up {
-  position: grid;
+  position: fixed;
   bottom: -100%;
+  left: 33.3333%;
+  right: 33.3333%;
   background: white;
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-  transition: bottom 0.5s ease-in-out;
   z-index: 1000;
-  padding: 30px;
+  padding: 20px;
   height: auto;
-  width: auto;
+  width: 33.3333%;
   justify-items: center;
+  transition: bottom 0.5s ease-in-out; /* 모달이 부드럽게 올라오는 애니메이션 */
 }
 
-/* Reserve.js 관련 스타일 */
-.custom-button {
-  background-color: #ff5733;
-  color: white;
-  border-radius: 5px;
-  border: none;
-  padding-bottom: 5px;
-  padding-top: 5px;
+.slide-up.active {
+  bottom: 0; /* active 클래스가 추가되었을 때 모달창을 화면 아래에 고정 */
 }
 
-.custom-button:hover {
-  background-color: #ff451a;
-}
-
+/* 모달 시 배경 */
 .modal-background {
   position: fixed;
   top: 0;
@@ -37,7 +30,58 @@
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
-  align-items: flex-end; /* 슬라이드 업 패널이 아래에서 올라오도록 설정 */
+  align-items: flex-end;
+  z-index: 3; /* 예약 버튼보다 높은 z-index로 설정 */
+  transition: opacity 0.3s ease-in-out; /* 모달 배경의 페이드 효과 추가 */
+  opacity: 0; /* 기본 상태에서는 보이지 않도록 설정 */
+}
+
+.modal-background.active {
+  opacity: 1; /* active 클래스가 추가되었을 때 배경이 서서히 나타남 */
+}
+
+/* 예약하기 버튼 */
+.reserve-button-list {
+  background-color: #ff5733;
+  color: white;
+  border-radius: 5px;
+  border: none;
+  padding: 10px 20px;
+  margin-top: 20px;
+  cursor: pointer;
+}
+
+.reserve-button-info {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #ff5733;
+  color: white;
+  border: none;
+  padding: 15px 0;
+  font-size: 18px;
+  text-align: center;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.reserve-button-info:hover {
+  background-color: #ff451a;
+}
+
+/* 달력 스타일 */
+.react-datepicker {
+  font-family: "Helvetica Neue", helvetica, arial, sans-serif;
+  font-size: 0.8rem; /* 폰트 크기를 유지하면서 모달의 크기에 맞춤 */
+  width: 90%; /* 모달 창 크기에 맞추기 위해 달력 너비를 줄임 */
+  max-width: 600px; /* 최대 너비를 설정하여 너무 커지지 않도록 제한 */
+  color: #000;
+  border: none;
+  display: block;
+  margin: 0 auto; /* 중앙 정렬 */
+  position: relative;
+  line-height: initial;
 }
 
 .datepicker-header {
@@ -63,31 +107,6 @@
   color: #ccc;
 }
 
-.reserve-button {
-  background-color: #ff5733;
-  color: white;
-  border-radius: 5px;
-  border: none;
-  padding: 10px 20px;
-  margin-top: 20px;
-  cursor: pointer;
-}
-
-.reserve-button:hover {
-  background-color: #ff451a;
-}
-
-.react-datepicker {
-  font-family: "Helvetica Neue", helvetica, arial, sans-serif;
-  font-size: 0.8rem;
-  color: #000;
-  border: none;
-  border-bottom: rgb(0, 0, 0, 0.5);
-  display: inline-block;
-  position: relative;
-  line-height: initial;
-}
-
 .react-datepicker__day--selected {
   border-radius: 1rem;
   background-color: #ff451a;
@@ -110,4 +129,30 @@
   background-color: white;
   padding: 8px 0;
   position: relative;
+}
+
+/* 푸터 스타일 */
+.footer {
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+  text-align: center;
+}
+
+/* 인원수 스크롤 */
+.scroll-container {
+  display: flex; /* 가로로 나열 */
+  overflow-x: auto; /* 수평 스크롤 허용 */
+  scroll-behavior: smooth; /* 부드럽게 스크롤 */
+  gap: 10px; /* 요소 간격 */
+  padding: 10px;
+  cursor: grab; /* 드래그를 위한 커서 */
+}
+
+.scroll-item {
+  min-width: 60px; /* 아이템 최소 너비 설정 */
+  text-align: center;
+  background: #f0f0f0;
+  padding: 20px;
+  border-radius: 5px;
 }
