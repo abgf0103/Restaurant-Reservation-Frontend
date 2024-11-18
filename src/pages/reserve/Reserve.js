@@ -4,8 +4,8 @@ import { useSelector } from "react-redux";
 import { getUserInfo } from "../../hooks/userSlice";
 import Swal from "sweetalert2";
 import instance from "../../api/instance";
-//import DatePicker from "react-datepicker"; // react-datepicker import
-//import "react-datepicker/dist/react-datepicker.css"; // datepicker css import
+import DatePicker from "react-datepicker"; // react-datepicker import
+import "react-datepicker/dist/react-datepicker.css"; // datepicker css import
 import "./../../css/SlideUpPanel.css";
 
 const Reserve = ({ isPanelOpen, setIsPanelOpen, selectedStoreId }) => {
@@ -62,42 +62,44 @@ const Reserve = ({ isPanelOpen, setIsPanelOpen, selectedStoreId }) => {
   return (
     <div className={`slide-up ${isPanelOpen ? "active" : ""}`}>
       <form onSubmit={handleSubmit}>
-        {/* <DatePicker
-          formatWeekDay={(nameOfDay) => nameOfDay.substring(0, 1)}
-          selected={reserve.date}
-          onChange={(date) => handleDateChange(date)}
-          inline
-          renderCustomHeader={({
-            date,
-            changeYear,
-            changeMonth,
-            decreaseMonth,
-            increaseMonth,
-            prevMonthButtonDisabled,
-            nextMonthButtonDisabled,
-          }) => (
-            <div className="datepicker-header">
-              <button
-                onClick={decreaseMonth}
-                disabled={prevMonthButtonDisabled}
-                className="datepicker-nav-button"
-              >
-                {"<"}
-              </button>
-              <span className="datepicker-title">
-                {date.getFullYear()}년{" "}
-                {date.toLocaleString("ko-KR", { month: "long" })}
-              </span>
-              <button
-                onClick={increaseMonth}
-                disabled={nextMonthButtonDisabled}
-                className="datepicker-nav-button"
-              >
-                {">"}
-              </button>
-            </div>
-          )}
-        /> */}
+        {
+          <DatePicker
+            formatWeekDay={(nameOfDay) => nameOfDay.substring(0, 1)}
+            selected={reserve.date}
+            onChange={(date) => handleDateChange(date)}
+            inline
+            renderCustomHeader={({
+              date,
+              changeYear,
+              changeMonth,
+              decreaseMonth,
+              increaseMonth,
+              prevMonthButtonDisabled,
+              nextMonthButtonDisabled,
+            }) => (
+              <div className="datepicker-header">
+                <button
+                  onClick={decreaseMonth}
+                  disabled={prevMonthButtonDisabled}
+                  className="datepicker-nav-button"
+                >
+                  {"<"}
+                </button>
+                <span className="datepicker-title">
+                  {date.getFullYear()}년{" "}
+                  {date.toLocaleString("ko-KR", { month: "long" })}
+                </span>
+                <button
+                  onClick={increaseMonth}
+                  disabled={nextMonthButtonDisabled}
+                  className="datepicker-nav-button"
+                >
+                  {">"}
+                </button>
+              </div>
+            )}
+          />
+        }
       </form>
     </div>
   );

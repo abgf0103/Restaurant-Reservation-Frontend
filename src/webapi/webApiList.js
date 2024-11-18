@@ -32,9 +32,7 @@ export const apiAllStoreList = async () => {
  * @returns
  */
 export const getAllReservationsByUserId = async (userId) => {
-  return await instance
-    .get(`/reservations/user/${userId}`)
-    .then((res) => res.data);
+  return await instance.get(`/reservations/user`).then((res) => res.data);
 };
 
 /**
