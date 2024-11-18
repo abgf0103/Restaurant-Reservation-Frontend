@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import Swal from 'sweetalert2';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDaumPostcodePopup } from 'react-daum-postcode';
+import { Card } from 'react-bootstrap';
 
 
 const RegisterStore = () => {
@@ -158,7 +159,7 @@ const RegisterStore = () => {
                         icon: "error",
                     });
                 });
-                navigate(`/store/mystore`);
+                navigate(`/store/mystore`); 
             }
         });
     }
@@ -206,6 +207,7 @@ const RegisterStore = () => {
                 </Button>
             </Form>
         </div>
+        
     );
 };
 export default RegisterStore;

@@ -51,6 +51,10 @@ const MyStore = () => {
         navigate(`/store/register`);
     }
 
+    const handleMenuClick = (storeId) => {
+        // 가게 수정 페이지로 이동하며, 수정할 가게 ID 전달
+        navigate(`/store/menu/edit/${storeId}`);
+    };
 
 
     if (loading) {
@@ -82,7 +86,11 @@ const MyStore = () => {
                                         <Card.Text>{item.description}</Card.Text>
                                         <Button variant="primary" onClick={() => handleEditClick(item.storeId)}>
                                             {/* 버튼을 누르면 가게ID를 들고 수정 페이지로 이동 */}
-                                            수정
+                                            가게 정보 수정
+                                        </Button>
+                                        <Button variant="warning" onClick={() => handleMenuClick(item.storeId)}>
+                                            {/* 버튼을 누르면 가게ID를 들고 메뉴 관리 페이지로 이동 */}
+                                            가게 메뉴 관리
                                         </Button>
                                     </Card.Body>
                             </Card>
