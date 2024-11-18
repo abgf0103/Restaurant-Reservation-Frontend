@@ -12,6 +12,9 @@ import StoreInfoEdit from "./pages/store/StoreInfoEdit";
 import ReviewEdit from "./pages/review/ReviewEdit";
 import ReviewList from "./pages/review/ReviewList";
 import UserEdit from "./pages/user/UserEdit";
+import CheckUserEdit from "./pages/user/CheckUserEdit";
+import FindPasswordForm from "./pages/user/findPassword";
+import FindIdForm from "./pages/user/findID";
 import Mypage from "./pages/user/Mypage";
 import StoreSearch from "./pages/store/StoreSearch";
 import MyReview from "./pages/review/MyReview";
@@ -51,6 +54,9 @@ function App() {
           <Route path="/user/login" element={<Login />} />
           <Route path="/user/signup" element={<Signup />} />
           <Route path="/user/edit" element={<UserEdit />} />
+          <Route path="/user/CheckUserEdit" element={<CheckUserEdit />} />
+          <Route path="/user/findPassword" element={<FindPasswordForm />} />
+          <Route path="/user/findID" element={<FindIdForm />} />
           <Route path="/user/mypage" element={<Mypage />} />
           <Route path="/user/searchresult" element={<SearchResult />} />
           <Route path="/user/reserve" element={<Reserve />} />
@@ -64,8 +70,7 @@ function App() {
           <Route path="/store/search" element={<StoreSearch />} />
           <Route path="/store/register" element={<RegisterStore />} />
           <Route path="/store/menu/edit/:storeId" element={<MenuEdit />} />
-            
-            {/* 기타 */}
+          {/* 기타 */}
           <Route path="/fileTest" element={<FileTest />} />
           <Route path="/map/:storeId" element={<Map />} />
           <Route path="/test" element={<Test />} />
