@@ -8,7 +8,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useDaumPostcodePopup } from 'react-daum-postcode';
 
 
-const MenuEdit = () => {
+const RegisterMenu = () => {
     const navigate = useNavigate();
 
 
@@ -113,7 +113,7 @@ const MenuEdit = () => {
 
     return (
         <div>
-            <h2>메뉴 수정</h2>
+            <h2>메뉴 추가</h2>
             <Form onSubmit={requestStoreRegister}>
                 <Form.Group className="mb-3">
                     <Form.Label><h2></h2></Form.Label>
@@ -143,4 +143,4 @@ const MenuEdit = () => {
         
     );
 };
-export default MenuEdit;
+export default RegisterMenu;

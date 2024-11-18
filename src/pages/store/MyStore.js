@@ -53,7 +53,7 @@ const MyStore = () => {
 
     const handleMenuClick = (storeId) => {
         // 가게 수정 페이지로 이동하며, 수정할 가게 ID 전달
-        navigate(`/store/menu/edit/${storeId}`);
+        navigate(`/store/menu/list/${storeId}`);
     };
 
 

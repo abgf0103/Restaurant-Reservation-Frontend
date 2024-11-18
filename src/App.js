@@ -19,6 +19,7 @@ import Mypage from "./pages/user/Mypage";
 import StoreSearch from "./pages/store/StoreSearch";
 import MyReview from "./pages/review/MyReview";
 import { Provider } from "react-redux";
+
 import store from "./hooks/store";
 import MyStore from "./pages/store/MyStore";
 import SearchResult from "./pages/store/SearchResult";
@@ -30,7 +31,9 @@ import Landing from "./Landing";
 import StoreList from "./pages/store/StoreList";
 import UserReviewPage from "./pages/review/UserReviewPage";
 import FileTest from "./pages/file/FileTest";
+import MenuList from "./pages/store/MenuList";
 import MenuEdit from "./pages/store/MenuEdit";
+import RegisterMenu from "./pages/store/RegisterMenu";
 
 const ROLES = {
   ROLE_USER: 1,
@@ -69,7 +72,11 @@ function App() {
           <Route path="/store/edit/:storeId" element={<StoreInfoEdit />} />
           <Route path="/store/search" element={<StoreSearch />} />
           <Route path="/store/register" element={<RegisterStore />} />
-          <Route path="/store/menu/edit/:storeId" element={<MenuEdit />} />
+          <Route path="/store/menu/list/:storeId" element={<MenuList />} />
+          <Route path="/store/menu/edit" element={<MenuEdit />} />
+          <Route path="/store/menu/register" element={<RegisterMenu />} />
+
+
           {/* 기타 */}
           <Route path="/fileTest" element={<FileTest />} />
           <Route path="/map/:storeId" element={<Map />} />
