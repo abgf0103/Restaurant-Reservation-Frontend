@@ -34,6 +34,7 @@ import FileTest from "./pages/file/FileTest";
 import MenuEdit from "./pages/store/MenuEdit";
 import MenuList from './pages/store/MenuList';
 import RegisterMenu from "./pages/store/RegisterMenu";
+import StoreReserve from "./pages/reserve/StoreReserve";
 
 const ROLES = {
   ROLE_USER: 1,
@@ -76,6 +77,9 @@ function App() {
             <Route path="/store/menu/edit" element={<MenuEdit />} />
             <Route path="/store/menu/list/:storeId" element={<MenuList />} />
             <Route path="/store/menu/register" element={<RegisterMenu />} />
+            {/* reserve 부분 */}
+            <Route path="/store/reserve/:storeId" element={<StoreReserve />} />
+
             {/* 기타 */}
             <Route path="/fileTest" element={<FileTest />} />
             <Route path="/map/:storeId" element={<Map />} />

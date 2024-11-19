@@ -41,8 +41,13 @@ const MyStore = () => {
             });
     }, []);
 
+    const handleReserveClick = (storeId) => {
+        // 가게 예약 조회 페이지로 이동하며 가게 ID 전달
+        navigate(`/store/reserve/${storeId}`);
+    };
+
     const handleEditClick = (storeId) => {
-        // 가게 수정 페이지로 이동하며, 수정할 가게 ID 전달
+        // 가게 수정 페이지로 이동하며 수정할 가게 ID 전달
         navigate(`/store/edit/${storeId}`);
     };
 
@@ -52,7 +57,7 @@ const MyStore = () => {
     }
 
     const handleMenuClick = (storeId) => {
-        // 가게 수정 페이지로 이동하며, 수정할 가게 ID 전달
+        // 가게 메뉴 관리 페이지로 이동하며 가게 ID 전달
         navigate(`/store/menu/list/${storeId}`);
     };
 
@@ -86,6 +91,10 @@ const MyStore = () => {
                                         <Card.Text>{item.description}</Card.Text>
                                         {item.isActive === 1 && (
                                             <>
+                                                <Button variant="success" onClick={() => handleReserveClick(item.storeId)}>
+                                                    예약 조회
+                                                </Button>
+                                                
                                                 <Button variant="primary" onClick={() => handleEditClick(item.storeId)}>
                                                     가게 정보 수정
                                                 </Button>

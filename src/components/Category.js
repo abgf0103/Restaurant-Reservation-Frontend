@@ -1,13 +1,28 @@
+import instance from "../api/instance";
+import { useEffect, useState } from 'react';
+
 const Category = () => {
+    const [categoryList, setCategoryList] = useState([]);
+    
+    useEffect(() => {
+
+    }, []);
+
+    // useEffect(() => {
+    //     instance.get("/category/list").then((res) => {
+    //         console.log(res.data);
+    //         setCategoryList(res.data);
+    //     }
+    // })
+
+
+    // )
     return (
         <div>
             <h4>카테고리</h4>
-            <button>1</button>
-            <button>1</button>
-            <button>1</button>
-            <button>1</button>
-            <button>1</button>
-            <button>1</button>
+            {categoryList.map((item) => (
+                        <button>{item.categoryTitle}</button>
+                    ))}
         </div>
     );
   };
