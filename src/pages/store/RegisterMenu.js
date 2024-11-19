@@ -4,15 +4,13 @@ import instance from '../../api/instance';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import Swal from 'sweetalert2';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { useDaumPostcodePopup } from 'react-daum-postcode';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 
 const RegisterMenu = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const storeId = location.state.storeId;
-
 
     //유저정보 가져오기
     const [userInfo, setUserInfo] = useState('');
@@ -22,26 +20,20 @@ const RegisterMenu = () => {
         }
     }, []);
 
+    // 로그인 상태 체크
+    // useEffect(() => {
+    //     if (!userInfo.username) {
+    //     // 로그인 안 되어 있으면 로그인 페이지로 리다이렉트
+    //     navigate("/user/login");
+    //     }
+    // }, [navigate, userInfo]);
+
     // 메뉴 정보 가져오기
     const [menuData, setMenuData] = useState({
-        storeId: storeId,
         menuName: '',
         description: '',
         price: '',
     });
-
-    console.log(menuData);
-
-    // const getMenuData = () =>{
-    //     instance.get(`/store/view/${storeId}`).then((res) => {
-    //         setStoreData(res.data);
-    //     });
-    // };
-
-    // useEffect(() => {
-    //     getStoreData();
-    // }, []);
-
 
     // 메뉴 정보를 입력할때마다 이벤트를 발생시켜 값을 저장
     const onChangeHandler = (e) => {

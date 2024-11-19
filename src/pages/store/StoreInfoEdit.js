@@ -6,7 +6,6 @@ import { useEffect } from 'react';
 import Swal from 'sweetalert2';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDaumPostcodePopup } from 'react-daum-postcode';
-import { Card } from 'react-bootstrap';
 
 
 const RegisterStore = () => {
@@ -23,6 +22,14 @@ const RegisterStore = () => {
         }
     }, []);
 
+    // 로그인 상태 체크
+    useEffect(() => {
+        if (!userInfo.username) {
+        // 로그인 안 되어 있으면 로그인 페이지로 리다이렉트
+        navigate("/user/login");
+        }
+    }, [navigate, userInfo]);
+    
     // 가게 정보 가져오기
     const [storeData, setStoreData] = useState({
         storeHours: '',

@@ -49,8 +49,10 @@ const MenuList = () => {
     }
 
     //메뉴 수정 클릭
-    const menuEditClick = () => {
-        navigate("/store/menu/edit");
+    const menuEditClick = (menuId) => {
+        navigate(`/store/menu/edit`, {state: { storeId : storeId,
+                                                menuId : menuId
+         }});
     }
 
     //메뉴 삭제 클릭

@@ -4,12 +4,15 @@ import instance from '../../api/instance';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import Swal from 'sweetalert2';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useDaumPostcodePopup } from 'react-daum-postcode';
 
 
 const MenuEdit = () => {
     const navigate = useNavigate();
+    const location = useLocation();
+    const storeId = location.state.storeId;
+    const menuId = location.state.menuId;
 
 
     //유저정보 가져오기
@@ -20,25 +23,32 @@ const MenuEdit = () => {
         }
     }, []);
 
+    // 로그인 상태 체크
+    // useEffect(() => {
+    //     console.log(userInfo);
+    //     if (!userInfo.username) {
+    //     // 로그인 안 되어 있으면 로그인 페이지로 리다이렉트
+    //     navigate("/user/login");
+    //     }
+    // }, [navigate, userInfo]);
+
     // 메뉴 정보 가져오기
     const [menuData, setMenuData] = useState({
         menuName: '',
         description: '',
         price: '',
     });
+    useEffect(() => {
+        instance.get(`/store/menu/getMenuById?menuId=${menuId}`)
+        .then((res) => {
+            setMenuData(res.data);
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+    }, []);
 
     console.log(menuData);
-
-    // const getMenuData = () =>{
-    //     instance.get(`/store/view/${storeId}`).then((res) => {
-    //         setStoreData(res.data);
-    //     });
-    // };
-
-    // useEffect(() => {
-    //     getStoreData();
-    // }, []);
-
 
     // 메뉴 정보를 입력할때마다 이벤트를 발생시켜 값을 저장
     const onChangeHandler = (e) => {
@@ -47,76 +57,42 @@ const MenuEdit = () => {
           ...prevState,
           [name]: value,
         }));
-
     }
 
-
-
-
-    const postcodeScriptUrl = 'https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
-    const open = useDaumPostcodePopup(postcodeScriptUrl);
-
-    const handleComplete = (data) => {
-        let fullAddress = data.address;
-        let extraAddress = '';
-        let localAddress = data.sido + ' ' + data.sigungu;
-
-        // if (data.addressType === 'R') {
-        //     if (data.bname !== '') {
-        //         extraAddress += data.bname;
-        //     }
-        //     if (data.buildingName !== '') {
-        //         extraAddress += (extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName);
-        //     }
-        //     fullAddress = fullAddress.replace(localAddress, '');
-        //     fullAddress += (extraAddress !== '' ? ` (${extraAddress})` : '');
-        //     console.log(fullAddress);
-        //     storeData.address = fullAddress;
-        //     setAddress(fullAddress);
-        // }
-
-         // setAddress를 호출하여 부모 컴포넌트의 상태를 업데이트
-    };
-
-    const handleClick = () => {
-        open({ onComplete: handleComplete });
-    };
-    //가게 수정 API 호출
+    //메뉴 수정 API 호출
     const requestStoreRegister = (e) => {
         e.preventDefault();
         
 
-        // instance.post("/menu/update", {
-        //     storeId: storeData.storeId,
-        //     address: storeData.address,
-        //     storeHours: storeData.storeHours,
-        //     phone: storeData.phone,
-        //     description: storeData.description,
-        // }).then(() => {
-        //     Swal.fire({
-        //         title: "성공",
-        //         text: "가게 수정이 완료되었습니다.",
-        //         icon: "success",
-        //     });
-        //     navigate(`/store/mystore`);
-        //   }).catch((error) => {
-        //     console.error("가게 수정 오류:", error);
-        //     Swal.fire({
-        //         title: "실패",
-        //         text: "가게 수정에 실패했습니다.",
-        //         icon: "error",
-        //     });
-        // });
+        instance.post("/store/menu/update", {
+            menuId: menuId,
+            menuName: menuData.menuName,
+            description: menuData.description,
+            price: menuData.price,
+        }).then(() => {
+            Swal.fire({
+                title: "성공",
+                text: "메뉴 수정이 완료되었습니다.",
+                icon: "success",
+            });
+            navigate(`/store/menu/list/${storeId}`);
+          }).catch((error) => {
+            console.error("메뉴 수정 오류:", error);
+            Swal.fire({
+                title: "실패",
+                text: "메뉴 수정에 실패했습니다.",
+                icon: "error",
+            });
+        });
     };
     console.log()
 
 
     return (
         <div>
-            <h2>메뉴 수정</h2>
             <Form onSubmit={requestStoreRegister}>
                 <Form.Group className="mb-3">
-                    <Form.Label><h2></h2></Form.Label>
+                    <Form.Label><h2>메뉴 수정</h2></Form.Label>
                 </Form.Group>
 
 
