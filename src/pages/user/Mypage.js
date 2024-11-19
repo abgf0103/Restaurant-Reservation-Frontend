@@ -12,6 +12,9 @@ const Mypage = () => {
       <p>
         <Link to="/user/myreserve">나의 예약 페이지</Link>
       </p>
+      <p>
+        <Link to="/user/deleteUser">회원 삭제</Link>
+      </p>
     </div>
   );
 };

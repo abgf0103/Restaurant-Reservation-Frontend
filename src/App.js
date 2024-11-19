@@ -13,13 +13,13 @@ import ReviewEdit from "./pages/review/ReviewEdit";
 import ReviewList from "./pages/review/ReviewList";
 import UserEdit from "./pages/user/UserEdit";
 import CheckUserEdit from "./pages/user/CheckUserEdit";
+import DeleteUser from "./pages/user/deleteUser";
 import FindPasswordForm from "./pages/user/findPassword";
 import FindIdForm from "./pages/user/findID";
 import Mypage from "./pages/user/Mypage";
 import StoreSearch from "./pages/store/StoreSearch";
 import MyReview from "./pages/review/MyReview";
 import { Provider } from "react-redux";
-
 import store from "./hooks/store";
 import MyStore from "./pages/store/MyStore";
 import SearchResult from "./pages/store/SearchResult";
@@ -31,9 +31,7 @@ import Landing from "./Landing";
 import StoreList from "./pages/store/StoreList";
 import UserReviewPage from "./pages/review/UserReviewPage";
 import FileTest from "./pages/file/FileTest";
-import MenuList from "./pages/store/MenuList";
 import MenuEdit from "./pages/store/MenuEdit";
-import RegisterMenu from "./pages/store/RegisterMenu";
 
 const ROLES = {
   ROLE_USER: 1,
@@ -64,6 +62,7 @@ function App() {
           <Route path="/user/searchresult" element={<SearchResult />} />
           <Route path="/user/reserve" element={<Reserve />} />
           <Route path="/user/MyReserve" element={<MyReserve />} />
+          <Route path="/user/deleteuser" element={<DeleteUser />} />
           {/* store 부분 */}
           <Route path="/store/info/*" element={<StoreInfo />} />
           <Route path="/store/info/*" element={<StoreInfo />} />
@@ -72,11 +71,7 @@ function App() {
           <Route path="/store/edit/:storeId" element={<StoreInfoEdit />} />
           <Route path="/store/search" element={<StoreSearch />} />
           <Route path="/store/register" element={<RegisterStore />} />
-          <Route path="/store/menu/list/:storeId" element={<MenuList />} />
-          <Route path="/store/menu/edit" element={<MenuEdit />} />
-          <Route path="/store/menu/register" element={<RegisterMenu />} />
-
-
+          <Route path="/store/menu/edit/:storeId" element={<MenuEdit />} />
           {/* 기타 */}
           <Route path="/fileTest" element={<FileTest />} />
           <Route path="/map/:storeId" element={<Map />} />
