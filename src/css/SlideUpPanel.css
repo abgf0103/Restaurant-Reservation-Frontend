@@ -131,6 +131,12 @@
   position: relative;
 }
 
+/* 선택 불가 날짜 */
+.datepicker-day--disabled {
+  color: #ccc !important; /* 회색으로 표시 */
+  pointer-events: none; /* 클릭할 수 없도록 설정 */
+}
+
 /* 푸터 스타일 */
 .footer {
   background-color: #333;

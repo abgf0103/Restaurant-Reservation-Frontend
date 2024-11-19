@@ -25,6 +25,13 @@ const Reserve = ({ isPanelOpen, setIsPanelOpen, selectedStoreId }) => {
   }, [selectedStoreId]);
 
   const handleDateChange = (date) => {
+    const formattedDate = new Intl.DateTimeFormat("ko-KR", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    }).format(date);
+
+    console.log("선택된 날짜:", formattedDate); // 콘솔에 선택한 날짜 출력
     setReserve((prevState) => ({
       ...prevState,
       date: date, // 선택한 날짜를 상태에 저장
@@ -62,44 +69,46 @@ const Reserve = ({ isPanelOpen, setIsPanelOpen, selectedStoreId }) => {
   return (
     <div className={`slide-up ${isPanelOpen ? "active" : ""}`}>
       <form onSubmit={handleSubmit}>
-        {
-          <DatePicker
-            formatWeekDay={(nameOfDay) => nameOfDay.substring(0, 1)}
-            selected={reserve.date}
-            onChange={(date) => handleDateChange(date)}
-            inline
-            renderCustomHeader={({
-              date,
-              changeYear,
-              changeMonth,
-              decreaseMonth,
-              increaseMonth,
-              prevMonthButtonDisabled,
-              nextMonthButtonDisabled,
-            }) => (
-              <div className="datepicker-header">
-                <button
-                  onClick={decreaseMonth}
-                  disabled={prevMonthButtonDisabled}
-                  className="datepicker-nav-button"
-                >
-                  {"<"}
-                </button>
-                <span className="datepicker-title">
-                  {date.getFullYear()}년{" "}
-                  {date.toLocaleString("ko-KR", { month: "long" })}
-                </span>
-                <button
-                  onClick={increaseMonth}
-                  disabled={nextMonthButtonDisabled}
-                  className="datepicker-nav-button"
-                >
-                  {">"}
-                </button>
-              </div>
-            )}
-          />
-        }
+        <DatePicker
+          formatWeekDay={(nameOfDay) => nameOfDay.substring(0, 1)}
+          selected={reserve.date}
+          onChange={(date) => handleDateChange(date)}
+          minDate={new Date()} // 오늘 이후의 날짜만 선택 가능
+          dayClassName={(date) =>
+            date < new Date() ? "datepicker-day--disabled" : undefined
+          }
+          inline
+          renderCustomHeader={({
+            date,
+            changeYear,
+            changeMonth,
+            decreaseMonth,
+            increaseMonth,
+            prevMonthButtonDisabled,
+            nextMonthButtonDisabled,
+          }) => (
+            <div className="datepicker-header">
+              <button
+                onClick={decreaseMonth}
+                disabled={prevMonthButtonDisabled}
+                className="datepicker-nav-button"
+              >
+                {"<"}
+              </button>
+              <span className="datepicker-title">
+                {date.getFullYear()}년{" "}
+                {date.toLocaleString("ko-KR", { month: "long" })}
+              </span>
+              <button
+                onClick={increaseMonth}
+                disabled={nextMonthButtonDisabled}
+                className="datepicker-nav-button"
+              >
+                {">"}
+              </button>
+            </div>
+          )}
+        />
       </form>
     </div>
   );
