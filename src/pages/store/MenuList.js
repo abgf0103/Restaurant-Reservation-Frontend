@@ -36,7 +36,6 @@ const MenuList = () => {
             });
     }, []);
 
-
     // 로그인 상태 체크
     useEffect(() => {
         if (!userInfo.username) {
@@ -51,13 +50,34 @@ const MenuList = () => {
     //메뉴 수정 클릭
     const menuEditClick = (menuId) => {
         navigate(`/store/menu/edit`, {state: { storeId : storeId,
-                                                menuId : menuId
-         }});
+                                                menuId : menuId }});
     }
 
     //메뉴 삭제 클릭
-    const menuDeleteClick = (storeId) => {
-        console.log("handleDeleteClick");
+    const menuDeleteClick = (item) => {
+        Swal.fire({
+            title: item.menuName + '을 삭제하겠습니까?',
+            text: "삭제 후 복구할 수 없습니다",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "삭제",
+            cancelButtonText: "취소",
+          }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: item.menuName + "을 <br>삭제했습니다",
+                    text: "삭제된 메뉴는 복구할 수 없습니다",
+                    icon: "success"
+                }).then((result) => {
+                    instance.get(`/store/menu/delete?menuId=${item.menuId}`);
+                    if (result.isConfirmed) {
+                        window.location.reload();
+                    }
+                });
+            }
+        });
     }
 
     //메뉴 생성 클릭
@@ -80,7 +100,7 @@ const MenuList = () => {
                                             {/* 버튼을 누르면 가게ID를 들고 수정 페이지로 이동 */}
                                             메뉴 수정
                                         </Button>
-                                        <Button variant="danger" onClick={() => menuDeleteClick(item.menuId)}>
+                                        <Button variant="danger" onClick={() => menuDeleteClick(item)}>
                                             {/* 버튼을 누르면 가게ID를 들고 메뉴 관리 페이지로 이동 */}
                                             메뉴 삭제
                                         </Button>

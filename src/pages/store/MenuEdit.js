@@ -75,7 +75,6 @@ const MenuEdit = () => {
                 text: "메뉴 수정이 완료되었습니다.",
                 icon: "success",
             });
-            navigate(`/store/menu/list/${storeId}`);
           }).catch((error) => {
             console.error("메뉴 수정 오류:", error);
             Swal.fire({
