@@ -33,6 +33,7 @@ import UserReviewPage from "./pages/review/UserReviewPage";
 import FileTest from "./pages/file/FileTest";
 import MenuEdit from "./pages/store/MenuEdit";
 import MenuList from './pages/store/MenuList';
+import RegisterMenu from "./pages/store/RegisterMenu";
 
 const ROLES = {
   ROLE_USER: 1,
@@ -41,60 +42,61 @@ const ROLES = {
 };
 
 function App() {
-  return (
-    <Provider store={store}>
-      <AppLayout>
-        <Routes>
-          <Route path="/writeReview/:storeId/:reserveId" element={<Review />} />{" "}
-          {/* storeId를 URL 파라미터로 전달 */}
-          {/* review 부분 */}
-          <Route path="/review/list" element={<ReviewList />} />
-          <Route path="/review/edit/:reviewId" element={<ReviewEdit />} />
-          <Route path="/review/myreview" element={<MyReview />} />
-          <Route path="/review/:username" element={<UserReviewPage />} />
-          {/* user 부분 */}
-          <Route path="/user/login" element={<Login />} />
-          <Route path="/user/signup" element={<Signup />} />
-          <Route path="/user/edit" element={<UserEdit />} />
-          <Route path="/user/CheckUserEdit" element={<CheckUserEdit />} />
-          <Route path="/user/findPassword" element={<FindPasswordForm />} />
-          <Route path="/user/findID" element={<FindIdForm />} />
-          <Route path="/user/mypage" element={<Mypage />} />
-          <Route path="/user/searchresult" element={<SearchResult />} />
-          <Route path="/user/reserve" element={<Reserve />} />
-          <Route path="/user/MyReserve" element={<MyReserve />} />
-          <Route path="/user/deleteuser" element={<DeleteUser />} />
-          {/* store 부분 */}
-          <Route path="/store/info/*" element={<StoreInfo />} />
-          <Route path="/store/info/*" element={<StoreInfo />} />
-          <Route path="/store/list" element={<StoreList />} />
-          <Route path="/store/mystore" element={<MyStore />} />
-          <Route path="/store/edit/:storeId" element={<StoreInfoEdit />} />
-          <Route path="/store/search" element={<StoreSearch />} />
-          <Route path="/store/register" element={<RegisterStore />} />
-          <Route path="/store/menu/edit/:storeId" element={<MenuEdit />} />
-          <Route path="/store/menu/list/:storeId" element={<MenuList />} />
-          {/* 기타 */}
-          <Route path="/fileTest" element={<FileTest />} />
-          <Route path="/map/:storeId" element={<Map />} />
-          <Route path="/test" element={<Test />} />
-          <Route path="/" element={<Landing />} />
-          <Route path="*" element={<NotFound />} />
-          <Route path="/unauth" element={<UnAuth />} />
-          <Route
-            path="/admin"
-            element={
-              <RequireAuth
-                allowedRoles={[ROLES.ROLE_SYSTEM, ROLES.ROLE_ADMIN]}
-              />
-            }
-          >
-            <Route path="/admin/board" element={<div>board</div>} />
-          </Route>
-        </Routes>
-      </AppLayout>
-    </Provider>
-  );
+    return (
+        <Provider store={store}>
+        <AppLayout>
+            <Routes>
+            <Route path="/writeReview/:storeId/:reserveId" element={<Review />} />{" "}
+            {/* storeId를 URL 파라미터로 전달 */}
+            {/* review 부분 */}
+            <Route path="/review/list" element={<ReviewList />} />
+            <Route path="/review/edit/:reviewId" element={<ReviewEdit />} />
+            <Route path="/review/myreview" element={<MyReview />} />
+            <Route path="/review/:username" element={<UserReviewPage />} />
+            {/* user 부분 */}
+            <Route path="/user/login" element={<Login />} />
+            <Route path="/user/signup" element={<Signup />} />
+            <Route path="/user/edit" element={<UserEdit />} />
+            <Route path="/user/CheckUserEdit" element={<CheckUserEdit />} />
+            <Route path="/user/findPassword" element={<FindPasswordForm />} />
+            <Route path="/user/findID" element={<FindIdForm />} />
+            <Route path="/user/mypage" element={<Mypage />} />
+            <Route path="/user/searchresult" element={<SearchResult />} />
+            <Route path="/user/reserve" element={<Reserve />} />
+            <Route path="/user/MyReserve" element={<MyReserve />} />
+            <Route path="/user/deleteuser" element={<DeleteUser />} />
+            {/* store 부분 */}
+            <Route path="/store/info/*" element={<StoreInfo />} />
+            <Route path="/store/info/*" element={<StoreInfo />} />
+            <Route path="/store/list" element={<StoreList />} />
+            <Route path="/store/mystore" element={<MyStore />} />
+            <Route path="/store/edit/:storeId" element={<StoreInfoEdit />} />
+            <Route path="/store/search" element={<StoreSearch />} />
+            <Route path="/store/register" element={<RegisterStore />} />
+            <Route path="/store/menu/edit" element={<MenuEdit />} />
+            <Route path="/store/menu/list/:storeId" element={<MenuList />} />
+            <Route path="/store/menu/register" element={<RegisterMenu />} />
+            {/* 기타 */}
+            <Route path="/fileTest" element={<FileTest />} />
+            <Route path="/map/:storeId" element={<Map />} />
+            <Route path="/test" element={<Test />} />
+            <Route path="/" element={<Landing />} />
+            <Route path="*" element={<NotFound />} />
+            <Route path="/unauth" element={<UnAuth />} />
+            <Route
+                path="/admin"
+                element={
+                <RequireAuth
+                    allowedRoles={[ROLES.ROLE_SYSTEM, ROLES.ROLE_ADMIN]}
+                />
+                }
+            >
+                <Route path="/admin/board" element={<div>board</div>} />
+            </Route>
+            </Routes>
+        </AppLayout>
+        </Provider>
+    );
 }
 
 export default App;
