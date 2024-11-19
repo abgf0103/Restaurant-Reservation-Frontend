@@ -7,6 +7,7 @@ import { Map as KakaoMap, MapMarker } from "react-kakao-maps-sdk";
 import { useMap } from "react-kakao-maps-sdk";
 import { getUserInfo } from "../../hooks/userSlice";
 import { apiStoreViewByStoreId } from "../../webapi/webApiList";
+import SlideUpModal from "../../components/SlideUpModal";
 import "../../css/SlideUpPanel.css";
 
 const { kakao } = window;
@@ -83,59 +84,12 @@ const StoreInfo = () => {
 
   useEffect(() => {
     getData();
-
-    const handleScroll = () => {
-      const footer = document.querySelector("footer");
-      const reserveButtonHeight = 60;
-
-      if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-        footer.style.marginBottom = `${reserveButtonHeight}px`;
-      } else {
-        footer.style.marginBottom = `0px`;
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
   }, [storeId]);
 
-  // 예약 버튼 클릭 시 패널을 여는 함수
   const handleReserveClick = (storeId) => {
     setSelectedStoreId(storeId);
     setIsPanelOpen(true);
-    setTimeout(() => {
-      const modalBackground = document.querySelector(".modal-background");
-      const slideUpPanel = document.querySelector(".slide-up");
-      if (modalBackground && slideUpPanel) {
-        modalBackground.classList.add("active");
-        slideUpPanel.classList.add("active");
-      }
-    }, 100); // 약간의 딜레이 후 애니메이션을 위한 클래스 추가
-    document.body.style.overflow = "hidden"; // 스크롤 비활성화
   };
-
-  // 모달창 바깥을 클릭했을 때 모달을 닫는 함수
-  const handleBackgroundClick = (e) => {
-    if (e.target.className.includes("modal-background")) {
-      const modalBackground = document.querySelector(".modal-background");
-      const slideUpPanel = document.querySelector(".slide-up");
-      if (modalBackground && slideUpPanel) {
-        modalBackground.classList.remove("active");
-        slideUpPanel.classList.remove("active");
-      }
-      setTimeout(() => {
-        setIsPanelOpen(false);
-        document.body.style.overflow = "auto"; // 스크롤 다시 활성화
-      }, 500); // 모달 애니메이션 시간 후에 스크롤을 다시 활성화
-    }
-  };
-
-  // 모달이 닫힐 때 스크롤 다시 활성화
-  useEffect(() => {
-    if (!isPanelOpen) {
-      document.body.style.overflow = "auto";
-    }
-  }, [isPanelOpen]);
 
   if (loading) {
     return <div>로딩 중...</div>;
@@ -184,10 +138,6 @@ const StoreInfo = () => {
         )}
       </KakaoMap>
 
-      <p>{storeData.storeStatus}</p>
-      <p>{storeData.storeHours}</p>
-
-      {/* 예약 버튼 */}
       <button
         className="reserve-button-info"
         onClick={() => handleReserveClick(storeId)}
@@ -195,18 +145,13 @@ const StoreInfo = () => {
         예약하기
       </button>
 
-      {/* 슬라이드 업 예약 폼 모달 */}
-      {isPanelOpen && (
-        <div className="modal-background" onClick={handleBackgroundClick}>
-          <div className={`slide-up ${isPanelOpen ? "active" : ""}`}>
-            <Reserve
-              isPanelOpen={isPanelOpen}
-              setIsPanelOpen={setIsPanelOpen}
-              selectedStoreId={selectedStoreId}
-            />
-          </div>
-        </div>
-      )}
+      <SlideUpModal isOpen={isPanelOpen} onClose={() => setIsPanelOpen(false)}>
+        <Reserve
+          isPanelOpen={isPanelOpen}
+          setIsPanelOpen={setIsPanelOpen}
+          selectedStoreId={selectedStoreId}
+        />
+      </SlideUpModal>
     </>
   );
 };

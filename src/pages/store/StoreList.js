@@ -2,7 +2,8 @@ import instance from "../../api/instance";
 import { useEffect, useState } from "react";
 import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import Reserve from "../reserve/Reserve"; // 예약 폼 컴포넌트 import
+import Reserve from "../reserve/Reserve";
+import SlideUpModal from "../../components/SlideUpModal"; // 모달 컴포넌트 import
 import "../../css/SlideUpPanel.css"; // 슬라이드 업 패널 CSS import
 
 const StoreList = () => {
@@ -28,39 +29,7 @@ const StoreList = () => {
   const handleReserveClick = (storeId) => {
     setSelectedStoreId(storeId);
     setIsPanelOpen(true);
-    setTimeout(() => {
-      const modalBackground = document.querySelector(".modal-background");
-      const slideUpPanel = document.querySelector(".slide-up");
-      if (modalBackground && slideUpPanel) {
-        modalBackground.classList.add("active");
-        slideUpPanel.classList.add("active");
-      }
-    }, 100); // 약간의 딜레이 후 애니메이션을 위한 클래스 추가
-    document.body.style.overflow = "hidden"; // 스크롤 비활성화
   };
-
-  // 모달창 바깥을 클릭했을 때 모달을 닫는 함수
-  const handleBackgroundClick = (e) => {
-    if (e.target.className.includes("modal-background")) {
-      const modalBackground = document.querySelector(".modal-background");
-      const slideUpPanel = document.querySelector(".slide-up");
-      if (modalBackground && slideUpPanel) {
-        modalBackground.classList.remove("active");
-        slideUpPanel.classList.remove("active");
-      }
-      setTimeout(() => {
-        setIsPanelOpen(false);
-        document.body.style.overflow = "auto"; // 스크롤 다시 활성화
-      }, 500); // 모달 애니메이션 시간 후에 스크롤을 다시 활성화
-    }
-  };
-
-  // 모달이 닫힐 때 스크롤 다시 활성화
-  useEffect(() => {
-    if (!isPanelOpen) {
-      document.body.style.overflow = "auto";
-    }
-  }, [isPanelOpen]);
 
   return (
     <div>
@@ -92,15 +61,13 @@ const StoreList = () => {
       <h4>===============================</h4>
 
       {/* 슬라이드 업 예약 폼 모달 */}
-      {isPanelOpen && (
-        <div className="modal-background" onClick={handleBackgroundClick}>
-          <Reserve
-            isPanelOpen={isPanelOpen}
-            setIsPanelOpen={setIsPanelOpen}
-            selectedStoreId={selectedStoreId}
-          />
-        </div>
-      )}
+      <SlideUpModal isOpen={isPanelOpen} onClose={() => setIsPanelOpen(false)}>
+        <Reserve
+          isPanelOpen={isPanelOpen}
+          setIsPanelOpen={setIsPanelOpen}
+          selectedStoreId={selectedStoreId}
+        />
+      </SlideUpModal>
     </div>
   );
 };

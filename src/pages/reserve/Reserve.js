@@ -4,8 +4,8 @@ import { useSelector } from "react-redux";
 import { getUserInfo } from "../../hooks/userSlice";
 import Swal from "sweetalert2";
 import instance from "../../api/instance";
-import DatePicker from "react-datepicker"; // react-datepicker import
-import "react-datepicker/dist/react-datepicker.css"; // datepicker css import
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import "./../../css/SlideUpPanel.css";
 
 const Reserve = ({ isPanelOpen, setIsPanelOpen, selectedStoreId }) => {
