@@ -46,6 +46,11 @@ const StoreList = () => {
 
     const categoryClickHandler = (categoryId) => {
         console.log(categoryId);
+        instance.get(`/store/selectStoreByCategoryId?categoryId=${categoryId}`)
+            .then((res) => {
+            console.log(res.data);
+            setStoreData(res.data);
+        })
     }
 
 return (
@@ -53,7 +58,7 @@ return (
         <h4>카테고리</h4>
         <button>전체</button>
         {categoryList.map((item) => (
-            <button key={item.categoryId} onClick={categoryClickHandler(item.categoryId)}>{item.categoryTitle}</button>
+            <button key={item.categoryId} onClick={() => categoryClickHandler(item.categoryId)}>{item.categoryTitle}</button>
         ))}
     <h4>==========가게 정보 리스트==========</h4>
     <ul>
