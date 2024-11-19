@@ -94,6 +94,9 @@ const MenuEdit = () => {
                     <Form.Label><h2>메뉴 수정</h2></Form.Label>
                 </Form.Group>
 
+                <h3>메뉴 이미지 수정</h3>
+                <input type="file"/>
+                <img src="" alt="" />
 
                 <Form.Group className="mb-3">
                     <Form.Label>메뉴 이름</Form.Label>

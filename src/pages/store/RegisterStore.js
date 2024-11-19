@@ -77,7 +77,6 @@ const RegisterStore = () => {
             }
             fullAddress = fullAddress.replace(localAddress, '');
             fullAddress += (extraAddress !== '' ? ` (${extraAddress})` : '');
-            console.log(fullAddress);
             setAddress(fullAddress);
         }
 
@@ -108,8 +107,6 @@ const RegisterStore = () => {
             }
         })
 
-        console.log(storeCategory);
-        console.log(storeData);
 
         if(storeCategory === undefined){
             Swal.fire({
@@ -145,7 +142,6 @@ const RegisterStore = () => {
                 icon: "success",
             });
             //storeName으로 storeId 찾아오기
-            console.log(storeData.storeName);
             instance.get("/store/findStoreIdByStoreName", {
                 params: {
                     storeName: storeData.storeName
@@ -153,7 +149,6 @@ const RegisterStore = () => {
             }).then((res) => {
                 //찾아온 id로 storeCategory 등록
                 const storeId = res.data;
-                console.log(storeId);
                 instance.post("/storeCategory/save", {
                     storeId: storeId,
                     categoryId: storeCategory,
@@ -193,6 +188,10 @@ const RegisterStore = () => {
                     We'll never share your email with anyone else.
                     </Form.Text>
                 </Form.Group>
+
+                <h1>대표 이미지 선택</h1>
+                <input type="file"/>
+                <img src="" alt="" />
 
                 <Form.Group className="mb-3">
                     <Form.Label>카테고리를 선택하세요</Form.Label>

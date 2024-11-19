@@ -83,6 +83,10 @@ const RegisterMenu = () => {
                     <Form.Control placeholder="메뉴 이름을 입력하세요" name='menuName' value={menuData.menuName} onChange={onChangeHandler} required/>
                 </Form.Group>
 
+                <h3>메뉴 이미지 선택</h3>
+                <input type="file"/>
+                <img src="" alt="" />
+
                 <Form.Group className="mb-3">
                     <Form.Label>메뉴 설명</Form.Label>
                     <Form.Control placeholder="메뉴 설명을 입력하세요" name='description' value={menuData.description} onChange={onChangeHandler} required/>

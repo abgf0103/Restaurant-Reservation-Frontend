@@ -181,6 +181,10 @@ const RegisterStore = () => {
                 </Form.Group>
                 <Button variant="danger" onClick={() => handleDelete(storeId)} disabled={isDelete}>{isDelete ? '삭제 중' : '삭제 요청'}</Button>
 
+                <h1>대표 이미지 수정</h1>
+                <input type="file"/>
+                <img src="" alt="" />
+
                 <Form.Group className="mb-3">
                         <Button variant="primary" type="button" onClick={handleClick}>
                         주소 검색
