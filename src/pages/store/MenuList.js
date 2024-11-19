@@ -12,14 +12,13 @@ const MenuList = () => {
     const [loading, setLoading] = useState(true);
     
     const { storeId } = useParams(); // URL에서 storeId를 추출
-    console.log(storeId);
 
     const [menuList, setMenuList] = useState([]);
 
     // 가게 메뉴 가져오기
     useEffect(() => {
         instance
-            .get("/menu/getMenuListByStoreId?storeId=" + storeId)
+            .get("/store/menu/getMenuListByStoreId?storeId=" + storeId)
             .then((res) => {
                 console.log(res.data);
                 setMenuList(res.data); // 사용자 가게 목록 설정
@@ -61,7 +60,7 @@ const MenuList = () => {
 
     //메뉴 생성 클릭
     const registerMenuClick = () => {
-        navigate("/store/menu/register");
+        navigate(`/store/menu/register`, {state: { storeId : storeId }});
     }
     return (
         <div>
@@ -93,7 +92,7 @@ const MenuList = () => {
             )}
             <Card style={{ width: "25rem" }}>
                 <Button variant="primary" 
-                        onClick={() => registerMenuClick()}
+                        onClick={() => registerMenuClick(storeId)}
                 >
                     +
                 </Button>
