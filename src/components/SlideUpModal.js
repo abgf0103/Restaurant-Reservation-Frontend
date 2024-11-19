@@ -1,6 +1,6 @@
 // src/components/SlideUpModal.js
 import React, { useEffect, useState } from "react";
-import "../css/SlideUpPanel.css";
+import "../css/Style.css";
 
 const SlideUpModal = ({ isOpen, onClose, children }) => {
   const [isPanelVisible, setIsPanelVisible] = useState(isOpen);

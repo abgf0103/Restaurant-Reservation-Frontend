@@ -4,7 +4,7 @@ import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Reserve from "../reserve/Reserve";
 import SlideUpModal from "../../components/SlideUpModal"; // 모달 컴포넌트 import
-import "../../css/SlideUpPanel.css"; // 슬라이드 업 패널 CSS import
+import "../../css/Style.css"; // 슬라이드 업 패널 CSS import
 
 const StoreList = () => {
   // 가게 정보를 저장하기 위한 state 선언

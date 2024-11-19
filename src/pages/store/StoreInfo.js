@@ -8,7 +8,7 @@ import { useMap } from "react-kakao-maps-sdk";
 import { getUserInfo } from "../../hooks/userSlice";
 import { apiStoreViewByStoreId } from "../../webapi/webApiList";
 import SlideUpModal from "../../components/SlideUpModal";
-import "../../css/SlideUpPanel.css";
+import "../../css/Style.css";
 
 const { kakao } = window;
 

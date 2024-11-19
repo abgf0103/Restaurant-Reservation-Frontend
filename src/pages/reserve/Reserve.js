@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 import instance from "../../api/instance";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import "./../../css/SlideUpPanel.css";
+import "./../../css/Style.css";
 
 const Reserve = ({ isPanelOpen, setIsPanelOpen, selectedStoreId }) => {
   const navigate = useNavigate();
