@@ -84,14 +84,23 @@ const MyStore = () => {
                                         <Card.Title>{item.storeName}</Card.Title>
                                         </Link>
                                         <Card.Text>{item.description}</Card.Text>
-                                        <Button variant="primary" onClick={() => handleEditClick(item.storeId)}>
-                                            {/* 버튼을 누르면 가게ID를 들고 수정 페이지로 이동 */}
-                                            가게 정보 수정
-                                        </Button>
-                                        <Button variant="warning" onClick={() => handleMenuClick(item.storeId)}>
-                                            {/* 버튼을 누르면 가게ID를 들고 메뉴 관리 페이지로 이동 */}
-                                            가게 메뉴 관리
-                                        </Button>
+                                        {item.isActive === 1 && (
+                                            <>
+                                                <Button variant="primary" onClick={() => handleEditClick(item.storeId)}>
+                                                    가게 정보 수정
+                                                </Button>
+                                                <Button variant="warning" onClick={() => handleMenuClick(item.storeId)}>
+                                                    가게 메뉴 관리
+                                                </Button>
+                                            </>
+                                        )}
+                                        {item.isActive === 0 && (
+                                            <>
+                                                <Button variant="danger" disabled>
+                                                    등록 요청 중
+                                                </Button>
+                                            </>
+                                        )}
                                     </Card.Body>
                             </Card>
                         </li>

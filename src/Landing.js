@@ -1,6 +1,7 @@
 import { useEffect} from "react";
 import { Link } from "react-router-dom";
 import StoreList from './pages/store/StoreList';
+import Category from "./components/Category";
 
 const Landing = () => {
     // redux 저장소에 저장된 토큰 정보 호출
@@ -63,6 +64,7 @@ const Landing = () => {
                     <Link to="/review">리뷰작성 페이지</Link>
                 </p>
                 <h2>Landing page</h2>
+                <Category />
                 <StoreList />
             </div>
         </>
