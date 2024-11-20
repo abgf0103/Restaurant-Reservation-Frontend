@@ -1,12 +1,11 @@
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
 import { useSelector } from "react-redux";
 import { getUserInfo, removeUserInfo } from "../hooks/userSlice";
 import { useDispatch } from "react-redux";
 import { removeTokenInfo } from "../hooks/tokenSlice";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
 
 const Header = () => {
@@ -27,6 +26,9 @@ const Header = () => {
         // 메인 페이지로 리다이렉트
         navigate("/");
     };
+
+    // '/'경로인 상태면 goBack버튼이 보이지 않게
+
     
     const goBack = () => {
         navigate(-1); // 이전 페이지로 돌아간다
@@ -35,12 +37,16 @@ const Header = () => {
     return (
         <Navbar expand="lg" className="bg-body-tertiary">
             <Container>
-            <Button variant="light" onClick={goBack}>←</Button>
+            {/* 기본경로에선 goBack 버튼 숨기기 */}
+            {window.location.pathname === "/"? (
+                <></>
+            ) : (
+                <Button variant="light" onClick={goBack}>←</Button>
+            )}
             <Navbar.Brand href="/">예약맨</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
             {/* 로그인된 사용자에 따라 로그인 또는 로그아웃 버튼 표시 */}
             {userInfo && userInfo.username ? (
                 <div>
