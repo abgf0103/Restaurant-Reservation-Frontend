@@ -58,7 +58,7 @@ const MyStore = () => {
 
     const handleMenuClick = (storeId) => {
         // 가게 메뉴 관리 페이지로 이동하며 가게 ID 전달
-        navigate(`/store/menu/list/${storeId}`);
+        navigate(`/store/menu/management/${storeId}`);
     };
 
 

@@ -9,151 +9,157 @@ import { getUserInfo } from "../../hooks/userSlice";
 import { apiStoreViewByStoreId } from "../../webapi/webApiList";
 import SlideUpModal from "../../components/SlideUpModal";
 import "../../css/Style.css";
+import MenuList from "./MenuList";
 
 const { kakao } = window;
 
 const EventMarkerContainer = ({ position, content }) => {
-  const map = useMap();
-  const [isVisible, setIsVisible] = useState(false);
+const map = useMap();
+const [isVisible, setIsVisible] = useState(false);
 
-  return (
+return (
     <MapMarker
-      position={position}
-      onClick={(marker) => map.panTo(marker.getPosition())}
-      onMouseOver={() => setIsVisible(true)}
-      onMouseOut={() => setIsVisible(false)}
+    position={position}
+    onClick={(marker) => map.panTo(marker.getPosition())}
+    onMouseOver={() => setIsVisible(true)}
+    onMouseOut={() => setIsVisible(false)}
     >
-      {isVisible && content}
+    {isVisible && content}
     </MapMarker>
-  );
+);
 };
 
 const StoreInfo = () => {
-  const location = useLocation();
-  const storeId = location.state;
+    const location = useLocation();
+    const storeId = location.state;
 
-  const [storeData, setStoreData] = useState({
-    storeName: "",
-    latlng: { lat: 0, lng: 0 },
-  });
-  const [isReady, setIsReady] = useState(false);
-  const [reviews, setReviews] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  const [isPanelOpen, setIsPanelOpen] = useState(false);
-  const [selectedStoreId, setSelectedStoreId] = useState(null);
-
-  const userInfo = useSelector(getUserInfo);
-
-  const getData = () => {
-    apiStoreViewByStoreId(storeId).then((res) => {
-      if (window.kakao && res?.address) {
-        const geocoder = new kakao.maps.services.Geocoder();
-        geocoder.addressSearch(res.address, function (result, status) {
-          if (status === kakao.maps.services.Status.OK) {
-            const coords = new kakao.maps.LatLng(
-              Number(result[0].y),
-              Number(result[0].x)
-            );
-            res.content = res.storeName;
-            res.latlng = { lat: coords.getLat(), lng: coords.getLng() };
-            setStoreData(res);
-            setIsReady(true);
-          } else {
-            console.error("Geocoder failed due to:", status);
-          }
-        });
-      }
+    const [storeData, setStoreData] = useState({
+        storeName: "",
+        latlng: { lat: 0, lng: 0 },
     });
+    const [isReady, setIsReady] = useState(false);
+    const [reviews, setReviews] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-    instance
-      .get(`/review/list`)
-      .then((res) => {
-        const filteredReviews = res.data.data.filter(
-          (review) => review.storeId === storeId
-        );
-        setReviews(filteredReviews);
-      })
-      .catch((error) => {
-        console.error("리뷰 목록 가져오기 실패:", error);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
+    const [isPanelOpen, setIsPanelOpen] = useState(false);
+    const [selectedStoreId, setSelectedStoreId] = useState(null);
 
-  useEffect(() => {
-    getData();
-  }, [storeId]);
+    const userInfo = useSelector(getUserInfo);
 
-  const handleReserveClick = (storeId) => {
-    setSelectedStoreId(storeId);
-    setIsPanelOpen(true);
-  };
 
-  if (loading) {
-    return <div>로딩 중...</div>;
-  }
+    const getData = () => {
+        //맵 불러오기
+        apiStoreViewByStoreId(storeId).then((res) => {
+            if (window.kakao && res?.address) {
+                const geocoder = new kakao.maps.services.Geocoder();
+                geocoder.addressSearch(res.address, function (result, status) {
+                if (status === kakao.maps.services.Status.OK) {
+                    const coords = new kakao.maps.LatLng(
+                    Number(result[0].y),
+                    Number(result[0].x)
+                    );
+                    res.content = res.storeName;
+                    res.latlng = { lat: coords.getLat(), lng: coords.getLng() };
+                    setStoreData(res);
+                    setIsReady(true);
+                } else {
+                    console.error("Geocoder failed due to:", status);
+                }
+                });
+            }
+        });
 
-  return (
+        //리뷰 불러오기
+        instance
+        .get(`/review/list`)
+        .then((res) => {
+            const filteredReviews = res.data.data.filter(
+            (review) => review.storeId === storeId
+            );
+            setReviews(filteredReviews);
+        })
+        .catch((error) => {
+            console.error("리뷰 목록 가져오기 실패:", error);
+        })
+        .finally(() => {
+            setLoading(false);
+        });
+    };
+
+    useEffect(() => {
+        getData();
+    }, [storeId]);
+
+    const handleReserveClick = (storeId) => {
+        setSelectedStoreId(storeId);
+        setIsPanelOpen(true);
+    };
+
+    if (loading) {
+        return <div>로딩 중...</div>;
+    }
+
+return (
     <>
-      <h2>{storeData.storeName}</h2>
-      <p>별점 : ? 리뷰개수, tel : {storeData.phone}</p>
-      <p>{storeData.description}</p>
+        <h2>{storeData.storeName}</h2>
+        <p>별점 : ? 리뷰개수, tel : {storeData.phone}</p>
+        <p>{storeData.description}</p>
+        
+        <MenuList/>
 
-      {reviews.length > 0 && <h3>리뷰 목록</h3>}
-      {reviews.length > 0 ? (
-        <ul>
-          {reviews.map((review) => (
-            <li key={review.reviewId}>
-              <strong>작성자:</strong>
-              <Link to={`/review/${review.username}`}>{review.username}</Link>
-              <br />
-              <strong>가게 이름:</strong> {review.storeName}
-              <br />
-              <strong>별점:</strong> {review.rating} ⭐
-              <br />
-              <strong>리뷰:</strong> {review.reviewComment}
-              <br />
-              <strong>좋아요:</strong> {review.likeCount} ❤️
-              <br />
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>{storeData.storeName}에 대한 작성된 리뷰가 없습니다.</p>
-      )}
-
-      <KakaoMap
-        center={{ lat: storeData.latlng.lat, lng: storeData.latlng.lng }}
-        style={{ width: "1000px", height: "600px" }}
-        level={3}
-      >
-        {isReady && (
-          <EventMarkerContainer
-            key={`EventMarkerContainer-${storeData.latlng.lat}-${storeData.latlng.lng}`}
-            position={storeData.latlng}
-            content={storeData.content}
-          />
+        {reviews.length > 0 && <h3>리뷰 목록</h3>}
+        {reviews.length > 0 ? (
+            <ul>
+            {reviews.map((review) => (
+                <li key={review.reviewId}>
+                <strong>작성자:</strong>
+                <Link to={`/review/${review.username}`}>{review.username}</Link>
+                <br />
+                <strong>가게 이름:</strong> {review.storeName}
+                <br />
+                <strong>별점:</strong> {review.rating} ⭐
+                <br />
+                <strong>리뷰:</strong> {review.reviewComment}
+                <br />
+                <strong>좋아요:</strong> {review.likeCount} ❤️
+                <br />
+                </li>
+            ))}
+            </ul>
+        ) : (
+            <p>{storeData.storeName}에 대한 작성된 리뷰가 없습니다.</p>
         )}
-      </KakaoMap>
 
-      <button
-        className="reserve-button-info"
-        onClick={() => handleReserveClick(storeId)}
-      >
-        예약하기
-      </button>
+        <KakaoMap
+            center={{ lat: storeData.latlng.lat, lng: storeData.latlng.lng }}
+            style={{ width: "1000px", height: "600px" }}
+            level={3}
+        >
+            {isReady && (
+            <EventMarkerContainer
+                key={`EventMarkerContainer-${storeData.latlng.lat}-${storeData.latlng.lng}`}
+                position={storeData.latlng}
+                content={storeData.content}
+            />
+            )}
+        </KakaoMap>
 
-      <SlideUpModal isOpen={isPanelOpen} onClose={() => setIsPanelOpen(false)}>
-        <Reserve
-          isPanelOpen={isPanelOpen}
-          setIsPanelOpen={setIsPanelOpen}
-          selectedStoreId={selectedStoreId}
-        />
-      </SlideUpModal>
+        <button
+            className="reserve-button-info"
+            onClick={() => handleReserveClick(storeId)}
+        >
+            예약하기
+        </button>
+
+        <SlideUpModal isOpen={isPanelOpen} onClose={() => setIsPanelOpen(false)}>
+            <Reserve
+            isPanelOpen={isPanelOpen}
+            setIsPanelOpen={setIsPanelOpen}
+            selectedStoreId={selectedStoreId}
+            />
+        </SlideUpModal>
     </>
-  );
+);
 };
 
 export default StoreInfo;

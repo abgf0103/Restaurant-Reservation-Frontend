@@ -109,7 +109,7 @@ const MenuEdit = () => {
                 </Form.Group>
 
                 <Form.Group className="mb-3">
-                    <Form.Label>가격을 설정하세요</Form.Label>
+                    <Form.Label>가격을 설정하세요</Form.Label>₩
                     <Form.Control type='number' name='price' placeholder="가격을 설정하세요" value={menuData.price} onChange={onChangeHandler} required/>
                 </Form.Group>
 
