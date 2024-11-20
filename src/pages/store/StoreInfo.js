@@ -1,5 +1,4 @@
 import { Link, useLocation } from "react-router-dom";
-import Reserve from "../reserve/Reserve";
 import { useSelector } from "react-redux";
 import instance from "../../api/instance";
 import { useEffect, useState } from "react";
@@ -41,9 +40,6 @@ const StoreInfo = () => {
   const [loading, setLoading] = useState(true);
 
   const [isPanelOpen, setIsPanelOpen] = useState(false);
-  const [selectedStoreId, setSelectedStoreId] = useState(null);
-
-  const userInfo = useSelector(getUserInfo);
 
   const getData = () => {
     apiStoreViewByStoreId(storeId).then((res) => {
@@ -86,8 +82,7 @@ const StoreInfo = () => {
     getData();
   }, [storeId]);
 
-  const handleReserveClick = (storeId) => {
-    setSelectedStoreId(storeId);
+  const handleReserveClick = () => {
     setIsPanelOpen(true);
   };
 
@@ -138,20 +133,15 @@ const StoreInfo = () => {
         )}
       </KakaoMap>
 
-      <button
-        className="reserve-button-info"
-        onClick={() => handleReserveClick(storeId)}
-      >
+      <button className="reserve-button-info" onClick={handleReserveClick}>
         예약하기
       </button>
 
-      <SlideUpModal isOpen={isPanelOpen} onClose={() => setIsPanelOpen(false)}>
-        <Reserve
-          isPanelOpen={isPanelOpen}
-          setIsPanelOpen={setIsPanelOpen}
-          selectedStoreId={selectedStoreId}
-        />
-      </SlideUpModal>
+      <SlideUpModal
+        isOpen={isPanelOpen}
+        onClose={() => setIsPanelOpen(false)}
+        selectedStoreId={storeId}
+      />
     </>
   );
 };

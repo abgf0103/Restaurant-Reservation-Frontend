@@ -2,7 +2,6 @@ import instance from "../../api/instance";
 import { useEffect, useState } from "react";
 import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import Reserve from "../reserve/Reserve";
 import SlideUpModal from "../../components/SlideUpModal"; // 모달 컴포넌트 import
 import "../../css/Style.css"; // 슬라이드 업 패널 CSS import
 
@@ -61,13 +60,11 @@ const StoreList = () => {
       <h4>===============================</h4>
 
       {/* 슬라이드 업 예약 폼 모달 */}
-      <SlideUpModal isOpen={isPanelOpen} onClose={() => setIsPanelOpen(false)}>
-        <Reserve
-          isPanelOpen={isPanelOpen}
-          setIsPanelOpen={setIsPanelOpen}
-          selectedStoreId={selectedStoreId}
-        />
-      </SlideUpModal>
+      <SlideUpModal
+        isOpen={isPanelOpen}
+        onClose={() => setIsPanelOpen(false)}
+        selectedStoreId={selectedStoreId} // 올바르게 selectedStoreId 전달
+      />
     </div>
   );
 };

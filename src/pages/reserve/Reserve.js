@@ -31,7 +31,7 @@ const Reserve = ({ isPanelOpen, setIsPanelOpen, selectedStoreId }) => {
       day: "numeric",
     }).format(date);
 
-    console.log("선택된 날짜:", formattedDate); // 콘솔에 선택한 날짜 출력
+    console.log("선택된 날짜:", formattedDate);
     setReserve((prevState) => ({
       ...prevState,
       date: date, // 선택한 날짜를 상태에 저장
