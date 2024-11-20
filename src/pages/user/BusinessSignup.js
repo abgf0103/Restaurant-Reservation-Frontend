@@ -1,10 +1,10 @@
-//회원가입페이지
+//사업자 회원가입페이지
 
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const MemberSignup = () => {
+const BusinessSignup = () => {
   const navigate = useNavigate();
 
   // 회원가입 상태 데이터
@@ -18,8 +18,10 @@ const MemberSignup = () => {
     passwordConfirm: "",
     roleNum: "1",
     active: true,
-    businessLicense: "", // 사업자 등록 번호 추가 (예시)
+    businessNum: "", // 사업자 등록 번호
   });
+
+  console.log(formData);
 
   const [errors, setErrors] = useState({});
 
@@ -35,6 +37,8 @@ const MemberSignup = () => {
   // 회원가입 요청
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    console.log(formData);
 
     try {
       // 백엔드 API 호출
@@ -138,10 +142,22 @@ const MemberSignup = () => {
           />
         </div>
 
+        <div>
+          <label htmlFor="businessNum">사업자등록번호:</label>
+          <input
+            type="text"
+            id="businessNum"
+            name="businessNum"
+            value={formData.businessNum}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
         <button type="submit">가입</button>
       </form>
     </>
   );
 };
 
-export default MemberSignup;
+export default BusinessSignup;
