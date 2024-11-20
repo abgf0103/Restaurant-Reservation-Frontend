@@ -122,19 +122,6 @@ const Review = () => {
       });
   };
 
-  // 파일 삭제
-  const fileDelete = (id) => {
-    instance
-      .post("/file/delete", { id })
-      .then((res) => {
-        if (res.status === 200) {
-          const result = fileList.filter((item) => item.id !== id);
-          setFileList(result); // 파일 목록 업데이트
-        }
-      })
-      .catch((error) => console.error("파일 삭제 오류:", error));
-  };
-
   // 리뷰 저장하기 (백엔드로 POST 요청)
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -241,7 +228,12 @@ const Review = () => {
         {/* 파일 업로드 부분 */}
         <div>
           <label>첨부 파일:</label>
-          <input type="file" multiple onChange={handleFileChange} />
+          <input
+            type="file"
+            multiple
+            onChange={handleFileChange}
+            accept="image/*" // 이미지 파일만 선택 가능하도록 제한
+          />
           <button type="button" onClick={handleFileUpload}>
             업로드
           </button>
@@ -254,9 +246,6 @@ const Review = () => {
                   alt="첨부파일"
                   style={{ width: "100px" }}
                 />
-                <button type="button" onClick={() => fileDelete(item.id)}>
-                  삭제
-                </button>
               </li>
             ))}
           </ul>
