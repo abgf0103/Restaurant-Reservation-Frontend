@@ -6,7 +6,8 @@ import { getUserInfo, removeUserInfo } from "../hooks/userSlice";
 import { useDispatch } from "react-redux";
 import { removeTokenInfo } from "../hooks/tokenSlice";
 import { Link, useNavigate } from "react-router-dom";
-import { Button } from "react-bootstrap";
+import { Button, Form, FormControl } from "react-bootstrap";
+import { useState } from 'react';
 
 const Header = () => {
     const navigate = useNavigate();
@@ -34,6 +35,17 @@ const Header = () => {
         navigate(-1); // 이전 페이지로 돌아간다
     }
 
+    const [searchKeyword, setSearchKeyword] = useState([]); // 검색어 상태 관리
+
+    const handleSearchChange = (e) => {
+        setSearchKeyword(e.target.value); // 검색어 입력 시 상태 업데이트
+    };
+
+    const handleSearchSubmit = (e) => {
+        e.preventDefault(); // 폼 제출 시 페이지 리로드 방지
+        alert('검색어: ' + searchKeyword); // 실제로는 검색어를 서버나 API에 전송
+    };
+
     return (
         <Navbar expand="lg" className="bg-body-tertiary">
             <Container>
@@ -44,29 +56,39 @@ const Header = () => {
                 <Button variant="light" onClick={goBack}>←</Button>
             )}
             <Navbar.Brand href="/">예약맨</Navbar.Brand>
+            <Form inline onSubmit={handleSearchSubmit}>
+            <FormControl
+                type="search"
+                placeholder="검색어를 입력하세요"
+                className="mr-sm-2"
+                value={searchKeyword}
+                onChange={handleSearchChange}
+            />
+            <Button variant="outline-warning" type="submit">검색</Button>
+            </Form>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-            {/* 로그인된 사용자에 따라 로그인 또는 로그아웃 버튼 표시 */}
-            {userInfo && userInfo.username ? (
-                <div>
-                <span>{userInfo.username}님, 안녕하세요!</span>
-                <button onClick={handleLogout}>로그아웃</button>
-                </div>
-            ) : (
-                <Link to="/user/login">
-                <button>로그인</button>
-                </Link>
-            )}
-            {userInfo && userInfo.username ? (
-                <div></div>
-            ) : (
-                <Link to="/user/signup">
-                <button>회원가입</button>
-                </Link>
-            )}
-            <Link to="/fileTest">
-                <button>파일 업로드 테스트</button>
+                {/* 로그인된 사용자에 따라 로그인 또는 로그아웃 버튼 표시 */}
+                {userInfo && userInfo.username ? (
+                    <div>
+                        <span>{userInfo.username}님, 안녕하세요!</span>
+                        <button onClick={handleLogout}>로그아웃</button>
+                    </div>
+                ) : (
+                    <Link to="/user/login">
+                        <button>로그인</button>
+                    </Link>
+                )}
+                {userInfo && userInfo.username ? (
+                    <div></div>
+                ) : (
+                    <Link to="/user/signup">
+                        <button>회원가입</button>
+                    </Link>
+                )}
+                <Link to="/fileTest">
+                    <button>파일 업로드 테스트</button>
                 </Link>
             </Nav>
         </Navbar.Collapse>
