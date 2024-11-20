@@ -36,6 +36,7 @@ import MenuList from './pages/store/MenuList';
 import RegisterMenu from "./pages/store/RegisterMenu";
 import StoreReserve from "./pages/reserve/StoreReserve";
 import MenuManagement from "./pages/store/MenuManagement";
+import Admin from "./pages/Admin";
 
 const ROLES = {
   ROLE_USER: 1,
@@ -82,6 +83,7 @@ function App() {
             <Route path="/store/reserve/:storeId" element={<StoreReserve />} />
 
             {/* 기타 */}
+            <Route path="/admin" element={<Admin />} />
             <Route path="/fileTest" element={<FileTest />} />
             <Route path="/map/:storeId" element={<Map />} />
             <Route path="/test" element={<Test />} />

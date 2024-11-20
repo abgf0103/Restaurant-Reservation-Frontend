@@ -12,8 +12,9 @@ const Mypage = () => {
     // 로그인 상태 체크
     useEffect(() => {
         if (!userInfo.username) {
+            // 로그인 안 되어 있으면 swal출력 후 로그인 페이지로 리다이렉트
             isNotLoginSwal();
-            navigate("/user/login"); // 로그인 안 되어 있으면 로그인 페이지로 리다이렉트
+            navigate("/user/login");
         }
     }, [navigate, userInfo]);
 
@@ -48,7 +49,7 @@ const Mypage = () => {
         {/* 어드민만 보이는 페이지*/}
         {isAdmin &&         
             <p>
-                <Link to="/user/deleteUser">어드민 페이지</Link>
+                <Link to="/admin">어드민 페이지</Link>
             </p>}
         </div>
     );
