@@ -35,6 +35,7 @@ import MenuEdit from "./pages/store/MenuEdit";
 import MenuList from './pages/store/MenuList';
 import RegisterMenu from "./pages/store/RegisterMenu";
 import StoreReserve from "./pages/reserve/StoreReserve";
+import MenuManagement from "./pages/store/MenuManagement";
 
 const ROLES = {
   ROLE_USER: 1,
@@ -75,7 +76,7 @@ function App() {
             <Route path="/store/search" element={<StoreSearch />} />
             <Route path="/store/register" element={<RegisterStore />} />
             <Route path="/store/menu/edit" element={<MenuEdit />} />
-            <Route path="/store/menu/list/:storeId" element={<MenuList />} />
+            <Route path="/store/menu/management/:storeId" element={<MenuManagement />} />
             <Route path="/store/menu/register" element={<RegisterMenu />} />
             {/* reserve 부분 */}
             <Route path="/store/reserve/:storeId" element={<StoreReserve />} />

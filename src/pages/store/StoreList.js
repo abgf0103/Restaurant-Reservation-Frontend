@@ -2,8 +2,8 @@ import instance from "../../api/instance";
 import { useEffect, useState } from "react";
 import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import SlideUpModal from "../../components/SlideUpModal"; // 모달 컴포넌트 import
-import "../../css/Style.css"; // 슬라이드 업 패널 CSS import
+import SlideUpModal from "../../components/SlideUpModal";
+import "../../css/Style.css";
 
 const StoreList = () => {
   // 가게 정보를 저장하기 위한 state 선언
@@ -30,8 +30,39 @@ const StoreList = () => {
     setIsPanelOpen(true);
   };
 
+  const [categoryList, setCategoryList] = useState([]);
+
+  useEffect(() => {}, []);
+
+  useEffect(() => {
+    instance.get("/category/list").then((res) => {
+      console.log(res.data);
+      setCategoryList(res.data);
+    });
+  }, []);
+
+  const categoryClickHandler = (categoryId) => {
+    console.log(categoryId);
+    instance
+      .get(`/store/selectStoreByCategoryId?categoryId=${categoryId}`)
+      .then((res) => {
+        console.log(res.data);
+        setStoreData(res.data);
+      });
+  };
+
   return (
     <div>
+      <h4>카테고리</h4>
+      <button>전체</button>
+      {categoryList.map((item) => (
+        <button
+          key={item.categoryId}
+          onClick={() => categoryClickHandler(item.categoryId)}
+        >
+          {item.categoryTitle}
+        </button>
+      ))}
       <h4>==========가게 정보 리스트==========</h4>
       <ul>
         {storeData.map((item) => {

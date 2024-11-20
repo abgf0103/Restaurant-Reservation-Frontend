@@ -16,9 +16,11 @@ const ReviewEdit = () => {
     storeId: "",
     rating: "",
     reviewComment: "",
+    files: [], // 파일 정보를 추가
   });
 
   const [loading, setLoading] = useState(true);
+  const [newFiles, setNewFiles] = useState([]); // 새로 추가된 파일들을 저장할 상태
 
   // 로그인 상태 체크
   useEffect(() => {
@@ -36,7 +38,10 @@ const ReviewEdit = () => {
         .then((res) => {
           const { data } = res.data;
           console.log(data);
-          setReview({ ...data });
+          setReview({
+            ...data,
+            files: data.files || [], // 서버에서 받아온 파일 데이터
+          });
         })
         .catch((error) => {
           console.error("리뷰 데이터 가져오기 실패:", error);
@@ -58,14 +63,25 @@ const ReviewEdit = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const formData = new FormData();
+    formData.append("storeId", review.storeId);
+    formData.append("rating", review.rating);
+    formData.append("reviewComment", review.reviewComment);
+    formData.append("userId", userInfo.userId);
+    formData.append("username", userInfo.username); // username 추가
+
+    // 기존 파일들 추가
+    review.files.forEach((file) => {
+      formData.append("existingFiles", file); // 기존 파일을 FormData에 추가
+    });
+
+    // 새로 추가된 파일들 추가
+    newFiles.forEach((file) => {
+      formData.append("newFiles", file); // 새로 추가된 파일을 FormData에 추가
+    });
+
     instance
-      .put(`/review/update/${reviewId}`, {
-        storeId: review.storeId,
-        rating: review.rating,
-        reviewComment: review.reviewComment,
-        userId: userInfo.userId,
-        username: userInfo.username, // username 추가
-      })
+      .put(`/review/update/${reviewId}`, formData)
       .then((res) => {
         Swal.fire({
           title: "성공",
@@ -84,6 +100,18 @@ const ReviewEdit = () => {
       });
   };
 
+  // 파일 업로드 핸들러
+  const handleFileChange = (e) => {
+    const files = e.target.files;
+    setNewFiles([...newFiles, ...files]); // 새로 추가된 파일들을 상태에 저장
+  };
+
+  // 기존 파일 삭제
+  const handleFileDelete = (fileIndex) => {
+    const updatedFiles = review.files.filter((_, index) => index !== fileIndex);
+    setReview((prevReview) => ({ ...prevReview, files: updatedFiles }));
+  };
+
   if (loading) {
     return <div>로딩 중...</div>;
   }
@@ -91,7 +119,7 @@ const ReviewEdit = () => {
   return (
     <div>
       <h1>{userInfo.username} 고객님 리뷰 수정</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} encType="multipart/form-data">
         {/* Store ID 필드는 아예 표시하지 않음 */}
         {/* <div>
           <label>Store ID:</label>
@@ -130,6 +158,31 @@ const ReviewEdit = () => {
             required
           />
         </div>
+
+        {/* 파일 업로드 섹션 */}
+        <div>
+          <label>기존 파일:</label>
+          <div>
+            {review.files.length > 0 ? (
+              review.files.map((file, index) => (
+                <div key={index}>
+                  <span>{file.originalFileName}</span>
+                  <button type="button" onClick={() => handleFileDelete(index)}>
+                    삭제
+                  </button>
+                </div>
+              ))
+            ) : (
+              <p>업로드된 파일이 없습니다.</p>
+            )}
+          </div>
+        </div>
+
+        <div>
+          <label>새 파일 업로드:</label>
+          <input type="file" multiple onChange={handleFileChange} />
+        </div>
+
         <button type="submit">리뷰 수정</button>
       </form>
     </div>

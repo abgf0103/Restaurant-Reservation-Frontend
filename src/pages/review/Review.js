@@ -19,6 +19,9 @@ const Review = () => {
   const [canWriteReview, setCanWriteReview] = useState(true); // 리뷰 작성 가능 여부 상태
   const [isReviewExist, setIsReviewExist] = useState(false); // 중복 리뷰 여부 상태
 
+  const [selectedFiles, setSelectedFiles] = useState([]); // 선택된 파일 목록
+  const [fileList, setFileList] = useState([]); // 업로드된 파일 목록
+
   // 로그인 상태 체크
   useEffect(() => {
     if (!userInfo.username) {
@@ -90,6 +93,48 @@ const Review = () => {
     }));
   };
 
+  // 파일 선택
+  const handleFileChange = (e) => {
+    console.log(e.target.files);
+    setSelectedFiles((prevState) => [
+      ...prevState,
+      ...Array.from(e.target.files),
+    ]);
+  };
+
+  // 파일 업로드
+  const handleFileUpload = () => {
+    console.log("파일 업로드");
+    const formData = new FormData();
+    formData.append("fileTarget", userInfo.username);
+
+    selectedFiles.forEach((file) => formData.append("files", file));
+
+    instance
+      .post("/file/save", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        setFileList(res.data); // 업로드한 파일 목록을 상태로 설정
+      });
+  };
+
+  // 파일 삭제
+  const fileDelete = (id) => {
+    instance
+      .post("/file/delete", { id })
+      .then((res) => {
+        if (res.status === 200) {
+          const result = fileList.filter((item) => item.id !== id);
+          setFileList(result); // 파일 목록 업데이트
+        }
+      })
+      .catch((error) => console.error("파일 삭제 오류:", error));
+  };
+
   // 리뷰 저장하기 (백엔드로 POST 요청)
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -124,16 +169,20 @@ const Review = () => {
       return;
     }
 
+    const requst = {
+      storeId: review.storeId,
+      rating: review.rating,
+      reviewComment: review.reviewComment,
+      userId: userInfo.id, // userId를 보내는 부분
+      username: userInfo.username, // username 추가
+      reserveId: reserveId, // 예약 ID도 함께 보내기
+      files: fileList.map((file) => file.id), // 업로드된 파일 ID들
+    };
+    console.log(requst);
+
     // 리뷰 저장 API 호출
     instance
-      .post("/review/save", {
-        storeId: review.storeId,
-        rating: review.rating,
-        reviewComment: review.reviewComment,
-        userId: userInfo.id, // userId를 보내는 부분
-        username: userInfo.username, // username 추가
-        reserveId: reserveId, // 예약 ID도 함께 보내기
-      })
+      .post("/review/save", requst)
       .then((res) => {
         Swal.fire({
           title: "성공",
@@ -188,6 +237,31 @@ const Review = () => {
             required
           />
         </div>
+
+        {/* 파일 업로드 부분 */}
+        <div>
+          <label>첨부 파일:</label>
+          <input type="file" multiple onChange={handleFileChange} />
+          <button type="button" onClick={handleFileUpload}>
+            업로드
+          </button>
+          <h3>첨부된 파일 목록</h3>
+          <ul>
+            {fileList.map((item) => (
+              <li key={item.id}>
+                <img
+                  src={`${process.env.REACT_APP_HOST}/file/view/${item.saveFileName}`}
+                  alt="첨부파일"
+                  style={{ width: "100px" }}
+                />
+                <button type="button" onClick={() => fileDelete(item.id)}>
+                  삭제
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+
         <button type="submit">리뷰 작성</button>
       </form>
     </div>

@@ -13,7 +13,12 @@ const UserReviewPage = () => {
     instance
       .get(`/review/view-by-username/${username}`) // 새로운 API 호출
       .then((res) => {
-        setReviews(res.data.data); // 'data' 필드 안에 리뷰 목록이 있으므로
+        console.log(res);
+        const reviewsWithFiles = res.data.data.map((review) => ({
+          ...review,
+          files: review.files || [], // 파일 목록이 없을 수 있으므로 기본값을 빈 배열로 설정
+        }));
+        setReviews(reviewsWithFiles); // 'data' 필드 안에 리뷰 목록이 있으므로
       })
       .catch((error) => {
         console.error("사용자 리뷰 가져오기 실패:", error);
@@ -40,10 +45,29 @@ const UserReviewPage = () => {
           {reviews.map((review) => (
             <li key={review.reviewId}>
               <strong>작성자:</strong> {review.username} <br />
-              <strong>가게 이름:</strong> {review.storeName} <br />{" "}
-              {/* 가게 이름으로 수정 */}
+              <strong>가게 이름:</strong> {review.storeName} <br />
               <strong>별점:</strong> {review.rating} ⭐ <br />
               <strong>리뷰:</strong> {review.reviewComment} <br />
+              {/* 첨부 파일 처리 */}
+              {review.files && review.files.length > 0 && (
+                <div>
+                  <strong>첨부된 파일:</strong>
+                  <div>
+                    {review.files.map((fileItem, index) => (
+                      <img
+                        key={index}
+                        src={`${process.env.REACT_APP_HOST}/file/view/${fileItem.saveFileName}`}
+                        alt={`첨부 파일 ${index + 1}`}
+                        style={{
+                          width: "100px",
+                          marginRight: "10px",
+                          marginBottom: "10px",
+                        }}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
               <hr />
             </li>
           ))}

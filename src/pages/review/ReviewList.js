@@ -20,6 +20,7 @@ const ReviewList = () => {
           liked: false, // 좋아요 상태는 기본적으로 false
           likeCount: review.likeCount || 0, // 서버에서 받은 likeCount 값을 사용하여 초기값 설정
         }));
+        console.log(res);
 
         setReviews(reviewsWithLikes); // 리뷰 목록 상태 업데이트
 
@@ -28,6 +29,7 @@ const ReviewList = () => {
           instance
             .get(`/review/likes/status?reviewId=${review.reviewId}`)
             .then((statusRes) => {
+              console.log(review);
               // 해당 리뷰에 대한 좋아요 상태를 갱신
               setReviews((prevReviews) =>
                 prevReviews.map((r) =>
@@ -131,6 +133,26 @@ const ReviewList = () => {
               >
                 {review.liked ? "좋아요 취소" : "좋아요"}
               </button>
+              {/* 파일 첨부 부분 */}
+              {review.files.length > 0 && (
+                <div>
+                  <strong>첨부된 파일:</strong>
+                  <div>
+                    {review.files.map((fileItem, index) => (
+                      <img
+                        key={index}
+                        src={`${process.env.REACT_APP_HOST}/file/view/${fileItem.saveFileName}`}
+                        alt={`첨부 파일 ${index + 1}`}
+                        style={{
+                          width: "100px",
+                          marginRight: "10px",
+                          marginBottom: "10px",
+                        }}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
             </li>
           ))}
         </ul>

@@ -25,7 +25,11 @@ const MyReview = () => {
       .get("/review/my-reviews")
       .then((res) => {
         console.log(res.data); // 이곳에서 실제로 받아오는 데이터 확인
-        setReviews(res.data); // 사용자 리뷰 목록 설정
+        const reviewsWithFiles = res.data.map((review) => ({
+          ...review,
+          files: review.files || [], // 파일 정보가 없을 수 있으므로 기본값을 빈 배열로 설정
+        }));
+        setReviews(reviewsWithFiles); // 사용자 리뷰 목록 설정
       })
       .catch((error) => {
         console.error("나의 리뷰 가져오기 실패:", error);
@@ -49,8 +53,11 @@ const MyReview = () => {
     navigate(`/review/edit/${reviewId}`);
   };
 
-  const handleDeleteClick = (reviewId) => {
+  const handleDeleteClick = (reviewId, reserveId) => {
     // 삭제 확인 알림
+    console.log("삭제하려는 리뷰의 reviewId:", reviewId);
+    console.log("삭제하려는 리뷰의 reserveId:", reserveId);
+
     Swal.fire({
       title: "리뷰 삭제",
       text: "정말로 이 리뷰를 삭제하시겠습니까?",
@@ -64,7 +71,7 @@ const MyReview = () => {
         // 리뷰 삭제 API 호출
         instance
           .delete(`/review/delete/${reviewId}`, {
-            params: { userId: userInfo.id }, // 현재 로그인된 사용자 ID 전달
+            params: { userId: userInfo.id, reserveId: reserveId }, // userId와 reserveId를 쿼리 파라미터로 전달
           })
           .then(() => {
             Swal.fire("삭제됨!", "리뷰가 삭제되었습니다.", "success");
@@ -94,14 +101,33 @@ const MyReview = () => {
               <strong>가게 이름:</strong> {review.storeName} <br />
               <strong>별점:</strong> {review.rating} ⭐ <br />
               <strong>리뷰:</strong> {review.reviewComment} <br />
-              <strong>좋아요 수:</strong> {review.likeCount} ❤️ <br />{" "}
-              {/* 좋아요 수 표시 */}
+              <strong>좋아요 수:</strong> {review.likeCount} ❤️ <br />
+              {/* 리뷰에 파일이 있으면 이미지 보여주기 */}
+              {review.files && review.files.length > 0 && (
+                <div>
+                  <strong>첨부된 파일:</strong>
+                  <div>
+                    {review.files.map((file, index) => (
+                      <img
+                        key={index}
+                        src={`${process.env.REACT_APP_HOST}/file/view/${file.saveFileName}`}
+                        alt="첨부 파일"
+                        style={{ width: "100px", marginRight: "10px" }}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
               {/* 수정 버튼 */}
               <button onClick={() => handleEditClick(review.reviewId)}>
                 수정
               </button>
               {/* 삭제 버튼 */}
-              <button onClick={() => handleDeleteClick(review.reviewId)}>
+              <button
+                onClick={
+                  () => handleDeleteClick(review.reviewId, review.reserveId) // reserveId를 함께 전달
+                }
+              >
                 삭제
               </button>
               <hr />
