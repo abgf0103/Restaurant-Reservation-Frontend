@@ -60,7 +60,7 @@ const RegisterMenu = () => {
                 text: "가게 등록이 완료되었습니다.",
                 icon: "success",
             });
-            navigate(`/store/menu/list/${storeId}`); // 메뉴 관리 페이지로 이동
+            navigate(`/store/menu/management/${storeId}`); // 메뉴 관리 페이지로 이동
           }).catch((error) => {
             console.error("가게 등록 오류:", error);
             Swal.fire({
@@ -89,7 +89,7 @@ const RegisterMenu = () => {
 
                 <Form.Group className="mb-3">
                     <Form.Label>메뉴 설명</Form.Label>
-                    <Form.Control placeholder="메뉴 설명을 입력하세요" name='description' value={menuData.description} onChange={onChangeHandler} required/>
+                    <Form.Control placeholder="메뉴 설명을 입력하세요" name='description' value={menuData.description} onChange={onChangeHandler} />
                 </Form.Group>
 
                 <Form.Group className="mb-3">

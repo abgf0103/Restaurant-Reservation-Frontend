@@ -26,10 +26,10 @@ const MenuList = () => {
                 setMenuList(res.data); // 사용자 가게 목록 설정
             })
             .catch((error) => {
-                console.error("나의 가게 가져오기 실패:", error);
+                console.error("메뉴 리스트 가져오기 실패:", error);
                 Swal.fire({
                     title: "실패",
-                    text: "나의 가게 가져오는 데 실패했습니다.",
+                    text: "메뉴 리스트 가져오는 데 실패했습니다.",
                     icon: "error",
                 });
             })
@@ -37,13 +37,6 @@ const MenuList = () => {
                 setLoading(false);
             });
     }, []);
-
-    // 로그인 상태 체크
-    useEffect(() => {
-        if (!userInfo.username) {
-            navigate("/user/login");
-        }
-    }, [navigate, userInfo]);
 
     if (loading) {
         return <div>로딩 중...</div>;

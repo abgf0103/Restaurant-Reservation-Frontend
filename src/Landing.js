@@ -1,5 +1,5 @@
 import { useEffect} from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import StoreList from './pages/store/StoreList';
 const Landing = () => {
     // redux 저장소에 저장된 토큰 정보 호출
@@ -52,6 +52,10 @@ const Landing = () => {
     //   if (!listening) setupEventSource();
     // }, []);
 
+    const location = useLocation();
+    //검색어가 전달되지 않으면 빈 문자열
+    const searchKeyword = location.state?.searchKeyword || ''; 
+
     return (
         <>
             <div>
@@ -62,7 +66,7 @@ const Landing = () => {
                     <Link to="/review">리뷰작성 페이지</Link>
                 </p>
                 <h2>Landing page</h2>
-                <StoreList />
+                <StoreList searchKeyword={searchKeyword}/>
             </div>
         </>
     );
