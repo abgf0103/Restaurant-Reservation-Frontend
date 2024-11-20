@@ -18,7 +18,7 @@ const MemberSignup = () => {
     passwordConfirm: "",
     roleNum: "1",
     active: true,
-    businessLicense: "", // 사업자 등록 번호 추가 (예시)
+    businessNum: "", // 사업자 등록 번호 추가 (예시)
   });
 
   const [errors, setErrors] = useState({});
@@ -35,7 +35,7 @@ const MemberSignup = () => {
   // 회원가입 요청
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    console.log(formData);
     try {
       // 백엔드 API 호출
       const response = await axios.post(

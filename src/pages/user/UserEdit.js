@@ -20,6 +20,7 @@ const UserEdit = () => {
     password: "",
     active: userInfo.active,
     roleNum: `${userInfo.roles[0].id}`,
+    businessNum: "", // 사업자 등록 번호
   });
 
   useEffect(() => {
@@ -49,6 +50,7 @@ const UserEdit = () => {
         roleNum: formData.roleNum,
         active: true,
         password: formData.password || userInfo.password,
+        businessNum: "",
       })
       .then((response) => {
         Swal.fire({
