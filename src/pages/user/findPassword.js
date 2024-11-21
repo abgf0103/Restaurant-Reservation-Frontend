@@ -1,95 +1,79 @@
-//비밀번호 찾기 페이지
-
 import React, { useState } from "react";
-import instance from "../../api/instance"; // 커스텀 axios 인스턴스를 임포트
+import axios from "axios";
+import instance from "../../api/instance";
 
-const FindPasswordForm = () => {
-  const [id, setId] = useState("");
-  const [name, setName] = useState("");
+function FindPassword() {
   const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
   const [message, setMessage] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  // 아이디 입력 처리
-  const handleIdChange = (e) => {
-    setId(e.target.value);
-  };
-
-  // 이름 입력 처리
-  const handleNameChange = (e) => {
-    setName(e.target.value);
-  };
-
-  // 이메일 입력 처리
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-  };
 
   // 폼 제출 처리
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
-    if (!id || !name || !email) {
-      setMessage("아이디, 이름, 이메일을 모두 입력해주세요.");
-      return;
-    }
-
-    setLoading(true);
-    setMessage("");
+    const requestData = {
+      email: email,
+      username: username,
+      name: name,
+    };
 
     try {
-      // 서버에 아이디, 이름, 이메일을 전달하여 유효성 검사
-      const response = await instance.post("/member/user/findPassword", {
-        id,
-        name,
-        email,
-      });
+      // 서버에 POST 요청을 보내 임시 비밀번호 생성
+      const response = await instance.post(
+        "/member/user/findPassword",
+        requestData
+      );
 
-      if (response.data.success) {
-        setMessage("임시 비밀번호가 이메일로 발송되었습니다.");
-      } else {
-        setMessage("입력한 정보가 일치하지 않습니다.");
-      }
+      console.log(response.data);
+
+      setMessage(response.data.message); // 응답 메시지 설정
     } catch (error) {
-      console.error(error);
-      setMessage("서버 오류가 발생했습니다.");
-    } finally {
-      setLoading(false);
+      console.error("Error fetching temp password:", error);
+      setMessage("서버 오류가 발생했습니다. 다시 시도해주세요.");
     }
   };
 
   return (
     <div>
-      <h2>비밀번호 찾기</h2>
+      <h1>임시 비밀번호 찾기</h1>
       <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          id="id"
-          value={id}
-          onChange={handleIdChange}
-          placeholder="아이디를 입력하세요"
-        />
-        <input
-          type="text"
-          id="name"
-          value={name}
-          onChange={handleNameChange}
-          placeholder="이름을 입력하세요"
-        />
-        <input
-          type="email"
-          id="email"
-          value={email}
-          onChange={handleEmailChange}
-          placeholder="이메일을 입력하세요"
-        />
-        <button type="submit" disabled={loading}>
-          {loading ? "로딩 중..." : "비밀번호 찾기"}
-        </button>
+        <label>
+          이메일:
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </label>
+        <br />
+        <label>
+          사용자 이름:
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
+        </label>
+        <br />
+        <label>
+          이름:
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+        </label>
+        <br />
+        <button type="submit">임시 비밀번호 찾기</button>
       </form>
-      {message && <p>{message}</p>}
+      <h2>결과</h2>
+      {message && <p>{message}</p>} {/* 임시 비밀번호 또는 오류 메시지 출력 */}
     </div>
   );
-};
+}
 
-export default FindPasswordForm;
+export default FindPassword;

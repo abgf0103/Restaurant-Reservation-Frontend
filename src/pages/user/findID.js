@@ -25,10 +25,11 @@ const FindIdForm = () => {
 
     //백엔드에 email전달
     try {
-      const response = await instance.get("/member/user/findID", {
+      const response = await instance.get("api/member/user/findID", {
         params: { email },
       });
 
+      console.log(response);
       console.log(response.data);
 
       if (response.data.success) {
