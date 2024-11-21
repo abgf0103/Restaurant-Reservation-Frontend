@@ -17,6 +17,7 @@ import UserEdit from "./pages/user/UserEdit";
 import CheckUserEdit from "./pages/user/CheckUserEdit";
 import DeleteUser from "./pages/user/deleteUser";
 import FindPasswordForm from "./pages/user/findPassword";
+import FavoritePage from "./pages/user/favoritePage";
 import FindIdForm from "./pages/user/findID";
 import Mypage from "./pages/user/Mypage";
 import MyReview from "./pages/review/MyReview";
@@ -68,6 +69,7 @@ function App() {
           <Route path="/user/deleteuser" element={<DeleteUser />} />
           <Route path="/user/PreUserEdit" element={<PreUserEdit />} />
           <Route path="/user/BusinessSignup" element={<BusinessSignup />} />
+          <Route path="/user/FavoritePage" element={<FavoritePage />} />
           {/* store 부분 */}
           <Route path="/store/info/*" element={<StoreInfo />} />
           <Route path="/store/info/*" element={<StoreInfo />} />
