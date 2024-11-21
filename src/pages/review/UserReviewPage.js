@@ -13,12 +13,11 @@ const UserReviewPage = () => {
     instance
       .get(`/review/view-by-username/${username}`) // 새로운 API 호출
       .then((res) => {
-        console.log("응답 데이터:", res); // 전체 응답 데이터 로그
+        console.log(res);
         const reviewsWithFiles = res.data.data.map((review) => ({
           ...review,
           files: review.files || [], // 파일 목록이 없을 수 있으므로 기본값을 빈 배열로 설정
         }));
-        console.log("리뷰 목록:", reviewsWithFiles); // 가공된 리뷰 목록 로그
         setReviews(reviewsWithFiles); // 'data' 필드 안에 리뷰 목록이 있으므로
       })
       .catch((error) => {
@@ -49,8 +48,6 @@ const UserReviewPage = () => {
               <strong>가게 이름:</strong> {review.storeName} <br />
               <strong>별점:</strong> {review.rating} ⭐ <br />
               <strong>리뷰:</strong> {review.reviewComment} <br />
-              <strong>좋아요 수:</strong> {review.likeCount} ❤️ <br />{" "}
-              {/* 좋아요 수 표시 */}
               {/* 첨부 파일 처리 */}
               {review.files && review.files.length > 0 && (
                 <div>
