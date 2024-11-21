@@ -1,13 +1,14 @@
 import instance from "../../api/instance";
 import { useEffect, useState } from "react";
 import { Card } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import SlideUpModal from "../../components/SlideUpModal";
 import "../../css/Style.css";
 
 
 
-const StoreList = ({searchKeyword}) => {
+const StoreList = () => {
+    const location = useLocation();
     // 가게 정보를 저장하기 위한 state 선언
     const [storeData, setStoreData] = useState([]);
     // 카테고리 정보 state
@@ -16,35 +17,47 @@ const StoreList = ({searchKeyword}) => {
     const [isPanelOpen, setIsPanelOpen] = useState(false);
     const [selectedStoreId, setSelectedStoreId] = useState(null); // 선택된 가게 ID
 
+    // 카테고리 상태 관리
+    const [selectedCategoryId, setSelectedCategoryId] = useState([]);
+
+    // 가게 검색 상태 관리
+    const [result, setResult] = useState(null);
+    useEffect(() => {
+        // 페이지가 새로고침되면 result 초기화
+        setResult(null);
+
+        // `state`로 전달된 결과가 있다면 상태를 설정
+        if (location.state?.result) {
+            setResult(location.state.result);
+        }
+    }, [location.state]); // location.state가 변경될 때마다 실행
+
+    useEffect(() => {
+        // 페이지 새로고침 시 상태를 초기화하고, 이전 상태를 유지하지 않도록 처리
+        setResult(null);
+        getCategoryList();
+        getDefaultStoreList();
+    }, []); // 빈 배열로 한번만 실행
+
+
+
     // 가게 정보를 API로 받아서 state에 저장
-    const getData = () => {
+    const getDefaultStoreList = () => {
         instance.get("/store/list").then((res) => {
             setStoreData(res.data);
         });
     };
 
-    // 키워드로 가게를 검색 후 가게 정보를 받아 state에 저장
-    const searchResult = () => {
-        if (searchKeyword){
-            instance
-                .get(`/store/search?searchKeyword=${searchKeyword}`)
-                .then((res) => {
-                    console.log(res.data);
-                    setStoreData(res.data);
-            });
-        } else {
-            getData();
-        }
-
-    };
-
+    // 카테고리 리스트를 가져와 state에 저장
     const getCategoryList = () => {
         instance.get("/category/list").then((res) => {
             setCategoryList(res.data);
         });
     };
 
+    // 카테고리 버튼 클릭 핸들러
     const categoryClickHandler = (categoryId) => {
+        setSelectedCategoryId(categoryId);
         instance
         .get(`/store/selectStoreByCategoryId?categoryId=${categoryId}`)
         .then((res) => {
@@ -52,20 +65,18 @@ const StoreList = ({searchKeyword}) => {
         });
     };
 
+    // 카테고리가 변경될때
     useEffect(() => {
-        getCategoryList();
-    }, []); //빈 배열로 한번만 실행되도록 설정
-
-
-    useEffect(() => {
-        //검색어가 변경될때마다 키워드 검색결과 호출
-        if (searchKeyword) {
-            searchResult();
-        } else {
-            // 검색어가 없으면 모든 데이터 가져오기
-            getData();
+        if(selectedCategoryId.length === 0){
+            getDefaultStoreList();
         }
-    }, [searchKeyword]); //키워드가 변경될때마다 실행
+    },[selectedCategoryId]);
+
+    useEffect(() => {
+        if (result) {
+            setStoreData(result);
+        }
+    }, [result]); // result가 변경될때마다 실행
 
     // 예약 버튼 클릭 시 패널을 여는 함수
     const handleReserveClick = (storeId) => {
@@ -74,12 +85,10 @@ const StoreList = ({searchKeyword}) => {
     };
 
 
-
-
     return (
         <div>
         <h4>카테고리</h4>
-        <button onClick={() => getData()}>전체</button>
+        <button onClick={() => getDefaultStoreList()}>전체</button>
         {categoryList.map((item) => (
             <button
             key={item.categoryId}

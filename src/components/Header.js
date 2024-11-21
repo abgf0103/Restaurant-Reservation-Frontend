@@ -8,6 +8,7 @@ import { removeTokenInfo } from "../hooks/tokenSlice";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Form, FormControl } from "react-bootstrap";
 import { useState } from "react";
+import instance from "../api/instance";
 
 const Header = () => {
     const navigate = useNavigate();
@@ -40,9 +41,21 @@ const Header = () => {
         setSearchKeyword(e.target.value); // 검색어 입력 시 상태 업데이트
     };
 
+    const searchStore = (keyword) => {
+        instance
+            .get(`/store/search?searchKeyword=${keyword}`)
+            .then((res) => {
+                console.log(res.data);
+                const result = res.data;
+                console.log(result);
+                navigate('/',{state: { result }});
+        });
+    }
+
     const handleSearchSubmit = (e) => {
         e.preventDefault(); // 폼 제출 시 페이지 리로드 방지
-        navigate('/',{state: { searchKeyword }});
+                //검색어가 변경될때마다 키워드 검색결과 호출
+        searchStore(searchKeyword);
     };
 
     return (
