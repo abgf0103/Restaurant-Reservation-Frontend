@@ -19,12 +19,10 @@ import DeleteUser from "./pages/user/deleteUser";
 import FindPasswordForm from "./pages/user/findPassword";
 import FindIdForm from "./pages/user/findID";
 import Mypage from "./pages/user/Mypage";
-import StoreSearch from "./pages/store/StoreSearch";
 import MyReview from "./pages/review/MyReview";
 import { Provider } from "react-redux";
 import store from "./hooks/store";
 import MyStore from "./pages/store/MyStore";
-import SearchResult from "./pages/store/SearchResult";
 import Reserve from "./pages/reserve/Reserve";
 import MyReserve from "./pages/reserve/MyReserve";
 import RegisterStore from "./pages/store/RegisterStore";
@@ -34,7 +32,6 @@ import StoreList from "./pages/store/StoreList";
 import UserReviewPage from "./pages/review/UserReviewPage";
 import FileTest from "./pages/file/FileTest";
 import MenuEdit from "./pages/store/MenuEdit";
-import MenuList from "./pages/store/MenuList";
 import RegisterMenu from "./pages/store/RegisterMenu";
 import StoreReserve from "./pages/reserve/StoreReserve";
 import MenuManagement from "./pages/store/MenuManagement";
@@ -66,7 +63,6 @@ function App() {
           <Route path="/user/findPassword" element={<FindPasswordForm />} />
           <Route path="/user/findID" element={<FindIdForm />} />
           <Route path="/user/mypage" element={<Mypage />} />
-          <Route path="/user/searchresult" element={<SearchResult />} />
           <Route path="/user/reserve" element={<Reserve />} />
           <Route path="/user/MyReserve" element={<MyReserve />} />
           <Route path="/user/deleteuser" element={<DeleteUser />} />
@@ -78,7 +74,6 @@ function App() {
           <Route path="/store/list" element={<StoreList />} />
           <Route path="/store/mystore" element={<MyStore />} />
           <Route path="/store/edit/:storeId" element={<StoreInfoEdit />} />
-          <Route path="/store/search" element={<StoreSearch />} />
           <Route path="/store/register" element={<RegisterStore />} />
           <Route path="/store/menu/edit" element={<MenuEdit />} />
           <Route
