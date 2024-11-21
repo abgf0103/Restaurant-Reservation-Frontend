@@ -60,7 +60,7 @@ const UserEdit = () => {
         });
         // 수정된 사용자 정보를 상태에 반영
 
-        navigate("/profile"); // 프로필 페이지로 이동
+        navigate("/");
       })
       .catch((error) => {
         Swal.fire({
