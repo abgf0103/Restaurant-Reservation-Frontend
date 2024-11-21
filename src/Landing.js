@@ -1,6 +1,7 @@
 import { useEffect} from "react";
 import { Link, useLocation } from "react-router-dom";
 import StoreList from './pages/store/StoreList';
+import ImageSlider from "./components/ImageSlider";
 const Landing = () => {
     // redux 저장소에 저장된 토큰 정보 호출
     //const tokenInfo = useSelector(getTokenInfo);
@@ -59,6 +60,7 @@ const Landing = () => {
     return (
         <>
             <div>
+                <ImageSlider/>
                 <p>
                     <Link to="/review/list">전체 리뷰 페이지</Link>
                 </p>
