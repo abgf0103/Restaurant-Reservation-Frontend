@@ -45,7 +45,6 @@ const MenuList = () => {
 
     return (
         <div>
-            <h2>메뉴 리스트</h2>
             {menuList.length > 0 ? (
                 <ul>
                     {menuList.map((item) => (

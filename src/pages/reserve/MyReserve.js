@@ -48,6 +48,22 @@ const MyReserve = () => {
     }
   }, [userInfo, navigate]);
 
+  const reserveStatus = (status) => {
+    console.log(status);
+    switch (status) {
+      case '0':
+        return "예약대기";
+      case '1':
+        return "예약확정";
+      case '2':
+        return "완료";
+      case '3':
+        return "예약취소";
+      default:
+        return "";
+    }
+  }
+
   return (
     <div className="my-reserve">
       <h4>나의 예약 정보</h4>
@@ -68,14 +84,17 @@ const MyReserve = () => {
                   <strong>예약 날짜:</strong>{" "}
                   {new Date(reservation.reserveDate).toLocaleString()} <br />
                   <strong>인원 수:</strong> {reservation.partySize} <br />
-                  <strong>상태:</strong> {reservation.reserveStatus}
+                  <strong>상태:</strong> {reserveStatus(reservation.reserveStatus)}
                 </Card.Text>
-                {/* 리뷰 작성 링크는 모든 예약에 대해 항상 표시 */}
-                <Link
-                  to={`/writeReview/${reservation.storeId}/${reservation.reserveId}`}
-                >
-                  리뷰 작성
-                </Link>
+                {/* 완료 상태일 때만 리뷰작성 버튼 생성 */}
+                {reservation.reserveStatus === '2' && (
+                  <Link
+                    to={`/writeReview/${reservation.storeId}/${reservation.reserveId}`}
+                  >
+                    리뷰 작성
+                  </Link>
+                )}
+                
               </Card.Body>
             </Card>
           ))}

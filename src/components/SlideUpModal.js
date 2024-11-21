@@ -7,6 +7,7 @@ import "swiper/css";
 import "swiper/css/free-mode";
 import "../css/Style.css";
 import instance from "../api/instance";
+import { useNavigate } from "react-router-dom";
 
 const SlideUpModal = ({ isOpen, onClose, selectedStoreId }) => {
   const [isPanelVisible, setIsPanelVisible] = useState(isOpen);
@@ -14,6 +15,7 @@ const SlideUpModal = ({ isOpen, onClose, selectedStoreId }) => {
   const [selectedTime, setSelectedTime] = useState(null);
   const [selectedPeople, setSelectedPeople] = useState(null);
   const userInfo = useSelector(getUserInfo); // 로그인된 사용자 정보
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (isOpen) {
@@ -120,6 +122,7 @@ const SlideUpModal = ({ isOpen, onClose, selectedStoreId }) => {
       try {
         instance.post("reservations/save", reservationData).then((res) => {
           console.log(res);
+          navigate('/user/myreserve')
         });
       } catch (error) {
         console.error("예약 전송 오류:", error);
