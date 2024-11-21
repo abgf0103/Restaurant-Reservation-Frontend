@@ -13,3 +13,19 @@ export const isNotLoginSwal = () => {
     icon: "warning",
     });
 };
+
+//예약 상태를 코멘트로 반환
+export const reserveStatus = (status) => {
+  switch (status) {
+    case '0':
+      return "예약대기";
+    case '1':
+      return "예약확정";
+    case '2':
+      return "완료";
+    case '3':
+      return "예약취소";
+    default:
+      return "";
+  }
+}

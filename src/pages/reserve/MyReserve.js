@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { getAllReservationsByUserId } from "../../webapi/webApiList"; // API 호출 함수 추가
+import { reserveStatus } from './../../utils/tools';
 
 const MyReserve = () => {
   const navigate = useNavigate();
@@ -48,22 +49,6 @@ const MyReserve = () => {
     }
   }, [userInfo, navigate]);
 
-  const reserveStatus = (status) => {
-    console.log(status);
-    switch (status) {
-      case '0':
-        return "예약대기";
-      case '1':
-        return "예약확정";
-      case '2':
-        return "완료";
-      case '3':
-        return "예약취소";
-      default:
-        return "";
-    }
-  }
-
   return (
     <div className="my-reserve">
       <h4>나의 예약 정보</h4>
@@ -79,7 +64,7 @@ const MyReserve = () => {
               style={{ width: "18rem", margin: "10px" }}
             >
               <Card.Body>
-                <Card.Title>가게 이름: {reservation.storeName}</Card.Title>
+                <Card.Title>{reservation.storeName}</Card.Title>
                 <Card.Text>
                   <strong>예약 날짜:</strong>{" "}
                   {new Date(reservation.reserveDate).toLocaleString()} <br />
