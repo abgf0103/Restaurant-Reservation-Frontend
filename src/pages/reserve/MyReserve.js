@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { getAllReservationsByUserId } from "../../webapi/webApiList"; // API 호출 함수 추가
-import { reserveStatus } from './../../utils/tools';
+import { reserveStatus } from "./../../utils/tools";
 
 const MyReserve = () => {
   const navigate = useNavigate();
@@ -64,22 +64,24 @@ const MyReserve = () => {
               style={{ width: "18rem", margin: "10px" }}
             >
               <Card.Body>
-                <Card.Title>{reservation.storeName}</Card.Title>
+                <Card.Title>
+                  {"가게 이름 : " + reservation.storeName}
+                </Card.Title>
                 <Card.Text>
                   <strong>예약 날짜:</strong>{" "}
                   {new Date(reservation.reserveDate).toLocaleString()} <br />
                   <strong>인원 수:</strong> {reservation.partySize} <br />
-                  <strong>상태:</strong> {reserveStatus(reservation.reserveStatus)}
+                  <strong>상태:</strong>{" "}
+                  {reserveStatus(reservation.reserveStatus)}
                 </Card.Text>
                 {/* 완료 상태일 때만 리뷰작성 버튼 생성 */}
-                {reservation.reserveStatus === '2' && (
+                {reservation.reserveStatus === 2 && (
                   <Link
                     to={`/writeReview/${reservation.storeId}/${reservation.reserveId}`}
                   >
                     리뷰 작성
                   </Link>
                 )}
-                
               </Card.Body>
             </Card>
           ))}
