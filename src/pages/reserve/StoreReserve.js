@@ -91,7 +91,7 @@ const ReserveList = () => {
         setReserves((prevReserves) =>
           prevReserves.map((reserve) =>
             reserve.reserveId === reserveId
-              ? { ...reserve, reserveStatus: "1" }
+              ? { ...reserve, reserveStatus: 1 }
               : reserve
           )
         );
