@@ -1,63 +1,124 @@
-import React, { useState, useEffect } from "react";
+import instance from "../../api/instance";
+import { useEffect, useState } from "react";
+import { Button, Card } from "react-bootstrap";
+import { Link, useNavigate } from "react-router-dom";
+import "../../css/Style.css";
+import { getUserInfo } from "../../hooks/userSlice";
+import { useSelector } from "react-redux";
+import { isNotLoginSwal } from "../../utils/tools";
 
-// 즐겨찾기 페이지 컴포넌트
 const FavoritePage = () => {
-  // 즐겨찾기 목록 상태
-  const [bookmarks, setBookmarks] = useState([]);
-  // 새 즐겨찾기 항목을 위한 입력 상태
-  const [bookmarkInput, setBookmarkInput] = useState("");
+    const navigate = useNavigate();
+    const [storeData, setStoreData] = useState([]);
+    const userInfo = useSelector(getUserInfo);
+    const [isFavorite, setIsFavorite] = useState({});
 
-  // 페이지 로드 시 로컬 스토리지에서 즐겨찾기 목록을 불러옴
-  useEffect(() => {
-    const savedBookmarks = JSON.parse(localStorage.getItem("bookmarks")) || [];
-    setBookmarks(savedBookmarks);
-  }, []);
+    // 가게 정보를 API로 받아서 state에 저장
+    const getDefaultStoreList = () => {
+        instance.get(`/store/getFavoriteStoreList?userId=${userInfo.id}`)
+        .then((res) => {
+            console.log(res.data);
+            setStoreData(res.data);
+        });
+    };
 
-  // 즐겨찾기 추가 함수
-  const addBookmark = () => {
-    if (!bookmarkInput.trim()) return; // 빈 입력 방지
-    const newBookmark = bookmarkInput.trim();
-    const updatedBookmarks = [...bookmarks, newBookmark];
-    setBookmarks(updatedBookmarks);
-    localStorage.setItem("bookmarks", JSON.stringify(updatedBookmarks)); // 로컬 스토리지에 저장
-    setBookmarkInput(""); // 입력 폼 초기화
-  };
+    // 즐겨찾기 등록 버튼 클릭 핸들러
+    const favoriteClickHandler = (storeId) => {
+        instance.post(`/favorite/insertFavorite`, {
+            userId: userInfo.id,
+            storeId: storeId,
+        }).then(() => {
+            setIsFavorite((prevFavorites) => ({
+                ...prevFavorites,
+                [storeId]: true,
+            }));
+        });
+    };
 
-  // 즐겨찾기 삭제 함수
-  const deleteBookmark = (index) => {
-    const updatedBookmarks = bookmarks.filter((_, i) => i !== index);
-    setBookmarks(updatedBookmarks);
-    localStorage.setItem("bookmarks", JSON.stringify(updatedBookmarks)); // 로컬 스토리지에 저장
-  };
+    // 즐겨찾기 취소 버튼 클릭 핸들러
+    const favoriteCancelClickHandler = (storeId) => {
+        instance.post(`/favorite/checkFavoriteByUserStore`, {
+            userId: userInfo.id,
+            storeId: storeId,
+        }).then((res) => {
+            instance.delete(`/favorite/deleteFavoriteById?favoriteId=${res.data}`).then(() => {
+                setIsFavorite((prevFavorites) => ({
+                    ...prevFavorites,
+                    [storeId]: false,
+                }));
+            });
+        });
+    };
 
-  return (
-    <div>
-      <h2>즐겨찾기 페이지</h2>
+    // 즐겨찾기 여부 확인
+    const checkFavorite = () => {
+        console.log(userInfo);
+        instance.get(`/store/getFavoriteStoreList?userId=${userInfo.id}`)
+        .then((res) => {
+            console.log(res.data);
+            const favorites = res.data.reduce((acc, store) => {
+                acc[store.storeId] = true;
+                return acc;
+            }, {});
+            setIsFavorite(favorites); // 즐겨찾기 상태 업데이트
+        });
+    };
 
-      {/* 즐겨찾기 입력 폼 */}
-      <input
-        type="text"
-        value={bookmarkInput}
-        onChange={(e) => setBookmarkInput(e.target.value)}
-        placeholder="새 즐겨찾기를 입력하세요"
-      />
-      <button onClick={addBookmark}>추가</button>
+    useEffect(() => {
+        getDefaultStoreList();
+    }, []);
 
-      {/* 즐겨찾기 목록 */}
-      <ul>
-        {bookmarks.length === 0 ? (
-          <li>즐겨찾기가 없습니다.</li>
-        ) : (
-          bookmarks.map((bookmark, index) => (
-            <li key={index}>
-              {bookmark}
-              <button onClick={() => deleteBookmark(index)}>삭제</button>
-            </li>
-          ))
-        )}
-      </ul>
-    </div>
-  );
+
+    // 페이지 로드 시 사용자의 즐겨찾기 정보 불러오기
+    useEffect(() => {
+        if (userInfo.id) {
+            checkFavorite(); // 사용자의 즐겨찾기 목록을 가져옵니다.
+        }
+    }, [userInfo.id]); // userInfo.id가 바뀔 때마다 실행
+
+        // 로그인 상태 체크
+        useEffect(() => {
+            if (!userInfo.username) {
+                // 로그인 안 되어 있으면 swal출력 후 로그인 페이지로 리다이렉트
+                isNotLoginSwal();
+                navigate("/user/login");
+            }
+        }, [navigate, userInfo]);
+
+    return (
+        <div>
+            <ul>
+                {storeData.map((item) => (
+                    <li key={item.storeId}>
+                        <Card style={{ width: "18rem" }}>
+                            <Card.Body>
+                                <Link to={"/store/info"} state={item.storeId}>
+                                    <Card.Img
+                                        variant="top"
+                                        src={`${process.env.REACT_APP_HOST}/file/view/${item.saveFileName}`}
+                                    />
+                                    <Card.Title>{item.storeName}</Card.Title>
+                                    <Card.Text>⭐4.5 (Identity)</Card.Text>
+                                </Link>
+                                {/* isFavorite 상태에 따라 버튼 변경 */}
+                                {isFavorite[item.storeId] ? (
+                                    <Button onClick={() => favoriteCancelClickHandler(item.storeId)}>
+                                        X
+                                    </Button>
+                                ) : (
+                                    <Button onClick={() => favoriteClickHandler(item.storeId)}>
+                                        🔖
+                                    </Button>
+                                )}
+                            </Card.Body>
+                        </Card>
+                    </li>
+                ))}
+            </ul>
+            <h4>===============================</h4>
+        </div>
+    );
 };
 
 export default FavoritePage;
+
