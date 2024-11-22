@@ -25,7 +25,11 @@ const CheckUserEdit = () => {
 
       if (response.data.success) {
         // 비밀번호가 일치하면 수정 페이지로 이동
-        navigate("/user/edit");
+        navigate("/user/edit", {
+          state: {
+            password: password,
+          },
+        });
       } else {
         setError("비밀번호가 일치하지 않습니다.");
       }

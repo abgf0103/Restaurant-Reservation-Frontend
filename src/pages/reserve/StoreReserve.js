@@ -74,32 +74,89 @@ const ReserveList = () => {
 
   //예약 확정
   const handleConfirm = (reserveId) => {
-    instance.get(`/reservations/confirmReservation?reserveId=${reserveId}`)
-    .then(() => {
-      Swal.fire("성공", "예약이 확정되었습니다.", "success");
-      setReserves((prevReserves) =>
-        prevReserves.map((reserve) =>
-          reserve.reserveId === reserveId
-           ? {...reserve, reserveStatus: '1' }
-            : reserve
-        )
-      );
-    })
+    Swal.fire({
+      title: "예약을 확정하시겠습니까?",
+      text: "예약을 확정한 후 예약을 취소할 경우 불이익이 발생할 수 있습니다",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#198754",
+      confirmButtonText: "예약 확정",
+      cancelButtonText: "취소"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        instance.get(`/reservations/confirmReservation?reserveId=${reserveId}`);
+        Swal.fire({
+          title: "예약 확정",
+          icon: "success",
+          timer: 1500
+        });
+        setReserves((prevReserves) =>
+          prevReserves.map((reserve) =>
+            reserve.reserveId === reserveId
+             ? {...reserve, reserveStatus: '1' }
+              : reserve
+          )
+        );
+      }
+    });
   };
 
     //예약 취소
     const handleCancel = (reserveId) => {
-      instance.get(`/reservations/cancelReservation?reserveId=${reserveId}`)
-      .then(() => {
-        Swal.fire("성공", "예약이 취소되었습니다.", "success");
-        setReserves((prevReserves) =>
-          prevReserves.map((reserve) =>
-            reserve.reserveId === reserveId
-             ? {...reserve, reserveStatus: '3' }
-              : reserve
-          )
-        );
-      })
+      Swal.fire({
+        title: "예약을 취소하시겠습니까?",
+        text: "예약을 취소한 후 되돌릴 수 없습니다",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        confirmButtonText: "예약 취소",
+        cancelButtonText: "취소"
+      }).then((result) => {
+        console.log(result);
+        if (result.isConfirmed) {
+          instance.get(`/reservations/cancelReservation?reserveId=${reserveId}`);
+          Swal.fire({
+            title: "예약 취소",
+            icon: "error"
+          });
+          setReserves((prevReserves) =>
+            prevReserves.map((reserve) =>
+              reserve.reserveId === reserveId
+               ? {...reserve, reserveStatus: '3' }
+                : reserve
+            )
+          );
+        }
+      });
+    };
+
+    //예약 취소
+    const handleComplete = (reserveId) => {
+      Swal.fire({
+        title: "예약이 완료되었습니까?",
+        text: "예약을 완료한 후 되돌릴 수 없습니다",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#ffc107",
+        confirmButtonText: "예약 완료",
+        cancelButtonText: "취소"
+      }).then((result) => {
+        console.log(result);
+        if (result.isConfirmed) {
+          instance.get(`/reservations/completeReservation?reserveId=${reserveId}`);
+          Swal.fire({
+            title: "예약 완료",
+            icon: "success"
+          });
+          setReserves((prevReserves) =>
+            prevReserves.map((reserve) =>
+              reserve.reserveId === reserveId
+               ? {...reserve, reserveStatus: '2' }
+                : reserve
+            )
+          );
+        }
+      });
     };
 
 
@@ -119,7 +176,7 @@ const ReserveList = () => {
               )}
               {(reserve.reserveStatus === '1') &&(
                 // 완료 구현 필요
-                <Button variant="outline-warning" >완료</Button> 
+                <Button variant="outline-warning" onClick={() => handleComplete(reserve.reserveId)}>완료</Button> 
               )}
               {(reserve.reserveStatus === '0' || reserve.reserveStatus === '1') &&(
                 <Button variant="outline-danger" onClick={() => handleCancel(reserve.reserveId)} >예약 취소</Button> 

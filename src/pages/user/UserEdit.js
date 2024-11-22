@@ -3,13 +3,14 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getUserInfo } from "../../hooks/userSlice";
 import instance from "../../api/instance";
 
 const UserEdit = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const userInfo = useSelector(getUserInfo);
   const [formData, setFormData] = useState({
     id: userInfo.id,
@@ -17,7 +18,8 @@ const UserEdit = () => {
     name: userInfo.name,
     email: userInfo.email,
     phone: userInfo.phone,
-    password: "",
+    password: location.state.password,
+    newPassword: userInfo.newPassword,
     active: userInfo.active,
     roleNum: `${userInfo.roles[0].id}`,
     businessNum: "", // 사업자 등록 번호
@@ -25,7 +27,31 @@ const UserEdit = () => {
 
   useEffect(() => {
     console.log(userInfo);
-  }, []);
+    console.log(userInfo.phone);
+    console.log(userInfo.name);
+
+    if (userInfo.id) {
+      instance
+        .get(`/member/user/${userInfo.id}`)
+
+        .then((response) => {
+          const userData = response.data;
+          console.log(userData);
+          setFormData((prevState) => ({
+            ...prevState,
+            name: userData.name,
+            phone: userData.phone,
+          }));
+        })
+        .catch((error) => {
+          Swal.fire({
+            title: "오류",
+            text: error.response?.data || "사용자 정보를 가져올 수 없습니다,",
+            icon: "error",
+          });
+        });
+    }
+  }, [userInfo.id]);
 
   const onChange = (e) => {
     console.log(e.target.id);
@@ -44,8 +70,8 @@ const UserEdit = () => {
       .put(`/member/user/update`, {
         id: userInfo.id,
         username: userInfo.username,
-        name: formData.name,
-        phone: formData.phone,
+        name: userInfo.name,
+        phone: userInfo.phone,
         email: userInfo.email,
         roleNum: formData.roleNum,
         active: true,
@@ -99,7 +125,7 @@ const UserEdit = () => {
           <Form.Label>비밀번호</Form.Label>
           <Form.Control
             type="password"
-            value={formData.password}
+            value=""
             onChange={onChange}
             placeholder="비밀번호를 입력하세요 (변경하려면 입력)"
           />
