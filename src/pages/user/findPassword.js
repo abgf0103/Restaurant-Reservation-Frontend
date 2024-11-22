@@ -1,12 +1,13 @@
 import React, { useState } from "react";
-import axios from "axios";
-import instance from "../../api/instance";
+import { useNavigate } from "react-router-dom"; // useNavigate import
+import instance from "../../api/instance"; // 커스텀 axios 인스턴스를 임포트
 
 function FindPassword() {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
+  const navigate = useNavigate(); // navigate 함수
 
   // 폼 제출 처리
   const handleSubmit = async (event) => {
@@ -28,6 +29,11 @@ function FindPassword() {
       console.log(response.data);
 
       setMessage(response.data.message); // 응답 메시지 설정
+
+      // 결과 페이지로 이동하며 message 전달
+      navigate("/user/findPasswordResult", {
+        state: { message: response.data.message },
+      });
     } catch (error) {
       console.error("Error fetching temp password:", error);
       setMessage("서버 오류가 발생했습니다. 다시 시도해주세요.");
@@ -49,7 +55,7 @@ function FindPassword() {
         </label>
         <br />
         <label>
-          사용자 이름:
+          아이디:
           <input
             type="text"
             value={username}
@@ -70,8 +76,6 @@ function FindPassword() {
         <br />
         <button type="submit">임시 비밀번호 찾기</button>
       </form>
-      <h2>결과</h2>
-      {message && <p>{message}</p>} {/* 임시 비밀번호 또는 오류 메시지 출력 */}
     </div>
   );
 }

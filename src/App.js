@@ -37,6 +37,8 @@ import RegisterMenu from "./pages/store/RegisterMenu";
 import StoreReserve from "./pages/reserve/StoreReserve";
 import MenuManagement from "./pages/store/MenuManagement";
 import Admin from "./pages/Admin";
+import FindIdResult from "./pages/user/findIdResult";
+import FindPasswordResult from "./pages/user/findPasswordResult";
 
 const ROLES = {
   ROLE_USER: 1,
@@ -70,6 +72,11 @@ function App() {
           <Route path="/user/PreUserEdit" element={<PreUserEdit />} />
           <Route path="/user/BusinessSignup" element={<BusinessSignup />} />
           <Route path="/user/FavoritePage" element={<FavoritePage />} />
+          <Route path="/user/FindIdResult" element={<FindIdResult />} />
+          <Route
+            path="/user/FindPasswordResult"
+            element={<FindPasswordResult />}
+          />
           {/* store 부분 */}
           <Route path="/store/info/*" element={<StoreInfo />} />
           <Route path="/store/info/*" element={<StoreInfo />} />
