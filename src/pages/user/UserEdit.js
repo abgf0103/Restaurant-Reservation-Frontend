@@ -7,11 +7,15 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getUserInfo } from "../../hooks/userSlice";
 import instance from "../../api/instance";
+import { setUserInfo } from "../../hooks/userSlice";
+import { useDispatch } from "react-redux";
 
 const UserEdit = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const userInfo = useSelector(getUserInfo);
+  const dispatch = useDispatch();
+
   const [formData, setFormData] = useState({
     id: userInfo.id,
     username: userInfo.username,
@@ -26,36 +30,13 @@ const UserEdit = () => {
   });
 
   useEffect(() => {
-    console.log(userInfo);
-    console.log(userInfo.phone);
-    console.log(userInfo.name);
-
     if (userInfo.id) {
-      instance
-        .get(`/member/user/${userInfo.id}`)
-
-        .then((response) => {
-          const userData = response.data;
-          console.log(userData);
-          setFormData((prevState) => ({
-            ...prevState,
-            name: userData.name,
-            phone: userData.phone,
-          }));
-        })
-        .catch((error) => {
-          Swal.fire({
-            title: "오류",
-            text: error.response?.data || "사용자 정보를 가져올 수 없습니다,",
-            icon: "error",
-          });
-        });
     }
   }, [userInfo.id]);
 
   const onChange = (e) => {
-    console.log(e.target.id);
     const { id, value } = e.target;
+
     setFormData((prevState) => ({
       ...prevState,
       [id]: value,
@@ -64,14 +45,15 @@ const UserEdit = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
+    console.log(userInfo.phone);
 
     // 백엔드에 수정 요청
     instance
       .put(`/member/user/update`, {
         id: userInfo.id,
         username: userInfo.username,
-        name: userInfo.name,
-        phone: userInfo.phone,
+        name: formData.name,
+        phone: formData.phone,
         email: userInfo.email,
         roleNum: formData.roleNum,
         active: true,
@@ -84,7 +66,24 @@ const UserEdit = () => {
           text: "사용자 정보가 성공적으로 수정되었습니다.",
           icon: "success",
         });
-        // 수정된 사용자 정보를 상태에 반영
+        // 수정된 사용자 정보를 로컬 저장소에 저장
+        instance
+          .get("/user/me")
+          .then((res) => {
+            console.log(res);
+            if (res) {
+              dispatch(setUserInfo(res.data));
+
+              localStorage.setItem("userInfo", JSON.stringify(res.data));
+            }
+          })
+          .catch((error) => {
+            Swal.fire({
+              title: "오류",
+              text: "사용자 정보를 불러오는 데 실패했습니다.",
+              icon: "error",
+            });
+          });
 
         navigate("/");
       })
@@ -125,7 +124,7 @@ const UserEdit = () => {
           <Form.Label>비밀번호</Form.Label>
           <Form.Control
             type="password"
-            value=""
+            value={userInfo.password}
             onChange={onChange}
             placeholder="비밀번호를 입력하세요 (변경하려면 입력)"
           />

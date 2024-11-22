@@ -35,7 +35,7 @@ const MemberSignup = () => {
   // 회원가입 요청
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
+
     try {
       // 백엔드 API 호출
       const response = await axios.post(
