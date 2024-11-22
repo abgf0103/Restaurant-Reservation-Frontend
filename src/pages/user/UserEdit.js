@@ -25,7 +25,31 @@ const UserEdit = () => {
 
   useEffect(() => {
     console.log(userInfo);
-  }, []);
+    console.log(userInfo.phone);
+    console.log(userInfo.name);
+
+    if (userInfo.id) {
+      instance
+        .get(`/member/user/${userInfo.id}`)
+
+        .then((response) => {
+          const userData = response.data;
+          console.log(userData);
+          setFormData((prevState) => ({
+            ...prevState,
+            name: userData.name,
+            phone: userData.phone,
+          }));
+        })
+        .catch((error) => {
+          Swal.fire({
+            title: "오류",
+            text: error.response?.data || "사용자 정보를 가져올 수 없습니다,",
+            icon: "error",
+          });
+        });
+    }
+  }, [userInfo.id]);
 
   const onChange = (e) => {
     console.log(e.target.id);
@@ -44,8 +68,8 @@ const UserEdit = () => {
       .put(`/member/user/update`, {
         id: userInfo.id,
         username: userInfo.username,
-        name: formData.name,
-        phone: formData.phone,
+        name: userInfo.name,
+        phone: userInfo.phone,
         email: userInfo.email,
         roleNum: formData.roleNum,
         active: true,

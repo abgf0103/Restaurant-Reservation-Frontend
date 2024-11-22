@@ -9,6 +9,8 @@ const userSlice = createSlice({
       roles: [],
       username: "",
       id: "",
+      phone: "",
+      name: "",
     },
   },
   reducers: {
@@ -22,6 +24,8 @@ const userSlice = createSlice({
         roles: [],
         username: "",
         id: "",
+        phone: "",
+        name: "",
       };
     },
   },
