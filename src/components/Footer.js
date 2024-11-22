@@ -27,6 +27,7 @@ const Footer = () => {
                 <Container>
                 <Nav className="me-auto">
                     <Nav.Link href="/">메인페이지</Nav.Link>
+                    <Nav.Link href="/user/FavoritePage">즐겨찾기 페이지</Nav.Link>
                     <Nav.Link href="/user/myreserve">나의 예약페이지</Nav.Link>
                     {/* 사업자 회원만 보이는 나의 가게 페이지*/}
                     {isManager && <Nav.Link href="/store/mystore">나의 가게 페이지</Nav.Link>}
