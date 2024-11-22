@@ -26,6 +26,7 @@ const RegisterStore = () => {
   // 카테고리 리스트를 API로 받아서 state에 저장
   useEffect(() => {
     instance.get("/category/list").then((res) => {
+      console.log("Category List:", res.data); // 콘솔에 카테고리 리스트 확인
       setCategoryList(res.data);
     });
   }, []);
@@ -45,50 +46,57 @@ const RegisterStore = () => {
       ...prevState,
       [name]: value,
     }));
+    console.log("Store Data:", storeData); // 콘솔에 가게 정보 확인
   };
 
   const isAgreeHandler = (e) => {
     setIsAgree(e.target.checked);
+    console.log("Agree Checkbox:", isAgree); // 콘솔에 약관 동의 체크 상태 확인
   };
 
   // 카테고리 선택 핸들러
   const storeCategoryHandler = (e) => {
     setStoreCategory(e.target.value);
+    console.log("Selected Category:", storeCategory); // 콘솔에 선택된 카테고리 확인
   };
 
   // 파일 업로드 관련 핸들러
   const handleFileChange = (e) => {
-    console.log(e.target.files[0]);
+    console.log("Selected File:", e.target.files[0]);
     setSelectedFile(e.target.files[0]);
   };
 
   const handleFileUpload = () => {
-    const formData = new FormData();
-    formData.append("fileTarget", "storeImage");
-    formData.append("files", selectedFile);
+    if (selectedFile) {
+      const formData = new FormData();
+      formData.append("fileTarget", "storeImage");
+      formData.append("files", selectedFile);
 
-    instance
-      .post("/file/save", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      .then((res) => {
-        console.log(res.data);
-        setSelectedFile(null);
-        setFileList([...fileList, ...res.data]); // 업로드된 파일 목록에 추가
-      })
-      .catch((err) => {
-        Swal.fire({
-          title: "파일 업로드 실패",
-          text: "파일 업로드 중 오류가 발생했습니다.",
-          icon: "error",
+      instance
+        .post("/file/save", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((res) => {
+          console.log("File Upload Response:", res.data); // 콘솔에 파일 업로드 결과 확인
+          setSelectedFile(null);
+          setFileList([...fileList, ...res.data]); // 업로드된 파일 목록에 추가
+        })
+        .catch((err) => {
+          console.error("File Upload Error:", err); // 콘솔에 파일 업로드 에러 확인
+          Swal.fire({
+            title: "파일 업로드 실패",
+            text: "파일 업로드 중 오류가 발생했습니다.",
+            icon: "error",
+          });
         });
-      });
+    }
   };
 
   // 주소 검색 처리
   const handleComplete = (data) => {
+    console.log("Address Search Data:", data); // 콘솔에 주소 검색 결과 확인
     let fullAddress = data.address;
     let extraAddress = "";
     let localAddress = data.sido + " " + data.sigungu;
@@ -116,6 +124,7 @@ const RegisterStore = () => {
     e.preventDefault();
 
     // 가게 이름 중복 체크
+    console.log("Store Name Check:", storeData.storeName); // 콘솔에 가게 이름 확인
     instance
       .get("/store/hasStoreName", {
         params: { storeName: storeData.storeName },
@@ -150,6 +159,19 @@ const RegisterStore = () => {
       return;
     }
 
+    // 파일 ID 가져오기
+    const fileId = fileList[0]?.id; // 업로드된 파일 ID
+    console.log("File ID:", fileId); // 콘솔에 파일 ID 확인
+
+    if (!fileId) {
+      Swal.fire({
+        title: "파일 업로드 오류",
+        text: "파일 업로드가 제대로 되지 않았습니다.",
+        icon: "warning",
+      });
+      return;
+    }
+
     // 가게 등록
     instance
       .post("/store/insert", {
@@ -159,7 +181,7 @@ const RegisterStore = () => {
         storeHours: storeData.storeHours,
         phone: storeData.phone,
         description: storeData.description,
-        imageUrl: fileList[0]?.saveFileName, // 업로드된 이미지 URL
+        fileId: fileId, // fileId를 사용하여 파일 정보와 연결
       })
       .then(() => {
         Swal.fire({
@@ -175,6 +197,7 @@ const RegisterStore = () => {
           })
           .then((res) => {
             const storeId = res.data;
+            console.log("Store ID:", storeId); // 콘솔에 storeId 확인
             instance
               .post("/storeCategory/save", {
                 storeId: storeId,
