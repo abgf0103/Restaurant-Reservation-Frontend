@@ -42,6 +42,16 @@ const StoreInfo = () => {
   const [loading, setLoading] = useState(true);
 
   const [isPanelOpen, setIsPanelOpen] = useState(false);
+  
+  const [avgRating, setAvgRating] = useState([]);
+
+  const getRatingAvgByStoreId = () => {
+    instance
+     .get(`/review/getRatingAvgByStoreId?storeId=${storeId}`)
+     .then((res) => {
+        setAvgRating(res.data);
+      });
+  }
 
   const getMap = () => {
     //맵 불러오기
@@ -195,6 +205,7 @@ const StoreInfo = () => {
   useEffect(() => {
     getMap();
     getData();
+    getRatingAvgByStoreId();
   }, [storeId]);
 
   const handleReserveClick = () => {
@@ -217,7 +228,7 @@ const StoreInfo = () => {
   return (
     <>
       <h2>{storeData.storeName}</h2>
-      <p>별점 : ? 리뷰개수, tel : {storeData.phone}</p>
+      <p>별점 : {avgRating} 리뷰개수, tel : {storeData.phone}</p>
 
       <Button onClick={() => scrollToSection("description")}>가게 설명</Button>
       <Button onClick={() => scrollToSection("menu")}>메뉴</Button>

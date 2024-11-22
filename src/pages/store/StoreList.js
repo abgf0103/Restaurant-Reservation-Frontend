@@ -15,6 +15,17 @@ const StoreList = () => {
     const userInfo = useSelector(getUserInfo);
     const [isFavorite, setIsFavorite] = useState({});
 
+    const [avgRating, setAvgRating] = useState([]); // 가게 평균 별점 상태관리
+
+    // 가게 평균 별점 조회
+    const getRatingAvgByStoreId = (storeId) => {
+      instance
+       .get(`/review/getRatingAvgByStoreId?storeId=${storeId}`)
+       .then((res) => {
+          setAvgRating(res.data);
+        });
+    }
+
     // 가게 정보를 API로 받아서 state에 저장
     const getDefaultStoreList = () => {
         instance.get("/store/list").then((res) => {
@@ -114,6 +125,9 @@ const StoreList = () => {
         }
     }, [userInfo.id]); // userInfo.id가 바뀔 때마다 실행
 
+
+
+
     return (
         <div>
             <h4>카테고리</h4>
@@ -135,7 +149,7 @@ const StoreList = () => {
                                         src={`${process.env.REACT_APP_HOST}/file/view/${item.saveFileName}`}
                                     />
                                     <Card.Title>{item.storeName}</Card.Title>
-                                    <Card.Text>⭐4.5 (Identity)</Card.Text>
+                                    <Card.Text>⭐{} (Identity)</Card.Text>
                                 </Link>
                                 {/* isFavorite 상태에 따라 버튼 변경 */}
                                 {isFavorite[item.storeId] ? (
