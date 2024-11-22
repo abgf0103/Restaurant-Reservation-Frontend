@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { getAllReservationsByUserId } from "../../webapi/webApiList"; // API 호출 함수 추가
+import instance from "../../api/instance"; // Axios instance
 import { reserveStatus } from "./../../utils/tools";
 
 const MyReserve = () => {
@@ -13,6 +14,7 @@ const MyReserve = () => {
   const userInfo = useSelector(getUserInfo); // 로그인된 사용자 정보
   const [reservations, setReservations] = useState([]); // 예약 정보 상태 관리
   const [loading, setLoading] = useState(true); // 로딩 상태 관리
+  const [reviewExistMap, setReviewExistMap] = useState({}); // 리뷰 여부 상태 관리
 
   // 예약 상태와 사용자 정보 확인 및 로그인 상태 체크
   useEffect(() => {
@@ -26,11 +28,20 @@ const MyReserve = () => {
       });
     } else {
       // 로그인된 사용자 정보로 예약 목록 가져오기
-      getAllReservationsByUserId(userInfo.id) // StoreInfo.js에서 사용했던 함수를 사용
+      getAllReservationsByUserId(userInfo.id)
         .then((res) => {
           console.log("예약 목록:", res); // API 응답 확인
           if (res && Array.isArray(res)) {
             setReservations(res); // 예약 목록 상태 업데이트
+
+            // 각 예약에 대한 리뷰 존재 여부를 확인
+            res.forEach((reservation) => {
+              checkIfReviewExists(
+                reservation.storeId,
+                userInfo.id,
+                reservation.reserveId
+              );
+            });
           } else {
             setReservations([]); // 예약이 없으면 빈 배열로 처리
           }
@@ -48,6 +59,23 @@ const MyReserve = () => {
         });
     }
   }, [userInfo, navigate]);
+
+  // 리뷰 존재 여부 체크 함수
+  const checkIfReviewExists = (storeId, userId, reserveId) => {
+    instance
+      .get(
+        `/review/check-exist?storeId=${storeId}&userId=${userId}&reserveId=${reserveId}`
+      )
+      .then((response) => {
+        setReviewExistMap((prev) => ({
+          ...prev,
+          [reserveId]: response.data, // reserveId를 키로 하여 리뷰 여부 저장
+        }));
+      })
+      .catch((error) => {
+        console.error("리뷰 여부 체크 실패:", error);
+      });
+  };
 
   return (
     <div className="my-reserve">
@@ -74,14 +102,17 @@ const MyReserve = () => {
                   <strong>상태:</strong>{" "}
                   {reserveStatus(reservation.reserveStatus)}
                 </Card.Text>
-                {/* 완료 상태일 때만 리뷰작성 버튼 생성 */}
-                {reservation.reserveStatus === 2 && (
-                  <Link
-                    to={`/writeReview/${reservation.storeId}/${reservation.reserveId}`}
-                  >
-                    리뷰 작성
-                  </Link>
-                )}
+                {/* 완료 상태일 때만 리뷰작성 버튼 또는 리뷰 작성 완료 메시지 */}
+                {reservation.reserveStatus === 2 &&
+                  (reviewExistMap[reservation.reserveId] ? (
+                    <p>{"리뷰 작성 완료 :)"}</p>
+                  ) : (
+                    <Link
+                      to={`/writeReview/${reservation.storeId}/${reservation.reserveId}`}
+                    >
+                      리뷰 작성
+                    </Link>
+                  ))}
               </Card.Body>
             </Card>
           ))}
