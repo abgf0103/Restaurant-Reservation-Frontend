@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { Button, Card } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
 import "../../css/Style.css";
+import { getUserInfo } from "../../hooks/userSlice";
+import { useSelector } from "react-redux";
 
 
 
@@ -19,7 +21,11 @@ const StoreList = () => {
     // 가게 검색 상태 관리
     const [result, setResult] = useState(null);
 
+    // 로그인된 사용자 정보
+    const userInfo = useSelector(getUserInfo); 
 
+    // 북마크 여부
+    const [isFavorite, setIsFavorite] = useState(false);
 
 
 
@@ -48,8 +54,35 @@ const StoreList = () => {
         });
     };
 
+    // 즐겨찾기 등록 버튼 클릭 핸들러
+    const favoriteClickHandler = (storeId) => {
+        console.log(userInfo.username);
+        console.log(storeId);
+        instance.post(`/favorite/insertFavorite`, {
+            userId: userInfo.username,
+            storeId: storeId,
+        })
+    };
+
+    // 즐겨찾기 취소 버튼 클릭 핸들러
+    const favoriteCancelClickHandler = (storeId) => {
+        //  /api/favorite/deleteFavoriteById로 삭제
+        console.log(userInfo.username);
+        console.log(`${storeId}`);
+    };
+
+    // 즐겨찾기 여부 
+    const checkFavorite = (storeId) => {
+        instance.post(`/favorite/checkFavoriteByUserStore`,{
+                userId: userInfo.username,
+                storeId: storeId,
+            }
+        ).then((res) => {
+            console.log(res.data);
+        })
+    }
+
     useEffect(() => {
-        // 페이지가 새로고침되면 result 초기화
         setResult(null);
 
         // `state`로 전달된 결과가 있다면 상태를 설정
@@ -78,9 +111,6 @@ const StoreList = () => {
         }
     }, [result]); // result가 변경될때마다 실행
 
-
-    
-    console.log(storeData);
     return (
         <div>
         <h4>카테고리</h4>
@@ -96,6 +126,8 @@ const StoreList = () => {
         <h4>==========가게 정보 리스트==========</h4>
         <ul>
             {storeData.map((item) => {
+                checkFavorite(item.storeId);
+
             return (
                 <li key={item.storeId}>
                 <Card style={{ width: "18rem" }}>
@@ -106,7 +138,12 @@ const StoreList = () => {
                             <Card.Title>{item.storeName}</Card.Title>
                             <Card.Text>⭐4.5 (Identity)</Card.Text>
                         </Link>
-                        <Button >🔖</Button>
+                        {/* isFavorite = true면 버튼 다르게 */}
+                        { checkFavorite(userInfo.username, item.storeId) === null ? (
+                            <Button onClick={()=>favoriteCancelClickHandler(item.storeId)}>X</Button>
+                        ) : (
+                            <Button onClick={()=>favoriteClickHandler(item.storeId)}>🔖</Button>
+                        )}
                     </Card.Body>
                 </Card>
                 </li>
