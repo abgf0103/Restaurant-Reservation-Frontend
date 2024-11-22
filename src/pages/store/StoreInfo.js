@@ -147,17 +147,6 @@ const StoreInfo = () => {
 
                           item.congestion = congestionObj;
 
-                          item.congestion.forEach((congestionItem) => {
-                            const div = document.createElement("div");
-                            div.textContent = `${congestionItem.direction}: ${congestionItem.congestion}`;
-                            div.style.backgroundColor = congestionItem.color; // 색상 적용
-                            div.style.color = "white"; // 글자색을 하얀색으로 설정
-                            div.style.padding = "10px"; // 여백 추가
-                            div.style.margin = "5px"; // 항목 간의 여백
-                            div.style.borderRadius = "5px"; // 둥근 모서리 추가
-                            document.body.appendChild(div); // 페이지에 추가
-                          });
-
                           // todo list
                           // 시간 파악, 평일인지 주말인지 파악, 상선인지 하선인지 파악
                           // 혼잡도는 시간의 값이 40 이상이면 혼잡으로 판단
