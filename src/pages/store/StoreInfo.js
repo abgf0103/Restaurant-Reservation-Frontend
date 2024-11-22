@@ -205,8 +205,13 @@ const StoreInfo = () => {
   useEffect(() => {
     getMap();
     getData();
-    getRatingAvgByStoreId();
   }, [storeId]);
+
+  //리뷰가 있으면 getRatingAvgByStoreId 실행으로 변경
+  useEffect(() => {
+    //getRatingAvgByStoreId();
+  }, [])
+
 
   const handleReserveClick = () => {
     setIsPanelOpen(true);
