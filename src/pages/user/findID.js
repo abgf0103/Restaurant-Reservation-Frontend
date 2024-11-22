@@ -1,12 +1,12 @@
-//아이디찾기 페이지
-
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"; // useNavigate import
 import instance from "../../api/instance"; // 커스텀 axios 인스턴스를 임포트
 
 const FindIdForm = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate(); // navigate 함수
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -34,6 +34,10 @@ const FindIdForm = () => {
 
       if (response.data.success) {
         setMessage(`아이디: ${response.data.cause}`);
+        // cause 값을 명확하게 전달
+        navigate("/user/findIdResult", {
+          state: { cause: response.data.cause },
+        });
       } else {
         setMessage("이메일에 해당하는 아이디가 없습니다.");
       }
@@ -58,7 +62,11 @@ const FindIdForm = () => {
           {loading ? "로딩 중..." : "아이디 찾기"}
         </button>
       </form>
-      {message && <p>{message}</p>}
+      {message && (
+        <div>
+          <p>{message}</p>
+        </div>
+      )}
     </div>
   );
 };
