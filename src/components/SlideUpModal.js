@@ -36,11 +36,16 @@ const SlideUpModal = ({ isOpen, onClose, selectedStoreId }) => {
         modalBackground.classList.remove("active");
         slideUpPanel.classList.remove("active");
       }
+      // 애니메이션이 끝나고 스크롤을 활성화
+      const animationDuration = 500;
       setTimeout(() => {
         setIsPanelVisible(false);
         document.body.style.overflow = "auto";
-      }, 500);
+      }, animationDuration);
     }
+    return () => {
+      document.body.style.overflow = "auto";
+    };
   }, [isOpen]);
 
   const handleBackgroundClick = (e) => {
@@ -122,7 +127,7 @@ const SlideUpModal = ({ isOpen, onClose, selectedStoreId }) => {
       try {
         instance.post("reservations/save", reservationData).then((res) => {
           console.log(res);
-          navigate('/user/myreserve')
+          navigate("/user/myreserve");
         });
       } catch (error) {
         console.error("예약 전송 오류:", error);

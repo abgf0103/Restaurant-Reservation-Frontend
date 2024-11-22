@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getUserInfo } from "../../hooks/userSlice";
 import Swal from "sweetalert2";
-import { Card } from "react-bootstrap";
+import { Card, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { getAllReservationsByUserId } from "../../webapi/webApiList"; // API 호출 함수 추가
 import instance from "../../api/instance"; // Axios instance
@@ -77,6 +77,44 @@ const MyReserve = () => {
       });
   };
 
+  // 예약 취소 함수
+  const deleteReservation = (reserveId) => {
+    Swal.fire({
+      title: "예약 취소",
+      text: "정말로 이 예약을 취소하시겠습니까?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "예, 취소합니다.",
+      cancelButtonText: "아니요",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        instance
+          .delete(`/reservations/delete/${reserveId}`)
+          .then(() => {
+            Swal.fire(
+              "취소됨!",
+              "예약이 성공적으로 취소되었습니다.",
+              "success"
+            );
+            // 예약 상태를 다시 불러와 업데이트
+            setReservations((prevReservations) =>
+              prevReservations.map((reservation) =>
+                reservation.reserveId === reserveId
+                  ? { ...reservation, reserveStatus: 3 } // 상태를 취소 상태(3)로 변경
+                  : reservation
+              )
+            );
+          })
+          .catch((error) => {
+            console.error("예약 취소 실패:", error);
+            Swal.fire("실패", "예약 취소에 실패했습니다.", "error");
+          });
+      }
+    });
+  };
+
   return (
     <div className="my-reserve">
       <h4>나의 예약 정보</h4>
@@ -113,6 +151,16 @@ const MyReserve = () => {
                       리뷰 작성
                     </Link>
                   ))}
+                {/* 예약 상태가 취소되지 않은 경우에만 '예약 취소' 버튼 추가 */}
+                {reservation.reserveStatus !== 3 && (
+                  <Button
+                    variant="danger"
+                    onClick={() => deleteReservation(reservation.reserveId)}
+                    style={{ marginTop: "10px" }}
+                  >
+                    예약 취소
+                  </Button>
+                )}
               </Card.Body>
             </Card>
           ))}
