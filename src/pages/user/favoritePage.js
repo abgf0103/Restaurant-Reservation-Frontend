@@ -87,35 +87,40 @@ const FavoritePage = () => {
 
     return (
         <div>
+            <h3>내 즐겨찾기 목록</h3>
             <ul>
-                {storeData.map((item) => (
-                    <li key={item.storeId}>
-                        <Card style={{ width: "18rem" }}>
-                            <Card.Body>
-                                <Link to={"/store/info"} state={item.storeId}>
-                                    <Card.Img
-                                        variant="top"
-                                        src={`${process.env.REACT_APP_HOST}/file/view/${item.saveFileName}`}
-                                    />
-                                    <Card.Title>{item.storeName}</Card.Title>
-                                    <Card.Text>⭐4.5 (Identity)</Card.Text>
-                                </Link>
-                                {/* isFavorite 상태에 따라 버튼 변경 */}
-                                {isFavorite[item.storeId] ? (
-                                    <Button onClick={() => favoriteCancelClickHandler(item.storeId)}>
-                                        X
-                                    </Button>
-                                ) : (
-                                    <Button onClick={() => favoriteClickHandler(item.storeId)}>
-                                        🔖
-                                    </Button>
-                                )}
-                            </Card.Body>
-                        </Card>
-                    </li>
-                ))}
+                { storeData.length === 0 ? (
+                    <p>즐겨찾기한 가게가 없습니다.</p>
+                ):
+                (
+                    storeData.map((item) => (
+                        <li key={item.storeId}>
+                            <Card style={{ width: "18rem" }}>
+                                <Card.Body>
+                                    <Link to={"/store/info"} state={item.storeId}>
+                                        <Card.Img
+                                            variant="top"
+                                            src={`${process.env.REACT_APP_HOST}/file/view/${item.saveFileName}`}
+                                        />
+                                        <Card.Title>{item.storeName}</Card.Title>
+                                        <Card.Text>⭐4.5 (Identity)</Card.Text>
+                                    </Link>
+                                    {/* isFavorite 상태에 따라 버튼 변경 */}
+                                    {isFavorite[item.storeId] ? (
+                                        <Button onClick={() => favoriteCancelClickHandler(item.storeId)}>
+                                            X
+                                        </Button>
+                                    ) : (
+                                        <Button onClick={() => favoriteClickHandler(item.storeId)}>
+                                            🔖
+                                        </Button>
+                                    )}
+                                </Card.Body>
+                            </Card>
+                        </li>
+                    ))
+                ) }
             </ul>
-            <h4>===============================</h4>
         </div>
     );
 };
