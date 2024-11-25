@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { getAllReservationsByUserId } from "../../webapi/webApiList"; // API 호출 함수 추가
 import instance from "../../api/instance"; // Axios instance
 import { reserveStatus } from "./../../utils/tools";
+import PaginatedList from "../../components/PaginatedList";
 
 const MyReserve = () => {
   const navigate = useNavigate();
@@ -123,8 +124,10 @@ const MyReserve = () => {
       ) : reservations.length === 0 ? (
         <p>예약 내역이 없습니다.</p>
       ) : (
-        <div className="reserve-card-container">
-          {reservations.map((reservation) => (
+        <PaginatedList
+          items={reservations}
+          itemsPerPage={10}
+          renderItem={(reservation) => (
             <Card
               key={reservation.reserveId} // reservationId를 키로 사용
               style={{ width: "18rem", margin: "10px" }}
@@ -163,8 +166,8 @@ const MyReserve = () => {
                 )}
               </Card.Body>
             </Card>
-          ))}
-        </div>
+          )}
+        />
       )}
     </div>
   );

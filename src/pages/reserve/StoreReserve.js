@@ -7,7 +7,7 @@ import instance from "../../api/instance";
 import { Button } from "react-bootstrap";
 import { reserveStatus } from "./../../utils/tools";
 
-const ReserveList = () => {
+const StoreReserve = () => {
   const { storeId } = useParams(); // URL에서 storeId 추출
   const navigate = useNavigate();
   const userInfo = useSelector(getUserInfo); // 로그인된 사용자 정보
@@ -23,7 +23,7 @@ const ReserveList = () => {
   }, [navigate, userInfo]);
 
   // 가게 예약 목록 가져오기
-  const getReserveList = () => {
+  const getStoreReserve = () => {
     instance
       .get(`/reservations/store/reserve/${storeId}`)
       .then((res) => {
@@ -49,7 +49,7 @@ const ReserveList = () => {
   };
 
   useEffect(() => {
-    getReserveList();
+    getStoreReserve();
     getStoreInfo();
   }, []);
 
@@ -231,4 +231,4 @@ const ReserveList = () => {
   );
 };
 
-export default ReserveList;
+export default StoreReserve;
