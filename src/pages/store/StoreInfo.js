@@ -42,7 +42,7 @@ const StoreInfo = () => {
   const [loading, setLoading] = useState(true);
 
   const [isPanelOpen, setIsPanelOpen] = useState(false);
-  
+
   const [avgRating, setAvgRating] = useState([]);
 
   const [nearByStationList, setNearByStationList] = useState([]);
@@ -51,11 +51,11 @@ const StoreInfo = () => {
 
   const getRatingAvgByStoreId = () => {
     instance
-     .get(`/review/getRatingAvgByStoreId?storeId=${storeId}`)
-     .then((res) => {
+      .get(`/review/getRatingAvgByStoreId?storeId=${storeId}`)
+      .then((res) => {
         setAvgRating(res.data);
       });
-  }
+  };
 
   const getMap = () => {
     //맵 불러오기
@@ -206,21 +206,19 @@ const StoreInfo = () => {
 
   const getReviewCountByStoreId = () => {
     instance
-     .get(`/review/getReviewCountByStoreId?storeId=${storeId}`)
-     .then((res) => {
+      .get(`/review/getReviewCountByStoreId?storeId=${storeId}`)
+      .then((res) => {
         setReviewCount(res.data);
-        if(res.data > 0){
-            getRatingAvgByStoreId();
-        }else {
-            setAvgRating(0);
+        if (res.data > 0) {
+          getRatingAvgByStoreId();
+        } else {
+          setAvgRating(0);
         }
       })
-     .catch((error) => {
+      .catch((error) => {
         console.error("리뷰 개수 가져오기 실패:", error);
       });
-  }
-
-
+  };
 
   useEffect(() => {
     getMap();
@@ -230,8 +228,7 @@ const StoreInfo = () => {
   //리뷰가 있으면 getRatingAvgByStoreId 실행으로 변경
   useEffect(() => {
     getReviewCountByStoreId();
-  }, [])
-
+  }, []);
 
   const handleReserveClick = () => {
     setIsPanelOpen(true);
@@ -253,7 +250,9 @@ const StoreInfo = () => {
   return (
     <>
       <h2>{storeData.storeName}</h2>
-      <p>별점 : {avgRating}({reviewCount}) tel : {storeData.phone}</p>
+      <p>
+        별점 : {avgRating}({reviewCount}) tel : {storeData.phone}
+      </p>
 
       <Button onClick={() => scrollToSection("description")}>가게 설명</Button>
       <Button onClick={() => scrollToSection("menu")}>메뉴</Button>
@@ -296,7 +295,7 @@ const StoreInfo = () => {
             return (
               <li key={index}>
                 {item.place_name}에서 {item.distance}m
-                {item?.congestion.map((item, index) => {
+                {item?.congestion?.map((item, index) => {
                   return (
                     <span
                       key={index}
