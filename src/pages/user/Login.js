@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setTokenInfo } from "../../hooks/tokenSlice";
 import { setUserInfo } from "../../hooks/userSlice";
+import "./css/login.css";
 
 const Login = () => {
   // 페이지 이동 함수
@@ -98,7 +99,7 @@ const Login = () => {
   return (
     <Form className="container" onSubmit={onSubmit}>
       <Form.Group className="mb-3" controlId="username">
-        <Form.Label>아이디</Form.Label>
+        <Form.Label></Form.Label>
         <Form.Control
           type="text"
           placeholder="아이디를 입력하세요."
@@ -107,21 +108,23 @@ const Login = () => {
       </Form.Group>
 
       <Form.Group className="mb-3" controlId="password">
-        <Form.Label>비밀번호</Form.Label>
+        <Form.Label></Form.Label>
         <Form.Control
           type="password"
           placeholder="비밀번호를 입력하세요."
           onChange={onChange}
         />
       </Form.Group>
-      <Button variant="primary" type="submit">
+      <div className="button-container">
+        <Button type="button" onClick={findidgo} className="find-button">
+          아이디 찾기
+        </Button>
+        <Button type="button" onClick={findpwgo} className="find-button">
+          비밀번호 찾기
+        </Button>
+      </div>
+      <Button type="submit" className="login-button">
         로그인
-      </Button>
-      <Button type="button" onClick={findidgo}>
-        아이디 찾기
-      </Button>
-      <Button type="button" onClick={findpwgo}>
-        비밀번호 찾기
       </Button>
     </Form>
   );

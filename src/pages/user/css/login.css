@@ -1,0 +1,39 @@
+form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.mb-3 {
+  width: 1000px;
+}
+.find-button {
+  background-color: transparent !important;
+  color: gray !important;
+  border-color: transparent !important;
+}
+.button-container {
+  display: flex; /* 버튼들을 가로로 나열 */
+  gap: 10px; /* 버튼 간의 간격을 10px로 설정 */
+  margin-bottom: 10px; /* 버튼들 아래에 간격 추가 */
+  justify-content: flex-end !important;
+  max-width: 1000px;
+}
+.login-button {
+  width: 1000px;
+  background-color: #ff9c73 !important;
+}
+.container {
+  display: flex;
+  justify-content: center; /* 가로 중앙 정렬 */
+  align-items: center; /* 세로 중앙 정렬 */
+
+  width: 100%; /* 화면 전체 너비 */
+  flex-direction: column; /* 세로로 요소 배치 */
+  padding: 0 20px;
+
+  align-items: stretch; /* 자식 요소들을 부모에 맞춰 확장 */
+}
