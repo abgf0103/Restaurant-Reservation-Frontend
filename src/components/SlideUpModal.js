@@ -14,7 +14,10 @@ const SlideUpModal = ({ isOpen, onClose, selectedStoreId }) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedTime, setSelectedTime] = useState(null);
   const [selectedPeople, setSelectedPeople] = useState(null);
-  const userInfo = useSelector(getUserInfo); // 로그인된 사용자 정보
+  const [currentMonth, setCurrentMonth] = useState(selectedDate.getMonth());
+  const [currentYear, setCurrentYear] = useState(selectedDate.getFullYear());
+  const [storeInfo, setStoreInfo] = useState(null); // 가게 정보 상태 추가
+  const userInfo = useSelector(getUserInfo);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,6 +32,19 @@ const SlideUpModal = ({ isOpen, onClose, selectedStoreId }) => {
           slideUpPanel.classList.add("active");
         }
       }, 100);
+
+      // 가게 정보 로드
+      if (selectedStoreId) {
+        instance
+          .get(`/store/view/${selectedStoreId}`)
+          .then((response) => {
+            setStoreInfo(response.data);
+            console.log("가게 정보:", response.data);
+          })
+          .catch((error) => {
+            console.error("가게 정보 불러오기 오류:", error);
+          });
+      }
     } else {
       const modalBackground = document.querySelector(".modal-background");
       const slideUpPanel = document.querySelector(".slide-up");
@@ -36,7 +52,6 @@ const SlideUpModal = ({ isOpen, onClose, selectedStoreId }) => {
         modalBackground.classList.remove("active");
         slideUpPanel.classList.remove("active");
       }
-      // 애니메이션이 끝나고 스크롤을 활성화
       const animationDuration = 500;
       setTimeout(() => {
         setIsPanelVisible(false);
@@ -46,7 +61,7 @@ const SlideUpModal = ({ isOpen, onClose, selectedStoreId }) => {
     return () => {
       document.body.style.overflow = "auto";
     };
-  }, [isOpen]);
+  }, [isOpen, selectedStoreId]);
 
   const handleBackgroundClick = (e) => {
     if (e.target.className.includes("modal-background")) {
@@ -92,16 +107,12 @@ const SlideUpModal = ({ isOpen, onClose, selectedStoreId }) => {
       return;
     }
 
-    // 사용자가 선택한 날짜와 시간 정보를 결합하여 예약 DateTime 생성
     const [timeHour, timeMinute] = selectedTime.split(":");
-
-    // 기존의 selectedDate를 복사하여 새로운 객체 생성
     const reservationDateTime = new Date(selectedDate);
     reservationDateTime.setHours(parseInt(timeHour));
     reservationDateTime.setMinutes(parseInt(timeMinute));
-    reservationDateTime.setSeconds(0); // 초는 0으로 설정
+    reservationDateTime.setSeconds(0);
 
-    // 로컬 시간대 형식으로 reserveDate를 생성
     const formattedDateTime = `${reservationDateTime.getFullYear()}-${String(
       reservationDateTime.getMonth() + 1
     ).padStart(2, "0")}-${String(reservationDateTime.getDate()).padStart(
@@ -116,7 +127,6 @@ const SlideUpModal = ({ isOpen, onClose, selectedStoreId }) => {
     }월 ${selectedDate.getDate()}일\n시간: ${selectedTime}\n인원수: ${selectedPeople}명\n\n확인하시겠습니까?`;
 
     if (window.confirm(confirmationMessage)) {
-      // 사용자가 확인을 눌렀을 때 예약 요청을 전송합니다.
       const reservationData = {
         storeId: selectedStoreId,
         reserveDate: formattedDateTime,
@@ -134,8 +144,58 @@ const SlideUpModal = ({ isOpen, onClose, selectedStoreId }) => {
         alert("예약 신청 중 오류가 발생했습니다. 다시 시도해주세요.");
       }
     } else {
-      // 사용자가 취소를 눌렀을 때
       alert("예약이 취소되었습니다.");
+    }
+  };
+
+  // 가게의 영업 시간을 바탕으로 시간 선택 슬라이드를 생성
+  const renderTimeOptions = () => {
+    if (!storeInfo || !storeInfo.storeHours) {
+      return [];
+    }
+
+    try {
+      const storeHours = storeInfo.storeHours.trim();
+      console.log("storeHours:", storeHours);
+
+      // 정규식을 사용하여 영업 시간 추출
+      const timeRangeMatch = storeHours.match(
+        /(\d{1,2}:\d{2})\s*~\s*(\d{1,2}:\d{2})/
+      );
+      if (!timeRangeMatch) {
+        console.warn("영업시간 포맷이 올바르지 않습니다:", storeHours);
+        return [];
+      }
+
+      const openTime = timeRangeMatch[1]; // 오픈 시간
+      const closeTime = timeRangeMatch[2]; // 종료 시간
+
+      const openHour = parseInt(openTime.split(":")[0], 10);
+      const openMinute = parseInt(openTime.split(":")[1], 10);
+      const closeHour = parseInt(closeTime.split(":")[0], 10);
+      const closeMinute = parseInt(closeTime.split(":")[1], 10);
+
+      const timeOptions = [];
+      let currentHour = openHour;
+      let currentMinute = openMinute;
+
+      // 한 시간 간격으로 종료 시간 전까지 생성
+      while (
+        currentHour < closeHour ||
+        (currentHour === closeHour && currentMinute < closeMinute)
+      ) {
+        timeOptions.push(
+          `${String(currentHour).padStart(2, "0")}:${String(
+            currentMinute
+          ).padStart(2, "0")}`
+        );
+        currentHour += 1;
+      }
+
+      return timeOptions;
+    } catch (error) {
+      console.error("영업 시간 파싱 오류:", error);
+      return [];
     }
   };
 
@@ -152,11 +212,13 @@ const SlideUpModal = ({ isOpen, onClose, selectedStoreId }) => {
                   selected={selectedDate}
                   onChange={handleDateChange}
                   inline
-                  minDate={new Date()} // 오늘 이전 날짜는 비활성화
+                  minDate={new Date()}
+                  filterDate={(date) =>
+                    date.getMonth() === currentMonth &&
+                    date.getFullYear() === currentYear
+                  }
                   renderCustomHeader={({
                     date,
-                    changeYear,
-                    changeMonth,
                     decreaseMonth,
                     increaseMonth,
                     prevMonthButtonDisabled,
@@ -164,7 +226,11 @@ const SlideUpModal = ({ isOpen, onClose, selectedStoreId }) => {
                   }) => (
                     <div className="datepicker-header">
                       <button
-                        onClick={decreaseMonth}
+                        onClick={() => {
+                          decreaseMonth();
+                          setCurrentMonth(date.getMonth() - 1);
+                          setCurrentYear(date.getFullYear());
+                        }}
                         disabled={prevMonthButtonDisabled}
                         className="datepicker-nav-button"
                       >
@@ -175,7 +241,11 @@ const SlideUpModal = ({ isOpen, onClose, selectedStoreId }) => {
                         {date.toLocaleString("ko-KR", { month: "long" })}
                       </span>
                       <button
-                        onClick={increaseMonth}
+                        onClick={() => {
+                          increaseMonth();
+                          setCurrentMonth(date.getMonth() + 1);
+                          setCurrentYear(date.getFullYear());
+                        }}
                         disabled={nextMonthButtonDisabled}
                         className="datepicker-nav-button"
                       >
@@ -193,6 +263,7 @@ const SlideUpModal = ({ isOpen, onClose, selectedStoreId }) => {
                 spaceBetween={6}
                 slidesPerView="auto"
                 freeMode={true}
+                grabCursor={true}
                 className="swiper-container"
                 style={{ overflow: "visible" }}
               >
@@ -226,26 +297,24 @@ const SlideUpModal = ({ isOpen, onClose, selectedStoreId }) => {
                 className="swiper-container"
                 style={{ overflow: "visible" }}
               >
-                {["10:00", "11:00", "13:00", "15:00", "17:00"].map(
-                  (time, index) => (
-                    <SwiperSlide
-                      key={index}
-                      className="swiper-slide"
-                      style={{ width: "auto", marginRight: "6px" }}
-                    >
-                      <label className="time-label">
-                        <input
-                          type="radio"
-                          name="time"
-                          value={time}
-                          style={{ backgroundColor: "unset" }}
-                          onChange={() => handleTimeChange(time)}
-                        />
-                        <span>{time}</span>
-                      </label>
-                    </SwiperSlide>
-                  )
-                )}
+                {renderTimeOptions().map((time, index) => (
+                  <SwiperSlide
+                    key={index}
+                    className="swiper-slide"
+                    style={{ width: "auto", marginRight: "6px" }}
+                  >
+                    <label className="time-label">
+                      <input
+                        type="radio"
+                        name="time"
+                        value={time}
+                        style={{ backgroundColor: "unset" }}
+                        onChange={() => handleTimeChange(time)}
+                      />
+                      <span>{time}</span>
+                    </label>
+                  </SwiperSlide>
+                ))}
               </Swiper>
             </div>
 
