@@ -112,7 +112,7 @@ const StoreInfo = () => {
                     const formattedTime =
                       hour < 12
                         ? `${time.format(`h시`)}` + formattedMinutes
-                        : time.format(`hh시`) + formattedMinutes;
+                        : time.format(`H시`) + formattedMinutes;
 
                     tempData.forEach((item, index) => {
                       if (index <= 1) tempArr.push(item);
@@ -126,41 +126,27 @@ const StoreInfo = () => {
                           item.place_name.indexOf(data[i]["출발역"]) >= 0 &&
                           data[i]["요일구분"] === day
                         ) {
-                          const congestionObj = [];
-                          const congestion =
-                            data[i][formattedTime] >= 40
+                          const congestion = Number(
+                            data[i][formattedTime] ? data[i][formattedTime] : 0
+                          );
+                          const nextCongestion = Number(
+                            i + 1 < data.length && data[i + 1][formattedTime]
+                              ? data[i + 1][formattedTime]
+                              : 0
+                          );
+
+                          const congestionSum =
+                            (congestion + nextCongestion) / 2;
+                          const congestionText =
+                            congestionSum >= 40
                               ? "혼잡"
-                              : data[i][formattedTime] < 20
+                              : congestionSum < 20
                               ? "여유"
                               : "보통";
 
-                          // 혼잡도에 맞는 색상 매핑
-                          const color = getCongestionColor(congestion);
-
-                          congestionObj.push({
-                            direction: data[i]["상하구분"],
-                            congestion,
-                            color, // 색상 추가
-                          });
-
-                          if (i + 1 < data.length) {
-                            const nextCongestion =
-                              data[i + 1][formattedTime] >= 40
-                                ? "혼잡"
-                                : data[i + 1][formattedTime] < 20
-                                ? "여유"
-                                : "보통";
-                            const nextColor =
-                              getCongestionColor(nextCongestion);
-
-                            congestionObj.push({
-                              direction: data[i + 1]["상하구분"],
-                              congestion: nextCongestion,
-                              color: nextColor, // 색상 추가
-                            });
-                          }
-
-                          item.congestion = congestionObj;
+                          item.congestion = congestionText;
+                          const color = getCongestionColor(congestionText);
+                          item.color = color;
 
                           // todo list
                           // 시간 파악, 평일인지 주말인지 파악, 상선인지 하선인지 파악
@@ -196,36 +182,36 @@ const StoreInfo = () => {
           (review) => review.storeId === storeId
         );
         setReviews(filteredReviews);
-         // 서버에서 반환되는 리뷰 데이터에 좋아요 수(likeCount)를 포함해서 처리
-         console.log(filteredReviews);
-         const reviewsWithLikes = filteredReviews.map((review) => ({
-            ...review,
-            liked: false, // 좋아요 상태는 기본적으로 false
-            likeCount: review.likeCount || 0, // 서버에서 받은 likeCount 값을 사용하여 초기값 설정
-          }));
-          console.log(res);
-  
-          setReviews(reviewsWithLikes); // 리뷰 목록 상태 업데이트
-  
-          // 리뷰별로 좋아요 상태 가져오기
-          reviewsWithLikes.forEach((review) => {
-            instance
-              .get(`/review/likes/status?reviewId=${review.reviewId}`)
-              .then((statusRes) => {
-                console.log(review);
-                // 해당 리뷰에 대한 좋아요 상태를 갱신
-                setReviews((prevReviews) =>
-                  prevReviews.map((r) =>
-                    r.reviewId === review.reviewId
-                      ? { ...r, liked: statusRes.data }
-                      : r
-                  )
-                );
-              })
-              .catch((error) => {
-                console.error("좋아요 상태 확인 실패:", error);
-              });
-          });
+        // 서버에서 반환되는 리뷰 데이터에 좋아요 수(likeCount)를 포함해서 처리
+        console.log(filteredReviews);
+        const reviewsWithLikes = filteredReviews.map((review) => ({
+          ...review,
+          liked: false, // 좋아요 상태는 기본적으로 false
+          likeCount: review.likeCount || 0, // 서버에서 받은 likeCount 값을 사용하여 초기값 설정
+        }));
+        console.log(res);
+
+        setReviews(reviewsWithLikes); // 리뷰 목록 상태 업데이트
+
+        // 리뷰별로 좋아요 상태 가져오기
+        reviewsWithLikes.forEach((review) => {
+          instance
+            .get(`/review/likes/status?reviewId=${review.reviewId}`)
+            .then((statusRes) => {
+              console.log(review);
+              // 해당 리뷰에 대한 좋아요 상태를 갱신
+              setReviews((prevReviews) =>
+                prevReviews.map((r) =>
+                  r.reviewId === review.reviewId
+                    ? { ...r, liked: statusRes.data }
+                    : r
+                )
+              );
+            })
+            .catch((error) => {
+              console.error("좋아요 상태 확인 실패:", error);
+            });
+        });
       })
       .catch((error) => {
         console.error("리뷰 목록 가져오기 실패:", error);
@@ -310,7 +296,6 @@ const StoreInfo = () => {
   //리뷰가 있으면 getRatingAvgByStoreId 실행으로 변경
   useEffect(() => {
     getReviewCountByStoreId();
-    
   }, []);
 
   const handleReserveClick = () => {
@@ -397,6 +382,51 @@ const StoreInfo = () => {
       ) : (
         <p>작성된 리뷰가 없습니다.</p>
       )}
+
+      <ul>
+        {nearByStationList.length > 0 &&
+          nearByStationList.map((item, index) => {
+            return (
+              <li key={index}>
+                {item.place_name}에서 {item.distance}m
+                <span
+                  style={{
+                    padding: "3px 6px",
+                    borderRadius: "5px",
+                    display: "inline-block",
+                    margin: "0 2px",
+                    textAlign: "center",
+                    fontSize: "12px",
+                    color: "#fff",
+                    background: item.color,
+                  }}
+                >
+                  {item?.congestion}
+                </span>
+                {/* {item?.congestion?.map((item, index) => {
+                  return (
+                    <span
+                      key={index}
+                      style={{
+                        padding: "3px 6px",
+                        borderRadius: "5px",
+                        display: "inline-block",
+                        margin: "0 2px",
+                        textAlign: "center",
+                        fontSize: "12px",
+                        color: "#fff",
+                        background: item.color,
+                      }}
+                    >
+                      {" "}
+                      {item.congestion}
+                    </span>
+                  );
+                })} */}
+              </li>
+            );
+          })}
+      </ul>
 
       <KakaoMap
         center={{ lat: storeData.latlng.lat, lng: storeData.latlng.lng }}
