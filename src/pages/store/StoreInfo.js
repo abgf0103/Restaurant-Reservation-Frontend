@@ -196,6 +196,35 @@ const StoreInfo = () => {
           (review) => review.storeId === storeId
         );
         setReviews(filteredReviews);
+         // 서버에서 반환되는 리뷰 데이터에 좋아요 수(likeCount)를 포함해서 처리
+         const reviewsWithLikes = res.data.data.map((review) => ({
+            ...review,
+            liked: false, // 좋아요 상태는 기본적으로 false
+            likeCount: review.likeCount || 0, // 서버에서 받은 likeCount 값을 사용하여 초기값 설정
+          }));
+          console.log(res);
+  
+          setReviews(reviewsWithLikes); // 리뷰 목록 상태 업데이트
+  
+          // 리뷰별로 좋아요 상태 가져오기
+          reviewsWithLikes.forEach((review) => {
+            instance
+              .get(`/review/likes/status?reviewId=${review.reviewId}`)
+              .then((statusRes) => {
+                console.log(review);
+                // 해당 리뷰에 대한 좋아요 상태를 갱신
+                setReviews((prevReviews) =>
+                  prevReviews.map((r) =>
+                    r.reviewId === review.reviewId
+                      ? { ...r, liked: statusRes.data }
+                      : r
+                  )
+                );
+              })
+              .catch((error) => {
+                console.error("좋아요 상태 확인 실패:", error);
+              });
+          });
       })
       .catch((error) => {
         console.error("리뷰 목록 가져오기 실패:", error);
@@ -280,6 +309,7 @@ const StoreInfo = () => {
   //리뷰가 있으면 getRatingAvgByStoreId 실행으로 변경
   useEffect(() => {
     getReviewCountByStoreId();
+    
   }, []);
 
   const handleReserveClick = () => {
