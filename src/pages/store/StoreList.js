@@ -172,6 +172,8 @@ const StoreList = () => {
     }
   }, [result]);
 
+  console.log(storeData);
+
   return (
     <div>
       <h4>카테고리</h4>
@@ -197,8 +199,8 @@ const StoreList = () => {
                   />
                   <Card.Title>{item.storeName}</Card.Title>
                   <Card.Text>
-                    ⭐{storeRatings[item.storeId] || 0}(
-                    {storeReviewCounts[item.storeId] || 0})
+                    ⭐{storeRatings[item.storeId] || 0}({storeReviewCounts[item.storeId] || 0}) 
+                    <p>{item.identity}</p>
                   </Card.Text>
                 </Link>
                 {isFavorite[item.storeId] ? (
