@@ -197,7 +197,8 @@ const StoreInfo = () => {
         );
         setReviews(filteredReviews);
          // 서버에서 반환되는 리뷰 데이터에 좋아요 수(likeCount)를 포함해서 처리
-         const reviewsWithLikes = res.data.data.map((review) => ({
+         console.log(filteredReviews);
+         const reviewsWithLikes = filteredReviews.map((review) => ({
             ...review,
             liked: false, // 좋아요 상태는 기본적으로 false
             likeCount: review.likeCount || 0, // 서버에서 받은 likeCount 값을 사용하여 초기값 설정
