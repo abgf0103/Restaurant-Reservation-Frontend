@@ -312,13 +312,23 @@ const RegisterStore = () => {
             placeholder="상세 설명을 입력하세요"
             name="description"
             onChange={onChangeHandler}
-            required
+          />
+        </Form.Group>
+
+        <Form.Group className="mb-3">
+          <Form.Label>아이덴티티</Form.Label>
+          <Form.Control
+            as="textarea"
+            placeholder="가게에서 판매하는 종목을 한 단어로 입력하세요"
+            name="identity"
+            onChange={onChangeHandler}
           />
         </Form.Group>
 
         <Form.Group className="mb-3">
           <Form.Check
             type="checkbox"
+            id="agreeCheckbox"
             label="약관에 동의합니다."
             onChange={isAgreeHandler}
             required

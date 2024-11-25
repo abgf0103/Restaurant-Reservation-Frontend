@@ -31,6 +31,7 @@ const RegisterStore = () => {
     fileId: "", // 파일 ID
     storeName: "", // 가게 이름
     address: "", // 주소
+    identity: "", // 가게 정체성
   });
 
   const getStoreData = () => {
@@ -105,6 +106,7 @@ const RegisterStore = () => {
       storeHours: storeData.storeHours,
       phone: storeData.phone,
       description: storeData.description,
+      identity: storeData.identity,
       fileId: storeData.fileId,
     });
     instance
@@ -114,6 +116,7 @@ const RegisterStore = () => {
         storeHours: storeData.storeHours,
         phone: storeData.phone,
         description: storeData.description,
+        identity: storeData.identity,
         fileId: storeData.fileId,
       })
       .then(() => {
@@ -333,6 +336,17 @@ const RegisterStore = () => {
         </Form.Group>
 
         <Form.Group className="mb-3">
+          <Form.Label>아이덴티티</Form.Label>
+          <Form.Control
+            as="textarea"
+            value={storeData.identity}
+            placeholder="가게에서 판매하는 종목을 한 단어로 입력하세요"
+            name="identity"
+            onChange={onChangeHandler}
+          />
+        </Form.Group>
+
+        <Form.Group className="mb-3">
           <Form.Label>가게 운영시간</Form.Label>
           <Form.Control
             type="text"
@@ -346,6 +360,7 @@ const RegisterStore = () => {
         <Form.Group className="mb-3">
           <Form.Check
             type="checkbox"
+            id="agreeCheckbox"
             label="약관에 동의합니다."
             checked={isAgrre}
             onChange={isAgreeHandler}
