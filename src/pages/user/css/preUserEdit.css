@@ -1,0 +1,17 @@
+.chooseUser {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 50px;
+  padding: 50px;
+  gap: 250px;
+}
+.button1 {
+  background-color: var(--secondary-color);
+  height: 300px;
+  width: 300px;
+  font-size: 40px;
+}
+.button1:hover {
+  background-color: var(--secondaryHover-color);
+}

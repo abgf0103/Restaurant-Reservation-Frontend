@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import "./css/preUserEdit.css";
 
 const PreUserEdit = () => {
   const navigate = useNavigate();
@@ -12,11 +13,11 @@ const PreUserEdit = () => {
   };
 
   return (
-    <div>
-      <button type="button" onClick={gore}>
+    <div className="chooseUser">
+      <button type="button" onClick={gore} className="button1">
         일반 회원
       </button>
-      <button type="button" onClick={gobe}>
+      <button type="button" onClick={gobe} className="button1">
         사업자 회원
       </button>
     </div>
