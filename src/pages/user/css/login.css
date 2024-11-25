@@ -1,5 +1,5 @@
 .mb-3 {
-  width: 1000px;
+  width: 1280px;
 }
 .find-button {
   background-color: transparent !important;
@@ -11,11 +11,14 @@
   gap: 10px; /* 버튼 간의 간격을 10px로 설정 */
   margin-bottom: 10px; /* 버튼들 아래에 간격 추가 */
   justify-content: flex-end !important;
-  max-width: 1000px;
+  max-width: 1280px;
 }
 .login-button {
-  width: 1000px;
+  width: 1280px;
   background-color: var(--secondary-color) !important;
+}
+.login-button:hover {
+  background-color: var(--secondaryHover-color) !important;
 }
 .container {
   display: flex;
