@@ -13,9 +13,7 @@ const ReserveList = () => {
   const userInfo = useSelector(getUserInfo); // 로그인된 사용자 정보
 
   const [reserves, setReserves] = useState([]);
-
-  //가게 이름 상태 관리
-  const [storeName, setStoreName] = useState([]);
+  const [storeName, setStoreName] = useState("");
 
   // 로그인 상태 체크
   useEffect(() => {
@@ -24,28 +22,42 @@ const ReserveList = () => {
     }
   }, [navigate, userInfo]);
 
-  // 가게 정보를 API로 받아서 state에 저장
+  // 가게 예약 목록 가져오기
   const getReserveList = () => {
-    console.log(storeId);
-    instance.get(`/reservations/store/${storeId}`).then((res) => {
-      console.log(res.data);
-      setReserves(res.data);
-    });
+    instance
+      .get(`/reservations/store/reserve/${storeId}`)
+      .then((res) => {
+        console.log(res.data);
+        setReserves(res.data);
+      })
+      .catch((error) => {
+        console.error("예약 목록 가져오기 실패:", error);
+        Swal.fire("실패", "예약 목록을 가져오는 데 실패했습니다.", "error");
+      });
   };
 
-  // 특정 가게의 예약 목록 가져오기
+  // 가게 정보 가져오기
+  const getStoreInfo = () => {
+    instance
+      .get(`/store/view/${storeId}`)
+      .then((res) => {
+        setStoreName(res.data.storeName);
+      })
+      .catch((error) => {
+        console.error("가게 정보 가져오기 실패:", error);
+      });
+  };
+
   useEffect(() => {
     getReserveList();
-    instance.get(`/store/view/${storeId}`).then((res) => {
-      setStoreName(res.data.storeName);
-    });
+    getStoreInfo();
   }, []);
 
-  //예약 상태 변경 처리 함수
+  // 예약 상태 변경 처리 함수
   const handleStatusChange = (reserveId, newStatus) => {
     instance
       .put(
-        `/api/reservations/update-status/${reserveId}`,
+        `/reservations/update-status/${reserveId}`,
         { status: newStatus },
         {
           headers: {
@@ -53,13 +65,12 @@ const ReserveList = () => {
           },
         }
       )
-      .then((res) => {
+      .then(() => {
         Swal.fire("성공", "예약 상태가 업데이트되었습니다.", "success");
-        // 상태 업데이트 후 다시 예약 목록을 가져오도록 처리
         setReserves((prevReserves) =>
           prevReserves.map((reserve) =>
             reserve.reserveId === reserveId
-              ? { ...reserve, status: newStatus }
+              ? { ...reserve, reserveStatus: newStatus }
               : reserve
           )
         );
@@ -70,7 +81,7 @@ const ReserveList = () => {
       });
   };
 
-  //예약 확정
+  // 예약 확정
   const handleConfirm = (reserveId) => {
     Swal.fire({
       title: "예약을 확정하시겠습니까?",
@@ -82,24 +93,31 @@ const ReserveList = () => {
       cancelButtonText: "취소",
     }).then((result) => {
       if (result.isConfirmed) {
-        instance.get(`/reservations/confirmReservation?reserveId=${reserveId}`);
-        Swal.fire({
-          title: "예약 확정",
-          icon: "success",
-          timer: 1500,
-        });
-        setReserves((prevReserves) =>
-          prevReserves.map((reserve) =>
-            reserve.reserveId === reserveId
-              ? { ...reserve, reserveStatus: 1 }
-              : reserve
-          )
-        );
+        instance
+          .put(`/reservations/confirmReservation/${reserveId}`)
+          .then(() => {
+            Swal.fire({
+              title: "예약 확정",
+              icon: "success",
+              timer: 1500,
+            });
+            setReserves((prevReserves) =>
+              prevReserves.map((reserve) =>
+                reserve.reserveId === reserveId
+                  ? { ...reserve, reserveStatus: 1 }
+                  : reserve
+              )
+            );
+          })
+          .catch((error) => {
+            console.error("예약 확정 실패:", error);
+            Swal.fire("실패", "예약 확정에 실패했습니다.", "error");
+          });
       }
     });
   };
 
-  //예약 취소
+  // 예약 취소
   const handleCancel = (reserveId) => {
     Swal.fire({
       title: "예약을 취소하시겠습니까?",
@@ -110,25 +128,31 @@ const ReserveList = () => {
       confirmButtonText: "예약 취소",
       cancelButtonText: "취소",
     }).then((result) => {
-      console.log(result);
       if (result.isConfirmed) {
-        instance.get(`/reservations/cancelReservation?reserveId=${reserveId}`);
-        Swal.fire({
-          title: "예약 취소",
-          icon: "error",
-        });
-        setReserves((prevReserves) =>
-          prevReserves.map((reserve) =>
-            reserve.reserveId === reserveId
-              ? { ...reserve, reserveStatus: 3 }
-              : reserve
-          )
-        );
+        instance
+          .put(`/reservations/cancelReservation/${reserveId}`)
+          .then(() => {
+            Swal.fire({
+              title: "예약 취소",
+              icon: "error",
+            });
+            setReserves((prevReserves) =>
+              prevReserves.map((reserve) =>
+                reserve.reserveId === reserveId
+                  ? { ...reserve, reserveStatus: 3 }
+                  : reserve
+              )
+            );
+          })
+          .catch((error) => {
+            console.error("예약 취소 실패:", error);
+            Swal.fire("실패", "예약 취소에 실패했습니다.", "error");
+          });
       }
     });
   };
 
-  //예약 취소
+  // 예약 완료
   const handleComplete = (reserveId) => {
     Swal.fire({
       title: "예약이 완료되었습니까?",
@@ -139,22 +163,26 @@ const ReserveList = () => {
       confirmButtonText: "예약 완료",
       cancelButtonText: "취소",
     }).then((result) => {
-      console.log(result);
       if (result.isConfirmed) {
-        instance.get(
-          `/reservations/completeReservation?reserveId=${reserveId}`
-        );
-        Swal.fire({
-          title: "예약 완료",
-          icon: "success",
-        });
-        setReserves((prevReserves) =>
-          prevReserves.map((reserve) =>
-            reserve.reserveId === reserveId
-              ? { ...reserve, reserveStatus: 2 }
-              : reserve
-          )
-        );
+        instance
+          .put(`/reservations/completeReservation/${reserveId}`)
+          .then(() => {
+            Swal.fire({
+              title: "예약 완료",
+              icon: "success",
+            });
+            setReserves((prevReserves) =>
+              prevReserves.map((reserve) =>
+                reserve.reserveId === reserveId
+                  ? { ...reserve, reserveStatus: 2 }
+                  : reserve
+              )
+            );
+          })
+          .catch((error) => {
+            console.error("예약 완료 실패:", error);
+            Swal.fire("실패", "예약 완료에 실패했습니다.", "error");
+          });
       }
     });
   };
@@ -178,7 +206,6 @@ const ReserveList = () => {
                 </Button>
               )}
               {reserve.reserveStatus === 1 && (
-                // 완료 구현 필요
                 <Button
                   variant="outline-warning"
                   onClick={() => handleComplete(reserve.reserveId)}
