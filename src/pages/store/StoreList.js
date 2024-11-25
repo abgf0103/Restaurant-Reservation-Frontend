@@ -199,8 +199,7 @@ const StoreList = () => {
                   />
                   <Card.Title>{item.storeName}</Card.Title>
                   <Card.Text>
-                    ⭐{storeRatings[item.storeId] || 0}({storeReviewCounts[item.storeId] || 0}) 
-                    <p>{item.identity}</p>
+                    ⭐{storeRatings[item.storeId] || 0}({storeReviewCounts[item.storeId] || 0}) {item.identity}
                   </Card.Text>
                 </Link>
                 {isFavorite[item.storeId] ? (
