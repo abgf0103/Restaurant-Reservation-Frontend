@@ -5,7 +5,7 @@ import { Map as KakaoMap, MapMarker } from "react-kakao-maps-sdk";
 import { useMap } from "react-kakao-maps-sdk";
 import { apiStoreViewByStoreId } from "../../webapi/webApiList";
 import SlideUpModal from "../../components/SlideUpModal";
-import "../../css/Style.css";
+import "../reserve/css/reserve.css";
 import MenuList from "./MenuList";
 import axios from "axios";
 import { Button } from "react-bootstrap";
