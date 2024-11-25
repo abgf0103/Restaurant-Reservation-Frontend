@@ -45,6 +45,10 @@ const StoreInfo = () => {
   
   const [avgRating, setAvgRating] = useState([]);
 
+  const [nearByStationList, setNearByStationList] = useState([]);
+
+  const [reviewCount, setReviewCount] = useState(0);
+
   const getRatingAvgByStoreId = () => {
     instance
      .get(`/review/getRatingAvgByStoreId?storeId=${storeId}`)
@@ -200,7 +204,23 @@ const StoreInfo = () => {
       });
   };
 
-  const [nearByStationList, setNearByStationList] = useState([]);
+  const getReviewCountByStoreId = () => {
+    instance
+     .get(`/review/getReviewCountByStoreId?storeId=${storeId}`)
+     .then((res) => {
+        setReviewCount(res.data);
+        if(res.data > 0){
+            getRatingAvgByStoreId();
+        }else {
+            setAvgRating(0);
+        }
+      })
+     .catch((error) => {
+        console.error("리뷰 개수 가져오기 실패:", error);
+      });
+  }
+
+
 
   useEffect(() => {
     getMap();
@@ -209,7 +229,7 @@ const StoreInfo = () => {
 
   //리뷰가 있으면 getRatingAvgByStoreId 실행으로 변경
   useEffect(() => {
-    //getRatingAvgByStoreId();
+    getReviewCountByStoreId();
   }, [])
 
 
@@ -233,7 +253,7 @@ const StoreInfo = () => {
   return (
     <>
       <h2>{storeData.storeName}</h2>
-      <p>별점 : {avgRating} 리뷰개수, tel : {storeData.phone}</p>
+      <p>별점 : {avgRating}({reviewCount}) tel : {storeData.phone}</p>
 
       <Button onClick={() => scrollToSection("description")}>가게 설명</Button>
       <Button onClick={() => scrollToSection("menu")}>메뉴</Button>
