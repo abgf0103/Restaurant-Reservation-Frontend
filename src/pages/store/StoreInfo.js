@@ -350,7 +350,7 @@ const StoreInfo = () => {
       <h2 id="menu">메뉴 리스트</h2>
       <MenuList />
 
-      <h1>리뷰 목록</h1>
+      <h1 id="review">리뷰 목록</h1>
       {reviews.length > 0 ? (
         <ul>
           {reviews.map((review) => (
