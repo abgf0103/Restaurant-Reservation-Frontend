@@ -1,3 +1,15 @@
+/* 색상 선언 */
+:root {
+  --primary-color: #ff4545; /* 기본 색상 */
+  --secondary-color: #ff9c73; /* 보조 색상 */
+  --secondaryHover-color: #ff451a; /* 보조 색상 하버 */
+  --tertiary-color: #fbd288; /* 보조 색상 */
+  --quaternary-color: #fcf596; /* 보조 색상 */
+  --background-color: #f7f7f7; /* 배경 색상 */
+  --text-color-black: #222222; /* 검은 텍스트 색상 */
+  --text-color-white: #f7f7f7; /* 하얀 텍스트 색상 */
+}
+
 /* 모달 창 */
 .slide-up {
   position: fixed;
@@ -41,7 +53,7 @@
 
 /* 예약하기 버튼 */
 .reserve-button-list {
-  background-color: --secondary-color;
+  background-color: var(--secondary-color);
   color: white;
   border-radius: 5px;
   border: none;
@@ -55,7 +67,7 @@
   bottom: 0;
   left: 0;
   width: 100%;
-  background-color: #ff5733;
+  background-color: var(--secondary-color);
   color: white;
   border: none;
   padding: 15px 0;
@@ -66,11 +78,11 @@
 }
 
 .reserve-button-info:hover {
-  background-color: #ff451a;
+  background-color: var(--secondaryHover-color);
 }
 
 .reserve-button-list:hover {
-  background-color: #ff451a;
+  background-color: var(--secondaryHover-color);
 }
 
 /* 달력 스타일 */
@@ -113,13 +125,13 @@
 
 .react-datepicker__day--selected {
   border-radius: 1rem;
-  background-color: #ff451a;
+  background-color: var(--secondaryHover-color);
   color: #fff;
 }
 
 .react-datepicker__day:not([aria-disabled="true"]):hover {
   border-radius: 5px;
-  background-color: #ff451a;
+  background-color: var(--secondaryHover-color);
   color: white;
   transition: 0.3s;
 }
@@ -206,7 +218,7 @@
 
 /* 선택된 버튼 스타일 */
 .people-label input[type="radio"]:checked + span {
-  background-color: #ff451a;
+  background-color: var(--secondary-color);
   color: white;
   transform: scale(1.1);
 }
@@ -244,7 +256,7 @@
 
 /* 선택된 버튼 스타일 */
 .time-label input[type="radio"]:checked + span {
-  background-color: #ff451a;
+  background-color: var(--secondary-color);
   color: white;
   transform: scale(1.1);
 }
@@ -261,7 +273,7 @@
 }
 
 .reserve-button {
-  background-color: #ff5733;
+  background-color: var(--secondary-color);
   color: white;
   border-radius: 5px;
   border: none;
@@ -272,5 +284,5 @@
 }
 
 .reserve-button:hover {
-  background-color: #ff451a;
+  background-color: var(--secondaryHover-color);
 }
