@@ -11,6 +11,7 @@ import axios from "axios";
 import { Button } from "react-bootstrap";
 import moment from "moment";
 import Swal from "sweetalert2";
+import "./css/store.css";
 
 const { kakao } = window;
 
@@ -359,7 +360,7 @@ const StoreInfo = () => {
 
   return (
     <>
-      <h2>{storeData.storeName}</h2>
+      <h2 className="title">{storeData.storeName}</h2>
       <p>
         별점 : {avgRating}({reviewCount}) tel : {storeData.phone}
       </p>
@@ -370,13 +371,13 @@ const StoreInfo = () => {
       <Button onClick={() => scrollToSection("map")}>상세위치</Button>
       <Button onClick={() => scrollToSection("info")}>상세정보</Button>
 
-      <h4 id="description">가게 설명</h4>
+      <h4 className="description">가게 설명</h4>
       <p>{storeData.description}</p>
 
-      <h2 id="menu">메뉴 리스트</h2>
+      <h2 className="menu">메뉴 리스트</h2>
       <MenuList />
 
-      <h1 id="review">리뷰 목록</h1>
+      <h1 className="review">리뷰 목록</h1>
       {reviews.length > 0 ? (
         <ul>
           {reviews.map((review) => (
@@ -487,7 +488,7 @@ const StoreInfo = () => {
         )}
       </KakaoMap>
 
-      <h4 id="info">상세 정보</h4>
+      <h4 className="info">상세 정보</h4>
       <p>가게 주소: {storeData.address}</p>
       <p>영업시간: {storeData.storeHours}</p>
       <p>연락처: {storeData.phone}</p>
