@@ -1,34 +1,32 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom"; // useParams 임포트
+import { useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import instance from "../../api/instance"; // instance 임포트
 import {
-  ButtonEdit,
-  FileImage,
-  Header,
-  PageContainer,
-  ReviewButtons,
-  ReviewCard,
-  ReviewImage,
-} from "../../components/Review/UserReviewPageStyle";
-import { Card, Col, ListGroup, Row } from "react-bootstrap";
+  ListGroupItem,
+  UserReviewCard,
+  UserReviewImage,
+  UserReviewPageContainer,
+  UserReviewRow,
+  UserReviewTitle,
+  UserReviewCol, // 새로 추가한 UserReviewCol 임포트
+} from "../../components/Review/UserReviewPageStyle"; // MyReviewStyle에서 스타일 임포트
+import { Card, CardText, ListGroup } from "react-bootstrap";
 
 const UserReviewPage = () => {
-  const { username } = useParams(); // URL에서 username을 받음
+  const { username } = useParams();
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // 특정 사용자의 리뷰 목록을 가져오는 API 요청
     instance
-      .get(`/review/view-by-username/${username}`) // 새로운 API 호출
+      .get(`/review/view-by-username/${username}`)
       .then((res) => {
-        console.log(res);
         const reviewsWithFiles = res.data.data.map((review) => ({
           ...review,
-          files: review.files || [], // 파일 목록이 없을 수 있으므로 기본값을 빈 배열로 설정
+          files: review.files || [],
         }));
-        setReviews(reviewsWithFiles); // 'data' 필드 안에 리뷰 목록이 있으므로
+        setReviews(reviewsWithFiles);
       })
       .catch((error) => {
         console.error("사용자 리뷰 가져오기 실패:", error);
@@ -41,31 +39,30 @@ const UserReviewPage = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, [username]); // username이 바뀔 때마다 다시 API 호출
+  }, [username]);
 
   if (loading) {
     return <div>로딩 중...</div>;
   }
 
   return (
-    <PageContainer>
-      <Header>{username} 사용자님의 리뷰 페이지</Header>
-      <Row xs={1} sm={2} md={3} className="g-4">
+    <UserReviewPageContainer>
+      <UserReviewTitle>{username} 사용자님의 리뷰 페이지</UserReviewTitle>
+      <UserReviewRow>
         {reviews.length > 0 ? (
           reviews.map((review) => (
-            <Col key={review.reviewId}>
-              <ReviewCard>
+            <UserReviewCol key={review.reviewId}>
+              <UserReviewCard>
                 <Card.Body>
                   <Card.Title>{review.storeName}</Card.Title>
-                  <Card.Text>{review.reviewComment}</Card.Text>
+                  <CardText>{review.reviewComment}</CardText>
                   <ListGroup variant="flush">
-                    <ListGroup.Item>별점: {review.rating} ⭐</ListGroup.Item>
+                    <ListGroupItem>별점: {review.rating} ⭐</ListGroupItem>
                   </ListGroup>
                 </Card.Body>
 
-                {/* 파일이 있다면 이미지 보여주기 */}
                 {review.files.length > 0 && (
-                  <FileImage>
+                  <UserReviewImage>
                     {review.files.map((file, index) => (
                       <img
                         key={index}
@@ -74,16 +71,16 @@ const UserReviewPage = () => {
                         className="img-fluid"
                       />
                     ))}
-                  </FileImage>
+                  </UserReviewImage>
                 )}
-              </ReviewCard>
-            </Col>
+              </UserReviewCard>
+            </UserReviewCol>
           ))
         ) : (
           <p>이 사용자는 작성한 리뷰가 없습니다.</p>
         )}
-      </Row>
-    </PageContainer>
+      </UserReviewRow>
+    </UserReviewPageContainer>
   );
 };
 

@@ -4,13 +4,17 @@ import { useSelector } from "react-redux";
 import { getUserInfo } from "../../hooks/userSlice"; // 로그인된 사용자 정보
 import Swal from "sweetalert2";
 import instance from "../../api/instance"; // instance 임포트
-import { Card, Button, ListGroup, Col, Row, Spinner } from "react-bootstrap";
+import { Card, ListGroup, Col, Spinner, CardText } from "react-bootstrap";
 import {
   ButtonDelete,
   ButtonEdit,
+  ListGroupItem,
+  MyReviewContainer,
   ReviewButtons,
   ReviewCard,
   ReviewImage,
+  ReviewRow,
+  Title,
 } from "../../components/Review/MyReviewStyle";
 
 const MyReview = () => {
@@ -99,23 +103,24 @@ const MyReview = () => {
   }
 
   return (
-    <div className="my-reviews">
-      <h2>나의 리뷰 페이지</h2>
-      <Row xs={1} sm={2} md={3} className="g-4">
+    <MyReviewContainer>
+      <Title>{userInfo.username} 사용자님의 리뷰 페이지</Title>
+      <ReviewRow xs={1} sm={2} md={3} className="g-4">
         {reviews.length > 0 ? (
           reviews.map((review) => (
             <Col key={review.reviewId}>
               <ReviewCard>
                 <Card.Body>
                   <Card.Title>{review.storeName}</Card.Title>
-                  <Card.Text>{review.reviewComment}</Card.Text>
+                  <CardText>{review.reviewComment}</CardText>
                   <ListGroup variant="flush">
-                    <ListGroup.Item>별점: {review.rating} ⭐</ListGroup.Item>
-                    <ListGroup.Item>
+                    <ListGroupItem>별점: {review.rating} ⭐</ListGroupItem>
+                    <ListGroupItem>
                       좋아요 수: {review.likeCount} ❤️
-                    </ListGroup.Item>
+                    </ListGroupItem>
                   </ListGroup>
                 </Card.Body>
+
                 {/* 파일이 있다면 이미지 보여주기 */}
                 {review.files.length > 0 && (
                   <ReviewImage>
@@ -129,6 +134,7 @@ const MyReview = () => {
                     ))}
                   </ReviewImage>
                 )}
+
                 <ReviewButtons>
                   <ButtonEdit
                     variant="outline-primary"
@@ -151,8 +157,8 @@ const MyReview = () => {
         ) : (
           <p>작성된 리뷰가 없습니다.</p>
         )}
-      </Row>
-    </div>
+      </ReviewRow>
+    </MyReviewContainer>
   );
 };
 
