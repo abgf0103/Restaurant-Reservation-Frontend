@@ -5,6 +5,24 @@ import { getTokenInfo } from "../../hooks/tokenSlice";
 import { getUserInfo } from "../../hooks/userSlice"; // 로그인된 사용자 정보
 import Swal from "sweetalert2";
 import instance from "../../api/instance";
+import { Form, Row, Col, Card } from "react-bootstrap";
+import {
+  DeleteFileButton,
+  FileImage,
+  FileItem,
+  FileList,
+  FileUploadButton,
+  FileUploadSection,
+  H1,
+  RatingFormGroup,
+  RatingInput,
+  RatingLabel,
+  ReveiwContainer,
+  ReviewCommentFormGroup,
+  ReviewCommentLabel,
+  ReviewCommentTextArea,
+  SubmitButton,
+} from "../../components/Review/ReviewEditStyle";
 
 const ReviewEdit = () => {
   const { reviewId } = useParams(); // URL에서 reviewId를 가져옴
@@ -88,14 +106,10 @@ const ReviewEdit = () => {
     e.preventDefault();
 
     // 새로 업로드된 파일을 fileList에서 가져오고 기존의 파일과 합친 ID 목록을 만들어서 전송
-    // reveiew.files에 있는 번호 값과 fileList에 있는 값을 비교해서 중복인것만 남긴다.
-    console.log(...review.files);
-    console.log(...fileList);
     let concatFileList = [...review.files, ...fileList];
-    console.log(concatFileList);
+
     // 중복된 fileid만 남기기
     concatFileList = findDuplicates(concatFileList);
-    console.log(concatFileList);
 
     const formData = {
       storeId: review.storeId,
@@ -105,8 +119,6 @@ const ReviewEdit = () => {
       username: userInfo.username, // username 추가
       files: concatFileList, // 기존 파일 ID들 + 새로 업로드된 파일 ID들
     };
-
-    console.log(formData);
 
     // API 요청하여 리뷰 수정
     instance
@@ -130,7 +142,7 @@ const ReviewEdit = () => {
   };
 
   if (loading) {
-    return <div>로딩 중...</div>;
+    return <div className="loading-text">로딩 중...</div>;
   }
 
   const deleteFile = (file) => {
@@ -198,6 +210,16 @@ const ReviewEdit = () => {
 
   // 파일 업로드
   const handleFileUpload = () => {
+    // 선택된 파일이 없을 경우
+    if (selectedFiles.length === 0) {
+      Swal.fire({
+        title: "파일 선택 오류",
+        text: "선택된 파일이 없습니다.",
+        icon: "warning",
+      });
+      return; // 함수 종료
+    }
+
     const formData = new FormData();
     formData.append("fileTarget", userInfo.username);
 
@@ -212,93 +234,121 @@ const ReviewEdit = () => {
       .then((res) => {
         setSelectedFiles([]); // 선택된 파일 초기화
         const newFiles = res.data; // 업로드된 새 파일 정보
-        console.log(newFiles);
-        console.log(review.files);
 
         // 기존 파일들과 새로 업로드된 파일을 합침
         const tmpFile = [...review.files, ...newFiles];
-        console.log(tmpFile);
-        console.log([...fileList, ...newFiles]);
 
         setFileList([...fileList, ...newFiles]); // 업로드된 파일 목록 상태로 업데이트
         setReview({
           ...review,
           files: tmpFile, // 기존 파일 + 새로 업로드된 파일 목록
         });
+      })
+      .catch((error) => {
+        console.error("파일 업로드 오류:", error);
+        Swal.fire({
+          title: "실패",
+          text: "파일 업로드에 실패했습니다.",
+          icon: "error",
+        });
       });
   };
 
   return (
-    <div>
-      <h1>{userInfo.username} 고객님 리뷰 수정</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Rating:</label>
-          <input
-            type="number"
-            name="rating"
-            value={review.rating}
-            onChange={(e) => setReview({ ...review, rating: e.target.value })}
-            min="1"
-            max="5"
-            placeholder="1에서 5 사이로 평가해주세요."
-            required
-          />
-        </div>
-        <div>
-          <label>Review Comment:</label>
-          <textarea
-            name="reviewComment"
-            value={review.reviewComment}
-            onChange={(e) =>
-              setReview({ ...review, reviewComment: e.target.value })
-            }
-            placeholder="리뷰를 작성해주세요."
-            required
-          />
-        </div>
+    <ReveiwContainer>
+      <Row className="justify-content-center">
+        <Col md={8}>
+          <Card className="shadow-lg p-4">
+            <H1>{userInfo.username} 고객님 리뷰 수정</H1>
 
-        <button type="submit">리뷰 수정</button>
-      </form>
-
-      {/* 파일 첨부 부분 */}
-      {review.files.length > 0 && (
-        <div>
-          <label>첨부 파일:</label>
-          <input
-            type="file"
-            multiple
-            onChange={handleFileChange}
-            accept="image/*"
-          />
-          <button type="button" onClick={handleFileUpload}>
-            업로드
-          </button>
-          <strong>첨부된 파일:</strong>
-          <div>
-            {review.files.map((fileItem) => (
-              <div
-                key={fileItem.id}
-                style={{ display: "inline-block", marginRight: "10px" }}
-              >
-                <img
-                  src={`${process.env.REACT_APP_HOST}/file/view/${fileItem.saveFileName}`}
-                  alt={`첨부 파일 ${fileItem.id}`}
-                  style={{
-                    width: "100px",
-                    marginRight: "10px",
-                    marginBottom: "10px",
-                  }}
+            <Form onSubmit={handleSubmit}>
+              <RatingFormGroup controlId="rating" className="mb-4">
+                <RatingLabel>Rating:</RatingLabel>
+                <RatingInput
+                  type="number"
+                  name="rating"
+                  value={review.rating}
+                  onChange={(e) =>
+                    setReview({ ...review, rating: e.target.value })
+                  }
+                  min="1"
+                  max="5"
+                  placeholder="1에서 5 사이로 평가해주세요."
+                  required
+                  className="form-control"
                 />
-                <button type="button" onClick={() => deleteFile(fileItem)}>
-                  삭제
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-    </div>
+              </RatingFormGroup>
+
+              <ReviewCommentFormGroup
+                controlId="reviewComment"
+                className="mb-4"
+              >
+                <ReviewCommentLabel>Review Comment:</ReviewCommentLabel>
+                <ReviewCommentTextArea
+                  as="textarea"
+                  name="reviewComment"
+                  value={review.reviewComment}
+                  onChange={(e) =>
+                    setReview({ ...review, reviewComment: e.target.value })
+                  }
+                  placeholder="리뷰를 작성해주세요."
+                  required
+                  className="form-control"
+                />
+              </ReviewCommentFormGroup>
+
+              <SubmitButton
+                variant="danger"
+                type="submit"
+                className="submit-button"
+              >
+                리뷰 수정
+              </SubmitButton>
+            </Form>
+
+            {/* 파일 첨부 부분 */}
+            {review.files.length > 0 && (
+              <FileUploadSection className="mt-5">
+                <Form.Label>첨부 파일:</Form.Label>
+                <input
+                  className="file-input mb-3"
+                  type="file"
+                  multiple
+                  onChange={handleFileChange}
+                  accept="image/*"
+                />
+                <FileUploadButton
+                  variant="warning"
+                  className="mb-3"
+                  onClick={handleFileUpload}
+                >
+                  업로드
+                </FileUploadButton>
+
+                <FileList>
+                  {review.files.map((fileItem) => (
+                    <FileItem key={fileItem.id}>
+                      <FileImage
+                        src={`${process.env.REACT_APP_HOST}/file/view/${fileItem.saveFileName}`}
+                        alt={`첨부 파일 ${fileItem.id}`}
+                      />
+                      <DeleteFileButton
+                        variant="danger"
+                        size="sm"
+                        className="mt-2"
+                        onClick={() => deleteFile(fileItem)}
+                      >
+                        삭제
+                      </DeleteFileButton>
+                    </FileItem>
+                  ))}
+                </FileList>
+              </FileUploadSection>
+            )}
+          </Card>
+        </Col>
+      </Row>
+    </ReveiwContainer>
   );
 };
 
