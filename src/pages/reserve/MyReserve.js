@@ -131,21 +131,26 @@ const MyReserve = () => {
           itemsPerPage={10}
           renderItem={(reservation) => (
             <Card
-              key={reservation.reserveId} // reservationId를 키로 사용
+              key={reservation.reserveId}
               style={{ width: "18rem", margin: "10px" }}
             >
               <Card.Body>
-                <Card.Title>
-                  {reservation.storeName}
-                </Card.Title>
+                <Card.Title>{reservation.storeName}</Card.Title>
                 <Card.Text>
-                  <strong>예약 신청 시간 : </strong>  
+                  <strong>예약 신청 시간 : </strong>
                   {reservation.createdAt} <br />
                   <strong>예약 날짜:</strong>{" "}
                   {new Date(reservation.reserveDate).toLocaleString()} <br />
                   <strong>인원 수:</strong> {reservation.partySize} <br />
-                  <strong>상태:</strong>{" "}
-                  {reserveStatus(reservation.reserveStatus)}
+                  {reservation.reserveStatus === 0
+                    ? "예약 확인 중 입니다."
+                    : reservation.reserveStatus === 1
+                    ? "예약이 확정 되었습니다."
+                    : reservation.reserveStatus === 2
+                    ? "완료된 예약입니다."
+                    : reservation.reserveStatus === 3
+                    ? "취소된 예약입니다."
+                    : "알 수 없는 상태"}
                 </Card.Text>
                 {/* 완료 상태일 때만 리뷰작성 버튼 또는 리뷰 작성 완료 메시지 */}
                 {reservation.reserveStatus === 2 &&

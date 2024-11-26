@@ -5,7 +5,7 @@ import DatePicker from "react-datepicker";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/free-mode";
-import "../pages/reserve/css/reserve.css";
+import "../pages/reserve/css/Modal.css";
 import instance from "../api/instance";
 import { useNavigate } from "react-router-dom";
 

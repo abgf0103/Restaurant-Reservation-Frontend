@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 import instance from "../../api/instance";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import "./css/reserve.css";
+import "./css/Modal.css";
 const Reserve = ({ isPanelOpen, setIsPanelOpen, selectedStoreId }) => {
   const navigate = useNavigate();
   const userInfo = useSelector(getUserInfo); // 로그인된 사용자 정보
