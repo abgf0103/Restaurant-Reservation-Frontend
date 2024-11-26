@@ -1,6 +1,7 @@
 // components/PaginatedList.js
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
+import "../pages/reserve/css/MyReserve.css";
 
 const PaginatedList = ({ items, itemsPerPage = 10, renderItem }) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -29,13 +30,9 @@ const PaginatedList = ({ items, itemsPerPage = 10, renderItem }) => {
       {/* 페이지 버튼 */}
       <div className="pagination">
         {Array.from({ length: totalPages }, (_, index) => (
-          <Button
-            key={index}
-            onClick={() => goToPage(index + 1)}
-            variant={currentPage === index + 1 ? "primary" : "secondary"}
-          >
+          <button key={index} onClick={() => goToPage(index + 1)}>
             {index + 1}
-          </Button>
+          </button>
         ))}
       </div>
     </div>

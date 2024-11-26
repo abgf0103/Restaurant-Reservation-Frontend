@@ -1,0 +1,35 @@
+/* 색상 선언 */
+:root {
+  --primary-color: #ff4545; /* 기본 색상 */
+  --secondary-color: #ff9c73; /* 보조 색상 */
+  --secondaryHover-color: #ff451a; /* 보조 색상 하버 */
+  --tertiary-color: #fbd288; /* 보조 색상 */
+  --quaternary-color: #fcf596; /* 보조 색상 */
+  --background-color: #f7f7f7; /* 배경 색상 */
+  --text-color-black: #222222; /* 검은 텍스트 색상 */
+  --text-color-white: #f7f7f7; /* 하얀 텍스트 색상 */
+  --text-color-gray: #808080; /* 하얀 텍스트 색상 */
+}
+
+/* 전체 */
+.my-reserve {
+  margin: 30px;
+}
+
+/* 예약 상태 선택 */
+.filter-status {
+  width: 150px;
+}
+
+/* 페이지 버튼 */
+.pagination {
+  margin-left: 50%;
+}
+
+.pagination button {
+  border: none;
+  background-color: var(--background-color);
+  color: var(--text-color-black);
+  box-shadow: none;
+  padding: 10px;
+}

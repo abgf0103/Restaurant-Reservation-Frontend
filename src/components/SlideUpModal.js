@@ -8,6 +8,7 @@ import "swiper/css/free-mode";
 import "../pages/reserve/css/Modal.css";
 import instance from "../api/instance";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const SlideUpModal = ({ isOpen, onClose, selectedStoreId }) => {
   const [isPanelVisible, setIsPanelVisible] = useState(isOpen);
@@ -105,20 +106,24 @@ const SlideUpModal = ({ isOpen, onClose, selectedStoreId }) => {
 
   const handleReservation = async () => {
     if (!selectedStoreId) {
-      alert("가게 정보 오류입니다. 관리자에게 문의해주세요.");
+      Swal.fire(
+        "오류",
+        "가게 정보 오류입니다. 관리자에게 문의해주세요.",
+        "error"
+      );
       return;
     }
 
     if (!selectedPeople && !selectedTime) {
-      alert("인원수와 시간을 선택해주세요.");
+      Swal.fire("오류", "인원수와 시간을 선택해주세요.", "error");
       return;
     }
     if (!selectedPeople) {
-      alert("인원수를 선택해주세요.");
+      Swal.fire("오류", "인원수를 선택해주세요.", "error");
       return;
     }
     if (!selectedTime) {
-      alert("시간을 선택해주세요.");
+      Swal.fire("오류", "시간을 선택해주세요.", "error");
       return;
     }
 
@@ -137,30 +142,54 @@ const SlideUpModal = ({ isOpen, onClose, selectedStoreId }) => {
       reservationDateTime.getMinutes()
     ).padStart(2, "0")}:00`;
 
-    const confirmationMessage = `예약 내용을 확인해주세요:\n날짜: ${selectedDate.getFullYear()}년 ${
+    const confirmationMessage = `<b>예약 내용을 확인해주세요</b><br>날짜: ${selectedDate.getFullYear()}년 ${
       selectedDate.getMonth() + 1
-    }월 ${selectedDate.getDate()}일\n시간: ${selectedTime}\n인원수: ${selectedPeople}명\n\n확인하시겠습니까?`;
+    }월 ${selectedDate.getDate()}일<br>시간: ${selectedTime}<br>인원수: ${selectedPeople}명<br><br>확인하시겠습니까?`;
 
-    if (window.confirm(confirmationMessage)) {
-      const reservationData = {
-        storeId: selectedStoreId,
-        reserveDate: formattedDateTime,
-        partySize: selectedPeople,
-      };
-      console.log("예약 정보 : ", reservationData);
+    Swal.fire({
+      title: "예약 확인",
+      html: confirmationMessage,
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "확인",
+      cancelButtonText: "취소",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const reservationData = {
+          storeId: selectedStoreId,
+          reserveDate: formattedDateTime,
+          partySize: selectedPeople,
+        };
+        console.log("예약 정보 : ", reservationData);
 
-      try {
-        instance.post("reservations/save", reservationData).then((res) => {
-          console.log(res);
-          navigate("/user/myreserve");
-        });
-      } catch (error) {
-        console.error("예약 전송 오류:", error);
-        alert("예약 신청 중 오류가 발생했습니다. 다시 시도해주세요.");
+        try {
+          instance.post("reservations/save", reservationData).then((res) => {
+            console.log(res);
+            Swal.fire({
+              title: "예약 완료",
+              text: "예약이 완료되었습니다. 내 예약 창으로 이동하시겠습니까?",
+              icon: "success",
+              showCancelButton: true,
+              confirmButtonText: "이동",
+              cancelButtonText: "아니오",
+            }).then((moveResult) => {
+              if (moveResult.isConfirmed) {
+                navigate("/user/myreserve");
+              }
+            });
+          });
+        } catch (error) {
+          console.error("예약 전송 오류:", error);
+          Swal.fire(
+            "오류",
+            "예약 신청 중 오류가 발생했습니다. 다시 시도해주세요.",
+            "error"
+          );
+        }
+      } else {
+        Swal.fire("취소", "예약이 취소되었습니다.", "info");
       }
-    } else {
-      alert("예약이 취소되었습니다.");
-    }
+    });
   };
 
   // 가게의 영업 시간을 바탕으로 시간 선택 슬라이드를 생성

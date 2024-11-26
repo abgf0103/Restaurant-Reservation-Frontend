@@ -1,11 +1,12 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getUserInfo } from "../../hooks/userSlice";
 import Swal from "sweetalert2";
 import instance from "../../api/instance";
-import { Button } from "react-bootstrap";
+import { Button, Card } from "react-bootstrap";
 import { reserveStatus } from "./../../utils/tools";
+import PaginatedList from "../../components/PaginatedList";
 
 const StoreReserve = () => {
   const { storeId } = useParams(); // URL에서 storeId 추출
@@ -93,26 +94,7 @@ const StoreReserve = () => {
       cancelButtonText: "취소",
     }).then((result) => {
       if (result.isConfirmed) {
-        instance
-          .put(`/reservations/confirmReservation/${reserveId}`)
-          .then(() => {
-            Swal.fire({
-              title: "예약 확정",
-              icon: "success",
-              timer: 1500,
-            });
-            setReserves((prevReserves) =>
-              prevReserves.map((reserve) =>
-                reserve.reserveId === reserveId
-                  ? { ...reserve, reserveStatus: 1 }
-                  : reserve
-              )
-            );
-          })
-          .catch((error) => {
-            console.error("예약 확정 실패:", error);
-            Swal.fire("실패", "예약 확정에 실패했습니다.", "error");
-          });
+        handleStatusChange(reserveId, 1);
       }
     });
   };
@@ -129,25 +111,7 @@ const StoreReserve = () => {
       cancelButtonText: "취소",
     }).then((result) => {
       if (result.isConfirmed) {
-        instance
-          .put(`/reservations/cancelReservation/${reserveId}`)
-          .then(() => {
-            Swal.fire({
-              title: "예약 취소",
-              icon: "error",
-            });
-            setReserves((prevReserves) =>
-              prevReserves.map((reserve) =>
-                reserve.reserveId === reserveId
-                  ? { ...reserve, reserveStatus: 3 }
-                  : reserve
-              )
-            );
-          })
-          .catch((error) => {
-            console.error("예약 취소 실패:", error);
-            Swal.fire("실패", "예약 취소에 실패했습니다.", "error");
-          });
+        handleStatusChange(reserveId, 3);
       }
     });
   };
@@ -164,25 +128,7 @@ const StoreReserve = () => {
       cancelButtonText: "취소",
     }).then((result) => {
       if (result.isConfirmed) {
-        instance
-          .put(`/reservations/completeReservation/${reserveId}`)
-          .then(() => {
-            Swal.fire({
-              title: "예약 완료",
-              icon: "success",
-            });
-            setReserves((prevReserves) =>
-              prevReserves.map((reserve) =>
-                reserve.reserveId === reserveId
-                  ? { ...reserve, reserveStatus: 2 }
-                  : reserve
-              )
-            );
-          })
-          .catch((error) => {
-            console.error("예약 완료 실패:", error);
-            Swal.fire("실패", "예약 완료에 실패했습니다.", "error");
-          });
+        handleStatusChange(reserveId, 2);
       }
     });
   };
@@ -191,39 +137,54 @@ const StoreReserve = () => {
     <div>
       <h1>{storeName}</h1>
       {reserves.length > 0 ? (
-        <ul>
-          {reserves.map((reserve) => (
-            <li key={reserve.reserveId}>
-              <p>예약 날짜: {new Date(reserve.reserveDate).toLocaleString()}</p>
-              <p>인원 수: {reserve.partySize}명 </p>
-              <p>예약 상태: {reserveStatus(reserve.reserveStatus)}</p>
-              {reserve.reserveStatus === 0 && (
-                <Button
-                  variant="outline-success"
-                  onClick={() => handleConfirm(reserve.reserveId)}
-                >
-                  예약 확정
-                </Button>
-              )}
-              {reserve.reserveStatus === 1 && (
-                <Button
-                  variant="outline-warning"
-                  onClick={() => handleComplete(reserve.reserveId)}
-                >
-                  완료
-                </Button>
-              )}
-              {(reserve.reserveStatus === 0 || reserve.reserveStatus === 1) && (
-                <Button
-                  variant="outline-danger"
-                  onClick={() => handleCancel(reserve.reserveId)}
-                >
-                  예약 취소
-                </Button>
-              )}
-            </li>
-          ))}
-        </ul>
+        <PaginatedList
+          items={reserves}
+          itemsPerPage={10}
+          renderItem={(reserve) => (
+            <Card
+              key={reserve.reserveId}
+              style={{ width: "18rem", margin: "10px" }}
+            >
+              <Card.Body>
+                <Card.Title>예약 ID: {reserve.reserveId}</Card.Title>
+                <Card.Text>
+                  <strong>예약 날짜:</strong>{" "}
+                  {new Date(reserve.reserveDate).toLocaleString()} <br />
+                  <strong>인원 수:</strong> {reserve.partySize}명 <br />
+                  <strong>예약 상태:</strong>{" "}
+                  {reserveStatus(reserve.reserveStatus)}
+                </Card.Text>
+                {reserve.reserveStatus === 0 && (
+                  <Button
+                    variant="outline-success"
+                    onClick={() => handleConfirm(reserve.reserveId)}
+                    style={{ marginBottom: "5px" }}
+                  >
+                    예약 확정
+                  </Button>
+                )}
+                {reserve.reserveStatus === 1 && (
+                  <Button
+                    variant="outline-warning"
+                    onClick={() => handleComplete(reserve.reserveId)}
+                    style={{ marginBottom: "5px" }}
+                  >
+                    완료
+                  </Button>
+                )}
+                {(reserve.reserveStatus === 0 ||
+                  reserve.reserveStatus === 1) && (
+                  <Button
+                    variant="outline-danger"
+                    onClick={() => handleCancel(reserve.reserveId)}
+                  >
+                    예약 취소
+                  </Button>
+                )}
+              </Card.Body>
+            </Card>
+          )}
+        />
       ) : (
         <p>예약이 없습니다.</p>
       )}

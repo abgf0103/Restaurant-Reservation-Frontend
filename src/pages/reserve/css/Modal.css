@@ -89,6 +89,8 @@
   font-size: 15px;
   cursor: pointer;
   margin-left: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0) !important;
+  color: var(--text-color-black);
 }
 
 .datepicker-nav-button:disabled {
@@ -124,8 +126,9 @@
   margin-left: -40px;
   font-size: 11px;
   border: none;
-  background-color: var(--background-color);
+  background-color: var(--background-color) !important;
   text-decoration: underline;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0) !important;
 }
 
 .today-button:hover {

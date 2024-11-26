@@ -3,12 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getUserInfo } from "../../hooks/userSlice";
 import Swal from "sweetalert2";
-import { Card, Button } from "react-bootstrap";
+import { Card, Button, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { getAllReservationsByUserId } from "../../webapi/webApiList"; // API 호출 함수 추가
 import instance from "../../api/instance"; // Axios instance
 import { reserveStatus } from "./../../utils/tools";
 import PaginatedList from "../../components/PaginatedList";
+import "./css/MyReserve.css";
 
 const MyReserve = () => {
   const navigate = useNavigate();
@@ -16,6 +17,8 @@ const MyReserve = () => {
   const [reservations, setReservations] = useState([]); // 예약 정보 상태 관리
   const [loading, setLoading] = useState(true); // 로딩 상태 관리
   const [reviewExistMap, setReviewExistMap] = useState({}); // 리뷰 여부 상태 관리
+  const [filteredReservations, setFilteredReservations] = useState([]); // 필터링된 예약 정보
+  const [filterStatus, setFilterStatus] = useState("all"); // 필터 상태
 
   // 예약 상태와 사용자 정보 확인 및 로그인 상태 체크
   useEffect(() => {
@@ -34,6 +37,7 @@ const MyReserve = () => {
           console.log("예약 목록:", res); // API 응답 확인
           if (res && Array.isArray(res)) {
             setReservations(res); // 예약 목록 상태 업데이트
+            setFilteredReservations(res); // 필터링된 예약 목록 초기화
 
             // 각 예약에 대한 리뷰 존재 여부를 확인
             res.forEach((reservation) => {
@@ -45,6 +49,7 @@ const MyReserve = () => {
             });
           } else {
             setReservations([]); // 예약이 없으면 빈 배열로 처리
+            setFilteredReservations([]); // 필터링된 예약 목록도 빈 배열로 처리
           }
         })
         .catch((error) => {
@@ -116,18 +121,47 @@ const MyReserve = () => {
     });
   };
 
+  // 예약 필터링 함수
+  const handleFilterChange = (e) => {
+    const status = e.target.value;
+    setFilterStatus(status);
+    if (status === "all") {
+      setFilteredReservations(reservations);
+    } else {
+      setFilteredReservations(
+        reservations.filter(
+          (reservation) => parseInt(status) === reservation.reserveStatus
+        )
+      );
+    }
+  };
+
   console.log(reservations);
 
   return (
     <div className="my-reserve">
       <h4>나의 예약 정보</h4>
+      <Form.Group controlId="filterStatus" className="filter-status">
+        <Form.Label>예약 상태 선택 : </Form.Label>
+        <Form.Control
+          as="select"
+          value={filterStatus}
+          onChange={handleFilterChange}
+        >
+          <option value="all">전체</option>
+          <option value="0">확인 중인 예약</option>
+          <option value="1">확정된 예약</option>
+          <option value="2">완료된 예약</option>
+          <option value="3">취소된 예약</option>
+        </Form.Control>
+      </Form.Group>
       {loading ? (
         <p>로딩 중...</p>
-      ) : reservations.length === 0 ? (
+      ) : filteredReservations.length === 0 ? (
         <p>예약 내역이 없습니다.</p>
       ) : (
         <PaginatedList
-          items={reservations}
+          items={filteredReservations}
           itemsPerPage={10}
           renderItem={(reservation) => (
             <Card
@@ -164,15 +198,16 @@ const MyReserve = () => {
                     </Link>
                   ))}
                 {/* 예약 상태가 취소되지 않은 경우에만 '예약 취소' 버튼 추가 */}
-                {reservation.reserveStatus !== 3 && (
-                  <Button
-                    variant="danger"
-                    onClick={() => deleteReservation(reservation.reserveId)}
-                    style={{ marginTop: "10px" }}
-                  >
-                    예약 취소
-                  </Button>
-                )}
+                {reservation.reserveStatus !== 3 &&
+                  reservation.reserveStatus !== 2 && (
+                    <Button
+                      variant="danger"
+                      onClick={() => deleteReservation(reservation.reserveId)}
+                      style={{ marginTop: "10px" }}
+                    >
+                      예약 취소
+                    </Button>
+                  )}
               </Card.Body>
             </Card>
           )}
