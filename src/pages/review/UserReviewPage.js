@@ -2,6 +2,16 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom"; // useParams 임포트
 import Swal from "sweetalert2";
 import instance from "../../api/instance"; // instance 임포트
+import {
+  ButtonEdit,
+  FileImage,
+  Header,
+  PageContainer,
+  ReviewButtons,
+  ReviewCard,
+  ReviewImage,
+} from "../../components/Review/UserReviewPageStyle";
+import { Card, Col, ListGroup, Row } from "react-bootstrap";
 
 const UserReviewPage = () => {
   const { username } = useParams(); // URL에서 username을 받음
@@ -38,44 +48,42 @@ const UserReviewPage = () => {
   }
 
   return (
-    <div>
-      <h2>{username} 사용자님의 리뷰 페이지</h2>
-      {reviews.length > 0 ? (
-        <ul>
-          {reviews.map((review) => (
-            <li key={review.reviewId}>
-              <strong>작성자:</strong> {review.username} <br />
-              <strong>가게 이름:</strong> {review.storeName} <br />
-              <strong>별점:</strong> {review.rating} ⭐ <br />
-              <strong>리뷰:</strong> {review.reviewComment} <br />
-              {/* 첨부 파일 처리 */}
-              {review.files && review.files.length > 0 && (
-                <div>
-                  <strong>첨부된 파일:</strong>
-                  <div>
-                    {review.files.map((fileItem, index) => (
+    <PageContainer>
+      <Header>{username} 사용자님의 리뷰 페이지</Header>
+      <Row xs={1} sm={2} md={3} className="g-4">
+        {reviews.length > 0 ? (
+          reviews.map((review) => (
+            <Col key={review.reviewId}>
+              <ReviewCard>
+                <Card.Body>
+                  <Card.Title>{review.storeName}</Card.Title>
+                  <Card.Text>{review.reviewComment}</Card.Text>
+                  <ListGroup variant="flush">
+                    <ListGroup.Item>별점: {review.rating} ⭐</ListGroup.Item>
+                  </ListGroup>
+                </Card.Body>
+
+                {/* 파일이 있다면 이미지 보여주기 */}
+                {review.files.length > 0 && (
+                  <FileImage>
+                    {review.files.map((file, index) => (
                       <img
                         key={index}
-                        src={`${process.env.REACT_APP_HOST}/file/view/${fileItem.saveFileName}`}
+                        src={`${process.env.REACT_APP_HOST}/file/view/${file.saveFileName}`}
                         alt={`첨부 파일 ${index + 1}`}
-                        style={{
-                          width: "100px",
-                          marginRight: "10px",
-                          marginBottom: "10px",
-                        }}
+                        className="img-fluid"
                       />
                     ))}
-                  </div>
-                </div>
-              )}
-              <hr />
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>이 사용자는 작성한 리뷰가 없습니다.</p>
-      )}
-    </div>
+                  </FileImage>
+                )}
+              </ReviewCard>
+            </Col>
+          ))
+        ) : (
+          <p>이 사용자는 작성한 리뷰가 없습니다.</p>
+        )}
+      </Row>
+    </PageContainer>
   );
 };
 

@@ -10,6 +10,7 @@ import {
   DeleteFileButton,
   FileImage,
   FileItem,
+  FileLibel,
   FileList,
   FileUploadButton,
   FileUploadSection,
@@ -309,7 +310,7 @@ const ReviewEdit = () => {
             {/* 파일 첨부 부분 */}
             {review.files.length > 0 && (
               <FileUploadSection className="mt-5">
-                <Form.Label>첨부 파일:</Form.Label>
+                <FileLibel>첨부 파일:</FileLibel>
                 <input
                   className="file-input mb-3"
                   type="file"

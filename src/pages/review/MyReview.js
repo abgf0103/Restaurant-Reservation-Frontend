@@ -4,6 +4,14 @@ import { useSelector } from "react-redux";
 import { getUserInfo } from "../../hooks/userSlice"; // 로그인된 사용자 정보
 import Swal from "sweetalert2";
 import instance from "../../api/instance"; // instance 임포트
+import { Card, Button, ListGroup, Col, Row, Spinner } from "react-bootstrap";
+import {
+  ButtonDelete,
+  ButtonEdit,
+  ReviewButtons,
+  ReviewCard,
+  ReviewImage,
+} from "../../components/Review/MyReviewStyle";
 
 const MyReview = () => {
   const navigate = useNavigate();
@@ -87,56 +95,63 @@ const MyReview = () => {
   };
 
   if (loading) {
-    return <div>로딩 중...</div>;
+    return <Spinner animation="border" variant="primary" />;
   }
 
   return (
-    <div>
+    <div className="my-reviews">
       <h2>나의 리뷰 페이지</h2>
-      {reviews.length > 0 ? (
-        <ul>
-          {reviews.map((review) => (
-            <li key={review.reviewId}>
-              <strong>작성자:</strong> {review.username} <br />
-              <strong>가게 이름:</strong> {review.storeName} <br />
-              <strong>별점:</strong> {review.rating} ⭐ <br />
-              <strong>리뷰:</strong> {review.reviewComment} <br />
-              <strong>좋아요 수:</strong> {review.likeCount} ❤️ <br />
-              {/* 리뷰에 파일이 있으면 이미지 보여주기 */}
-              {review.files && review.files.length > 0 && (
-                <div>
-                  <strong>첨부된 파일:</strong>
-                  <div>
+      <Row xs={1} sm={2} md={3} className="g-4">
+        {reviews.length > 0 ? (
+          reviews.map((review) => (
+            <Col key={review.reviewId}>
+              <ReviewCard>
+                <Card.Body>
+                  <Card.Title>{review.storeName}</Card.Title>
+                  <Card.Text>{review.reviewComment}</Card.Text>
+                  <ListGroup variant="flush">
+                    <ListGroup.Item>별점: {review.rating} ⭐</ListGroup.Item>
+                    <ListGroup.Item>
+                      좋아요 수: {review.likeCount} ❤️
+                    </ListGroup.Item>
+                  </ListGroup>
+                </Card.Body>
+                {/* 파일이 있다면 이미지 보여주기 */}
+                {review.files.length > 0 && (
+                  <ReviewImage>
                     {review.files.map((file, index) => (
                       <img
                         key={index}
                         src={`${process.env.REACT_APP_HOST}/file/view/${file.saveFileName}`}
-                        alt="첨부 파일"
-                        style={{ width: "100px", marginRight: "10px" }}
+                        alt={`첨부 파일 ${index + 1}`}
+                        className="img-fluid"
                       />
                     ))}
-                  </div>
-                </div>
-              )}
-              {/* 수정 버튼 */}
-              <button onClick={() => handleEditClick(review.reviewId)}>
-                수정
-              </button>
-              {/* 삭제 버튼 */}
-              <button
-                onClick={
-                  () => handleDeleteClick(review.reviewId, review.reserveId) // reserveId를 함께 전달
-                }
-              >
-                삭제
-              </button>
-              <hr />
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>작성된 리뷰가 없습니다.</p>
-      )}
+                  </ReviewImage>
+                )}
+                <ReviewButtons>
+                  <ButtonEdit
+                    variant="outline-primary"
+                    onClick={() => handleEditClick(review.reviewId)}
+                  >
+                    수정
+                  </ButtonEdit>
+                  <ButtonDelete
+                    variant="outline-danger"
+                    onClick={() =>
+                      handleDeleteClick(review.reviewId, review.reserveId)
+                    }
+                  >
+                    삭제
+                  </ButtonDelete>
+                </ReviewButtons>
+              </ReviewCard>
+            </Col>
+          ))
+        ) : (
+          <p>작성된 리뷰가 없습니다.</p>
+        )}
+      </Row>
     </div>
   );
 };
