@@ -97,7 +97,7 @@ const Login = () => {
   };
 
   return (
-    <Form className="container" onSubmit={onSubmit}>
+    <Form className="loginContainer" onSubmit={onSubmit}>
       <Form.Group className="mb-3" controlId="username">
         <Form.Label></Form.Label>
         <Form.Control
