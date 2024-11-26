@@ -424,7 +424,7 @@ const StoreInfo = () => {
         <p>작성된 리뷰가 없습니다.</p>
       )}
       {/* "더보기" 버튼 */}
-      <button type="button" onClick={nextPage}>
+      <button type="button" onClick={nextPage} className="review-button">
         더 많은 리뷰 보기
       </button>
 
