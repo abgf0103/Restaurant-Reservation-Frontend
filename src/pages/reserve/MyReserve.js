@@ -116,6 +116,8 @@ const MyReserve = () => {
     });
   };
 
+  console.log(reservations);
+
   return (
     <div className="my-reserve">
       <h4>나의 예약 정보</h4>
@@ -134,9 +136,11 @@ const MyReserve = () => {
             >
               <Card.Body>
                 <Card.Title>
-                  {"가게 이름 : " + reservation.storeName}
+                  {reservation.storeName}
                 </Card.Title>
                 <Card.Text>
+                  <strong>예약 신청 시간 : </strong>  
+                  {reservation.createdAt} <br />
                   <strong>예약 날짜:</strong>{" "}
                   {new Date(reservation.reserveDate).toLocaleString()} <br />
                   <strong>인원 수:</strong> {reservation.partySize} <br />

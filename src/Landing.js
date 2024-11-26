@@ -61,13 +61,6 @@ const Landing = () => {
         <>
             <div>
                 <ImageSlider/>
-                <p>
-                    <Link to="/review/list">전체 리뷰 페이지</Link>
-                </p>
-                <p>
-                    <Link to="/review">리뷰작성 페이지</Link>
-                </p>
-                <h2>Landing page</h2>
                 <StoreList searchKeyword={searchKeyword}/>
             </div>
         </>
