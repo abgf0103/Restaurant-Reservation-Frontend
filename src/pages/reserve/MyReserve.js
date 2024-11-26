@@ -7,7 +7,6 @@ import { Card, Button, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { getAllReservationsByUserId } from "../../webapi/webApiList"; // API 호출 함수 추가
 import instance from "../../api/instance"; // Axios instance
-import { reserveStatus } from "./../../utils/tools";
 import PaginatedList from "../../components/PaginatedList";
 import "./css/MyReserve.css";
 
@@ -183,7 +182,7 @@ const MyReserve = () => {
               key={reservation.reserveId}
               style={{ width: "18rem", margin: "10px" }}
             >
-              <Card.Body>
+              <Card.Body className="reserve-card">
                 <Card.Title>{reservation.storeName}</Card.Title>
                 <Card.Text>
                   <strong>예약 신청 시간 : </strong>
@@ -209,7 +208,9 @@ const MyReserve = () => {
                     <Link
                       to={`/writeReview/${reservation.storeId}/${reservation.reserveId}`}
                     >
-                      <Button variant="primary">리뷰 작성</Button>
+                      <Button variant="primary" className="review-btn">
+                        리뷰 작성
+                      </Button>
                     </Link>
                   ))}
                 {/* 예약 상태가 취소되지 않은 경우에만 '예약 취소' 버튼 추가 */}
@@ -217,17 +218,23 @@ const MyReserve = () => {
                   reservation.reserveStatus !== 2 && (
                     <Button
                       variant="danger"
+                      className="cancel-btn"
                       onClick={() =>
                         deleteReservation(
                           reservation.reserveId,
                           reservation.reserveDate
                         )
                       }
-                      style={{ marginTop: "10px" }}
                     >
                       예약 취소
                     </Button>
                   )}
+                {/* 가게 페이지 방문 버튼 추가 */}
+                <Link to={"/store/info"} state={reservation.storeId}>
+                  <Button variant="secondary" className="link-btn">
+                    가게 페이지 방문
+                  </Button>
+                </Link>
               </Card.Body>
             </Card>
           )}
