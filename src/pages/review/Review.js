@@ -4,6 +4,25 @@ import { useSelector } from "react-redux";
 import { getUserInfo } from "../../hooks/userSlice"; // 로그인된 사용자 정보
 import Swal from "sweetalert2";
 import instance from "../../api/instance"; // instance 임포트
+import {
+  FileImage,
+  FileItem,
+  FileLibel,
+  FileList,
+  FileUploadButton,
+  FileUploadSection,
+  H1,
+  RatingFormGroup,
+  RatingInput,
+  RatingLabel,
+  ReveiwContainer,
+  ReviewCommentFormGroup,
+  ReviewCommentLabel,
+  ReviewCommentTextArea,
+  ReviewContainer,
+  SubmitButton,
+} from "../../components/Review/ReviewStyle";
+import { Card, Col, Form, Row } from "react-bootstrap";
 
 const Review = () => {
   const navigate = useNavigate();
@@ -104,7 +123,18 @@ const Review = () => {
 
   // 파일 업로드
   const handleFileUpload = () => {
+    // 선택된 파일이 없을 경우
+    if (selectedFiles.length === 0) {
+      Swal.fire({
+        title: "파일 선택 오류",
+        text: "선택된 파일이 없습니다.",
+        icon: "warning",
+      });
+      return; // 함수 종료
+    }
+
     console.log("파일 업로드");
+
     const formData = new FormData();
     formData.append("fileTarget", userInfo.username);
 
@@ -119,6 +149,14 @@ const Review = () => {
       .then((res) => {
         console.log(res);
         setFileList(res.data); // 업로드한 파일 목록을 상태로 설정
+      })
+      .catch((error) => {
+        Swal.fire({
+          title: "파일 업로드 실패",
+          text: "파일 업로드 중 오류가 발생했습니다. 다시 시도해주세요.",
+          icon: "error",
+        });
+        console.error(error);
       });
   };
 
@@ -198,62 +236,84 @@ const Review = () => {
   };
 
   return (
-    <div>
-      <h1>{userInfo.username} 고객님 리뷰 작성</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Rating:</label>
-          <input
-            type="number"
-            name="rating"
-            value={review.rating}
-            onChange={handleChange}
-            min="1"
-            max="5"
-            placeholder="1에서 5 사이로 평가해주세요."
-            required
-          />
-        </div>
-        <div>
-          <label>Review Comment:</label>
-          <textarea
-            name="reviewComment"
-            value={review.reviewComment}
-            onChange={handleChange}
-            placeholder="리뷰를 작성해주세요."
-            required
-          />
-        </div>
+    <ReveiwContainer>
+      <Row className="justify-content-center">
+        <Col md={8}>
+          <Card className="shadow-lg p-4">
+            <H1>{userInfo.username} 고객님 리뷰 작성</H1>
 
-        {/* 파일 업로드 부분 */}
-        <div>
-          <label>첨부 파일:</label>
-          <input
-            type="file"
-            multiple
-            onChange={handleFileChange}
-            accept="image/*" // 이미지 파일만 선택 가능하도록 제한
-          />
-          <button type="button" onClick={handleFileUpload}>
-            업로드
-          </button>
-          <h3>첨부된 파일 목록</h3>
-          <ul>
-            {fileList.map((item) => (
-              <li key={item.id}>
-                <img
-                  src={`${process.env.REACT_APP_HOST}/file/view/${item.saveFileName}`}
-                  alt="첨부파일"
-                  style={{ width: "100px" }}
+            <Form onSubmit={handleSubmit}>
+              <RatingFormGroup controlId="rating">
+                <RatingLabel>Rating:</RatingLabel>
+                <RatingInput
+                  type="number"
+                  name="rating"
+                  value={review.rating}
+                  onChange={(e) =>
+                    setReview({ ...review, rating: e.target.value })
+                  }
+                  min="1"
+                  max="5"
+                  placeholder="1에서 5 사이로 평가해주세요."
+                  required
                 />
-              </li>
-            ))}
-          </ul>
-        </div>
+              </RatingFormGroup>
 
-        <button type="submit">리뷰 작성</button>
-      </form>
-    </div>
+              <ReviewCommentFormGroup
+                controlId="reviewComment"
+                className="mb-4"
+              >
+                <ReviewCommentLabel>Review Comment:</ReviewCommentLabel>
+                <ReviewCommentTextArea
+                  as="textarea"
+                  name="reviewComment"
+                  value={review.reviewComment}
+                  onChange={(e) =>
+                    setReview({ ...review, reviewComment: e.target.value })
+                  }
+                  placeholder="리뷰를 작성해주세요."
+                  required
+                  className="form-control"
+                />
+              </ReviewCommentFormGroup>
+
+              <SubmitButton variant="danger" type="submit">
+                리뷰 작성
+              </SubmitButton>
+            </Form>
+
+            <FileUploadSection className="mt-5">
+              <FileLibel>첨부 파일:</FileLibel>
+              <input
+                className="file-input mb-3"
+                type="file"
+                multiple
+                onChange={handleFileChange}
+                accept="image/*"
+              />
+              <FileUploadButton
+                variant="warning"
+                className="mb-3"
+                onClick={handleFileUpload}
+              >
+                업로드
+              </FileUploadButton>
+
+              <FileList>
+                {fileList.map((item) => (
+                  <FileItem key={item.id}>
+                    <FileImage
+                      src={`${process.env.REACT_APP_HOST}/file/view/${item.saveFileName}`}
+                      alt="첨부파일"
+                    />
+                  </FileItem>
+                ))}
+              </FileList>
+            </FileUploadSection>
+          </Card>
+        </Col>
+      </Row>
+    </ReveiwContainer>
   );
 };
 

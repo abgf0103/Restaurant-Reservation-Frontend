@@ -20,7 +20,6 @@ export const H1 = styled.h1`
   }
 `;
 
-// 리뷰 수정 버튼
 export const SubmitButton = styled(Button)`
   background-color: var(--primary-color); /* 기본 버튼 색상 */
   color: var(--text-color-white);
@@ -62,35 +61,11 @@ export const FileItem = styled.div`
 `;
 
 export const FileImage = styled.img`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 10px;
-
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
   object-fit: cover;
-  border-radius: 5px;
-  border: 1px solid var(--tertiary-color); /* 이미지 테두리 색상 */
-`;
-
-export const DeleteFileButton = styled(Button)`
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  background-color: var(--primary-color); /* 삭제 버튼 기본 색상 */
-  color: var(--text-color-white);
-  font-size: 0.9rem;
-  border-radius: 50%;
-  border: none;
-  padding: 8px;
-  transition: background-color 0.3s;
-  &:hover {
-    background-color: var(--secondary-color); /* 호버 시 색상 */
-  }
-  &:focus {
-    outline: none;
-  }
+  border-radius: 12px;
+  margin-bottom: 10px;
 `;
 
 export const FileUploadButton = styled(Button)`
