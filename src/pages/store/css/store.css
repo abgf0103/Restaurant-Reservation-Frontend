@@ -2,6 +2,10 @@
   font-weight: bold;
   font-size: xx-large;
 }
+.score {
+  font-weight: bold;
+  font-size: large;
+}
 .description {
   font-weight: bold;
   font-size: x-large;
@@ -18,19 +22,23 @@
   font-weight: bold;
   font-size: x-large;
 }
+.onClick-button {
+  margin: 30px; /* 모든 버튼에 10px 간격을 추가 */
+}
 .review-button {
   margin: 10px; /* 모든 버튼에 10px 간격을 추가 */
-  background-color: #acacac; /* 회색 배경 */
-  color: white; /* 텍스트 색상 */
+  font-weight: bold;
   padding: 12px 24px; /* 여백 */
   border: none; /* 테두리 없애기 */
   border-radius: 8px; /* 둥근 모서리 */
   cursor: pointer; /* 마우스를 올리면 포인터 커서 */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
   transition: all 0.3s ease; /* 버튼 변화 애니메이션 */
+  fill: #f7f7f8;
+  stroke: #acacac;
 }
 
-button:hover {
+.review-button:hover {
   background-color: #707070; /* hover 시 배경색 약간 어두워짐 */
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* hover 시 그림자 더 강하게 */
 }

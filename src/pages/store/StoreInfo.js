@@ -361,23 +361,45 @@ const StoreInfo = () => {
   return (
     <>
       <h2 className="title">{storeData.storeName}</h2>
-      <p>
+      <p className="score">
         별점 : {avgRating}({reviewCount}) tel : {storeData.phone}
       </p>
 
-      <Button onClick={() => scrollToSection("description")}>가게 설명</Button>
-      <Button onClick={() => scrollToSection("menu")}>메뉴</Button>
-      <Button onClick={() => scrollToSection("review")}>리뷰</Button>
-      <Button onClick={() => scrollToSection("map")}>상세위치</Button>
-      <Button onClick={() => scrollToSection("info")}>상세정보</Button>
+      <Button
+        className="onClick-button"
+        onClick={() => scrollToSection("description")}
+      >
+        가게 설명
+      </Button>
+      <Button
+        className="onClick-button"
+        onClick={() => scrollToSection("menu")}
+      >
+        메뉴
+      </Button>
+      <Button
+        className="onClick-button"
+        onClick={() => scrollToSection("review")}
+      >
+        리뷰
+      </Button>
+      <Button className="onClick-button" onClick={() => scrollToSection("map")}>
+        상세위치
+      </Button>
+      <Button
+        className="onClick-button"
+        onClick={() => scrollToSection("info")}
+      >
+        상세정보
+      </Button>
 
       <h4 className="description">가게 설명</h4>
       <p>{storeData.description}</p>
 
-      <h2 className="menu">메뉴 리스트</h2>
+      <h2 className="menu">메뉴</h2>
       <MenuList />
 
-      <h1 className="review">리뷰 목록</h1>
+      <h1 className="review">리뷰</h1>
       {reviews.length > 0 ? (
         <ul>
           {reviews.map((review) => (
@@ -425,7 +447,7 @@ const StoreInfo = () => {
       )}
       {/* "더보기" 버튼 */}
       <button type="button" onClick={nextPage} className="review-button">
-        더 많은 리뷰 보기
+        리뷰 더보기
       </button>
 
       <ul>
@@ -489,9 +511,9 @@ const StoreInfo = () => {
       </KakaoMap>
 
       <h4 className="info">상세 정보</h4>
-      <p>가게 주소: {storeData.address}</p>
-      <p>영업시간: {storeData.storeHours}</p>
-      <p>연락처: {storeData.phone}</p>
+      <p className="address">가게 주소: {storeData.address}</p>
+      <p className="storeHours">영업시간: {storeData.storeHours}</p>
+      <p className="phone">연락처: {storeData.phone}</p>
 
       <button className="reserve-button-info" onClick={handleReserveClick}>
         예약하기
