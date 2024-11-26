@@ -359,7 +359,7 @@ const StoreInfo = () => {
   console.log(reviews);
 
   return (
-    <>
+    <main>
       <h2 className="title">{storeData.storeName}</h2>
       <p>
         별점 : {avgRating}({reviewCount}) tel : {storeData.phone}
@@ -502,7 +502,7 @@ const StoreInfo = () => {
         onClose={() => setIsPanelOpen(false)}
         selectedStoreId={storeId}
       />
-    </>
+    </main>
   );
 };
 

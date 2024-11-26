@@ -173,7 +173,7 @@ const StoreList = () => {
   }, [result]);
 
   return (
-    <div>
+    <main>
       <button onClick={() => getDefaultStoreList()}>전체</button>
       {categoryList.map((item) => (
         <button
@@ -215,7 +215,7 @@ const StoreList = () => {
           </li>
         ))}
       </ul>
-    </div>
+    </main>
   );
 };
 
