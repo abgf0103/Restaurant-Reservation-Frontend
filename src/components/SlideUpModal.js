@@ -16,7 +16,7 @@ const SlideUpModal = ({ isOpen, onClose, selectedStoreId }) => {
   const [selectedPeople, setSelectedPeople] = useState(null);
   const [currentMonth, setCurrentMonth] = useState(selectedDate.getMonth());
   const [currentYear, setCurrentYear] = useState(selectedDate.getFullYear());
-  const [storeInfo, setStoreInfo] = useState(null); // 가게 정보 상태 추가
+  const [storeInfo, setStoreInfo] = useState(null);
   const userInfo = useSelector(getUserInfo);
   const navigate = useNavigate();
 
@@ -63,10 +63,17 @@ const SlideUpModal = ({ isOpen, onClose, selectedStoreId }) => {
     };
   }, [isOpen, selectedStoreId]);
 
-  const handleBackgroundClick = (e) => {
-    if (e.target.className.includes("modal-background")) {
+  const [isDragging, setIsDragging] = useState(false);
+
+  const handleBackgroundMouseDown = () => {
+    setIsDragging(true);
+  };
+
+  const handleBackgroundMouseUp = (e) => {
+    if (isDragging && e.target.className.includes("modal-background")) {
       onClose();
     }
+    setIsDragging(false);
   };
 
   const handleDateChange = (date) => {
@@ -76,6 +83,14 @@ const SlideUpModal = ({ isOpen, onClose, selectedStoreId }) => {
         date.getMonth() + 1
       }월 ${date.getDate()}일`
     );
+  };
+
+  const handleTodayClick = () => {
+    const today = new Date();
+    setSelectedDate(today);
+    setCurrentMonth(today.getMonth());
+    setCurrentYear(today.getFullYear());
+    console.log(`오늘 날짜 선택: ${today}`);
   };
 
   const handleTimeChange = (time) => {
@@ -156,7 +171,6 @@ const SlideUpModal = ({ isOpen, onClose, selectedStoreId }) => {
 
     try {
       const storeHours = storeInfo.storeHours.trim();
-      console.log("storeHours:", storeHours);
 
       // 정규식을 사용하여 영업 시간 추출
       const timeRangeMatch = storeHours.match(
@@ -202,7 +216,11 @@ const SlideUpModal = ({ isOpen, onClose, selectedStoreId }) => {
   return (
     <>
       {isPanelVisible && (
-        <div className="modal-background" onClick={handleBackgroundClick}>
+        <div
+          className="modal-background"
+          onMouseDown={handleBackgroundMouseDown}
+          onMouseUp={handleBackgroundMouseUp}
+        >
           <div className={`slide-up ${isOpen ? "active" : ""}`}>
             <div onClick={(e) => e.stopPropagation()}>
               {/* 달력 컴포넌트 */}
@@ -225,6 +243,12 @@ const SlideUpModal = ({ isOpen, onClose, selectedStoreId }) => {
                     nextMonthButtonDisabled,
                   }) => (
                     <div className="datepicker-header">
+                      <button
+                        onClick={handleTodayClick}
+                        className="today-button"
+                      >
+                        오늘
+                      </button>
                       <button
                         onClick={() => {
                           decreaseMonth();
@@ -258,11 +282,12 @@ const SlideUpModal = ({ isOpen, onClose, selectedStoreId }) => {
             </div>
 
             {/* 인원 선택 가로 드래그 요소 (Swiper 사용) */}
-            <div className="option-personnel">
+            <div className="people-selection-container">
               <Swiper
                 spaceBetween={6}
                 slidesPerView="auto"
                 freeMode={true}
+                scrollbar={{ draggable: true }}
                 grabCursor={true}
                 className="swiper-container"
                 style={{ overflow: "visible" }}
@@ -271,7 +296,7 @@ const SlideUpModal = ({ isOpen, onClose, selectedStoreId }) => {
                   <SwiperSlide
                     key={i}
                     className="swiper-slide"
-                    style={{ width: "auto", marginRight: "6px" }}
+                    // style={{ width: "auto", marginRight: "6px" }}
                   >
                     <label className="people-label">
                       <input
@@ -294,6 +319,7 @@ const SlideUpModal = ({ isOpen, onClose, selectedStoreId }) => {
                 spaceBetween={6}
                 slidesPerView="auto"
                 freeMode={true}
+                grabCursor={true}
                 className="swiper-container"
                 style={{ overflow: "visible" }}
               >
