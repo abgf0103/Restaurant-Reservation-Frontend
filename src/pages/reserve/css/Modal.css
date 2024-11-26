@@ -11,6 +11,10 @@
   --text-color-gray: #808080; /* 회색 텍스트 색상 */
 }
 
+* {
+  user-select: none;
+}
+
 /* 모달 창 */
 .slide-up {
   position: fixed;

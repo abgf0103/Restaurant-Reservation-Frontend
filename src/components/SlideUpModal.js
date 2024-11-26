@@ -20,6 +20,7 @@ const SlideUpModal = ({ isOpen, onClose, selectedStoreId }) => {
   const [storeInfo, setStoreInfo] = useState(null);
   const userInfo = useSelector(getUserInfo);
   const navigate = useNavigate();
+  const [mousedownOnBackground, setMousedownOnBackground] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
@@ -64,17 +65,24 @@ const SlideUpModal = ({ isOpen, onClose, selectedStoreId }) => {
     };
   }, [isOpen, selectedStoreId]);
 
-  const [isDragging, setIsDragging] = useState(false);
-
-  const handleBackgroundMouseDown = () => {
-    setIsDragging(true);
+  // 마우스를 누를 때 백그라운드에서 시작했는지 확인
+  const handleMouseDown = (e) => {
+    if (e.target.classList.contains("modal-background")) {
+      setMousedownOnBackground(true);
+    } else {
+      setMousedownOnBackground(false);
+    }
   };
 
-  const handleBackgroundMouseUp = (e) => {
-    if (isDragging && e.target.className.includes("modal-background")) {
+  // 마우스를 떼었을 때 백그라운드에서 시작하고 백그라운드에서 끝났는지 확인
+  const handleMouseUp = (e) => {
+    if (
+      mousedownOnBackground &&
+      e.target.classList.contains("modal-background")
+    ) {
       onClose();
     }
-    setIsDragging(false);
+    setMousedownOnBackground(false);
   };
 
   const handleDateChange = (date) => {
@@ -266,13 +274,19 @@ const SlideUpModal = ({ isOpen, onClose, selectedStoreId }) => {
       {isPanelVisible && (
         <div
           className="modal-background"
-          onMouseDown={handleBackgroundMouseDown}
-          onMouseUp={handleBackgroundMouseUp}
+          onMouseDown={handleMouseDown}
+          onMouseUp={handleMouseUp}
         >
-          <div className={`slide-up ${isOpen ? "active" : ""}`}>
-            <div onClick={(e) => e.stopPropagation()}>
+          <div
+            className={`slide-up ${isOpen ? "active" : ""}`}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div>
               {/* 달력 컴포넌트 */}
-              <div className="calendar-container">
+              <div
+                className="calendar-container"
+                onMouseDown={(e) => e.preventDefault()}
+              >
                 <DatePicker
                   formatWeekDay={(nameOfDay) => nameOfDay.substring(0, 1)}
                   selected={selectedDate}
@@ -341,11 +355,7 @@ const SlideUpModal = ({ isOpen, onClose, selectedStoreId }) => {
                 style={{ overflow: "visible" }}
               >
                 {Array.from({ length: 20 }, (_, i) => (
-                  <SwiperSlide
-                    key={i}
-                    className="swiper-slide"
-                    // style={{ width: "auto", marginRight: "6px" }}
-                  >
+                  <SwiperSlide key={i} className="swiper-slide">
                     <label className="people-label">
                       <input
                         type="radio"
