@@ -42,74 +42,71 @@ const Header = () => {
     };
 
     const searchStore = (keyword) => {
-        instance
-            .get(`/store/search?searchKeyword=${keyword}`)
-            .then((res) => {
-                console.log(res.data);
-                const result = res.data;
-                console.log(result);
-                navigate('/',{state: { result }});
+        instance.get(`/store/search?searchKeyword=${keyword}`).then((res) => {
+            console.log(res.data);
+            const result = res.data;
+            console.log(result);
+            navigate("/", { state: { result } });
         });
-    }
+    };
 
     const handleSearchSubmit = (e) => {
         e.preventDefault(); // 폼 제출 시 페이지 리로드 방지
-                //검색어가 변경될때마다 키워드 검색결과 호출
+        //검색어가 변경될때마다 키워드 검색결과 호출
         searchStore(searchKeyword);
     };
 
     return (
-        <Navbar expand="lg" className="bg-body-tertiary">
-        <Container>
-            {/* 기본경로에선 goBack 버튼 숨기기 */}
-            {window.location.pathname === "/" ? (
-            <></>
-            ) : (
-            <Button variant="light" onClick={goBack}>
-                ←
-            </Button>
-            )}
-            <Navbar.Brand href="/">예약맨</Navbar.Brand>
-            <Form inline onSubmit={handleSearchSubmit}>
-            <FormControl
-                type="search"
-                placeholder="검색어를 입력하세요"
-                className="mr-sm-2"
-                value={searchKeyword}
-                onChange={handleSearchChange}
-            />
-            <Button variant="outline-warning" type="submit">
-                검색
-            </Button>
-            </Form>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="me-auto">
-                {/* 로그인된 사용자에 따라 로그인 또는 로그아웃 버튼 표시 */}
-                {userInfo && userInfo.username ? (
-                <div>
-                    <span>{userInfo.username}님, 안녕하세요!</span>
-                    <button onClick={handleLogout}>로그아웃</button>
-                </div>
-                ) : (
-                <Link to="/user/login">
-                    <button>로그인</button>
-                </Link>
-                )}
-                {userInfo && userInfo.username ? (
-                <div></div>
-                ) : (
-                <Link to="/user/PreUserEdit">
-                    <button>회원가입</button>
-                </Link>
-                )}
-                <Link to="/fileTest">
-                <button>파일 업로드 테스트</button>
-                </Link>
-            </Nav>
-            </Navbar.Collapse>
-        </Container>
-        </Navbar>
+        <header>
+            <Navbar expand="lg" className="bg-body-tertiary header-nav">
+                <Container>
+                    {/* 기본경로에선 goBack 버튼 숨기기 */}
+                    {window.location.pathname === "/" ? (
+                        <></>
+                    ) : (
+                        <Button variant="light" onClick={goBack}>
+                            ←
+                        </Button>
+                    )}
+                    <Navbar.Brand href="/">예약맨</Navbar.Brand>
+                    <Form inline onSubmit={handleSearchSubmit}>
+                        <FormControl
+                            type="search"
+                            placeholder="검색어를 입력하세요"
+                            className="mr-sm-2"
+                            value={searchKeyword}
+                            onChange={handleSearchChange}
+                        />
+                        <Button variant="outline-warning" type="submit">
+                            검색
+                        </Button>
+                    </Form>
+                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                    <Navbar.Collapse id="basic-navbar-nav" className="header-login">
+                        <Nav className="me-auto">
+                            {/* 로그인된 사용자에 따라 로그인 또는 로그아웃 버튼 표시 */}
+                            {userInfo && userInfo.username ? (
+                                <>
+                                    <span>{userInfo.username} </span>
+                                    <Button onClick={handleLogout}>로그아웃</Button>
+                                </>
+                            ) : (
+                                <Link to="/user/login">
+                                    <button>로그인</button>
+                                </Link>
+                            )}
+                            {userInfo && userInfo.username ? (
+                                <></>
+                            ) : (
+                                <Link to="/user/PreUserEdit">
+                                    <button>회원가입</button>
+                                </Link>
+                            )}
+                        </Nav>
+                    </Navbar.Collapse>
+                </Container>
+            </Navbar>
+        </header>
     );
 };
 export default Header;

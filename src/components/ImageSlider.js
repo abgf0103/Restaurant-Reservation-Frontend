@@ -1,6 +1,6 @@
 import React from 'react';
 import Slider from 'react-slick';
-import '../css/ImageSlider.css';
+import '../css/Style.css';
 
 const ImageSlider = () => {
     const images = [
