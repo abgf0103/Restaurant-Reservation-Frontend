@@ -84,7 +84,21 @@ const MyReserve = () => {
   };
 
   // 예약 취소 함수
-  const deleteReservation = (reserveId) => {
+  const deleteReservation = (reserveId, reserveDate) => {
+    const today = new Date();
+    const reservationDate = new Date(reserveDate);
+    const differenceInTime = reservationDate.getTime() - today.getTime();
+    const differenceInDays = differenceInTime / (1000 * 3600 * 24);
+
+    if (differenceInDays < 3) {
+      Swal.fire({
+        title: "취소 불가",
+        text: "예약 날짜 3일 전까지만 취소가 가능합니다.",
+        icon: "error",
+      });
+      return;
+    }
+
     Swal.fire({
       title: "예약 취소",
       text: "정말로 이 예약을 취소하시겠습니까?",
@@ -118,6 +132,7 @@ const MyReserve = () => {
             Swal.fire("실패", "예약 취소에 실패했습니다.", "error");
           });
       }
+      window.location.reload();
     });
   };
 
@@ -194,7 +209,7 @@ const MyReserve = () => {
                     <Link
                       to={`/writeReview/${reservation.storeId}/${reservation.reserveId}`}
                     >
-                      리뷰 작성
+                      <Button variant="primary">리뷰 작성</Button>
                     </Link>
                   ))}
                 {/* 예약 상태가 취소되지 않은 경우에만 '예약 취소' 버튼 추가 */}
@@ -202,7 +217,12 @@ const MyReserve = () => {
                   reservation.reserveStatus !== 2 && (
                     <Button
                       variant="danger"
-                      onClick={() => deleteReservation(reservation.reserveId)}
+                      onClick={() =>
+                        deleteReservation(
+                          reservation.reserveId,
+                          reservation.reserveDate
+                        )
+                      }
                       style={{ marginTop: "10px" }}
                     >
                       예약 취소

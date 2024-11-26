@@ -68,13 +68,7 @@ const StoreReserve = () => {
       )
       .then(() => {
         Swal.fire("성공", "예약 상태가 업데이트되었습니다.", "success");
-        setReserves((prevReserves) =>
-          prevReserves.map((reserve) =>
-            reserve.reserveId === reserveId
-              ? { ...reserve, reserveStatus: newStatus }
-              : reserve
-          )
-        );
+        getStoreReserve(); // 상태 변경 후 예약 목록 다시 가져오기
       })
       .catch((error) => {
         console.error("예약 상태 업데이트 실패:", error);
@@ -94,7 +88,26 @@ const StoreReserve = () => {
       cancelButtonText: "취소",
     }).then((result) => {
       if (result.isConfirmed) {
-        handleStatusChange(reserveId, 1);
+        instance
+          .put(`/reservations/confirmReservation/${reserveId}`)
+          .then(() => {
+            Swal.fire({
+              title: "예약 확정",
+              icon: "success",
+              timer: 1500,
+            });
+            setReserves((prevReserves) =>
+              prevReserves.map((reserve) =>
+                reserve.reserveId === reserveId
+                  ? { ...reserve, reserveStatus: 1 }
+                  : reserve
+              )
+            );
+          })
+          .catch((error) => {
+            console.error("예약 확정 실패:", error);
+            Swal.fire("실패", "예약 확정에 실패했습니다.", "error");
+          });
       }
     });
   };
@@ -111,7 +124,25 @@ const StoreReserve = () => {
       cancelButtonText: "취소",
     }).then((result) => {
       if (result.isConfirmed) {
-        handleStatusChange(reserveId, 3);
+        instance
+          .put(`/reservations/cancelReservation/${reserveId}`)
+          .then(() => {
+            Swal.fire({
+              title: "예약 취소",
+              icon: "error",
+            });
+            setReserves((prevReserves) =>
+              prevReserves.map((reserve) =>
+                reserve.reserveId === reserveId
+                  ? { ...reserve, reserveStatus: 3 }
+                  : reserve
+              )
+            );
+          })
+          .catch((error) => {
+            console.error("예약 취소 실패:", error);
+            Swal.fire("실패", "예약 취소에 실패했습니다.", "error");
+          });
       }
     });
   };
@@ -128,7 +159,25 @@ const StoreReserve = () => {
       cancelButtonText: "취소",
     }).then((result) => {
       if (result.isConfirmed) {
-        handleStatusChange(reserveId, 2);
+        instance
+          .put(`/reservations/completeReservation/${reserveId}`)
+          .then(() => {
+            Swal.fire({
+              title: "예약 완료",
+              icon: "success",
+            });
+            setReserves((prevReserves) =>
+              prevReserves.map((reserve) =>
+                reserve.reserveId === reserveId
+                  ? { ...reserve, reserveStatus: 2 }
+                  : reserve
+              )
+            );
+          })
+          .catch((error) => {
+            console.error("예약 완료 실패:", error);
+            Swal.fire("실패", "예약 완료에 실패했습니다.", "error");
+          });
       }
     });
   };

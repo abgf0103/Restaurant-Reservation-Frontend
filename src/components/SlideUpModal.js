@@ -133,6 +133,25 @@ const SlideUpModal = ({ isOpen, onClose, selectedStoreId }) => {
     reservationDateTime.setMinutes(parseInt(timeMinute));
     reservationDateTime.setSeconds(0);
 
+    const today = new Date();
+    const diffTime = reservationDateTime.getTime() - today.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    if (diffDays < 3) {
+      const result = await Swal.fire({
+        title: "예약 취소 불가",
+        text: "오늘 날짜와 예약 날짜의 차이가 3일 이하면 예약 취소가 불가능합니다. 그래도 예약 하시겠습니까?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "예",
+        cancelButtonText: "아니오",
+      });
+      if (!result.isConfirmed) {
+        Swal.fire("취소", "예약이 취소되었습니다.", "info");
+        return;
+      }
+    }
+
     const formattedDateTime = `${reservationDateTime.getFullYear()}-${String(
       reservationDateTime.getMonth() + 1
     ).padStart(2, "0")}-${String(reservationDateTime.getDate()).padStart(
@@ -142,9 +161,9 @@ const SlideUpModal = ({ isOpen, onClose, selectedStoreId }) => {
       reservationDateTime.getMinutes()
     ).padStart(2, "0")}:00`;
 
-    const confirmationMessage = `<b>예약 내용을 확인해주세요</b><br>날짜: ${selectedDate.getFullYear()}년 ${
+    const confirmationMessage = `예약 내용을 확인해주세요:<br>날짜: ${selectedDate.getFullYear()}년 ${
       selectedDate.getMonth() + 1
-    }월 ${selectedDate.getDate()}일<br>시간: ${selectedTime}<br>인원수: ${selectedPeople}명<br><br>확인하시겠습니까?`;
+    }월 ${selectedDate.getDate()}일<br>시간: ${selectedTime}<br>인원수: ${selectedPeople}명<br><br>예약하시겠습니까?`;
 
     Swal.fire({
       title: "예약 확인",
