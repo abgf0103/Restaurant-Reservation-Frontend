@@ -70,3 +70,52 @@
 .offBtn:hover{
     background-color: #808080 !important;
 }
+
+.categoryList {
+    background-color: #808080;
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    margin: 0 auto;
+    margin-bottom: 10px;
+    border-radius: 30px;
+    flex-wrap: wrap;
+}
+
+.categoryList button {
+    background-color: var(--background-color);
+    color: var(--text--color-black);
+    margin: 10px 10px;
+    padding: 8px 16px;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+    border: #f0f0f0;
+}
+  
+  /* 클릭된 버튼 스타일 */
+  .categoryList button:focus, .categoryList button.active {
+    background-color: var(--secondary-color)!important;
+    color: white;
+    border: none;
+  }
+  
+  /* Hover 스타일 */
+  .categoryList button:hover {
+    background-color: var(--secondary-color)!important;
+  }
+  
+
+
+@media (max-width: 650px){
+    .categoryList {
+        justify-content: flex-start; /* 모바일에서는 왼쪽 정렬 */
+        padding: 8px; /* 모바일에서는 약간의 패딩 조정 */
+    }
+
+    .categoryList button {
+        margin: 5px 10px; /* 버튼 간 간격을 줄여서 공간 효율성 높임 */
+        font-size: 12px; /* 버튼 글자 크기 약간 축소 */
+        padding: 6px 12px; /* 모바일에서 버튼 크기 조정 */
+    }
+}

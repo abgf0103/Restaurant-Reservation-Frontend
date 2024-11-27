@@ -88,7 +88,7 @@ const MenuManagement = () => {
   };
 
   return (
-    <div>
+    <main>
       <h2>메뉴 관리 페이지</h2>
       {menuList.length > 0 ? (
         <ul>
@@ -130,7 +130,7 @@ const MenuManagement = () => {
           +
         </Button>
       </Card>
-    </div>
+    </main>
   );
 };
 export default MenuManagement;
