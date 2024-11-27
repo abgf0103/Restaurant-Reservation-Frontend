@@ -1,4 +1,3 @@
-// components/PaginatedList.js
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import "../pages/reserve/css/MyReserve.css";
@@ -13,9 +12,9 @@ const PaginatedList = ({ items, itemsPerPage = 10, renderItem }) => {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const currentItems = items.slice(startIndex, startIndex + itemsPerPage);
 
-  // 페이지 변경 함수
-  const goToPage = (pageNumber) => {
-    setCurrentPage(pageNumber);
+  // 페이지 변경 함수 - 페이지 버튼을 클릭하면 새로고침이 발생하도록 수정
+  const goToPage = () => {
+    window.location.reload();
   };
 
   return (
@@ -30,7 +29,7 @@ const PaginatedList = ({ items, itemsPerPage = 10, renderItem }) => {
       {/* 페이지 버튼 */}
       <div className="pagination">
         {Array.from({ length: totalPages }, (_, index) => (
-          <button key={index} onClick={() => goToPage(index + 1)}>
+          <button key={index} onClick={goToPage}>
             {index + 1}
           </button>
         ))}

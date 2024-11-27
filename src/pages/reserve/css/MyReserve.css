@@ -1,6 +1,9 @@
-.my-reserve {
-  padding-top: 84px;
-  padding-bottom: 102px;
+.my-reserve-container {
+  background-color: var(--background-color-gray);
+}
+
+.my-reserve-header {
+  margin-left: 10px;
 }
 
 /* 예약 상태 선택 */
@@ -8,22 +11,43 @@
   width: 150px;
 }
 
+.reserve-card-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+/* .className.card-()*/
+
 /* reserve-card */
-.my-reserve .reserve-card h5 {
-  font-weight: bold;
-  color: red;
+.reserve-card-container.card {
+  margin: 10px;
 }
 .reserve-card.card-body {
+}
+
+.reserve-card-title.card-title {
+  font-weight: bold;
+}
+
+.btn.btn-secondary {
+  background-color: var(--secondary-color);
+  border: none;
+  height: 38px;
+}
+
+.btn.btn-secondary:hover {
+  background-color: #bf7556;
 }
 
 /* 페이지네이션 */
 .pagination {
   margin-left: 50%;
+  margin-bottom: 80px;
 }
 
 .pagination button {
   border: none;
-  background-color: var(--background-color);
+  background-color: var(--background-color-gray);
   color: var(--text-color-black);
   box-shadow: none;
   padding: 10px;
