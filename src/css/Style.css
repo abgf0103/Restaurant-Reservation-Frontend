@@ -35,6 +35,11 @@ header {
   /*overflow: hidden; /* 내용이 넘어가지 않도록 설정 */
 }
 
+.logoImg{
+    width: 50px;
+    height: 50px;
+}
+
 /* 고정된 푸터 스타일 */
 footer {
   position: fixed;

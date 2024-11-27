@@ -9,6 +9,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button, Form, FormControl } from "react-bootstrap";
 import { useState } from "react";
 import instance from "../api/instance";
+import logoImg from '../img/logo.png';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -68,7 +69,7 @@ const Header = () => {
               ←
             </Button>
           )}
-          <Navbar.Brand href="/">예약맨</Navbar.Brand>
+          <Navbar.Brand href="/"><img src={logoImg} alt="" className="logoImg"/></Navbar.Brand>
           <Form onSubmit={handleSearchSubmit}>
             <FormControl
               type="search"
