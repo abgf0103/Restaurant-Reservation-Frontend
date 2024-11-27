@@ -20,6 +20,11 @@
   margin: 0 auto; /* 중앙 정렬 */
 }
 
+/* 스타일 초기화 */
+ol, ul {
+	list-style: none;
+}
+
 /* 고정된 헤더 스타일 */
 header {
   background-color: var(--background-color);

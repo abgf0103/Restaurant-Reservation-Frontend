@@ -5,6 +5,7 @@ import { Link, useLocation } from "react-router-dom";
 import "../reserve/css/Modal.css";
 import { getUserInfo } from "../../hooks/userSlice";
 import { useSelector } from "react-redux";
+import './css/StoreList.css';
 
 const StoreList = () => {
   const location = useLocation();
@@ -183,10 +184,10 @@ const StoreList = () => {
           {item.categoryTitle}
         </button>
       ))}
-      <ul>
+      <ul className="storeList-card-list">
         {storeData.map((item) => (
           <li key={item.storeId}>
-            <Card style={{ width: "18rem" }}>
+            <Card style={{ width: "18rem" }} className="storeList-card">
               <Card.Body>
                 <Link to={"/store/info"} state={item.storeId}>
                   <Card.Img
@@ -200,13 +201,13 @@ const StoreList = () => {
                   </Card.Text>
                 </Link>
                 {isFavorite[item.storeId] ? (
-                  <Button
+                  <Button className="favoriteBtn"
                     onClick={() => favoriteCancelClickHandler(item.storeId)}
                   >
                     X
                   </Button>
                 ) : (
-                  <Button onClick={() => favoriteClickHandler(item.storeId)}>
+                  <Button className="favoriteBtn" onClick={() => favoriteClickHandler(item.storeId)}>
                     🔖
                   </Button>
                 )}

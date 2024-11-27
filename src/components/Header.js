@@ -69,7 +69,7 @@ const Header = () => {
                         </Button>
                     )}
                     <Navbar.Brand href="/">예약맨</Navbar.Brand>
-                    <Form inline onSubmit={handleSearchSubmit}>
+                    <Form onSubmit={handleSearchSubmit}>
                         <FormControl
                             type="search"
                             placeholder="검색어를 입력하세요"
