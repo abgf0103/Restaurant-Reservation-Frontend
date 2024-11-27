@@ -82,3 +82,20 @@ main {
 html {
   background-color: var(--background-color-black);
 }
+
+/* footerNav 클래스로 Nav 항목을 flex로 설정 */
+.footer-nav {
+    display: flex;              /* Flexbox로 설정 */
+    justify-content: center;  /* 항목들 간에 균등한 간격을 두도록 설정 */
+    width: 100%;                /* Nav 전체 폭을 100%로 설정 */
+    padding: 0;                 /* 불필요한 패딩 제거 */
+}
+
+.footer-nav .nav-link {
+    font-size: 30px;
+    margin: 0 20px;
+}
+
+.footer-nav .nav-link :only-child{
+    margin-bottom: 10px;
+}
