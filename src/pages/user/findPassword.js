@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // useNavigate import
 import instance from "../../api/instance"; // 커스텀 axios 인스턴스를 임포트
+import "./css/findPassword.css";
 
 function FindPassword() {
   const [email, setEmail] = useState("");
@@ -41,8 +42,9 @@ function FindPassword() {
   };
 
   return (
-    <div>
-      <h1>임시 비밀번호 찾기</h1>
+    <div className="cover">
+      <h4>비밀번호 찾기</h4>
+      <hr />
       <form onSubmit={handleSubmit}>
         <label>
           이메일:
@@ -74,8 +76,13 @@ function FindPassword() {
           />
         </label>
         <br />
-        <button type="submit">임시 비밀번호 찾기</button>
+        <button type="submit">임시 비밀번호 발급받기</button>
       </form>
+      {message && (
+        <div className="idmessage">
+          <p>{message}</p>
+        </div>
+      )}
     </div>
   );
 }
