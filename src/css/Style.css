@@ -6,6 +6,7 @@
   --primary-color: #ff4545; /* 기본 색상 */
   --secondary-color: #ff9c73; /* 보조 색상 */
   --secondaryHover-color: #ff451a; /* 보조 색상 하버 */
+  --secondaryHover2-color: #e68d67; /* 보조 색상 하버2 */
   --tertiary-color: #fbd288; /* 보조 색상 */
   --quaternary-color: #fcf596; /* 보조 색상 */
   --background-color: #ffffff; /* 색상 white */
@@ -20,8 +21,9 @@
 }
 
 /* style reset */
-ul, ol {
-    list-style-type: none;
+ul,
+ol {
+  list-style-type: none;
 }
 
 /* 고정된 헤더 스타일 */
@@ -40,9 +42,9 @@ header {
   /*overflow: hidden; /* 내용이 넘어가지 않도록 설정 */
 }
 
-.logoImg{
-    width: 50px;
-    height: 50px;
+.logoImg {
+  width: 50px;
+  height: 50px;
 }
 
 /* 고정된 푸터 스타일 */
@@ -95,17 +97,17 @@ html {
 
 /* footerNav 클래스로 Nav 항목을 flex로 설정 */
 .footer-nav {
-    display: flex;              /* Flexbox로 설정 */
-    justify-content: center;  /* 항목들 간에 균등한 간격을 두도록 설정 */
-    width: 100%;                /* Nav 전체 폭을 100%로 설정 */
-    padding: 0;                 /* 불필요한 패딩 제거 */
+  display: flex; /* Flexbox로 설정 */
+  justify-content: center; /* 항목들 간에 균등한 간격을 두도록 설정 */
+  width: 100%; /* Nav 전체 폭을 100%로 설정 */
+  padding: 0; /* 불필요한 패딩 제거 */
 }
 
 .footer-nav .nav-link {
-    font-size: 30px;
-    margin: 0 20px;
+  font-size: 30px;
+  margin: 0 20px;
 }
 
-.footer-nav .nav-link :only-child{
-    margin-bottom: 10px;
+.footer-nav .nav-link :only-child {
+  margin-bottom: 10px;
 }
