@@ -153,89 +153,93 @@ const MyReserve = () => {
   console.log(reservations);
 
   return (
-    <div className="my-reserve">
-      <h4>나의 예약 정보</h4>
-      <Form.Group controlId="filterStatus" className="filter-status">
-        <Form.Label>예약 상태 선택 : </Form.Label>
-        <Form.Control
-          as="select"
-          value={filterStatus}
-          onChange={handleFilterChange}
-        >
-          <option value="all">전체</option>
-          <option value="0">확인 중인 예약</option>
-          <option value="1">확정된 예약</option>
-          <option value="2">완료된 예약</option>
-          <option value="3">취소된 예약</option>
-        </Form.Control>
-      </Form.Group>
+    <div className="my-reserve-container">
+      <div className="my-reserve-header">
+        <h4>
+          <br />
+          나의 예약 정보
+        </h4>
+        <Form.Group controlId="filterStatus" className="filter-status">
+          <Form.Label>예약 상태 선택 : </Form.Label>
+          <Form.Control
+            as="select"
+            value={filterStatus}
+            onChange={handleFilterChange}
+          >
+            <option value="all">전체</option>
+            <option value="0">확인 중인 예약</option>
+            <option value="1">확정된 예약</option>
+            <option value="2">완료된 예약</option>
+            <option value="3">취소된 예약</option>
+          </Form.Control>
+        </Form.Group>
+      </div>
       {loading ? (
         <p>로딩 중...</p>
       ) : filteredReservations.length === 0 ? (
         <p>예약 내역이 없습니다.</p>
       ) : (
-        <PaginatedList
-          items={filteredReservations}
-          itemsPerPage={10}
-          renderItem={(reservation) => (
-            <Card key={reservation.reserveId}>
-              <Card.Body className="reserve-card">
-                <Card.Title>{reservation.storeName}</Card.Title>
-                <Card.Text>
-                  <strong>예약 신청 시간 : </strong>
-                  {reservation.createdAt} <br />
-                  <strong>예약 날짜:</strong>{" "}
-                  {new Date(reservation.reserveDate).toLocaleString()} <br />
-                  <strong>인원 수:</strong> {reservation.partySize} <br />
-                  {reservation.reserveStatus === 0
-                    ? "예약 확인 중 입니다."
-                    : reservation.reserveStatus === 1
-                    ? "예약이 확정 되었습니다."
-                    : reservation.reserveStatus === 2
-                    ? "완료된 예약입니다."
-                    : reservation.reserveStatus === 3
-                    ? "취소된 예약입니다."
-                    : "알 수 없는 상태"}
-                </Card.Text>
-                {/* 완료 상태일 때만 리뷰작성 버튼 또는 리뷰 작성 완료 메시지 */}
-                {reservation.reserveStatus === 2 &&
-                  (reviewExistMap[reservation.reserveId] ? (
-                    <p>{"리뷰 작성 완료 :)"}</p>
-                  ) : (
-                    <Link
-                      to={`/writeReview/${reservation.storeId}/${reservation.reserveId}`}
-                    >
-                      <Button variant="primary" className="review-btn">
-                        리뷰 작성
+        <div className="reserve-card-wrapper">
+          <PaginatedList
+            items={filteredReservations}
+            itemsPerPage={15}
+            renderItem={(reservation) => (
+              <Card
+                key={reservation.reserveId}
+                className="reserve-card-container"
+              >
+                <Card.Body className="reserve-card">
+                  <Card.Title className="reserve-card-title">
+                    {reservation.storeName}
+                  </Card.Title>
+                  <Card.Text>
+                    <strong>예약 신청 시간 : </strong>
+                    {reservation.createdAt} <br />
+                    <strong>예약 날짜:</strong>{" "}
+                    {new Date(reservation.reserveDate).toLocaleString()} <br />
+                    <strong>인원 수:</strong> {reservation.partySize} <br />
+                    {reservation.reserveStatus === 0
+                      ? "예약 확인 중 입니다."
+                      : reservation.reserveStatus === 1
+                      ? "예약이 확정 되었습니다."
+                      : reservation.reserveStatus === 2
+                      ? "완료된 예약입니다."
+                      : reservation.reserveStatus === 3
+                      ? "취소된 예약입니다."
+                      : "알 수 없는 상태"}
+                  </Card.Text>
+                  {reservation.reserveStatus === 2 &&
+                    (reviewExistMap[reservation.reserveId] ? (
+                      <p>{"리뷰 작성 완료 :)"}</p>
+                    ) : (
+                      <Link
+                        to={`/writeReview/${reservation.storeId}/${reservation.reserveId}`}
+                      >
+                        <Button variant="primary">리뷰 작성</Button>
+                      </Link>
+                    ))}
+                  {reservation.reserveStatus !== 3 &&
+                    reservation.reserveStatus !== 2 && (
+                      <Button
+                        variant="danger"
+                        onClick={() =>
+                          deleteReservation(
+                            reservation.reserveId,
+                            reservation.reserveDate
+                          )
+                        }
+                      >
+                        예약 취소
                       </Button>
-                    </Link>
-                  ))}
-                {/* 예약 상태가 취소되지 않은 경우에만 '예약 취소' 버튼 추가 */}
-                {reservation.reserveStatus !== 3 &&
-                  reservation.reserveStatus !== 2 && (
-                    <Button
-                      variant="danger"
-                      className="cancel-btn"
-                      onClick={() =>
-                        deleteReservation(
-                          reservation.reserveId,
-                          reservation.reserveDate
-                        )
-                      }
-                    >
-                      예약 취소
-                    </Button>
-                  )}
-                {/* 가게 페이지 방문 버튼 추가 */}
-                <Link to={"/store/info"} state={reservation.storeId}>
-                  <Button variant="secondary" className="link-btn">
-                    가게 페이지 방문
-                  </Button>
-                </Link>
-              </Card.Body>
-            </Card>
-          )}
-        />
+                    )}
+                  <Link to={"/store/info"} state={reservation.storeId}>
+                    <Button variant="secondary">가게 페이지 방문</Button>
+                  </Link>
+                </Card.Body>
+              </Card>
+            )}
+          />
+        </div>
       )}
     </div>
   );
