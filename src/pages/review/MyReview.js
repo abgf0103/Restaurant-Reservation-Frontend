@@ -105,10 +105,10 @@ const MyReview = () => {
   return (
     <MyReviewContainer>
       <Title>{userInfo.username} 사용자님의 리뷰 페이지</Title>
-      <ReviewRow xs={1} sm={2} md={3} className="g-4">
+      <ReviewRow className="row-eq-height">
         {reviews.length > 0 ? (
           reviews.map((review) => (
-            <Col key={review.reviewId}>
+            <Col xs={12} md={4} lg={3} key={review.reviewId} className="d-flex">
               <ReviewCard>
                 <Card.Body>
                   <Card.Title>{review.storeName}</Card.Title>

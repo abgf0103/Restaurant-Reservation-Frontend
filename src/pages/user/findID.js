@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // useNavigate import
 import instance from "../../api/instance"; // 커스텀 axios 인스턴스를 임포트
+import "./css/findID.css";
 
 const FindIdForm = () => {
   const [email, setEmail] = useState("");
@@ -49,25 +50,31 @@ const FindIdForm = () => {
   };
 
   return (
-    <div>
-      <h2>아이디 찾기</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          value={email}
-          onChange={handleEmailChange}
-          placeholder="이메일을 입력하세요"
-        />
-        <button type="submit" disabled={loading}>
-          {loading ? "로딩 중..." : "아이디 찾기"}
-        </button>
-      </form>
-      {message && (
-        <div>
-          <p>{message}</p>
+    <main>
+      <main>
+        <div className="cover">
+          <div className="idtitle">
+            <h2>아이디 찾기</h2>
+          </div>
+          <form onSubmit={handleSubmit}>
+            <input
+              type="email"
+              value={email}
+              onChange={handleEmailChange}
+              placeholder="이메일을 입력하세요"
+            />
+            <button type="submit" disabled={loading} className="idbutton">
+              {loading ? "로딩 중..." : "아이디 찾기"}
+            </button>
+          </form>
+          {message && (
+            <div className="idmessage">
+              <p>{message}</p>
+            </div>
+          )}
         </div>
-      )}
-    </div>
+      </main>
+    </main>
   );
 };
 

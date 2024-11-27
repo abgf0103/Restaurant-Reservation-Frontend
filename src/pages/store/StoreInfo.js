@@ -330,11 +330,21 @@ const StoreInfo = () => {
     // 스크롤 이벤트 처리 함수
     const scrollToSection = (sectionId) => {
         const section = document.getElementById(sectionId);
-        section.scrollIntoView({
-            behavior: "smooth", // 부드럽게 스크롤
-            block: "start", // 스크롤할 때 상단에 맞추기
+        const headerHeight = document.querySelector('header').offsetHeight; // 헤더 높이 가져오기
+    
+        // section의 위치 가져오기
+        const sectionTop = section.getBoundingClientRect().top + window.pageYOffset;
+    
+        // sectionTop에 헤더 높이를 빼서 최종 스크롤 위치 계산
+        const scrollToPosition = sectionTop - headerHeight;
+    
+        // 스크롤을 부드럽게 이동하도록 설정
+        window.scrollTo({
+            top: scrollToPosition,
+            behavior: "smooth"
         });
     };
+    
 
     console.log(reviews);
 
@@ -361,13 +371,13 @@ const StoreInfo = () => {
                 상세정보
             </Button>
 
-            <h4 className="description">가게 설명</h4>
+            <h4 className="description" id="description">가게 설명</h4>
             <p>{storeData.description}</p>
 
-            <h2 className="menu">메뉴</h2>
+            <h2 className="menu" id="menu">메뉴</h2>
             <MenuList />
 
-            <h1 className="review">리뷰</h1>
+            <h1 className="review" id="review">리뷰</h1>
             {reviews.length > 0 ? (
                 <ul>
                     {reviews.map((review) => (
@@ -416,7 +426,7 @@ const StoreInfo = () => {
                 리뷰 더보기
             </button>
 
-            <ul>
+            <ul id="map">
                 {nearByStationList.length > 0 &&
                     nearByStationList.map((item, index) => {
                         return (
@@ -465,7 +475,6 @@ const StoreInfo = () => {
                 center={{ lat: storeData.latlng.lat, lng: storeData.latlng.lng }}
                 style={{ width: "1000px", height: "600px" }}
                 level={3}
-                id="map"
             >
                 {isReady && (
                     <EventMarkerContainer
@@ -476,7 +485,7 @@ const StoreInfo = () => {
                 )}
             </KakaoMap>
 
-            <h4 className="info">상세 정보</h4>
+            <h4 className="info" id="info">상세 정보</h4>
             <p className="address">가게 주소: {storeData.address}</p>
             <p className="storeHours">영업시간: {storeData.storeHours}</p>
             <p className="phone">연락처: {storeData.phone}</p>
