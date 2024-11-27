@@ -319,8 +319,8 @@ const ReviewEdit = () => {
                   accept="image/*"
                 />
                 <FileUploadButton
-                  variant="warning"
-                  className="mb-3"
+                  variant="danger"
+                  className="submit-button"
                   onClick={handleFileUpload}
                 >
                   업로드

@@ -5,8 +5,8 @@ import { getUserInfo } from "../../hooks/userSlice";
 import Swal from "sweetalert2";
 import { Card, Button, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { getAllReservationsByUserId } from "../../webapi/webApiList"; // API 호출 함수 추가
-import instance from "../../api/instance"; // Axios instance
+import { getAllReservationsByUserId } from "../../webapi/webApiList";
+import instance from "../../api/instance";
 import "./css/MyReserve.css";
 
 const MyReserve = () => {

@@ -376,12 +376,6 @@ const StoreInfo = () => {
 
       <Button
         className="onClick-button"
-        onClick={() => scrollToSection("home")}
-      >
-        홈
-      </Button>
-      <Button
-        className="onClick-button"
         onClick={() => scrollToSection("description")}
       >
         가게 설명

@@ -6,6 +6,7 @@
   --primary-color: #ff4545; /* 기본 색상 */
   --secondary-color: #ff9c73; /* 보조 색상 */
   --secondaryHover-color: #ff451a; /* 보조 색상 하버 */
+  --secondaryHover2-color: #e68d67; /* 보조 색상 하버2 */
   --tertiary-color: #fbd288; /* 보조 색상 */
   --quaternary-color: #fcf596; /* 보조 색상 */
   --background-color: #ffffff; /* 색상 white */
@@ -17,6 +18,12 @@
   max-width: 100%; /* 화면 크기에 맞게 너비 조정 */
   width: 1280px;
   margin: 0 auto; /* 중앙 정렬 */
+}
+
+/* style reset */
+ul,
+ol {
+  list-style-type: none;
 }
 
 /* 고정된 헤더 스타일 */
@@ -33,6 +40,11 @@ header {
   height: 85px; /* 헤더 높이 */
   line-height: 58px; /* 텍스트 수직 중앙 정렬 */
   /*overflow: hidden; /* 내용이 넘어가지 않도록 설정 */
+}
+
+.logoImg {
+  width: 50px;
+  height: 50px;
 }
 
 /* 고정된 푸터 스타일 */

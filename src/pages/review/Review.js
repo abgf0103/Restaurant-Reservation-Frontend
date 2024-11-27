@@ -20,7 +20,9 @@ import {
   ReviewCommentLabel,
   ReviewCommentTextArea,
   ReviewContainer,
+  ReviewTitle,
   SubmitButton,
+  Username,
 } from "../../components/Review/ReviewStyle";
 import { Card, Col, Form, Row } from "react-bootstrap";
 
@@ -240,7 +242,9 @@ const Review = () => {
       <Row className="justify-content-center">
         <Col md={8}>
           <Card className="shadow-lg p-4">
-            <H1>{userInfo.username} 고객님 리뷰 작성</H1>
+            <ReviewTitle>
+              <Username>{userInfo.username}</Username> 고객님 리뷰 작성
+            </ReviewTitle>
 
             <Form onSubmit={handleSubmit}>
               <RatingFormGroup controlId="rating">
