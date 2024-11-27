@@ -22,12 +22,12 @@
 /* 고정된 헤더 스타일 */
 header {
   background-color: white;
-  position: fixed;
+  position: sticky;
   top: 0;
   left: 50%;
   width: 100%;
   max-width: 1280px; /* 최대 너비 */
-  transform: translateX(-50%); /* 중앙 정렬 */
+  /* transform: translateX(-50%); 중앙 정렬 */
   z-index: 1000;
   text-align: center;
   height: 85px; /* 헤더 높이 */
