@@ -54,14 +54,15 @@ const FindIdForm = () => {
       <main>
         <div className="cover">
           <div className="idtitle">
-            <h2>아이디 찾기</h2>
+            <h4>아이디 찾기</h4>
           </div>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} className="findIdBox">
             <input
               type="email"
               value={email}
               onChange={handleEmailChange}
               placeholder="이메일을 입력하세요"
+              className="idInput"
             />
             <button type="submit" disabled={loading} className="idbutton">
               {loading ? "로딩 중..." : "아이디 찾기"}

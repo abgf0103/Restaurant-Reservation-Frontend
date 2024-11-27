@@ -1,25 +1,42 @@
 .cover {
-  border: 2px solid black;
+  border: 2px solid var(--primary-color);
   padding: 5vw; /* 화면 너비의 5%로 패딩 설정 */
   border-radius: 15px;
   width: 70%; /* 부모 화면 너비의 70% 크기 */
-  max-width: 900px; /* 최대 크기 제한 */
+  max-width: 500px; /* 최대 크기 제한 */
   min-width: 400px; /* 최소 크기 제한 */
   margin: 0 auto; /* 중앙 정렬 */
 }
 
 .idbutton {
   margin-left: 30px;
+  background-color: var(--secondary-color) !important;
+  color: var(--text-color-white);
+  border: 1px solid var(--secondaryHover-color);
+}
+.idbutton:hover {
+  background-color: var(--secondaryHover-color) !important;
 }
 .idtitle {
-  margin-left: 20px;
+  margin-left: 10px;
 }
 .idmessage {
   margin-top: 20px;
-  border: 1px solid red;
+  color: red;
   padding: 10px; /* 텍스트와 테두리 사이에 여백 추가 */
   white-space: normal; /* 자동으로 개행하도록 설정 */
   word-wrap: break-word; /* 긴 단어가 줄 바꿈 없이 넘어가지 않도록 설정 */
   overflow-wrap: break-word; /* 긴 단어가 박스를 넘지 않도록 설정 */
   line-height: 1.5; /* 텍스트 간격을 여유 있게 설정 */
+  align-self: center;
+  width: 100%;
+}
+.findIdBox {
+  display: flex; /* flexbox를 사용하여 요소들을 세로로 배치 */
+  flex-direction: column; /* 세로로 배치 */
+  align-items: center; /* 요소들을 가로로 중앙 정렬 */
+  gap: 10px; /* 인풋과 버튼 사이에 여백을 추가 */
+}
+.idInput {
+  width: 100%; /* 인풋창을 부모 너비에 맞추어 확장 */
 }
