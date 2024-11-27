@@ -5,16 +5,18 @@ import { getUserInfo } from "../../hooks/userSlice"; // 로그인된 사용자 �
 import Swal from "sweetalert2";
 import instance from "../../api/instance"; // instance 임포트
 import { Card, ListGroup, Col, Spinner, CardText } from "react-bootstrap";
+import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import {
   ButtonDelete,
   ButtonEdit,
   ListGroupItem,
   MyReviewContainer,
+  MyReviewTitle,
   ReviewButtons,
   ReviewCard,
   ReviewImage,
   ReviewRow,
-  Title,
+  Username,
 } from "../../components/Review/MyReviewStyle";
 
 const MyReview = () => {
@@ -104,7 +106,9 @@ const MyReview = () => {
 
   return (
     <MyReviewContainer>
-      <Title>{userInfo.username} 사용자님의 리뷰 페이지</Title>
+      <MyReviewTitle>
+        <Username>{userInfo.username}</Username> 고객님 리뷰 작성
+      </MyReviewTitle>
       <ReviewRow className="row-eq-height">
         {reviews.length > 0 ? (
           reviews.map((review) => (
@@ -140,7 +144,7 @@ const MyReview = () => {
                     variant="outline-primary"
                     onClick={() => handleEditClick(review.reviewId)}
                   >
-                    수정
+                    <FaEdit style={{ marginRight: "8px" }} /> 수정
                   </ButtonEdit>
                   <ButtonDelete
                     variant="outline-danger"
@@ -148,7 +152,7 @@ const MyReview = () => {
                       handleDeleteClick(review.reviewId, review.reserveId)
                     }
                   >
-                    삭제
+                    <FaTrashAlt style={{ marginRight: "8px" }} /> 삭제
                   </ButtonDelete>
                 </ReviewButtons>
               </ReviewCard>
