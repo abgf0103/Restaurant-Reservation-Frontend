@@ -274,6 +274,9 @@
   text-align: center;
   cursor: pointer;
   z-index: 1001;
+  position: fixed;
+  bottom: 0;
+  transform: translateY(-70px);
 }
 
 .reserve-button-info:hover,
