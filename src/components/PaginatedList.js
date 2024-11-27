@@ -1,40 +1,49 @@
-import React, { useState } from "react";
-import { Button } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import "../pages/reserve/css/MyReserve.css";
 
-const PaginatedList = ({ items, itemsPerPage = 10, renderItem }) => {
-  const [currentPage, setCurrentPage] = useState(1);
+const PaginatedList = ({ items, itemsPerPage, renderItem }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  // 총 페이지 수 계산
+  // URL 파라미터에서 페이지 가져오기
+  const queryParams = new URLSearchParams(location.search);
+  const initialPage = parseInt(queryParams.get("page")) || 1;
+
+  const [currentPage, setCurrentPage] = useState(initialPage);
+
+  // 페이지에 맞는 항목 추출
   const totalPages = Math.ceil(items.length / itemsPerPage);
-
-  // 현재 페이지에서 보여줄 항목 계산
   const startIndex = (currentPage - 1) * itemsPerPage;
   const currentItems = items.slice(startIndex, startIndex + itemsPerPage);
 
-  // 페이지 변경 함수 - 페이지 버튼을 클릭하면 새로고침이 발생하도록 수정
-  const goToPage = () => {
-    window.location.reload();
+  // 페이지 버튼 클릭 핸들러
+  const goToPage = (pageNumber) => {
+    setCurrentPage(pageNumber);
   };
 
-  return (
-    <div>
-      {/* 현재 페이지의 항목들을 출력 */}
-      <div>
-        {currentItems.map((item, index) => (
-          <div key={index}>{renderItem(item)}</div>
-        ))}
-      </div>
+  useEffect(() => {
+    setCurrentPage(initialPage);
+  }, [initialPage]);
 
-      {/* 페이지 버튼 */}
+  return (
+    <>
+      {/* 현재 페이지의 항목들을 출력 */}
+      {currentItems.map((item) => renderItem(item))}
+
+      {/* 페이지네이션 버튼 */}
       <div className="pagination">
         {Array.from({ length: totalPages }, (_, index) => (
-          <button key={index} onClick={goToPage}>
+          <button
+            key={index}
+            onClick={() => goToPage(index + 1)}
+            className={currentPage === index + 1 ? "active" : ""}
+          >
             {index + 1}
           </button>
         ))}
       </div>
-    </div>
+    </>
   );
 };
 
