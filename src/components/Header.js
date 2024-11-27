@@ -59,7 +59,7 @@ const Header = () => {
     return (
         <header>
             <Navbar expand="lg">
-                <Container>
+                <Container className="headerContainer">
                     {/* 기본경로에선 goBack 버튼 숨기기 */}
                     {window.location.pathname === "/" ? (
                         <></>
@@ -82,7 +82,7 @@ const Header = () => {
                         </Button>
                     </Form>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                    <Navbar.Collapse id="basic-navbar-nav" className="header-login">
+                    <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
                             {/* 로그인된 사용자에 따라 로그인 또는 로그아웃 버튼 표시 */}
                             {userInfo && userInfo.username ? (

@@ -13,6 +13,15 @@ const FavoritePage = () => {
   const userInfo = useSelector(getUserInfo);
   const [isFavorite, setIsFavorite] = useState({});
 
+  // 로그인 상태 체크
+  useEffect(() => {
+      if (!userInfo.username) {
+          // 로그인 안 되어 있으면 swal출력 후 로그인 페이지로 리다이렉트
+          isNotLoginSwal();
+          navigate("/user/login");
+      }
+  }, [navigate, userInfo]);
+
   // 가게 정보를 API로 받아서 state에 저장
   const getDefaultStoreList = () => {
     instance
