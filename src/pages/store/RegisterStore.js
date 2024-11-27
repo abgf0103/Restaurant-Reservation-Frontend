@@ -181,6 +181,7 @@ const RegisterStore = () => {
         storeHours: storeData.storeHours,
         phone: storeData.phone,
         description: storeData.description,
+        identity: storeData.identity,
         fileId: fileId, // fileId를 사용하여 파일 정보와 연결
       })
       .then(() => {
@@ -225,7 +226,7 @@ const RegisterStore = () => {
   };
 
   return (
-    <div>
+    <main>
       <h2>가게 등록 페이지</h2>
       <Form onSubmit={requestStoreRegister}>
         <Form.Group className="mb-3">
@@ -339,7 +340,7 @@ const RegisterStore = () => {
           가게 등록
         </Button>
       </Form>
-    </div>
+    </main>
   );
 };
 
