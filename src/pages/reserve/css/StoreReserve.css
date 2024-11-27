@@ -1,9 +1,9 @@
-.my-reserve-container {
+.store-reserve-container {
   background-color: var(--background-color-gray);
   min-height: 800px;
 }
 
-.my-reserve-header {
+.store-reserve-header {
   margin-left: 40px;
 }
 
@@ -25,7 +25,7 @@
 /* reserve-card */
 .reserve-card {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin: 0; /* 카드의 여백을 제거하여 요소들 간의 간격을 최소화 */
+  margin: 0;
   border-radius: 15px;
   min-height: 254px;
 }
@@ -36,14 +36,17 @@
 }
 
 /* 버튼 */
-.btn.btn-secondary {
+
+.btn.btn-thirdly {
   background-color: var(--secondary-color);
+  color: var(--text-color-white);
   border: none;
   height: 38px;
 }
 
-.btn.btn-secondary:hover {
+.btn.btn-thirdly:hover {
   background-color: var(--secondaryHover2-color);
+  color: var(--text-color-white);
 }
 
 /* 페이지네이션 */
