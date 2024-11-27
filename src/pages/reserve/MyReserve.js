@@ -7,7 +7,6 @@ import { Card, Button, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { getAllReservationsByUserId } from "../../webapi/webApiList"; // API 호출 함수 추가
 import instance from "../../api/instance"; // Axios instance
-import PaginatedList from "../../components/PaginatedList";
 import "./css/MyReserve.css";
 
 const MyReserve = () => {
@@ -18,6 +17,8 @@ const MyReserve = () => {
   const [reviewExistMap, setReviewExistMap] = useState({}); // 리뷰 여부 상태 관리
   const [filteredReservations, setFilteredReservations] = useState([]); // 필터링된 예약 정보
   const [filterStatus, setFilterStatus] = useState("all"); // 필터 상태
+  const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 상태
+  const itemsPerPage = 15; // 페이지당 항목 수 설정
 
   // 예약 상태와 사용자 정보 확인 및 로그인 상태 체크
   useEffect(() => {
@@ -119,10 +120,13 @@ const MyReserve = () => {
             );
             // 예약 상태를 다시 불러와 업데이트
             setReservations((prevReservations) =>
-              prevReservations.map((reservation) =>
-                reservation.reserveId === reserveId
-                  ? { ...reservation, reserveStatus: 3 } // 상태를 취소 상태(3)로 변경
-                  : reservation
+              prevReservations.filter(
+                (reservation) => reservation.reserveId !== reserveId
+              )
+            );
+            setFilteredReservations((prevReservations) =>
+              prevReservations.filter(
+                (reservation) => reservation.reserveId !== reserveId
               )
             );
           })
@@ -131,7 +135,6 @@ const MyReserve = () => {
             Swal.fire("실패", "예약 취소에 실패했습니다.", "error");
           });
       }
-      window.location.reload();
     });
   };
 
@@ -150,7 +153,18 @@ const MyReserve = () => {
     }
   };
 
-  console.log(reservations);
+  // 페이지네이션 관련 로직
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredReservations.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
+
+  const totalPages = Math.ceil(filteredReservations.length / itemsPerPage);
+  const goToPage = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   return (
     <div className="my-reserve-container">
@@ -179,67 +193,76 @@ const MyReserve = () => {
       ) : filteredReservations.length === 0 ? (
         <p>예약 내역이 없습니다.</p>
       ) : (
-        <div className="reserve-card-wrapper">
-          <PaginatedList
-            items={filteredReservations}
-            itemsPerPage={15}
-            renderItem={(reservation) => (
-              <Card
-                key={reservation.reserveId}
-                className="reserve-card-container"
+        <>
+          <ul className="reserve-card-wrapper">
+            {currentItems.map((reservation) => (
+              <li key={reservation.reserveId}>
+                <Card className="reserve-card">
+                  <Card.Body>
+                    <Card.Title className="reserve-card-title">
+                      {reservation.storeName}
+                    </Card.Title>
+                    <Card.Text>
+                      <strong>예약 신청 시간 : </strong>
+                      {reservation.createdAt} <br />
+                      <strong>예약 날짜:</strong>{" "}
+                      {new Date(reservation.reserveDate).toLocaleString()}{" "}
+                      <br />
+                      <strong>인원 수:</strong> {reservation.partySize} <br />
+                      {reservation.reserveStatus === 0
+                        ? "예약 확인 중 입니다."
+                        : reservation.reserveStatus === 1
+                        ? "예약이 확정 되었습니다."
+                        : reservation.reserveStatus === 2
+                        ? "완료된 예약입니다."
+                        : reservation.reserveStatus === 3
+                        ? "취소된 예약입니다."
+                        : "알 수 없는 상태"}
+                    </Card.Text>
+                    {reservation.reserveStatus === 2 &&
+                      (reviewExistMap[reservation.reserveId] ? (
+                        <p>{"리뷰 작성 완료 :)"}</p>
+                      ) : (
+                        <Link
+                          to={`/writeReview/${reservation.storeId}/${reservation.reserveId}`}
+                        >
+                          <Button variant="primary">리뷰 작성</Button>
+                        </Link>
+                      ))}
+                    {reservation.reserveStatus !== 3 &&
+                      reservation.reserveStatus !== 2 && (
+                        <Button
+                          variant="danger"
+                          onClick={() =>
+                            deleteReservation(
+                              reservation.reserveId,
+                              reservation.reserveDate
+                            )
+                          }
+                        >
+                          예약 취소
+                        </Button>
+                      )}
+                    <Link to={"/store/info"} state={reservation.storeId}>
+                      <Button variant="secondary">가게 페이지 방문</Button>
+                    </Link>
+                  </Card.Body>
+                </Card>
+              </li>
+            ))}
+          </ul>
+          <div className="pagination">
+            {Array.from({ length: totalPages }, (_, index) => (
+              <button
+                key={index}
+                onClick={() => goToPage(index + 1)}
+                className={currentPage === index + 1 ? "active" : ""}
               >
-                <Card.Body className="reserve-card">
-                  <Card.Title className="reserve-card-title">
-                    {reservation.storeName}
-                  </Card.Title>
-                  <Card.Text>
-                    <strong>예약 신청 시간 : </strong>
-                    {reservation.createdAt} <br />
-                    <strong>예약 날짜:</strong>{" "}
-                    {new Date(reservation.reserveDate).toLocaleString()} <br />
-                    <strong>인원 수:</strong> {reservation.partySize} <br />
-                    {reservation.reserveStatus === 0
-                      ? "예약 확인 중 입니다."
-                      : reservation.reserveStatus === 1
-                      ? "예약이 확정 되었습니다."
-                      : reservation.reserveStatus === 2
-                      ? "완료된 예약입니다."
-                      : reservation.reserveStatus === 3
-                      ? "취소된 예약입니다."
-                      : "알 수 없는 상태"}
-                  </Card.Text>
-                  {reservation.reserveStatus === 2 &&
-                    (reviewExistMap[reservation.reserveId] ? (
-                      <p>{"리뷰 작성 완료 :)"}</p>
-                    ) : (
-                      <Link
-                        to={`/writeReview/${reservation.storeId}/${reservation.reserveId}`}
-                      >
-                        <Button variant="primary">리뷰 작성</Button>
-                      </Link>
-                    ))}
-                  {reservation.reserveStatus !== 3 &&
-                    reservation.reserveStatus !== 2 && (
-                      <Button
-                        variant="danger"
-                        onClick={() =>
-                          deleteReservation(
-                            reservation.reserveId,
-                            reservation.reserveDate
-                          )
-                        }
-                      >
-                        예약 취소
-                      </Button>
-                    )}
-                  <Link to={"/store/info"} state={reservation.storeId}>
-                    <Button variant="secondary">가게 페이지 방문</Button>
-                  </Link>
-                </Card.Body>
-              </Card>
-            )}
-          />
-        </div>
+                {index + 1}
+              </button>
+            ))}
+          </div>
+        </>
       )}
     </div>
   );
