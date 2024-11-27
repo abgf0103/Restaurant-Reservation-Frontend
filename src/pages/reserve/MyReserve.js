@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getUserInfo } from "../../hooks/userSlice";
 import Swal from "sweetalert2";
-import { Card, Button, Form } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { getAllReservationsByUserId } from "../../webapi/webApiList"; // API 호출 함수 추가
 import instance from "../../api/instance"; // Axios instance
@@ -178,13 +178,14 @@ const MyReserve = () => {
           items={filteredReservations}
           itemsPerPage={10}
           renderItem={(reservation) => (
-            <Card
+            <div
               key={reservation.reserveId}
               style={{ width: "18rem", margin: "10px" }}
+              className="my-reserve-body"
             >
-              <Card.Body className="reserve-card">
-                <Card.Title>{reservation.storeName}</Card.Title>
-                <Card.Text>
+              <div className="my-reserve-item">
+                <h5>{reservation.storeName}</h5>
+                <p>
                   <strong>예약 신청 시간 : </strong>
                   {reservation.createdAt} <br />
                   <strong>예약 날짜:</strong>{" "}
@@ -199,7 +200,7 @@ const MyReserve = () => {
                     : reservation.reserveStatus === 3
                     ? "취소된 예약입니다."
                     : "알 수 없는 상태"}
-                </Card.Text>
+                </p>
                 {/* 완료 상태일 때만 리뷰작성 버튼 또는 리뷰 작성 완료 메시지 */}
                 {reservation.reserveStatus === 2 &&
                   (reviewExistMap[reservation.reserveId] ? (
@@ -235,8 +236,8 @@ const MyReserve = () => {
                     가게 페이지 방문
                   </Button>
                 </Link>
-              </Card.Body>
-            </Card>
+              </div>
+            </div>
           )}
         />
       )}

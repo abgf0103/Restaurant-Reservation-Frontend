@@ -12,21 +12,6 @@
   width: 1280px;
 }
 
-/* 전체 */
-.my-reserve {
-  margin: 30px;
-}
-
-/* 예약 상태 선택 */
-.filter-status {
-  width: 150px;
-}
-
-/* 페이지 버튼 */
-.pagination {
-  margin-left: 50%;
-}
-
 .pagination button {
   border: none;
   background-color: var(--background-color);
@@ -35,13 +20,6 @@
   padding: 10px;
 }
 
-.card {
-  width: 1200px !important;
-}
-
-.reserve-card.card-body {
-  width: 800px;
-}
 /* .link-btn {
   display: block !important;
   margin-left: 618.75px !important;

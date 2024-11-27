@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { getUserInfo } from "../../hooks/userSlice";
 import Swal from "sweetalert2";
 import instance from "../../api/instance";
-import { Button, Card } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { reserveStatus } from "./../../utils/tools";
 import PaginatedList from "../../components/PaginatedList";
 
@@ -190,19 +190,20 @@ const StoreReserve = () => {
           items={reserves}
           itemsPerPage={10}
           renderItem={(reserve) => (
-            <Card
+            <div
               key={reserve.reserveId}
               style={{ width: "18rem", margin: "10px" }}
+              className="store-reserve"
             >
-              <Card.Body>
-                <Card.Title>예약 ID: {reserve.reserveId}</Card.Title>
-                <Card.Text>
+              <div className="store-reserve-item">
+                <h5>예약 ID: {reserve.reserveId}</h5>
+                <p>
                   <strong>예약 날짜:</strong>{" "}
                   {new Date(reserve.reserveDate).toLocaleString()} <br />
                   <strong>인원 수:</strong> {reserve.partySize}명 <br />
                   <strong>예약 상태:</strong>{" "}
                   {reserveStatus(reserve.reserveStatus)}
-                </Card.Text>
+                </p>
                 {reserve.reserveStatus === 0 && (
                   <Button
                     variant="outline-success"
@@ -230,8 +231,8 @@ const StoreReserve = () => {
                     예약 취소
                   </Button>
                 )}
-              </Card.Body>
-            </Card>
+              </div>
+            </div>
           )}
         />
       ) : (
