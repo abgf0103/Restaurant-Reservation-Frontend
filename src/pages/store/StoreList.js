@@ -6,6 +6,9 @@ import "../reserve/css/Modal.css";
 import { getUserInfo } from "../../hooks/userSlice";
 import { useSelector } from "react-redux";
 import './css/StoreList.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBookmark as faBookmarkSolid } from '@fortawesome/free-solid-svg-icons';
+import { faBookmark as faBookmarkRegular } from '@fortawesome/free-regular-svg-icons';
 
 const StoreList = () => {
   const location = useLocation();
@@ -201,14 +204,14 @@ const StoreList = () => {
                   </Card.Text>
                 </Link>
                 {isFavorite[item.storeId] ? (
-                  <Button className="favoriteBtn"
+                  <Button className="favoriteBtn onBtn"
                     onClick={() => favoriteCancelClickHandler(item.storeId)}
                   >
-                    X
+                    <FontAwesomeIcon icon={faBookmarkSolid} />
                   </Button>
                 ) : (
-                  <Button className="favoriteBtn" onClick={() => favoriteClickHandler(item.storeId)}>
-                    🔖
+                  <Button className="favoriteBtn offBtn" onClick={() => favoriteClickHandler(item.storeId)}>
+                    <FontAwesomeIcon icon={faBookmarkRegular} />
                   </Button>
                 )}
               </Card.Body>
