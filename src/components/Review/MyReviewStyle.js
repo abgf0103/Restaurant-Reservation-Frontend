@@ -12,6 +12,8 @@ export const MyReviewContainer = styled(Container)`
 
 // 카드 컴포넌트 스타일
 export const ReviewCard = styled(Card)`
+  width: 100%;
+  margin-bottom: 1rem;
   border: 1px solid #ddd;
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -39,11 +41,11 @@ export const ReviewImage = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  margin-top: 10px;
+  padding: 1rem;
 
   img {
-    width: 100px;
-    height: 100px;
+    max-width: 100px;
+    max-height: 100px;
     object-fit: cover;
     border-radius: 5px;
     border: 1px solid var(--tertiary-color); /* 이미지 테두리 색상 */
@@ -52,8 +54,9 @@ export const ReviewImage = styled.div`
 
 // 버튼 섹션 스타일
 export const ReviewButtons = styled.div`
-  margin-top: 15px;
+  margin-top: 0.5rem;
   display: flex;
+  padding: 1rem;
   justify-content: space-between;
 
   button {
@@ -116,10 +119,10 @@ export const Title = styled.h2`
 
 // 리뷰를 감싸는 행(Row) 스타일
 export const ReviewRow = styled(Row)`
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-  flex-wrap: wrap;
+  // display: flex;
+  // justify-content: center;
+  // gap: 30px;
+  // flex-wrap: wrap;
 `;
 
 // 카드 텍스트 스타일

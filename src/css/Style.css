@@ -3,82 +3,82 @@
 
 /* 색상 선언 */
 :root {
-    --primary-color: #ff4545; /* 기본 색상 */
-    --secondary-color: #ff9c73; /* 보조 색상 */
-    --secondaryHover-color: #ff451a; /* 보조 색상 하버 */
-    --tertiary-color: #fbd288; /* 보조 색상 */
-    --quaternary-color: #fcf596; /* 보조 색상 */
-    --background-color: #ffffff; /* 색상 white */
-    --background-color-gray: #efefef;  /* 색상 gray */
-    --background-color-black: #3D3D3D; /* 검은 배경 색상 */
-    --text-color-black: #222222; /* 검은 텍스트 색상 */
-    --text-color-white: #f7f7f7; /* 하얀 텍스트 색상 */
-    --text-color-gray: #808080; /* 하얀 텍스트 색상 */
-    max-width: 100%; /* 화면 크기에 맞게 너비 조정 */
-    width: 1280px;
-    margin: 0 auto; /* 중앙 정렬 */
+  --primary-color: #ff4545; /* 기본 색상 */
+  --secondary-color: #ff9c73; /* 보조 색상 */
+  --secondaryHover-color: #ff451a; /* 보조 색상 하버 */
+  --tertiary-color: #fbd288; /* 보조 색상 */
+  --quaternary-color: #fcf596; /* 보조 색상 */
+  --background-color: #ffffff; /* 색상 white */
+  --background-color-gray: #efefef; /* 색상 gray */
+  --background-color-black: #3d3d3d; /* 검은 배경 색상 */
+  --text-color-black: #222222; /* 검은 텍스트 색상 */
+  --text-color-white: #f7f7f7; /* 하얀 텍스트 색상 */
+  --text-color-gray: #808080; /* 하얀 텍스트 색상 */
+  max-width: 100%; /* 화면 크기에 맞게 너비 조정 */
+  width: 1280px;
+  margin: 0 auto; /* 중앙 정렬 */
 }
 
 /* 고정된 헤더 스타일 */
 header {
-    background-color: white;
-    position: fixed;
-    top: 0;
-    left: 50%;
-    width: 100%;
-    max-width: 1280px; /* 최대 너비 */
-    transform: translateX(-50%); /* 중앙 정렬 */
-    z-index: 1000;
-    text-align: center;
-    height: 85px; /* 헤더 높이 */
-    line-height: 58px; /* 텍스트 수직 중앙 정렬 */
-    /*overflow: hidden; /* 내용이 넘어가지 않도록 설정 */
+  background-color: white;
+  position: fixed;
+  top: 0;
+  left: 50%;
+  width: 100%;
+  max-width: 1280px; /* 최대 너비 */
+  transform: translateX(-50%); /* 중앙 정렬 */
+  z-index: 1000;
+  text-align: center;
+  height: 85px; /* 헤더 높이 */
+  line-height: 58px; /* 텍스트 수직 중앙 정렬 */
+  /*overflow: hidden; /* 내용이 넘어가지 않도록 설정 */
 }
 
 /* 고정된 푸터 스타일 */
 footer {
-    position: fixed;
-    bottom: 0;
-    left: 50%;
-    width: 100%;
-    max-width: 1280px; /* 최대 너비 */
-    transform: translateX(-50%); /* 중앙 정렬 */
-    text-align: center;
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  width: 100%;
+  max-width: 1280px; /* 최대 너비 */
+  transform: translateX(-50%); /* 중앙 정렬 */
+  text-align: center;
 
-    z-index: 1000;
-    height: 70px; /* 푸터 높이 */
-    line-height: 50px; /* 텍스트 수직 중앙 정렬 */
+  z-index: 1000;
+  height: 70px; /* 푸터 높이 */
+  line-height: 50px; /* 텍스트 수직 중앙 정렬 */
 }
 
 .footerContainer {
-    padding-bottom: 10px;
+  padding-bottom: 10px;
 }
 
 header form {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 20px;
-    padding: 0 20px; /* 20px 여�� */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 20px;
+  padding: 0 20px; /* 20px 여�� */
 }
 
 header form button {
-    height: 35px;
-    width: 70px;
-    margin-left: 5px;
-    justify-content: center;
+  height: 35px;
+  width: 70px;
+  margin-left: 5px;
+  justify-content: center;
 }
 
 /* 본문 내용에 상단과 하단 여백을 추가 */
 main {
-    background-color: var(--background-color-gray);
-    padding: 100px 20px 70px 20px; /* 상단 80px (헤더), 하단 70px (푸터) 여백 */
-    max-width: 1280px; /* 최대 너비 */
-    width: 100%; /* 화면 크기에 맞게 너비 조정 */
-    margin: 0 auto; /* 중앙 정렬 */
-    box-sizing: border-box; /* padding 포함 */
+  background-color: var(--background-color-gray);
+  padding: 100px 20px 70px 20px; /* 상단 80px (헤더), 하단 70px (푸터) 여백 */
+  max-width: 1280px; /* 최대 너비 */
+  width: 100%; /* 화면 크기에 맞게 너비 조정 */
+  margin: 0 auto; /* 중앙 정렬 */
+  box-sizing: border-box; /* padding 포함 */
 }
 
-html{
-    background-color: var(--background-color-black);
+html {
+  background-color: var(--background-color-black);
 }
