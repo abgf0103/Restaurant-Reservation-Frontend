@@ -58,7 +58,7 @@ const Header = () => {
 
     return (
         <header>
-            <Navbar expand="lg" className="bg-body-tertiary header-nav">
+            <Navbar expand="lg">
                 <Container>
                     {/* 기본경로에선 goBack 버튼 숨기기 */}
                     {window.location.pathname === "/" ? (
@@ -86,10 +86,10 @@ const Header = () => {
                         <Nav className="me-auto">
                             {/* 로그인된 사용자에 따라 로그인 또는 로그아웃 버튼 표시 */}
                             {userInfo && userInfo.username ? (
-                                <>
+                                <Nav>
                                     <span>{userInfo.username} </span>
                                     <Button onClick={handleLogout}>로그아웃</Button>
-                                </>
+                                </Nav>
                             ) : (
                                 <Link to="/user/login">
                                     <button>로그인</button>

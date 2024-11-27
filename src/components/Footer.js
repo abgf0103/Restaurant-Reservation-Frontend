@@ -24,8 +24,8 @@ const Footer = () => {
     return (
         <footer>
             <Navbar bg="light" data-bs-theme="light">
-                <Container>
-                <Nav className="me-auto">
+                <Container className="footerContainer">
+                <Nav className="me-auto footerContainer">
                     <Nav.Link href="/">메인페이지</Nav.Link>
                     <Nav.Link href="/user/FavoritePage">즐겨찾기 페이지</Nav.Link>
                     <Nav.Link href="/user/myreserve">나의 예약페이지</Nav.Link>
