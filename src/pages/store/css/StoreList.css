@@ -52,6 +52,7 @@
     border-color: #ffffff00 !important;
     /* 테두리 색상 white */
     transition: background-color 0.3s ease;
+    border-radius: 100px !important;
 }
 
 .onBtn{
