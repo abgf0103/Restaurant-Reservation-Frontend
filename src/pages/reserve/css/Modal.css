@@ -1,16 +1,3 @@
-/* 색상 선언 */
-:root {
-  --primary-color: #ff4545; /* 기본 색상 */
-  --secondary-color: #ff9c73; /* 보조 색상 */
-  --secondaryHover-color: #ff451a; /* 보조 색상 하버 */
-  --tertiary-color: #fbd288; /* 보조 색상 */
-  --quaternary-color: #fcf596; /* 보조 색상 */
-  --background-color: #f7f7f7; /* 배경 색상 */
-  --text-color-black: #222222; /* 검은 텍스트 색상 */
-  --text-color-white: #f7f7f7; /* 하얀 텍스트 색상 */
-  --text-color-gray: #808080; /* 회색 텍스트 색상 */
-}
-
 * {
   user-select: none;
 }

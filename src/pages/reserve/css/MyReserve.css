@@ -1,15 +1,24 @@
-/* 색상 선언 */
-:root {
-  --primary-color: #ff4545; /* 기본 색상 */
-  --secondary-color: #ff9c73; /* 보조 색상 */
-  --secondaryHover-color: #ff451a; /* 보조 색상 하버 */
-  --tertiary-color: #fbd288; /* 보조 색상 */
-  --quaternary-color: #fcf596; /* 보조 색상 */
-  --background-color: #f7f7f7; /* 배경 색상 */
-  --text-color-black: #222222; /* 검은 텍스트 색상 */
-  --text-color-white: #f7f7f7; /* 하얀 텍스트 색상 */
-  --text-color-gray: #808080; /* 하얀 텍스트 색상 */
-  width: 1280px;
+.my-reserve {
+  padding-top: 84px;
+  padding-bottom: 102px;
+}
+
+/* 예약 상태 선택 */
+.filter-status {
+  width: 150px;
+}
+
+/* reserve-card */
+.my-reserve .reserve-card h5 {
+  font-weight: bold;
+  color: red;
+}
+.reserve-card.card-body {
+}
+
+/* 페이지네이션 */
+.pagination {
+  margin-left: 50%;
 }
 
 .pagination button {
@@ -19,14 +28,3 @@
   box-shadow: none;
   padding: 10px;
 }
-
-/* .link-btn {
-  display: block !important;
-  margin-left: 618.75px !important;
-}
-
-.cancel-btn {
-}
-
-.review-btn {
-} */
