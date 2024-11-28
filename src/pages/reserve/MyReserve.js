@@ -7,7 +7,7 @@ import { Card, Button, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { getAllReservationsByUserId } from "../../webapi/webApiList";
 import instance from "../../api/instance";
-import "./css/MyReserve.css";
+import "./css/Reserve.css";
 
 const MyReserve = () => {
   const navigate = useNavigate();
@@ -167,8 +167,8 @@ const MyReserve = () => {
   };
 
   return (
-    <div className="my-reserve-container">
-      <div className="my-reserve-header">
+    <div className="reserve-container">
+      <div className="reserve-header">
         <h4>
           <br />
           나의 예약 정보
@@ -196,9 +196,9 @@ const MyReserve = () => {
         <>
           <ul className="reserve-card-wrapper">
             {currentItems.map((reservation) => (
-              <li key={reservation.reserveId}>
-                <Card className="reserve-card">
-                  <Card.Body>
+              <li key={reservation.reserveId} className="reserve-card">
+                <Card className="reserve-card-item">
+                  <Card.Body className="reserve-card-body">
                     <Card.Title className="reserve-card-title">
                       {reservation.storeName}
                     </Card.Title>

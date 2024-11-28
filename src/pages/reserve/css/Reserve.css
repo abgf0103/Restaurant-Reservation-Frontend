@@ -1,9 +1,9 @@
-.store-reserve-container {
+.reserve-container {
   background-color: var(--background-color-gray);
   min-height: 800px;
 }
 
-.store-reserve-header {
+.reserve-header {
   margin-left: 40px;
 }
 
@@ -15,18 +15,24 @@
 /* reserve-card-wrapper */
 .reserve-card-wrapper {
   display: grid;
-  gap: 20px;
   list-style: none;
+  gap: 10px;
   padding: 0;
-  margin: 40px;
-  grid-template-columns: repeat(3, minmax(300px, 1fr));
+  margin: 0;
+  grid-template-columns: repeat(3, minmax(307px, 1fr));
 }
 
 /* reserve-card */
 .reserve-card {
+  margin: 20px 20px 0 20px;
+}
+.reserve-card .reserve-card-item,
+.reserve-card-body {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin: 0;
+  margin: 0; /* 카드의 여백을 제거하여 요소들 간의 간격을 최소화 */
   border-radius: 15px;
+  background-color: var(--background-color);
+  min-width: 307px;
   min-height: 254px;
 }
 
@@ -36,7 +42,16 @@
 }
 
 /* 버튼 */
+.btn.btn-store-info {
+  background-color: var(--secondary-color);
+  color: var(--text-color-white);
+  border: none;
+  height: 38px;
+}
 
+.btn.btn-store-info:hover {
+  background-color: var(--secondaryHover2-color);
+}
 .btn.btn-commit {
   background-color: var(--secondary-color);
   color: var(--text-color-white);

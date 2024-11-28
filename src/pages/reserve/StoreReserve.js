@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 import instance from "../../api/instance";
 import { Button, Card } from "react-bootstrap";
 import { reserveStatus } from "./../../utils/tools";
-import "./css/StoreReserve.css";
+import "./css/MyReserve.css";
 
 const StoreReserve = () => {
   const { storeId } = useParams(); // URL에서 storeId 추출
@@ -146,8 +146,8 @@ const StoreReserve = () => {
   };
 
   return (
-    <div className="store-reserve-container">
-      <div className="store-reserve-header">
+    <div className="reserve-container">
+      <div className="reserve-header">
         <h2>
           <br />
           {storeName}
@@ -157,9 +157,9 @@ const StoreReserve = () => {
         <>
           <ul className="reserve-card-wrapper">
             {currentItems.map((reserve) => (
-              <li key={reserve.reserveId}>
-                <Card className="reserve-card">
-                  <Card.Body>
+              <li key={reserve.reserveId} className="reserve-card">
+                <Card className="reserve-card-item">
+                  <Card.Body className="reserve-card-body">
                     <Card.Title>예약 ID: {reserve.reserveId}</Card.Title>
                     <Card.Text>
                       <strong>예약 날짜:</strong>{" "}
@@ -178,7 +178,7 @@ const StoreReserve = () => {
                     )}
                     {reserve.reserveStatus === 1 && (
                       <Button
-                        variant="outline-warning"
+                        variant="commit"
                         onClick={() => handleComplete(reserve.reserveId)}
                       >
                         예약 완료

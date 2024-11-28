@@ -262,7 +262,8 @@
 
 .reserve-button-info {
   margin-left: -20px;
-  width: 1280px;
+  width: 100%;
+  max-width: 1280px;
   display: block;
   background-color: var(--secondary-color);
   color: var(--text-color-white);
