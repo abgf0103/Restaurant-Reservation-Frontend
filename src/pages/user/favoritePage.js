@@ -141,7 +141,6 @@ const FavoritePage = () => {
 
     return (
         <main>
-            <h3>내 즐겨찾기 목록</h3>
             <ul className="storeList-card-list">
                 {storeData.length === 0 ? (
                     <p>즐겨찾기한 가게가 없습니다.</p>
