@@ -177,6 +177,7 @@ const StoreInfo = () => {
   const [page, setPage] = useState(0);
   const [totalCount, setTotalCount] = useState(0);
   const [orgReviews, setOrgReviews] = useState([]);
+  const [buttonVisible, setButtonVisible] = useState(true); // 버튼 표시 여부
 
   const getData = () => {
     //리뷰 불러오기
@@ -236,6 +237,7 @@ const StoreInfo = () => {
     const nextPageNumber = page + 3; // 페이지를 3개씩 증가시킴
     if (nextPageNumber >= totalCount) {
       Swal.fire("더 이상 리뷰가 없습니다.", "", "info"); // 더 이상 리뷰가 없으면 알림
+      setButtonVisible(false); // 버튼 숨기기
     } else {
       setPage(nextPageNumber); // 페이지 증가
       const nextReviews = orgReviews.slice(nextPageNumber, nextPageNumber + 3); // 새로운 3개 리뷰 가져오기
@@ -493,10 +495,11 @@ const StoreInfo = () => {
         <p>작성된 리뷰가 없습니다.</p>
       )}
       {/* "더보기" 버튼 */}
-      <button type="button" onClick={nextPage} className="review-button">
-        리뷰 더보기
-      </button>
-
+      {buttonVisible && (
+        <button type="button" onClick={nextPage} className="review-button">
+          리뷰 더보기
+        </button>
+      )}
       <ul id="map">
         {nearByStationList.length > 0 &&
           nearByStationList.map((item, index) => {
