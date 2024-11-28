@@ -1,12 +1,12 @@
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 
-const AppLayout = ({ children }) => {
+const AppLayout = ({ children, activeFooterIcon, onFooterIconClick }) => {
   return (
     <>
-      <Header />
+      <Header onFooterIconClick={onFooterIconClick}/>
       {children}
-      <Footer />
+      <Footer activeFooterIcon={activeFooterIcon} onFooterIconClick={onFooterIconClick}/>
     </>
   );
 };

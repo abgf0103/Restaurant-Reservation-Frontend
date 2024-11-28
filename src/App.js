@@ -39,6 +39,7 @@ import MenuManagement from "./pages/store/MenuManagement";
 import Admin from "./pages/Admin";
 import FindIdResult from "./pages/user/findIdResult";
 import FindPasswordResult from "./pages/user/findPasswordResult";
+import { useState } from 'react';
 
 const ROLES = {
   ROLE_USER: 1,
@@ -47,9 +48,19 @@ const ROLES = {
 };
 
 function App() {
+      // 로컬 스토리지에서 상태를 가져와 초기값 설정
+  const storedActiveFooterIcon = localStorage.getItem("activeFooterIcon");
+  const [activeFooterIcon, setActiveFooterIcon] = useState(storedActiveFooterIcon || "home");
+
+  // 아이콘 클릭 시 상태 변경
+  const handleFooterIconClick = (iconName) => {
+    setActiveFooterIcon(iconName);
+    localStorage.setItem("activeFooterIcon", iconName); // 로컬 스토리지에 상태 저장
+  };
+
   return (
     <Provider store={store}>
-      <AppLayout>
+      <AppLayout activeFooterIcon={activeFooterIcon} onFooterIconClick={handleFooterIconClick}>
         <Routes>
           <Route path="/writeReview/:storeId/:reserveId" element={<Review />} />{" "}
           {/* storeId를 URL 파라미터로 전달 */}

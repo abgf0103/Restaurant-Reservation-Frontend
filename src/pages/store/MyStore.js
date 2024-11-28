@@ -68,15 +68,14 @@ const MyStore = () => {
 
   return (
     <main>
-      <h3>나의 가게 정보 페이지</h3>
       <Button variant="primary" onClick={() => registerStoreClick()}>
         등록 요청
       </Button>
       {stores.length > 0 ? (
-        <ul>
+        <ul className="storeList-card-list">
           {stores.map((item) => (
             <li key={item.storeId}>
-              <Card style={{ width: "18rem" }}>
+              <Card className="storeList-card">
                 <Card.Img
                   variant="top"
                   src={`${process.env.REACT_APP_HOST}/file/view/${item.saveFileName}`}
