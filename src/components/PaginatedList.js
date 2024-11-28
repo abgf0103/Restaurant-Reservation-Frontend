@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import "../pages/reserve/css/MyReserve.css";
 
 const PaginatedList = ({ items, itemsPerPage, renderItem }) => {
   const location = useLocation();
