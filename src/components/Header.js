@@ -92,7 +92,9 @@ const Header = () => {
                 {userInfo && userInfo.username ? (
                   <Nav>
                     <span>{userInfo.username} </span>
-                    <Button onClick={handleLogout}>로그아웃</Button>
+                    <Button onClick={handleLogout} className="header-logbtn">
+                      로그아웃
+                    </Button>
                   </Nav>
                 ) : (
                   <Link to="/user/login">

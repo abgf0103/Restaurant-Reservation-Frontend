@@ -44,20 +44,20 @@ header {
 
 /*logbtn : 로그인,회원가입,로그아웃 버튼*/
 .header-logbtn {
-  background-color: var(--background-color);
-  margin: 10px 10px;
-  padding: 1px 10px;
-  border-radius: 5px;
-  font-size: 12px;
-  height: 30px;
+  background-color: var(--background-color) !important;
+  margin: 10px 10px !important;
+  padding: 1px 10px !important ;
+  border-radius: 5px !important;
+  font-size: 12px !important;
+  height: 30px !important;
   position: relative;
-  color: var(--text-color-black);
+  color: var(--text-color-black) !important;
   top: 10px;
-  border: 1px solid var(--primary-color);
+  border: 1px solid var(--primary-color) !important;
 }
 .header-logbtn:hover {
-  transition: all 0.3s ease-out;
-  background-color: var(--secondaryHover2-color);
+  transition: all 0.3s ease-out !important;
+  background-color: var(--secondaryHover2-color) !important;
 }
 .logbtn-text {
   position: relative;
