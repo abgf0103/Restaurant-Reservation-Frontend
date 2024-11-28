@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
+
+import { Form } from "react-bootstrap";
 import Swal from "sweetalert2";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -99,17 +100,17 @@ const UserEdit = () => {
     <div className="container">
       <h2>회원 정보 수정</h2>
       <Form onSubmit={onSubmit}>
-        <Form.Group className="mb-3" controlId="name">
+        <Form className="mb-3" controlId="name">
           <Form.Label>이름</Form.Label>
-          <Form.Control
+          <Form
             type="text"
             value={formData.name}
             onChange={onChange}
             placeholder="이름을 입력하세요"
           />
-        </Form.Group>
+        </Form>
 
-        <Form.Group className="mb-3" controlId="phone">
+        <Form className="mb-3" controlId="phone">
           <Form.Label>전화번호</Form.Label>
           <Form.Control
             type="text"
@@ -117,7 +118,7 @@ const UserEdit = () => {
             onChange={onChange}
             placeholder="전화번호를 입력하세요"
           />
-        </Form.Group>
+        </Form>
 
         <Form.Group className="mb-3" controlId="password">
           <Form.Label>비밀번호</Form.Label>
