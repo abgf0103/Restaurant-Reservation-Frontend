@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { useDaumPostcodePopup } from "react-daum-postcode";
+import { formatPhoneNumber } from "../../utils/tools";
 
 const RegisterStore = () => {
     const navigate = useNavigate();
@@ -38,17 +39,7 @@ const RegisterStore = () => {
         }
     }, []);
 
-    // 전화번호 자동 하이픈 추가
-    const formatPhoneNumber = (value) => {
-        const cleaned = value.replace(/\D/g, "");
-        if (cleaned.length <= 3) {
-            return cleaned;
-        } else if (cleaned.length <= 7) {
-            return cleaned.replace(/(\d{3})(\d{0,4})/, "$1-$2");
-        } else {
-            return cleaned.replace(/(\d{3})(\d{0,4})(\d{0,4})/, "$1-$2-$3");
-        }
-    };
+
 
     // 가게 정보를 입력할 때마다 이벤트를 발생시켜 값을 저장
     const onChangeHandler = (e) => {

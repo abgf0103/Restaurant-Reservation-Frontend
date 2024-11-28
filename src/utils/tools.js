@@ -32,3 +32,15 @@ export const reserveStatus = (status) => {
             return "";
     }
 };
+
+// 전화번호 자동 하이픈 추가
+export const formatPhoneNumber = (value) => {
+    const cleaned = value.replace(/\D/g, "");
+    if (cleaned.length <= 3) {
+        return cleaned;
+    } else if (cleaned.length <= 7) {
+        return cleaned.replace(/(\d{3})(\d{0,4})/, "$1-$2");
+    } else {
+        return cleaned.replace(/(\d{3})(\d{0,4})(\d{0,4})/, "$1-$2-$3");
+    }
+};

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Form, Button, Col } from "react-bootstrap"; // react-bootstrap에서 필요한 컴포넌트 임포트
+import { formatPhoneNumber } from "../../utils/tools";
 
 const MemberSignup = () => {
   const navigate = useNavigate();
@@ -26,18 +27,6 @@ const MemberSignup = () => {
       ...formData,
       [name]: value,
     });
-  };
-
-  // 전화번호 자동 하이픈 추가
-  const formatPhoneNumber = (value) => {
-    const cleaned = value.replace(/\D/g, "");
-    if (cleaned.length <= 3) {
-      return cleaned;
-    } else if (cleaned.length <= 7) {
-      return cleaned.replace(/(\d{3})(\d{0,4})/, "$1-$2");
-    } else {
-      return cleaned.replace(/(\d{3})(\d{0,4})(\d{0,4})/, "$1-$2-$3");
-    }
   };
 
   const handlePhoneChange = (e) => {
