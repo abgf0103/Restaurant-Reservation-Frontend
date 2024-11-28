@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 import instance from "../../api/instance";
 import { Button, Card } from "react-bootstrap";
 import { reserveStatus } from "./../../utils/tools";
-import "./css/MyReserve.css";
+import "./css/Reserve.css";
 
 const StoreReserve = () => {
   const { storeId } = useParams(); // URL에서 storeId 추출
