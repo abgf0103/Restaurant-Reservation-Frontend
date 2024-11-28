@@ -42,6 +42,28 @@ header {
   /*overflow: hidden; /* 내용이 넘어가지 않도록 설정 */
 }
 
+/*logbtn : 로그인,회원가입,로그아웃 버튼*/
+.header-logbtn {
+  background-color: var(--background-color);
+  margin: 10px 10px;
+  padding: 1px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  height: 30px;
+  position: relative;
+  color: var(--text-color-black);
+  top: 10px;
+  border: 1px solid var(--primary-color);
+}
+.header-logbtn:hover {
+  transition: all 0.3s ease-out;
+  background-color: var(--secondaryHover2-color);
+}
+.logbtn-text {
+  position: relative;
+  bottom: 15px;
+}
+
 .logoImg {
   width: 50px;
   height: 50px;

@@ -9,7 +9,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button, Form, FormControl } from "react-bootstrap";
 import { useState } from "react";
 import instance from "../api/instance";
-import logoImg from '../img/logo.png';
+import logoImg from "../img/logo.png";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -69,7 +69,9 @@ const Header = () => {
               ←
             </Button>
           )}
-          <Navbar.Brand href="/"><img src={logoImg} alt="" className="logoImg"/></Navbar.Brand>
+          <Navbar.Brand href="/">
+            <img src={logoImg} alt="" className="logoImg" />
+          </Navbar.Brand>
           <Form onSubmit={handleSearchSubmit}>
             <FormControl
               type="search"
@@ -94,14 +96,18 @@ const Header = () => {
                   </Nav>
                 ) : (
                   <Link to="/user/login">
-                    <button>로그인</button>
+                    <button className="header-logbtn">
+                      <span className="logbtn-text">로그인</span>
+                    </button>
                   </Link>
                 )}
                 {userInfo && userInfo.username ? (
                   <></>
                 ) : (
                   <Link to="/user/PreUserEdit">
-                    <button>회원가입</button>
+                    <button className="header-logbtn">
+                      <span className="logbtn-text">회원가입</span>
+                    </button>
                   </Link>
                 )}
               </Nav>
