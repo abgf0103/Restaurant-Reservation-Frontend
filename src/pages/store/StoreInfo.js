@@ -502,7 +502,7 @@ const StoreInfo = () => {
           nearByStationList.map((item, index) => {
             return (
               <li key={index}>
-                {item.place_name}에서 {item.distance}m
+                🚇 {item.place_name}에서 {item.distance}m
                 <span
                   style={{
                     padding: "3px 6px",
