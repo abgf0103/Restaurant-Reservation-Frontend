@@ -106,7 +106,7 @@ header form button {
 /* 본문 내용에 상단과 하단 여백을 추가 */
 main {
   background-color: var(--background-color-gray);
-  padding: 100px 20px 70px 20px; /* 상단 80px (헤더), 하단 70px (푸터) 여백 */
+  padding: 20px;
   max-width: 1280px; /* 최대 너비 */
   width: 100%; /* 화면 크기에 맞게 너비 조정 */
   margin: 0 auto; /* 중앙 정렬 */
