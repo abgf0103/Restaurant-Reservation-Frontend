@@ -36,14 +36,68 @@ const UserEdit = () => {
   const onChange = (e) => {
     const { id, value } = e.target;
 
-    setFormData((prevState) => ({
-      ...prevState,
-      [id]: value,
-    }));
+    // 전화번호가 11자리를 넘지 않도록 제한
+    if (id === "phone" && value.replace(/-/g, "").length <= 11) {
+      setFormData((prevState) => ({
+        ...prevState,
+        [id]: value,
+      }));
+    } else if (id !== "phone") {
+      setFormData((prevState) => ({
+        ...prevState,
+        [id]: value,
+      }));
+    }
+  };
+
+  // 유효성 검사 함수
+  const validateForm = () => {
+    const { name, phone } = formData;
+
+    // 이름 유효성 검사: 한글 2자 이상, 10자 이하
+    const nameRegex = /^[가-힣]{2,10}$/;
+    if (!nameRegex.test(name)) {
+      Swal.fire({
+        title: "오류",
+        text: "이름은 한글 2자 이상 10자 이하로 입력해 주세요.",
+        icon: "error",
+      });
+      return false;
+    }
+
+    // 전화번호 유효성 검사: 숫자 11자리, 하이픈 포함
+    const phoneRegex = /^[0-9]{3}-[0-9]{3,4}-[0-9]{4}$/;
+    if (!phoneRegex.test(phone)) {
+      Swal.fire({
+        title: "오류",
+        text: "전화번호는 11자리 숫자와 하이픈(-)을 포함해야 합니다.",
+        icon: "error",
+      });
+      return false;
+    }
+
+    // 전화번호 길이 체크 (하이픈 포함 총 13자리로 검증)
+    const phoneWithoutHyphen = phone.replace(/-/g, "");
+    if (phoneWithoutHyphen.length !== 11) {
+      Swal.fire({
+        title: "오류",
+        text: "전화번호는 정확히 11자리여야 합니다.",
+        icon: "error",
+      });
+      return false;
+    }
+
+    return true;
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
+
+    // 유효성 검사
+    if (!validateForm()) {
+      return; // 유효성 검사 실패 시, 제출하지 않음
+    }
+
     console.log(userInfo.phone);
 
     // 백엔드에 수정 요청
