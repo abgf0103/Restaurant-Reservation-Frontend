@@ -22,11 +22,13 @@
 }
 .loginContainer {
   display: flex;
+  bottom: 200px;
   justify-content: center; /* 가로 중앙 정렬 */
   align-items: center; /* 세로 중앙 정렬 */
   width: 100%; /* 화면 전체 너비 */
   flex-direction: column; /* 세로로 요소 배치 */
   padding: 0 20px;
+  height: 800px;
 
   position: relative;
   /* left: -250px; */
