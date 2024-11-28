@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import instance from "../../api/instance";
 import { useEffect, useState } from "react";
 import { Map as KakaoMap, MapMarker } from "react-kakao-maps-sdk";
@@ -12,6 +12,12 @@ import { Button } from "react-bootstrap";
 import moment from "moment";
 import Swal from "sweetalert2";
 import "./css/store.css";
+import { isNotLoginSwal } from "../../utils/tools";
+import { useSelector } from "react-redux";
+import { getUserInfo } from "../../hooks/userSlice";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBookmark as faBookmarkSolid } from "@fortawesome/free-solid-svg-icons";
+import { faBookmark as faBookmarkRegular } from "@fortawesome/free-regular-svg-icons";
 
 const { kakao } = window;
 
@@ -32,8 +38,10 @@ const EventMarkerContainer = ({ position, content }) => {
 };
 
 const StoreInfo = () => {
+    const navigate = useNavigate();
   const location = useLocation();
   const storeId = location.state;
+  const userInfo = useSelector(getUserInfo); // 로그인된 사용자 정보
 
   const [storeData, setStoreData] = useState({
     storeName: "",
@@ -50,6 +58,9 @@ const StoreInfo = () => {
   const [nearByStationList, setNearByStationList] = useState([]);
 
   const [reviewCount, setReviewCount] = useState(0);
+
+  //즐겨찾기 여부
+  const [isFavorite, setIsFavorite] = useState(false);
 
   const getRatingAvgByStoreId = () => {
     instance
@@ -309,14 +320,6 @@ const StoreInfo = () => {
             .catch((error) => {
               console.error("리뷰 업데이트 실패:", error);
             });
-
-          Swal.fire(
-            isLiked ? "좋아요 취소" : "좋아요",
-            isLiked
-              ? "리뷰의 좋아요가 취소되었습니다."
-              : "리뷰에 좋아요가 추가되었습니다.",
-            "success"
-          );
         }
       })
       .catch((error) => {
@@ -400,9 +403,64 @@ const StoreInfo = () => {
     return stars;
   };
 
+  // 즐겨찾기 등록 버튼 클릭 핸들러
+  const favoriteClickHandler = (storeId) => {
+    if (userInfo.id !== "") {
+        instance
+            .post(`/favorite/insertFavorite`, {
+                userId: userInfo.id,
+                storeId: storeId,
+            })
+            .then(() => {
+                setIsFavorite((prevFavorites) => ({
+                    ...prevFavorites,
+                    [storeId]: true,
+                }));
+            });
+    } else {
+        // 로그인 안 되어 있으면 swal출력 후 로그인 페이지로 리다이렉트
+        isNotLoginSwal();
+        navigate("/user/login");
+    }
+};
+
+// 즐겨찾기 취소 버튼 클릭 핸들러
+const favoriteCancelClickHandler = (storeId) => {
+    console.log(storeData);
+    instance
+        .post(`/favorite/checkFavoriteByUserStore`, {
+            userId: userInfo.id,
+            storeId: storeId,
+        })
+        .then((res) => {
+            instance.delete(`/favorite/deleteFavoriteById?favoriteId=${res.data}`).then(() => {
+                setIsFavorite((prevFavorites) => ({
+                    ...prevFavorites,
+                    [storeId]: false,
+                }));
+            });
+        });
+};
+
   return (
     <main>
-      <h2 className="title">{storeData.storeName}</h2>
+      <h2 className="title">{storeData.storeName}
+{isFavorite ? (
+                    <Button
+                        className="storeInfoFavoriteBtn onBtn"
+                        onClick={() => favoriteCancelClickHandler(storeData.storeId)}
+                    >
+                        <FontAwesomeIcon icon={faBookmarkSolid} />
+                    </Button>
+                ) : (
+                    <Button
+                        className="storeInfoFavoriteBtn offBtn"
+                        onClick={() => favoriteClickHandler(storeData.storeId)}
+                    >
+                        <FontAwesomeIcon icon={faBookmarkRegular} />
+                    </Button>
+                )}
+</h2>
       <p className="score">
         별점 : {avgRating}({reviewCount}) tel : {storeData.phone}
       </p>

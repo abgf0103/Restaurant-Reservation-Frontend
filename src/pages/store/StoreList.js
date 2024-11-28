@@ -51,28 +51,24 @@ const StoreList = () => {
 
     // 즐겨찾기 등록 버튼 클릭 핸들러
     const favoriteClickHandler = (storeId) => {
-
-        if(userInfo.active === true){
+        console.log(userInfo);
+        if (userInfo.id !== "") {
             instance
-            .post(`/favorite/insertFavorite`, {
-                userId: userInfo.id,
-                storeId: storeId,
-            })
-            .then(() => {
-                setIsFavorite((prevFavorites) => ({
-                    ...prevFavorites,
-                    [storeId]: true,
-                }));
-            });
-        }else{
-            
+                .post(`/favorite/insertFavorite`, {
+                    userId: userInfo.id,
+                    storeId: storeId,
+                })
+                .then(() => {
+                    setIsFavorite((prevFavorites) => ({
+                        ...prevFavorites,
+                        [storeId]: true,
+                    }));
+                });
+        } else {
             // 로그인 안 되어 있으면 swal출력 후 로그인 페이지로 리다이렉트
             isNotLoginSwal();
             navigate("/user/login");
         }
-        
-
-        
     };
 
     // 즐겨찾기 취소 버튼 클릭 핸들러
@@ -92,8 +88,8 @@ const StoreList = () => {
             });
     };
 
-    // 즐겨찾기 여부 확인
-    const checkFavorite = () => {
+    // 즐겨찾기 리스트 조회
+    const getFavoriteList = () => {
         instance.get(`/store/getFavoriteStoreList?userId=${userInfo.id}`).then((res) => {
             const favorites = res.data.reduce((acc, store) => {
                 acc[store.storeId] = true;
@@ -143,7 +139,7 @@ const StoreList = () => {
     // 페이지 로드 시 사용자의 즐겨찾기 정보 불러오기
     useEffect(() => {
         if (userInfo.id) {
-            checkFavorite(); // 사용자의 즐겨찾기 목록을 가져옵니다.
+            getFavoriteList(); // 사용자의 즐겨찾기 목록을 가져옵니다.
         }
     }, [userInfo.id]);
 
@@ -185,18 +181,11 @@ const StoreList = () => {
     return (
         <>
             <div className="categoryList">
-                <Button
-                    onClick={getDefaultStoreList}
-                >
-                    전체
-                </Button>
+                <Button onClick={getDefaultStoreList}>전체</Button>
 
                 {/* 카테고리 버튼들 */}
                 {categoryList.map((item) => (
-                    <Button
-                        key={item.categoryId}
-                        onClick={() => categoryClickHandler(item.categoryId)}
-                    >
+                    <Button key={item.categoryId} onClick={() => categoryClickHandler(item.categoryId)}>
                         {item.categoryTitle}
                     </Button>
                 ))}
