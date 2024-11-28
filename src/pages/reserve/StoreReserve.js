@@ -58,16 +58,9 @@ const StoreReserve = () => {
 
   // 예약 상태 변경 처리 함수
   const handleStatusChange = (reserveId, newStatus, successMessage) => {
+    console.log({ status: newStatus });
     instance
-      .put(
-        `/reservations/update-status/${reserveId}`,
-        { status: newStatus },
-        {
-          headers: {
-            Authorization: `Bearer ${userInfo.token}`,
-          },
-        }
-      )
+      .put(`/reservations/update-status/${reserveId}`, { status: newStatus })
       .then(() => {
         Swal.fire("성공", successMessage, "success");
         setReserves((prevReserves) =>
