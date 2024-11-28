@@ -27,6 +27,8 @@ const UserReviewPage = () => {
           files: review.files || [],
         }));
         setReviews(reviewsWithFiles);
+        // 콘솔에 리뷰 리스트 출력
+        console.log("User Reviews:", reviewsWithFiles); // 여기서 출력합니다.
       })
       .catch((error) => {
         console.error("사용자 리뷰 가져오기 실패:", error);

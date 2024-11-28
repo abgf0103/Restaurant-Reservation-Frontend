@@ -120,6 +120,9 @@ const MyReview = () => {
                   <ListGroup variant="flush">
                     <ListGroupItem>별점: {review.rating} ⭐</ListGroupItem>
                     <ListGroupItem>
+                      리뷰 코멘트: {review.reviewComment}{" "}
+                    </ListGroupItem>
+                    <ListGroupItem>
                       좋아요 수: {review.likeCount} ❤️
                     </ListGroupItem>
                   </ListGroup>

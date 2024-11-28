@@ -95,6 +95,12 @@ html {
   background-color: var(--background-color-black);
 }
 
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
 /* footerNav 클래스로 Nav 항목을 flex로 설정 */
 .footer-nav {
   display: flex; /* Flexbox로 설정 */
