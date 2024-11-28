@@ -72,11 +72,10 @@
 }
 
 .categoryList {
-    background-color: #808080;
     display: flex;
     justify-content: center;
     padding: 10px;
-    margin: 0 auto;
+    margin: 10px auto;
     margin-bottom: 10px;
     border-radius: 30px;
     flex-wrap: wrap;

@@ -12,6 +12,9 @@ const FavoritePage = () => {
     const [storeData, setStoreData] = useState([]);
     const userInfo = useSelector(getUserInfo);
     const [isFavorite, setIsFavorite] = useState({});
+    
+    const [storeRatings, setStoreRatings] = useState({}); // 각 가게의 평점 저장
+    const [storeReviewCounts, setStoreReviewCounts] = useState({}); // 각 가게의 리뷰 수 저장
 
     // 로그인 상태 체크
     useEffect(() => {
@@ -77,6 +80,49 @@ const FavoritePage = () => {
         });
     };
 
+        // 리뷰 평균 평점 구하기
+        const getRatingAvgByStoreId = async (storeId) => {
+            try {
+                const res = await instance.get(`/review/getRatingAvgByStoreId?storeId=${storeId}`);
+                return res.data || 0;
+            } catch (error) {
+                console.error("Error fetching rating:", error);
+            }
+        };
+    
+        // 리뷰 개수 구하기
+        const getReviewCountByStoreId = async (storeId) => {
+            try {
+                const res = await instance.get(`/review/getReviewCountByStoreId?storeId=${storeId}`);
+                return res.data; // 리뷰 수가 없으면 0
+            } catch (error) {
+                console.error("Error fetching review count:", error);
+            }
+        };
+    
+        // storeData 배열의 각 storeId에 대한 평점과 리뷰 수를 비동기적으로 가져오기
+        const fetchRatingsAndReviews = async () => {
+            const ratings = {};
+            const reviewCounts = {};
+    
+            for (const store of storeData) {
+                const rating = await getRatingAvgByStoreId(store.storeId);
+                const reviewCount = await getReviewCountByStoreId(store.storeId);
+    
+                ratings[store.storeId] = rating;
+                reviewCounts[store.storeId] = reviewCount;
+            }
+    
+            setStoreRatings(ratings);
+            setStoreReviewCounts(reviewCounts);
+        };
+        // storeData가 업데이트 될 때마다 평점과 리뷰 수 가져오기
+        useEffect(() => {
+            if (storeData.length > 0) {
+                fetchRatingsAndReviews();
+            }
+        }, [storeData]);
+
     // 페이지 로드 시 사용자의 즐겨찾기 정보 불러오기
     useEffect(() => {
         if (userInfo.id) {
@@ -94,15 +140,15 @@ const FavoritePage = () => {
     }, [navigate, userInfo]);
 
     return (
-        <div>
+        <main>
             <h3>내 즐겨찾기 목록</h3>
-            <ul>
+            <ul className="storeList-card-list">
                 {storeData.length === 0 ? (
                     <p>즐겨찾기한 가게가 없습니다.</p>
                 ) : (
                     storeData.map((item) => (
                         <li key={item.storeId}>
-                            <Card style={{ width: "18rem" }}>
+                            <Card style={{ width: "18rem" }} className="storeList-card">
                                 <Card.Body>
                                     <Link to={"/store/info"} state={item.storeId}>
                                         <Card.Img
@@ -110,7 +156,8 @@ const FavoritePage = () => {
                                             src={`${process.env.REACT_APP_HOST}/file/view/${item.saveFileName}`}
                                         />
                                         <Card.Title>{item.storeName}</Card.Title>
-                                        <Card.Text>⭐4.5 (Identity)</Card.Text>
+                                        <Card.Text>⭐{storeRatings[item.storeId] || 0}({storeReviewCounts[item.storeId] || 0}){" "}
+                                        {item.identity}</Card.Text>
                                     </Link>
                                     {/* isFavorite 상태에 따라 버튼 변경 */}
                                     {isFavorite[item.storeId] ? (
@@ -124,7 +171,7 @@ const FavoritePage = () => {
                     ))
                 )}
             </ul>
-        </div>
+        </main>
     );
 };
 

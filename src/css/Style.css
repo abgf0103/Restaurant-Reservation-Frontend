@@ -111,6 +111,7 @@ main {
   width: 100%; /* 화면 크기에 맞게 너비 조정 */
   margin: 0 auto; /* 중앙 정렬 */
   box-sizing: border-box; /* padding 포함 */
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2); /* 수평, 수직, 흐림 정도, 색상 */
 }
 
 html {

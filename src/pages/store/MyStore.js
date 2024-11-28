@@ -67,8 +67,8 @@ const MyStore = () => {
   }
 
   return (
-    <div>
-      <h2>나의 가게 정보 페이지</h2>
+    <main>
+      <h3>나의 가게 정보 페이지</h3>
       <Button variant="primary" onClick={() => registerStoreClick()}>
         등록 요청
       </Button>
@@ -124,7 +124,7 @@ const MyStore = () => {
       ) : (
         <p>가게가 없습니다.</p>
       )}
-    </div>
+    </main>
   );
 };
 export default MyStore;

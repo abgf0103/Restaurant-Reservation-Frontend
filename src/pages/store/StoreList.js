@@ -170,7 +170,7 @@ const StoreList = () => {
     }, [result]);
 
     return (
-        <main>
+        <>
             <div className="categoryList">
                 <Button
                     onClick={getDefaultStoreList}
@@ -224,7 +224,7 @@ const StoreList = () => {
                     </li>
                 ))}
             </ul>
-        </main>
+        </>
     );
 };
 
