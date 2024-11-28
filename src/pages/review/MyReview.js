@@ -125,6 +125,9 @@ const MyReview = () => {
                     <ListGroupItem>
                       좋아요 수: {review.likeCount} ❤️
                     </ListGroupItem>
+                    <ListGroupItem>
+                      리뷰 작성일: {review.rating} ⭐
+                    </ListGroupItem>
                   </ListGroup>
                 </Card.Body>
 
