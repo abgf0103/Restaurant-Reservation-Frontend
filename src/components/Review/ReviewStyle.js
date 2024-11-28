@@ -40,7 +40,7 @@ export const Username = styled.span`
   color: transparent; /* 텍스트 색상을 투명하게 해서 그라데이션이 보이도록 */
 `;
 
-export const ReveiwContainer = styled(Container)`
+export const ReviewContainer = styled(Container)`
   padding: 50px 0; /* 충분한 여백을 주어 화면 중앙 정렬 */
   background-color: var(--background-color);
   @media (max-width: 768px) {
