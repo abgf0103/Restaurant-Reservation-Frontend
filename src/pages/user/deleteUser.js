@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Swal from "sweetalert2";
-import axios from "axios";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { removeUserInfo } from "../../hooks/userSlice"; // 사용자 정보 초기화 액션

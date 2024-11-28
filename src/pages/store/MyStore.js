@@ -5,6 +5,7 @@ import { getUserInfo } from "../../hooks/userSlice";
 import { useEffect, useState } from "react";
 import instance from "../../api/instance";
 import { Button, Card } from "react-bootstrap";
+import './css/MyStore.css';
 
 const MyStore = () => {
   const navigate = useNavigate();

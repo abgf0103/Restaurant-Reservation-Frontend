@@ -85,10 +85,13 @@
 .categoryList button {
     background-color: var(--background-color);
     color: var(--text--color-black);
+    height: 70px;
+    width: 70px;
     margin: 10px 10px;
     padding: 8px 16px;
-    border-radius: 5px;
-    font-size: 14px;
+    border-radius: 200px;
+    font-size: 12px;
+    font-weight: bold;
     transition: background-color 0.3s ease;
     border: #f0f0f0;
 }
@@ -109,8 +112,8 @@
 
 @media (max-width: 650px){
     .categoryList {
-        justify-content: flex-start; /* 모바일에서는 왼쪽 정렬 */
-        padding: 8px; /* 모바일에서는 약간의 패딩 조정 */
+        justify-content: flex-start;
+        padding: 8px;
     }
 
     .categoryList button {

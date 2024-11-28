@@ -1,5 +1,5 @@
 import { useEffect} from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import StoreList from './pages/store/StoreList';
 import ImageSlider from "./components/ImageSlider";
 import './css/Landing.css';
@@ -60,12 +60,10 @@ const Landing = () => {
     const searchKeyword = location.state?.searchKeyword || ''; 
 
     return (
-        <>
             <main className="landingContainer">
                 <ImageSlider/>
                 <StoreList searchKeyword={searchKeyword}/>
             </main>
-        </>
     );
 };
 

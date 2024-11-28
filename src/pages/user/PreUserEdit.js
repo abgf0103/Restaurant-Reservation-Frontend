@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import "./css/preUserEdit.css";
-import { useState } from "react";
 
 const PreUserEdit = () => {
   const navigate = useNavigate();
