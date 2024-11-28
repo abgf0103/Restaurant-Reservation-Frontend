@@ -307,7 +307,7 @@ const RegisterStore = () => {
           {/* 주소입력 다음 api 추가해서 도로명 주소 받도록 */}
           <Form.Control
             placeholder="주소를 입력해주세요"
-            value={address}
+            value={storeData.address}
             onChange={onChangeHandler}
             name="address"
           />

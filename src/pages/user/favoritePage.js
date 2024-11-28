@@ -6,13 +6,16 @@ import "../../css/Style.css";
 import { getUserInfo } from "../../hooks/userSlice";
 import { useSelector } from "react-redux";
 import { isNotLoginSwal } from "../../utils/tools";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBookmark as faBookmarkSolid } from "@fortawesome/free-solid-svg-icons";
+import { faBookmark as faBookmarkRegular } from "@fortawesome/free-regular-svg-icons";
 
 const FavoritePage = () => {
     const navigate = useNavigate();
     const [storeData, setStoreData] = useState([]);
     const userInfo = useSelector(getUserInfo);
     const [isFavorite, setIsFavorite] = useState({});
-    
+
     const [storeRatings, setStoreRatings] = useState({}); // 각 가게의 평점 저장
     const [storeReviewCounts, setStoreReviewCounts] = useState({}); // 각 가게의 리뷰 수 저장
 
@@ -21,7 +24,6 @@ const FavoritePage = () => {
         if (!userInfo.username) {
             // 로그인 안 되어 있으면 swal출력 후 로그인 페이지로 리다이렉트
             isNotLoginSwal();
-            navigate("/user/login");
         } else {
             getDefaultStoreList();
         }
@@ -80,48 +82,48 @@ const FavoritePage = () => {
         });
     };
 
-        // 리뷰 평균 평점 구하기
-        const getRatingAvgByStoreId = async (storeId) => {
-            try {
-                const res = await instance.get(`/review/getRatingAvgByStoreId?storeId=${storeId}`);
-                return res.data || 0;
-            } catch (error) {
-                console.error("Error fetching rating:", error);
-            }
-        };
-    
-        // 리뷰 개수 구하기
-        const getReviewCountByStoreId = async (storeId) => {
-            try {
-                const res = await instance.get(`/review/getReviewCountByStoreId?storeId=${storeId}`);
-                return res.data; // 리뷰 수가 없으면 0
-            } catch (error) {
-                console.error("Error fetching review count:", error);
-            }
-        };
-    
-        // storeData 배열의 각 storeId에 대한 평점과 리뷰 수를 비동기적으로 가져오기
-        const fetchRatingsAndReviews = async () => {
-            const ratings = {};
-            const reviewCounts = {};
-    
-            for (const store of storeData) {
-                const rating = await getRatingAvgByStoreId(store.storeId);
-                const reviewCount = await getReviewCountByStoreId(store.storeId);
-    
-                ratings[store.storeId] = rating;
-                reviewCounts[store.storeId] = reviewCount;
-            }
-    
-            setStoreRatings(ratings);
-            setStoreReviewCounts(reviewCounts);
-        };
-        // storeData가 업데이트 될 때마다 평점과 리뷰 수 가져오기
-        useEffect(() => {
-            if (storeData.length > 0) {
-                fetchRatingsAndReviews();
-            }
-        }, [storeData]);
+    // 리뷰 평균 평점 구하기
+    const getRatingAvgByStoreId = async (storeId) => {
+        try {
+            const res = await instance.get(`/review/getRatingAvgByStoreId?storeId=${storeId}`);
+            return res.data || 0;
+        } catch (error) {
+            console.error("Error fetching rating:", error);
+        }
+    };
+
+    // 리뷰 개수 구하기
+    const getReviewCountByStoreId = async (storeId) => {
+        try {
+            const res = await instance.get(`/review/getReviewCountByStoreId?storeId=${storeId}`);
+            return res.data; // 리뷰 수가 없으면 0
+        } catch (error) {
+            console.error("Error fetching review count:", error);
+        }
+    };
+
+    // storeData 배열의 각 storeId에 대한 평점과 리뷰 수를 비동기적으로 가져오기
+    const fetchRatingsAndReviews = async () => {
+        const ratings = {};
+        const reviewCounts = {};
+
+        for (const store of storeData) {
+            const rating = await getRatingAvgByStoreId(store.storeId);
+            const reviewCount = await getReviewCountByStoreId(store.storeId);
+
+            ratings[store.storeId] = rating;
+            reviewCounts[store.storeId] = reviewCount;
+        }
+
+        setStoreRatings(ratings);
+        setStoreReviewCounts(reviewCounts);
+    };
+    // storeData가 업데이트 될 때마다 평점과 리뷰 수 가져오기
+    useEffect(() => {
+        if (storeData.length > 0) {
+            fetchRatingsAndReviews();
+        }
+    }, [storeData]);
 
     // 페이지 로드 시 사용자의 즐겨찾기 정보 불러오기
     useEffect(() => {
@@ -155,14 +157,26 @@ const FavoritePage = () => {
                                             src={`${process.env.REACT_APP_HOST}/file/view/${item.saveFileName}`}
                                         />
                                         <Card.Title>{item.storeName}</Card.Title>
-                                        <Card.Text>⭐{storeRatings[item.storeId] || 0}({storeReviewCounts[item.storeId] || 0}){" "}
-                                        {item.identity}</Card.Text>
+                                        <Card.Text>
+                                            ⭐{storeRatings[item.storeId] || 0}({storeReviewCounts[item.storeId] || 0}){" "}
+                                            {item.identity}
+                                        </Card.Text>
                                     </Link>
                                     {/* isFavorite 상태에 따라 버튼 변경 */}
                                     {isFavorite[item.storeId] ? (
-                                        <Button onClick={() => favoriteCancelClickHandler(item.storeId)}>X</Button>
+                                        <Button
+                                            className="favoriteBtn onBtn"
+                                            onClick={() => favoriteCancelClickHandler(item.storeId)}
+                                        >
+                                            <FontAwesomeIcon icon={faBookmarkSolid} />
+                                        </Button>
                                     ) : (
-                                        <Button onClick={() => favoriteClickHandler(item.storeId)}>🔖</Button>
+                                        <Button
+                                            className="favoriteBtn offBtn"
+                                            onClick={() => favoriteClickHandler(item.storeId)}
+                                        >
+                                            <FontAwesomeIcon icon={faBookmarkRegular} />
+                                        </Button>
                                     )}
                                 </Card.Body>
                             </Card>

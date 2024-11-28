@@ -1,7 +1,7 @@
 import instance from "../../api/instance";
 import { useEffect, useState } from "react";
 import { Button, Card } from "react-bootstrap";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import "../reserve/css/Modal.css";
 import { getUserInfo } from "../../hooks/userSlice";
 import { useSelector } from "react-redux";
@@ -9,8 +9,10 @@ import "./css/StoreList.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBookmark as faBookmarkSolid } from "@fortawesome/free-solid-svg-icons";
 import { faBookmark as faBookmarkRegular } from "@fortawesome/free-regular-svg-icons";
+import { isNotLoginSwal } from "../../utils/tools";
 
 const StoreList = () => {
+    const navigate = useNavigate();
     const location = useLocation();
     const [storeData, setStoreData] = useState([]);
     const [categoryList, setCategoryList] = useState([]);
@@ -49,7 +51,9 @@ const StoreList = () => {
 
     // 즐겨찾기 등록 버튼 클릭 핸들러
     const favoriteClickHandler = (storeId) => {
-        instance
+
+        if(userInfo.active === true){
+            instance
             .post(`/favorite/insertFavorite`, {
                 userId: userInfo.id,
                 storeId: storeId,
@@ -60,6 +64,15 @@ const StoreList = () => {
                     [storeId]: true,
                 }));
             });
+        }else{
+            
+            // 로그인 안 되어 있으면 swal출력 후 로그인 페이지로 리다이렉트
+            isNotLoginSwal();
+            navigate("/user/login");
+        }
+        
+
+        
     };
 
     // 즐겨찾기 취소 버튼 클릭 핸들러

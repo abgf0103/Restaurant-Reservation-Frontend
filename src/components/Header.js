@@ -11,7 +11,7 @@ import { useState } from "react";
 import instance from "../api/instance";
 import logoImg from "../img/logo.png";
 
-const Header = ({ onFooterIconClick }) => {
+const Header = () => {
     const navigate = useNavigate();
     const userInfo = useSelector(getUserInfo); // Redux에서 로그인된 사용자 정보 가져오기
     const dispatch = useDispatch();
@@ -33,8 +33,7 @@ const Header = ({ onFooterIconClick }) => {
     // '/'경로인 상태면 goBack버튼이 보이지 않게
 
     const goBack = () => {
-        onFooterIconClick("home"); // activeIcon을 "home"으로 설정
-        navigate(-1); // 페이지를 한 단계 뒤로 이동
+        navigate(-1); // 이전 페이지로 돌아간다
     };
 
     const [searchKeyword, setSearchKeyword] = useState([]); // 검색어 상태 관리
@@ -93,24 +92,18 @@ const Header = ({ onFooterIconClick }) => {
                                 {userInfo && userInfo.username ? (
                                     <Nav>
                                         <span>{userInfo.username} </span>
-                                        <Button onClick={handleLogout} className="header-logbtn">
-                                            로그아웃
-                                        </Button>
+                                        <Button onClick={handleLogout}>로그아웃</Button>
                                     </Nav>
                                 ) : (
                                     <Link to="/user/login">
-                                        <button className="header-logbtn">
-                                            <span className="logbtn-text">로그인</span>
-                                        </button>
+                                        <button>로그인</button>
                                     </Link>
                                 )}
                                 {userInfo && userInfo.username ? (
                                     <></>
                                 ) : (
                                     <Link to="/user/PreUserEdit">
-                                        <button className="header-logbtn">
-                                            <span className="logbtn-text">회원가입</span>
-                                        </button>
+                                        <button>회원가입</button>
                                     </Link>
                                 )}
                             </Nav>
