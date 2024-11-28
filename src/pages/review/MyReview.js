@@ -138,7 +138,7 @@ const MyReview = () => {
   return (
     <MyReviewContainer>
       <MyReviewTitle>
-        <Username>{userInfo.username}</Username> 고객님 리뷰 작성
+        <Username>{userInfo.username}</Username> 고객님 리뷰 목록
       </MyReviewTitle>
       <ReviewRow className="row-eq-height">
         {reviews.length > 0 ? (
@@ -151,9 +151,6 @@ const MyReview = () => {
                   <ListGroup variant="flush">
                     <ListGroupItem>
                       별점: {renderStars(review.rating)}
-                    </ListGroupItem>
-                    <ListGroupItem>
-                      리뷰 코멘트: {review.reviewComment}
                     </ListGroupItem>
                     <ListGroupItem>
                       좋아요 수: {review.likeCount} ❤️

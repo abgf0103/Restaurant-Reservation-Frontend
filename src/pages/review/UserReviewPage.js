@@ -93,6 +93,9 @@ const UserReviewPage = () => {
                     <ListGroupItem>
                       별점: {renderStars(review.rating)}
                     </ListGroupItem>
+                    <ListGroupItem>
+                      좋아요 수: {review.likeCount} ❤️
+                    </ListGroupItem>
                   </ListGroup>
                 </Card.Body>
 
