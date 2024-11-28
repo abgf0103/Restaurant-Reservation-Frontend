@@ -244,7 +244,7 @@ const MyReserve = () => {
                         </Button>
                       )}
                     <Link to={"/store/info"} state={reservation.storeId}>
-                      <Button variant="secondary">가게 페이지 방문</Button>
+                      <Button variant="store-info">가게 페이지 방문</Button>
                     </Link>
                   </Card.Body>
                 </Card>
