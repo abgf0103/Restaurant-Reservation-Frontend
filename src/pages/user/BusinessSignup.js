@@ -30,13 +30,15 @@ const MemberSignup = () => {
 
   // 전화번호 자동 하이픈 추가
   const formatPhoneNumber = (value) => {
-    const cleaned = value.replace(/\D/g, "");
+    const cleaned = value.replace(/\D/g, ""); // 숫자만 남기기
     if (cleaned.length <= 3) {
       return cleaned;
     } else if (cleaned.length <= 7) {
       return cleaned.replace(/(\d{3})(\d{0,4})/, "$1-$2");
     } else {
-      return cleaned.replace(/(\d{3})(\d{0,4})(\d{0,4})/, "$1-$2-$3");
+      return cleaned
+        .substring(0, 11)
+        .replace(/(\d{3})(\d{0,4})(\d{0,4})/, "$1-$2-$3");
     }
   };
 
@@ -120,6 +122,7 @@ const MemberSignup = () => {
             value={formData.username}
             onChange={handleChange}
             isInvalid={!!errors.username}
+            placeholder="아이디는 4~15자, 영어와 숫자만 사용 가능합니다."
             required
           />
           <Form.Control.Feedback type="invalid">
@@ -135,6 +138,7 @@ const MemberSignup = () => {
             value={formData.password}
             onChange={handleChange}
             isInvalid={!!errors.password}
+            placeholder="비밀번호는 8~15자, 영문 + 숫자 + 특수문자를 포함해야 합니다."
             required
           />
           <Form.Control.Feedback type="invalid">
@@ -151,6 +155,7 @@ const MemberSignup = () => {
             onChange={handleChange}
             isInvalid={!!errors.passwordConfirm}
             required
+            placeholder="위에 입력하신 비밀번호를 다시 입력해주세요"
           />
           <Form.Control.Feedback type="invalid">
             {errors.passwordConfirm}
@@ -166,6 +171,7 @@ const MemberSignup = () => {
             onChange={handleChange}
             isInvalid={!!errors.name}
             required
+            placeholder="이름은 한글 두글자 이상 입력하세요"
           />
           <Form.Control.Feedback type="invalid">
             {errors.name}
@@ -180,6 +186,7 @@ const MemberSignup = () => {
             value={formData.email}
             onChange={handleChange}
             required
+            placeholder="이메일을 입력해주세요"
           />
         </Form.Group>
 
@@ -191,6 +198,7 @@ const MemberSignup = () => {
             value={formData.phone}
             onChange={handlePhoneChange}
             isInvalid={!!errors.phone}
+            placeholder="전화번호 11자리를 입력해주세요"
             required
           />
           <Form.Control.Feedback type="invalid">
