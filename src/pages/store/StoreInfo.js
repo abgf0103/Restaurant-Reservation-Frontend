@@ -458,14 +458,14 @@ const StoreInfo = () => {
               <br />
               <strong>리뷰:</strong> {review.reviewComment}
               <br />
-              <strong>좋아요:</strong> {review.likeCount} ❤️
-              <br />
+              <strong>좋아요:</strong> {review.likeCount}{" "}
               <button
                 className="like-button"
                 onClick={() => handleLikeClick(review.reviewId, review.liked)}
               >
-                {review.liked ? "좋아요 취소" : "좋아요"}
+                {review.liked ? "❤️" : "🤍"}
               </button>
+              <br />
               {/* 파일 첨부 부분 */}
               {review.files.length > 0 && (
                 <div>

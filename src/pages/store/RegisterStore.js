@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { useDaumPostcodePopup } from "react-daum-postcode";
+import { formatPhoneNumber, formatStoreHours } from "../../utils/tools";
 
 const RegisterStore = () => {
     const navigate = useNavigate();
@@ -38,17 +39,7 @@ const RegisterStore = () => {
         }
     }, []);
 
-    // 전화번호 자동 하이픈 추가
-    const formatPhoneNumber = (value) => {
-        const cleaned = value.replace(/\D/g, "");
-        if (cleaned.length <= 3) {
-            return cleaned;
-        } else if (cleaned.length <= 7) {
-            return cleaned.replace(/(\d{3})(\d{0,4})/, "$1-$2");
-        } else {
-            return cleaned.replace(/(\d{3})(\d{0,4})(\d{0,4})/, "$1-$2-$3");
-        }
-    };
+
 
     // 가게 정보를 입력할 때마다 이벤트를 발생시켜 값을 저장
     const onChangeHandler = (e) => {
@@ -61,7 +52,14 @@ const RegisterStore = () => {
                 ...prevState,
                 [name]: phoneValue,
             }));
-        } else { //전화번호가 아닐 경우
+        } else if (name === "storeHours") {
+            console.log(1);
+            const storeHours = formatStoreHours(e.target.value);
+            setStoreData((prevState) => ({
+                ...prevState,
+                [name]: storeHours,
+            }));
+        } else { //전화번호, 영업시간이 둘다 아닐 경우
             setStoreData((prevState) => ({
                 ...prevState,
                 [name]: value,
@@ -307,6 +305,8 @@ const RegisterStore = () => {
                         placeholder="영업시간을 입력하세요"
                         name="storeHours"
                         onChange={onChangeHandler}
+                        value={storeData.storeHours}
+                        maxLength={11}
                         required
                     />
                 </Form.Group>
@@ -338,7 +338,7 @@ const RegisterStore = () => {
                     <Form.Label>아이덴티티</Form.Label>
                     <Form.Control
                         as="textarea"
-                        placeholder="가게에서 판매하는 종목을 한 단어로 입력하세요"
+                        placeholder="가게에서 판매하는 대표 음식을 한 단어로 입력하세요"
                         name="identity"
                         onChange={onChangeHandler}
                     />

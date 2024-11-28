@@ -12,7 +12,7 @@ const PreUserEdit = () => {
   };
 
   return (
-    <div>
+    <div className="edit-cover">
       <div className="text1">
         <h1>예약맨 회원가입</h1>
         <hr />

@@ -37,35 +37,14 @@
 
 /* 버튼 */
 
-.btn.btn-thirdly {
+.btn.btn-commit {
   background-color: var(--secondary-color);
   color: var(--text-color-white);
   border: none;
   height: 38px;
 }
 
-.btn.btn-thirdly:hover {
+.btn.btn-commit :hover {
   background-color: var(--secondaryHover2-color);
   color: var(--text-color-white);
-}
-
-/* 페이지네이션 */
-.pagination {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-  margin-bottom: 60px;
-}
-
-.pagination button {
-  border: none;
-  background-color: var(--background-color-gray);
-  color: var(--text-color-black);
-  box-shadow: none;
-  padding: 10px;
-  margin: 0 4px;
-}
-
-.paginated-list {
-  list-style: none;
 }

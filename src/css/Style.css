@@ -140,3 +140,21 @@ body {
 .footer-nav .nav-link :only-child {
   margin-bottom: 10px;
 }
+
+/* 페이지네이션 */
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+.pagination button {
+  border: none;
+  background-color: var(--background-color-gray);
+  color: var(--text-color-black);
+  box-shadow: none;
+  padding: 10px;
+  margin: 0 4px;
+}
+.paginated-list {
+  list-style: none;
+}

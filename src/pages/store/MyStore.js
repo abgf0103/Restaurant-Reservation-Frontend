@@ -5,125 +5,116 @@ import { getUserInfo } from "../../hooks/userSlice";
 import { useEffect, useState } from "react";
 import instance from "../../api/instance";
 import { Button, Card } from "react-bootstrap";
-import './css/MyStore.css';
 
 const MyStore = () => {
-  const navigate = useNavigate();
-  const userInfo = useSelector(getUserInfo); // 로그인된 사용자 정보
+    const navigate = useNavigate();
+    const userInfo = useSelector(getUserInfo); // 로그인된 사용자 정보
 
-  const [stores, setStores] = useState([]);
-  const [loading, setLoading] = useState(true);
+    const [stores, setStores] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-  // 로그인 상태 체크
-  useEffect(() => {
-    if (!userInfo.username) {
-      navigate("/user/login");
+    // 로그인 상태 체크
+    useEffect(() => {
+        if (!userInfo.username) {
+            navigate("/user/login");
+        }
+    }, [navigate, userInfo]);
+
+    // 내 가게 가져오기
+    useEffect(() => {
+        instance
+            .get("store/mystore")
+            .then((res) => {
+                console.log(res.data);
+                setStores(res.data); // 사용자 가게 목록 설정
+            })
+            .catch((error) => {
+                console.error("나의 가게 가져오기 실패:", error);
+                Swal.fire({
+                    title: "실패",
+                    text: "나의 가게 가져오는 데 실패했습니다.",
+                    icon: "error",
+                });
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+    }, []);
+
+    const handleReserveClick = (storeId) => {
+        // 가게 예약 조회 페이지로 이동하며 가게 ID 전달
+        navigate(`/store/reserve/${storeId}`);
+    };
+
+    const handleEditClick = (storeId) => {
+        // 가게 수정 페이지로 이동하며 수정할 가게 ID 전달
+        navigate(`/store/edit/${storeId}`);
+    };
+
+    //가게 등록 버튼 클릭시 가게 등록 url로 이동
+    const registerStoreClick = () => {
+        navigate(`/store/register`);
+    };
+
+    const handleMenuClick = (storeId) => {
+        // 가게 메뉴 관리 페이지로 이동하며 가게 ID 전달
+        navigate(`/store/menu/management/${storeId}`);
+    };
+
+    if (loading) {
+        return <div>로딩 중...</div>;
     }
-  }, [navigate, userInfo]);
 
-  // 내 가게 가져오기
-  useEffect(() => {
-    instance
-      .get("store/mystore")
-      .then((res) => {
-        console.log(res.data);
-        setStores(res.data); // 사용자 가게 목록 설정
-      })
-      .catch((error) => {
-        console.error("나의 가게 가져오기 실패:", error);
-        Swal.fire({
-          title: "실패",
-          text: "나의 가게 가져오는 데 실패했습니다.",
-          icon: "error",
-        });
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, []);
+    return (
+        <main>
+            <Button variant="primary" onClick={() => registerStoreClick()}>
+                등록 요청
+            </Button>
+            {stores.length > 0 ? (
+                <ul className="storeList-card-list">
+                    {stores.map((item) => (
+                        <li key={item.storeId}>
+                            <Card className="storeList-card">
+                                <Card.Img
+                                    className="myStoreList-img"
+                                    variant="top"
+                                    src={`${process.env.REACT_APP_HOST}/file/view/${item.saveFileName}`}
+                                />
+                                <Card.Body>
+                                    <Link to={"/store/info"} state={item.storeId}>
+                                        <Card.Title>{item.storeName}</Card.Title>
+                                    </Link>
+                                    <Card.Text>{item.description}</Card.Text>
+                                    {item.isActive === 1 && (
+                                        <>
+                                            <Button variant="success" onClick={() => handleReserveClick(item.storeId)}>
+                                                예약 조회
+                                            </Button>
 
-  const handleReserveClick = (storeId) => {
-    // 가게 예약 조회 페이지로 이동하며 가게 ID 전달
-    navigate(`/store/reserve/${storeId}`);
-  };
-
-  const handleEditClick = (storeId) => {
-    // 가게 수정 페이지로 이동하며 수정할 가게 ID 전달
-    navigate(`/store/edit/${storeId}`);
-  };
-
-  //가게 등록 버튼 클릭시 가게 등록 url로 이동
-  const registerStoreClick = () => {
-    navigate(`/store/register`);
-  };
-
-  const handleMenuClick = (storeId) => {
-    // 가게 메뉴 관리 페이지로 이동하며 가게 ID 전달
-    navigate(`/store/menu/management/${storeId}`);
-  };
-
-  if (loading) {
-    return <div>로딩 중...</div>;
-  }
-
-  return (
-    <main>
-      <Button variant="primary" onClick={() => registerStoreClick()}>
-        등록 요청
-      </Button>
-      {stores.length > 0 ? (
-        <ul className="storeList-card-list">
-          {stores.map((item) => (
-            <li key={item.storeId}>
-              <Card className="storeList-card">
-                <Card.Img
-                  variant="top"
-                  src={`${process.env.REACT_APP_HOST}/file/view/${item.saveFileName}`}
-                />
-                <Card.Body>
-                  <Link to={"/store/info"} state={item.storeId}>
-                    <Card.Title>{item.storeName}</Card.Title>
-                  </Link>
-                  <Card.Text>{item.description}</Card.Text>
-                  {item.isActive === 1 && (
-                    <>
-                      <Button
-                        variant="success"
-                        onClick={() => handleReserveClick(item.storeId)}
-                      >
-                        예약 조회
-                      </Button>
-
-                      <Button
-                        variant="primary"
-                        onClick={() => handleEditClick(item.storeId)}
-                      >
-                        가게 정보 수정
-                      </Button>
-                      <Button
-                        variant="warning"
-                        onClick={() => handleMenuClick(item.storeId)}
-                      >
-                        가게 메뉴 관리
-                      </Button>
-                    </>
-                  )}
-                  {item.isActive === 0 && (
-                    <>
-                      <Button variant="danger" disabled>
-                        등록 요청 중
-                      </Button>
-                    </>
-                  )}
-                </Card.Body>
-              </Card>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>가게가 없습니다.</p>
-      )}
-    </main>
-  );
+                                            <Button variant="primary" onClick={() => handleEditClick(item.storeId)}>
+                                                가게 정보 수정
+                                            </Button>
+                                            <Button variant="warning" onClick={() => handleMenuClick(item.storeId)}>
+                                                가게 메뉴 관리
+                                            </Button>
+                                        </>
+                                    )}
+                                    {item.isActive === 0 && (
+                                        <>
+                                            <Button variant="danger" disabled>
+                                                등록 요청 중
+                                            </Button>
+                                        </>
+                                    )}
+                                </Card.Body>
+                            </Card>
+                        </li>
+                    ))}
+                </ul>
+            ) : (
+                <p>가게가 없습니다.</p>
+            )}
+        </main>
+    );
 };
 export default MyStore;

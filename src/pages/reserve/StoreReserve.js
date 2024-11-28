@@ -16,7 +16,7 @@ const StoreReserve = () => {
   const [reserves, setReserves] = useState([]);
   const [storeName, setStoreName] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  const itemsPerPage = 15;
 
   // 로그인 상태 체크
   useEffect(() => {
@@ -170,7 +170,7 @@ const StoreReserve = () => {
                     </Card.Text>
                     {reserve.reserveStatus === 0 && (
                       <Button
-                        variant="thirdly"
+                        variant="primary"
                         onClick={() => handleConfirm(reserve.reserveId)}
                       >
                         예약 확정
@@ -181,7 +181,7 @@ const StoreReserve = () => {
                         variant="outline-warning"
                         onClick={() => handleComplete(reserve.reserveId)}
                       >
-                        완료
+                        예약 완료
                       </Button>
                     )}
                     {(reserve.reserveStatus === 0 ||
