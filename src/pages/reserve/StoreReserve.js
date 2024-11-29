@@ -159,7 +159,9 @@ const StoreReserve = () => {
                       {new Date(reserve.reserveDate).toLocaleString()} <br />
                       <strong>인원 수:</strong> {reserve.partySize}명 <br />
                       <strong>예약 상태:</strong>{" "}
-                      {reserveStatus(reserve.reserveStatus)}
+                      {reserveStatus(reserve.reserveStatus)} <br />
+                      <strong>예약 신청 시간:</strong>{" "}
+                      {new Date(reserve.createdAt).toLocaleString()}
                     </Card.Text>
                     {reserve.reserveStatus === 0 && (
                       <Button

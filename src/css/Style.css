@@ -28,21 +28,21 @@ ol {
 }
 
 .btnColorPrimary {
-    background-color: var(--primary-color)!important;
-    border: none!important;
+  background-color: var(--primary-color) !important;
+  border: none !important;
 }
 
 .btnColorPrimary:hover {
-    background-color: var(--primaryHober-color)!important;
+  background-color: var(--primaryHober-color) !important;
 }
 
 .btnColorSecondary {
-    background-color: var(--secondary-color)!important;
-    border: none!important;
+  background-color: var(--secondary-color) !important;
+  border: none !important;
 }
 
 .btnColorSecondary:hover {
-    background-color: var(--secondaryHover-color)!important;
+  background-color: var(--secondaryHover-color) !important;
 }
 
 /* 고정된 헤더 스타일 */
@@ -77,6 +77,11 @@ header {
 .header-logbtn:hover {
   transition: all 0.3s ease-out !important;
   background-color: var(--secondaryHover2-color) !important;
+  color: var(--text-color-white);
+}
+
+.btn.btn-header-logbtn {
+  color: var(--primaryHober-color);
 }
 .logbtn-text {
   position: relative;

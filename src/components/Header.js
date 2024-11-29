@@ -92,7 +92,7 @@ const Header = () => {
                 {userInfo && userInfo.username ? (
                   <Nav>
                     <span>{userInfo.username} </span>
-                    <Button onClick={handleLogout} className="header-logbtn">
+                    <Button onClick={handleLogout} variant="header-logbtn">
                       로그아웃
                     </Button>
                   </Nav>
