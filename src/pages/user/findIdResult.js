@@ -19,7 +19,7 @@ const FindIdResult = () => {
     return id; // 아이디 길이가 2 이하일 경우 그대로 반환
   };
   const goFindPW = () => {
-    navigate("/user/findID");
+    navigate("/user/findPassword");
   };
   const goLogin = () => {
     navigate("/user/login");

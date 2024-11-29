@@ -28,12 +28,12 @@ function FindPassword() {
         requestData
       );
 
-      console.log(response.data);
+      console.log(response);
 
       setMessage(response.data.message); // 응답 메시지 설정
 
       // 결과 페이지로 이동하며 message 전달
-      if (response.data.success) {
+      if (response.data) {
         navigate("/user/findPasswordResult", {
           state: { message: response.data.message },
         });
