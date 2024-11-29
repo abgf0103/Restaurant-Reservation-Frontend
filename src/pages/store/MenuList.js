@@ -92,9 +92,9 @@ const MenuList = () => {
                                     }}
                                 />
                                 <Card.Body className="menuInfo">
-                                    <Card.Title>{item.menuName}</Card.Title>
-                                    <Card.Text>{item.description}</Card.Text>
-                                    <Card.Text>{convertToWon(item.price)}</Card.Text>
+                                    <Card.Title className="menuTitle">{item.menuName}</Card.Title>
+                                    <Card.Text className="menuDes">{item.description}</Card.Text>
+                                    <Card.Text className="menuPrice">{convertToWon(item.price)}</Card.Text>
                                 </Card.Body>
                             </div>
                         ))}
