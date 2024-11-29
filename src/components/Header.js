@@ -65,7 +65,7 @@ const Header = () => {
           {window.location.pathname === "/" ? (
             <></>
           ) : (
-            <Button variant="light" onClick={goBack}>
+            <Button variant="back" onClick={goBack}>
               ←
             </Button>
           )}
@@ -80,7 +80,7 @@ const Header = () => {
               value={searchKeyword}
               onChange={handleSearchChange}
             />
-            <Button variant="outline-warning" type="submit">
+            <Button variant="search" type="submit">
               검색
             </Button>
           </Form>
@@ -92,24 +92,20 @@ const Header = () => {
                 {userInfo && userInfo.username ? (
                   <Nav>
                     <span>{userInfo.username} </span>
-                    <Button onClick={handleLogout} variant="header-logbtn">
+                    <Button onClick={handleLogout} variant="logout">
                       로그아웃
                     </Button>
                   </Nav>
                 ) : (
                   <Link to="/user/login">
-                    <button className="header-logbtn">
-                      <span className="logbtn-text">로그인</span>
-                    </button>
+                    <Button variant="login">로그인</Button>
                   </Link>
                 )}
                 {userInfo && userInfo.username ? (
                   <></>
                 ) : (
                   <Link to="/user/PreUserEdit">
-                    <button className="header-logbtn">
-                      <span className="logbtn-text">회원가입</span>
-                    </button>
+                    <Button variant="join">회원가입</Button>
                   </Link>
                 )}
               </Nav>
