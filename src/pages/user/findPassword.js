@@ -47,47 +47,52 @@ function FindPassword() {
   };
 
   return (
-    <Container className="cover">
-      <h4>비밀번호 찾기</h4>
-      <hr />
-      <Form onSubmit={handleSubmit}>
-        <Form.Group controlId="email">
-          <Form.Label>이메일</Form.Label>
-          <Form.Control
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            placeholder="이메일을 입력해주세요"
-          />
-        </Form.Group>
+    <Container className="find-pw-cover">
+      <div className="find-pw-main">
+        <h4>비밀번호 찾기</h4>
+        <hr />
+        <Form onSubmit={handleSubmit}>
+          <Form.Group controlId="email">
+            <Form.Label>이메일</Form.Label>
+            <Form.Control
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              placeholder="이메일을 입력해주세요"
+              className="find-pw-input"
+            />
+          </Form.Group>
 
-        <Form.Group controlId="username">
-          <Form.Label>아이디</Form.Label>
-          <Form.Control
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-            placeholder="아이디를 입력해주세요"
-          />
-        </Form.Group>
+          <Form.Group controlId="username">
+            <Form.Label>아이디</Form.Label>
+            <Form.Control
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+              placeholder="아이디를 입력해주세요"
+              className="find-pw-input"
+            />
+          </Form.Group>
 
-        <Form.Group controlId="name">
-          <Form.Label>이름</Form.Label>
-          <Form.Control
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-            placeholder="이름을 입력해주세요"
-          />
-        </Form.Group>
+          <Form.Group controlId="name">
+            <Form.Label>이름</Form.Label>
+            <Form.Control
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+              placeholder="이름을 입력해주세요"
+              className="find-pw-input"
+            />
+          </Form.Group>
 
-        <Button type="submit" variant="primary" className="mt-3">
-          임시 비밀번호 발급받기
-        </Button>
-      </Form>
+          <Button type="submit" variant="primary" className="find-pw-btn">
+            임시 비밀번호 발급받기
+          </Button>
+        </Form>
+      </div>
 
       {message && (
         <Alert variant="info" className="mt-3">
