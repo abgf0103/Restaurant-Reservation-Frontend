@@ -261,7 +261,7 @@ const RegisterStore = () => {
                 <h5>대표 이미지를 선택하세요</h5>
                 <input type="file" onChange={handleFileChange} accept="image/*" />
                 <p>
-                    <Button className="btnColorSecondary" variant="primary" type="button" onClick={handleFileUpload}>
+                    <Button className="btnColorSecondary btnMargin" variant="primary" type="button" onClick={handleFileUpload}>
                         이미지 업로드
                     </Button>
                 </p>

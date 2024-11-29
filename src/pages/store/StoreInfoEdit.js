@@ -282,16 +282,33 @@ const RegisterStore = () => {
                 <h5>대표 이미지를 선택하세요</h5>
                 <input type="file" onChange={handleFileChange} accept="image/*" />
                 <p>
-                    <Button className="btnColorSecondary" variant="primary" type="button" onClick={handleFileUpload}>
+                    <Button
+                        className="btnColorSecondary btnMargin"
+                        variant="primary"
+                        type="button"
+                        onClick={handleFileUpload}
+                    >
                         이미지 업로드
+                    </Button>{" "}
+                    <Button
+                        type="button"
+                        className="btnColorPrimary"
+                        onClick={() => {
+                            console.log("삭제 요청 시 storeData.saveFileTarget:", storeData.saveFileTarget); // 삭제 버튼 클릭 시 콘솔에 출력
+                            deleteFile(storeData.fileId, storeData.saveFileTarget); // storeData.saveFileTarget을 사용하여 삭제 요청
+                        }}
+                    >
+                        삭제
                     </Button>
                 </p>
                 {fileList.length > 0 && (
-                    <img
-                        src={`${process.env.REACT_APP_HOST}/file/view/${fileList[0]?.saveFileName}`}
-                        alt="미리보기"
-                        width="100"
-                    />
+                    <div className="storeMainImg">
+                        <img
+                            src={`${process.env.REACT_APP_HOST}/file/view/${fileList[0]?.saveFileName}`}
+                            alt="미리보기"
+                            width="100"
+                        />
+                    </div>
                 )}
                 {storeData.saveFileName && (
                     <>
@@ -300,15 +317,6 @@ const RegisterStore = () => {
                             alt="대표 이미지"
                             style={{ maxWidth: "100%", maxHeight: "300px" }}
                         />
-                        <button
-                            type="button"
-                            onClick={() => {
-                                console.log("삭제 요청 시 storeData.saveFileTarget:", storeData.saveFileTarget); // 삭제 버튼 클릭 시 콘솔에 출력
-                                deleteFile(storeData.fileId, storeData.saveFileTarget); // storeData.saveFileTarget을 사용하여 삭제 요청
-                            }}
-                        >
-                            삭제
-                        </button>
                     </>
                 )}
 

@@ -1,3 +1,10 @@
-.menuItem1 div div div{
+.menuItem {
     margin-right: 5px;
+}
+
+.menuInfo{
+    background-color: var(--background-color);
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+
 }
