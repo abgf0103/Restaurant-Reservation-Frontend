@@ -9,7 +9,7 @@
 .button-container {
   display: flex; /* 버튼들을 가로로 나열 */
   gap: 10px; /* 버튼 간의 간격을 10px로 설정 */
-  margin-bottom: 10px; /* 버튼들 아래에 간격 추가 */
+  padding-top: 0px !important;
   justify-content: flex-end !important;
   max-width: 1080px;
 }
@@ -20,15 +20,17 @@
 .login-button:hover {
   background-color: var(--secondaryHover-color) !important;
 }
+.login-input {
+  border-color: var(--secondaryHover-color) !important;
+}
 .loginContainer {
-  display: flex;
-  bottom: 200px;
+  position: absolute;
+  padding: (--bs);
   justify-content: center; /* 가로 중앙 정렬 */
   align-items: center; /* 세로 중앙 정렬 */
   width: 100%; /* 화면 전체 너비 */
   flex-direction: column; /* 세로로 요소 배치 */
   padding: 0 20px;
-  height: 800px;
 
   position: relative;
   /* left: -250px; */
@@ -37,6 +39,7 @@
 .maincover {
   position: relative;
   top: 100px;
+  height: 765px;
 }
 
 @media screen and (max-width: 1000px) {
