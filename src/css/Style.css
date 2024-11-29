@@ -27,6 +27,25 @@ ol {
   list-style-type: none;
 }
 
+.btnColorPrimary {
+    background-color: var(--primary-color);
+    border: none;
+  }
+  
+  .btnColorPrimary:hover {
+    background-color: var(--primaryHober-color);
+  }
+  
+  .btnColorSecondary {
+    background-color: var(--secondary-color);
+    border: none;
+  }
+  
+  .btnColorSecondary:hover {
+    background-color: var(--secondaryHover-color);
+  }
+
+
 /* 고정된 헤더 스타일 */
 header {
   background-color: white;
