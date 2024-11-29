@@ -139,3 +139,13 @@
 .storeMain{
     padding: 30px 50px;
 }
+
+.registerStoreForm{
+    position: relative;
+}
+
+.deleteStoreBtn{
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
