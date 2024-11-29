@@ -6,6 +6,8 @@ import Swal from "sweetalert2";
 import { useSelector } from "react-redux";
 import { getUserInfo } from "../../hooks/userSlice";
 import instance from "../../api/instance";
+import "./css/checkUserEdit.css";
+import { Button } from "react-bootstrap";
 
 const CheckUserEdit = () => {
   const navigate = useNavigate();
@@ -44,26 +46,27 @@ const CheckUserEdit = () => {
   };
 
   return (
-    <div className="container">
-      <h2>비밀번호 확인</h2>
-      <form onSubmit={handleSubmit}>
+    <div className="check-edit-container">
+      <form onSubmit={handleSubmit} className="check-box">
         <div className="mb-3">
-          <label htmlFor="password" className="form-label">
-            비밀번호
-          </label>
+          <h4 className="check-user-edit-text">
+            회원정보 접근시, 개인정보보호를 위해 본인확인을 진행합니다
+          </h4>
+
           <input
             type="password"
             id="password"
-            className="form-control"
+            className="chek-user-edit-input"
+            placeholder="비밀번호를 입력해주세요"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
         </div>
         {error && <p className="text-danger">{error}</p>}
-        <button type="submit" className="btn btn-primary">
+        <Button type="submit" className="check-edit-btn">
           확인
-        </button>
+        </Button>
       </form>
     </div>
   );

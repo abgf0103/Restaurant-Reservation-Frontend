@@ -1,0 +1,32 @@
+.check-edit-container {
+  height: 785px;
+  display: flex;
+}
+.check-box {
+  margin: 0 auto; /* 중앙 정렬 */
+  position: relative;
+  top: 250px;
+}
+.chek-user-edit-input {
+  width: 500px !important;
+  height: 60px;
+  margin-top: 40px;
+}
+.chek-user-edit-input:hover {
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
+.check-edit-container {
+  text-align: center; /*중앙정렬*/
+}
+
+.check-edit-btn {
+  background-color: var(--secondary-color) !important;
+  width: 500px;
+  height: 60px;
+}
+.check-edit-btn:hover {
+  background-color: var(--secondaryHover-color) !important;
+}
+.check-user-edit-text {
+  font-weight: 600;
+}
