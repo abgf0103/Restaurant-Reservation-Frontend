@@ -465,7 +465,7 @@ const StoreInfo = () => {
     };
 
     return (
-        <main>
+        <main className="storeMain">
             <h2>
                 {storeData.storeName}
                 {isFavorite[storeData.storeId] ? (
