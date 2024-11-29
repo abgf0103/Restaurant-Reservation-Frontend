@@ -59,7 +59,7 @@ const StoreInfo = () => {
     const [reviewCount, setReviewCount] = useState(0);
 
     //즐겨찾기 여부
-    const [isFavorite, setIsFavorite] = useState(false);
+    const [isFavorite, setIsFavorite] = useState({});
 
     const getRatingAvgByStoreId = () => {
         instance.get(`/review/getRatingAvgByStoreId?storeId=${storeId}`).then((res) => {
@@ -78,7 +78,6 @@ const StoreInfo = () => {
                         res.content = res.storeName;
                         res.latlng = { lat: coords.getLat(), lng: coords.getLng() };
                         setStoreData(res);
-                        console.log(storeData);
                         setIsReady(true);
                         axios
                             .get("https://dapi.kakao.com/v2/local/search/keyword.json", {
@@ -316,15 +315,34 @@ const StoreInfo = () => {
             });
     };
 
-
-
+    //즐겨찾기 여부
     const getIsFavorite = () => {
-        instance.post(`/favorite/checkFavoriteByUserStore`, 
-            {
-
-            }
-        )
-    }
+        console.log(userInfo.id);
+        console.log(storeId);
+        instance
+            .post(`/favorite/checkFavoriteByUserStore`, {
+                userId: userInfo.id,
+                storeId: storeId,
+            })
+            .then((res) => {
+                if (res.data) {
+                    console.log(res.data);
+                    // 해당 storeId에 대한 즐겨찾기 상태를 업데이트
+                    setIsFavorite((prevFavorites) => ({
+                        ...prevFavorites,
+                        [storeId]: true, // 해당 storeId는 즐겨찾기 등록
+                    }));
+                } else {
+                    setIsFavorite((prevFavorites) => ({
+                        ...prevFavorites,
+                        [storeId]: false, // 해당 storeId는 즐겨찾기 미등록
+                    }));
+                }
+            })
+            .catch((err) => {
+                console.error("즐겨찾기 여부 조회 실패", err);
+            });
+    };
 
     useEffect(() => {
         getMap();
@@ -334,8 +352,8 @@ const StoreInfo = () => {
     //리뷰가 있으면 getRatingAvgByStoreId 실행으로 변경
     useEffect(() => {
         getReviewCountByStoreId();
-        console.log(userInfo);
-        console.log(storeData);
+        getIsFavorite();
+        console.log(isFavorite);
     }, []);
 
     const handleReserveClick = () => {
@@ -386,7 +404,7 @@ const StoreInfo = () => {
     };
 
     // 즐겨찾기 등록 버튼 클릭 핸들러
-    const favoriteClickHandler = (storeId) => {
+    const favoriteClickHandler = () => {
         if (userInfo.id !== "") {
             instance
                 .post(`/favorite/insertFavorite`, {
@@ -428,7 +446,7 @@ const StoreInfo = () => {
         <main>
             <h2 className="title">
                 {storeData.storeName}
-                {isFavorite ? (
+                {isFavorite[storeData.storeId] ? (
                     <Button
                         className="storeInfoFavoriteBtn onBtn"
                         onClick={() => favoriteCancelClickHandler(storeData.storeId)}
