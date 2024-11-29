@@ -24,8 +24,8 @@
 
 /* 이미지 크기를 250px x 160px로 고정 */
 .storeList-card a img, .myStoreList-img  {
-    width: 250px;   /* 이미지 너비 250px */
-    height: 160px;  /* 이미지 높이 160px */
+    width: 100%;
+    height: 200px;  /* 이미지 높이 160px */
     object-fit: cover;  /* 이미지 비율 유지하며 잘리거나 맞춰서 표시 */
 }
 

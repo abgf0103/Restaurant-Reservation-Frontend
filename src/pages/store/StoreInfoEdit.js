@@ -63,13 +63,14 @@ const RegisterStore = () => {
                 ...prevState,
                 [name]: storeHours,
             }));
-        } else { //전화번호, 영업시간이 둘다 아닐 경우
+        } else {
+            //전화번호, 영업시간이 둘다 아닐 경우
             setStoreData((prevState) => ({
                 ...prevState,
                 [name]: value,
             }));
         }
-        
+
         console.log("Store Data:", storeData); // 콘솔에 가게 정보 확인
     };
 
@@ -271,15 +272,20 @@ const RegisterStore = () => {
             <Form onSubmit={requestStoreRegister}>
                 <Form.Group className="mb-3">
                     <Form.Label>
-                        <h2>{storeData.storeName}</h2>
+                        <h2 className="title">{storeData.storeName}</h2>
                     </Form.Label>
                 </Form.Group>
                 <Button variant="danger" onClick={() => handleDelete(storeId)} disabled={isDelete}>
                     {isDelete ? "삭제 중" : "삭제 요청"}
                 </Button>
 
-                <h4>대표 이미지 수정</h4>
+                <h5>대표 이미지를 선택하세요</h5>
                 <input type="file" onChange={handleFileChange} accept="image/*" />
+                <p>
+                    <Button className="btnColorSecondary" variant="primary" type="button" onClick={handleFileUpload}>
+                        이미지 업로드
+                    </Button>
+                </p>
                 {fileList.length > 0 && (
                     <img
                         src={`${process.env.REACT_APP_HOST}/file/view/${fileList[0]?.saveFileName}`}
@@ -287,9 +293,6 @@ const RegisterStore = () => {
                         width="100"
                     />
                 )}
-                <Button variant="primary" type="button" onClick={handleFileUpload}>
-                    이미지 업로드
-                </Button>
                 {storeData.saveFileName && (
                     <>
                         <img
@@ -310,7 +313,7 @@ const RegisterStore = () => {
                 )}
 
                 <Form.Group className="mb-3">
-                    <Button variant="primary" type="button" onClick={handleClick}>
+                    <Button className="btnColorSecondary" variant="primary" type="button" onClick={handleClick}>
                         주소 검색
                     </Button>
                     {/* 주소입력 다음 api 추가해서 도로명 주소 받도록 */}

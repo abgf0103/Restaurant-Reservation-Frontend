@@ -39,8 +39,6 @@ const RegisterStore = () => {
         }
     }, []);
 
-
-
     // 가게 정보를 입력할 때마다 이벤트를 발생시켜 값을 저장
     const onChangeHandler = (e) => {
         const { name, value } = e.target;
@@ -59,13 +57,14 @@ const RegisterStore = () => {
                 ...prevState,
                 [name]: storeHours,
             }));
-        } else { //전화번호, 영업시간이 둘다 아닐 경우
+        } else {
+            //전화번호, 영업시간이 둘다 아닐 경우
             setStoreData((prevState) => ({
                 ...prevState,
                 [name]: value,
             }));
         }
-        
+
         console.log("Store Data:", storeData); // 콘솔에 가게 정보 확인
     };
 
@@ -246,7 +245,7 @@ const RegisterStore = () => {
 
     return (
         <main>
-            <h2>가게 등록 페이지</h2>
+            <h3 className="title">가게 등록</h3>
             <Form onSubmit={requestStoreRegister}>
                 <Form.Group className="mb-3">
                     <Form.Label>가게 이름</Form.Label>
@@ -259,21 +258,26 @@ const RegisterStore = () => {
                     />
                 </Form.Group>
 
-                <h3>대표 이미지 선택</h3>
+                <h5>대표 이미지를 선택하세요</h5>
                 <input type="file" onChange={handleFileChange} accept="image/*" />
-                {fileList.length > 0 && (
-                    <img
-                        src={`${process.env.REACT_APP_HOST}/file/view/${fileList[0]?.saveFileName}`}
-                        alt="미리보기"
-                        width="100"
-                    />
-                )}
-                <Button variant="primary" type="button" onClick={handleFileUpload}>
-                    이미지 업로드
-                </Button>
+                <p>
+                    <Button className="btnColorSecondary" variant="primary" type="button" onClick={handleFileUpload}>
+                        이미지 업로드
+                    </Button>
+                </p>
 
+                {fileList.length > 0 && (
+                    <div
+                    className="storeMainImg">
+                        <img
+                            src={`${process.env.REACT_APP_HOST}/file/view/${fileList[0]?.saveFileName}`}
+                            alt="미리보기"
+                            width="100"
+                        />
+                    </div>
+                )}
                 <Form.Group className="mb-3">
-                    <Form.Label>카테고리 선택</Form.Label>
+                    <Form.Label>카테고리</Form.Label>
                     <Form.Select name="category" onChange={storeCategoryHandler} value={storeCategory} required>
                         <option value="" hidden>
                             카테고리를 선택하세요
@@ -287,7 +291,7 @@ const RegisterStore = () => {
                 </Form.Group>
 
                 <Form.Group className="mb-3">
-                    <Button variant="primary" type="button" onClick={handleClick}>
+                    <Button className="btnColorSecondary" variant="primary" type="button" onClick={handleClick}>
                         주소 검색
                     </Button>
                     <Form.Control
@@ -354,7 +358,7 @@ const RegisterStore = () => {
                     />
                 </Form.Group>
 
-                <Button variant="primary" type="submit">
+                <Button className="btnColorPrimary" variant="primary" type="submit">
                     가게 등록
                 </Button>
             </Form>

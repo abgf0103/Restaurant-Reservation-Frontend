@@ -75,16 +75,18 @@ const MyStore = () => {
                     {stores.map((item) => (
                         <li key={item.storeId}>
                             <Card className="storeList-card">
-                                <Card.Img
-                                    className="myStoreList-img"
-                                    variant="top"
-                                    src={`${process.env.REACT_APP_HOST}/file/view/${item.saveFileName}`}
-                                />
+                                <Link to={"/store/info"} state={item.storeId}>
+                                    <Card.Img
+                                        className="myStoreList-img"
+                                        variant="top"
+                                        src={`${process.env.REACT_APP_HOST}/file/view/${item.saveFileName}`}
+                                    />
+                                </Link>
                                 <Card.Body>
                                     <Link to={"/store/info"} state={item.storeId}>
                                         <Card.Title>{item.storeName}</Card.Title>
-                                    </Link>
                                     <Card.Text>{item.description}</Card.Text>
+                                    </Link>
                                     {item.isActive === 1 && (
                                         <>
                                             <Button variant="success" onClick={() => handleReserveClick(item.storeId)}>

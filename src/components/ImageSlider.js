@@ -18,7 +18,7 @@ const ImageSlider = () => {
       draggable: true, // 드래그 가능
       autoplay: true, // 자동 슬라이드
       autoplaySpeed: 3000, // 자동 슬라이드 속도 (3초마다)
-      arrows: true, // 이전/다음 버튼 표시
+      arrows: false, // 이전/다음 버튼 표시
       dots: true, // 하단에 점 표시
     };
   
