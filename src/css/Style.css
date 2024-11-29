@@ -27,12 +27,12 @@ ol {
 }
 
 .btnColorSecondary {
-    background-color: var(--secondary-color);
-    color: var(--text-color-white);
+    background-color: var(--secondary-color)!important;
+    border: none !important;
 }
 
 .btnColorSecondary:hover {
-    background-color: var(--secondaryHover-color);
+    background-color: var(--secondaryHover-color)!important;
 }
 
 /* 고정된 헤더 스타일 */
