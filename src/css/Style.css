@@ -3,7 +3,8 @@
 
 /* 색상 선언 */
 :root {
-  --primary-color: #ff4545; /* 기본 색상 */
+  --primary-color: #ff4747; /* 기본 색상 */
+  --primaryHober-color: #ff2525; /* 기본 색상 */
   --secondary-color: #ff9c73; /* 보조 색상 */
   --secondaryHover-color: #ff451a; /* 보조 색상 하버 */
   --secondaryHover2-color: #e68d67; /* 보조 색상 하버2 */
@@ -26,9 +27,18 @@ ol {
   list-style-type: none;
 }
 
+.btnColorPrimary {
+    background-color: var(--primary-color)!important;
+    border: none!important;
+}
+
+.btnColorPrimary:hover {
+    background-color: var(--primaryHober-color)!important;
+}
+
 .btnColorSecondary {
     background-color: var(--secondary-color)!important;
-    border: none !important;
+    border: none!important;
 }
 
 .btnColorSecondary:hover {
