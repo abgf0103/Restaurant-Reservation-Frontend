@@ -108,7 +108,7 @@ const UserEdit = () => {
       .then((response) => {
         Swal.fire({
           title: "성공",
-          text: "수정 완료.",
+          text: "수정 완료",
           icon: "success",
         });
         // 수정된 사용자 정보를 로컬 저장소에 저장

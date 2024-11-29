@@ -1,12 +1,39 @@
 .id-result-cover {
-  border: 2px solid var(--primary-color);
   padding: 5vw; /* 화면 너비의 5%로 패딩 설정 */
-  border-radius: 15px;
   width: 70%; /* 부모 화면 너비의 70% 크기 */
-  max-width: 500px; /* 최대 크기 제한 */
-  min-width: 400px; /* 최소 크기 제한 */
   margin: 0 auto; /* 중앙 정렬 */
+  position: relative;
+  top: 100px;
 }
 .id-result-main {
   height: 785px;
+}
+.find-result-btn {
+  position: relative;
+  margin: 20px;
+  left: 14px;
+  width: 300px;
+  height: 70px;
+  margin-top: 80px;
+  background-color: var(--secondary-color);
+  font-size: 25px;
+  font-weight: 600;
+  border: 1px solid black;
+  border-radius: 40px;
+}
+.find-result-btn:hover {
+  background-color: var(--secondaryHover-color) !important;
+}
+.id-result-text {
+  color: blue;
+  text-align: center;
+  display: inline;
+}
+.id-result-h4 {
+  text-align: center;
+  font-weight: 800;
+}
+.id-cause {
+  font-weight: 800;
+  color: red;
 }
