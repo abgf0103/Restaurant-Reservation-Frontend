@@ -118,6 +118,25 @@ export const FileUploadButton = styled(Button)`
   }
 `;
 
+export const DeleteFileButton = styled(Button)`
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: var(--primary-color); /* 삭제 버튼 기본 색상 */
+  color: var(--text-color-white);
+  font-size: 0.9rem;
+  border-radius: 50%;
+  border: none;
+  padding: 8px;
+  transition: background-color 0.3s;
+  &:hover {
+    background-color: var(--secondary-color); /* 호버 시 색상 */
+  }
+  &:focus {
+    outline: none;
+  }
+`;
+
 // Rating Input Section
 export const RatingFormGroup = styled(Form.Group)`
   margin-bottom: 20px; /* 각 입력 요소 간 간격 */
@@ -178,4 +197,11 @@ export const FileLibel = styled(Form.Label)`
   font-weight: bold;
   color: var(--text-color-black);
   margin-bottom: 10px;
+`;
+
+export const DivStar = styled.div`
+  display: flex;
+  justify-content: left;
+  align-items: center; /* 세로 중앙정렬 */
+  gap: 20px; /* 별들 간의 간격을 설정 */
 `;

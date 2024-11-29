@@ -176,3 +176,10 @@ export const FileLibel = styled(Form.Label)`
   color: var(--text-color-black);
   margin-bottom: 10px;
 `;
+
+export const DivStar = styled.div`
+  display: flex;
+  justify-content: left;
+  align-items: center; /* 세로 중앙정렬 */
+  gap: 20px; /* 별들 간의 간격을 설정 */
+`;

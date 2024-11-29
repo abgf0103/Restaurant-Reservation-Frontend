@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Card, Button, Container, ListGroup, Row } from "react-bootstrap";
+import { Card, Button, Container, ListGroup } from "react-bootstrap";
 
 // 제목 스타일
 export const MyReviewTitle = styled.h2`
@@ -51,6 +51,7 @@ export const MyReviewContainer = styled(Container)`
 // 카드 컴포넌트 스타일
 export const ReviewCard = styled(Card)`
   width: 100%;
+  justify-content: space-between;
   margin-bottom: 1rem;
   border: 1px solid #ddd;
   border-radius: 12px;
@@ -162,19 +163,11 @@ export const ButtonEdit = styled(Button)`
   }
 `;
 
-// // 리뷰 페이지 제목 스타일
-// export const Title = styled.h2`
-//   text-align: center;
-//   color: var(--text-color-black);
-//   margin-bottom: 30px;
-// `;
-
-// 리뷰를 감싸는 행(Row) 스타일
-export const ReviewRow = styled(Row)`
-  // display: flex;
-  // justify-content: center;
-  // gap: 30px;
-  // flex-wrap: wrap;
+// 카드 제목 스타일
+export const MiniTitle = styled.h2`
+  font-size: 20px;
+  font-weight: bold;
+  color: var(--text-color-black);
 `;
 
 // 카드 텍스트 스타일
@@ -187,6 +180,5 @@ export const CardText = styled(Card.Text)`
 export const ListGroupItem = styled(ListGroup.Item)`
   font-size: 14px;
   padding: 10px;
-  background-color: var(--background-color);
-  color: var(--text-color-gray);
+  color: var(--text-color-black);
 `;

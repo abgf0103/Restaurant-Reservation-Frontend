@@ -1,5 +1,45 @@
 import styled from "styled-components";
-import { Card, Container, ListGroup, Row, Col } from "react-bootstrap";
+import { Card, Container, ListGroup, Row } from "react-bootstrap";
+
+// 제목 스타일
+export const UserReviewTitle = styled.h2`
+  text-align: center;
+  color: var(--text-color-white); /* 텍스트 색상을 흰색으로 */
+  font-size: 2.5rem; /* 더 큰 폰트 크기 */
+  font-weight: bold; /* 두꺼운 글씨 */
+  margin-bottom: 30px;
+  padding: 20px 0;
+  background: linear-gradient(
+    135deg,
+    var(--primary-color),
+    var(--secondary-color)
+  ); /* 기본 색상과 보조 색상 그라데이션 */
+  border-radius: 10px; /* 둥근 모서리 */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* 텍스트 그림자 */
+  position: relative;
+  z-index: 1;
+
+  /* 반응형 디자인 */
+  @media (max-width: 768px) {
+    font-size: 2rem; /* 모바일에서는 폰트 크기를 조금 더 작게 */
+    padding: 15px 0;
+  }
+`;
+
+// 제목에 있는 사용자 이름
+export const Username = styled.span`
+  color: var(--primary-color); /* 사용자 이름을 기본 색상으로 강조 */
+  font-size: 2.8rem; /* 사용자 이름만 조금 더 크게 */
+  font-weight: bold;
+  background: linear-gradient(
+    135deg,
+    var(--tertiary-color),
+    var(--quaternary-color)
+  ); /* 배경에 다른 그라데이션 적용 */
+  -webkit-background-clip: text; /* 그라데이션 텍스트로 적용 */
+  color: transparent; /* 텍스트 색상을 투명하게 해서 그라데이션이 보이도록 */
+`;
 
 // 전체 페이지 컨테이너 스타일
 export const UserReviewPageContainer = styled(Container)`
@@ -12,14 +52,14 @@ export const UserReviewPageContainer = styled(Container)`
 
 // 카드 컴포넌트 스타일
 export const UserReviewCard = styled(Card)`
+  width: 100%;
+  justify-content: space-between;
+  margin-bottom: 1rem;
   border: 1px solid #ddd;
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s ease, transform 0.3s ease;
   background-color: var(--background-color); /* 배경색 설정 */
-  display: flex;
-  flex-direction: column; /* 카드 내용이 수직으로 배치되도록 설정 */
-  width: 100%; /* 너비는 100%로 설정하여 일정하게 유지 */
 
   &:hover {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
@@ -41,80 +81,36 @@ export const UserReviewCard = styled(Card)`
 export const UserReviewImage = styled.div`
   display: flex;
   flex-wrap: wrap;
+  justify-content: center; /* 이미지를 가로로 가운데 정렬 */
+  align-items: center; /* 이미지를 세로로 가운데 정렬 */
   gap: 10px;
-  margin-top: 10px;
+  padding: 1rem;
 
   img {
-    width: 100px;
-    height: 100px;
+    max-width: 100px;
+    max-height: 100px;
     object-fit: cover;
     border-radius: 5px;
     border: 1px solid var(--tertiary-color); /* 이미지 테두리 색상 */
   }
 `;
 
-// 리뷰 페이지 제목 스타일
-export const UserReviewTitle = styled.h2`
-  text-align: center;
+// 카드 제목 스타일
+export const MiniTitle = styled.h2`
+  font-size: 20px;
+  font-weight: bold;
   color: var(--text-color-black);
-  margin-bottom: 30px;
-  font-size: 2rem;
-
-  @media (max-width: 768px) {
-    font-size: 1.5rem;
-    margin-bottom: 20px;
-  }
 `;
 
-// 리스트 그룹 항목 스타일 (별점 등)
+// 카드 텍스트 스타일
+export const CardText = styled(Card.Text)`
+  font-size: 14px;
+  color: var(--text-color-gray);
+`;
+
+// 리스트 그룹 안의 각 항목 스타일
 export const ListGroupItem = styled(ListGroup.Item)`
-  font-size: 1rem;
-  padding: 12px;
-  background-color: var(--background-color);
+  font-size: 14px;
+  padding: 10px;
   color: var(--text-color-black);
-  border: none; /* 기본 border 제거 */
-  &:first-child {
-    border-top-left-radius: 12px;
-    border-top-right-radius: 12px;
-  }
-  &:last-child {
-    border-bottom-left-radius: 12px;
-    border-bottom-right-radius: 12px;
-  }
-`;
-
-// 리뷰를 감싸는 행(Row) 스타일
-export const UserReviewRow = styled(Row)`
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-  flex-wrap: wrap;
-  margin-bottom: 20px;
-`;
-
-// 리뷰를 감싸는 컬럼 스타일
-export const UserReviewCol = styled(Col)`
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
-  @media (max-width: 768px) {
-    flex: 0 0 100%; /* 작은 화면에서는 1개씩 */
-  }
-
-  @media (min-width: 768px) {
-    flex: 0 0 50%; /* 중간 화면 이상에서는 2개씩 */
-  }
-
-  @media (min-width: 992px) {
-    flex: 0 0 33.33%; /* 더 큰 화면에서는 3개씩 */
-  }
-`;
-
-// 파일 유무에 따라 높이를 자동으로 조정할 수 있도록 설정
-export const UserReviewCardWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: auto; /* 높이를 고정하지 않고 내용에 따라 늘어나도록 설정 */
-  justify-content: space-between;
-  padding-bottom: 10px;
 `;
