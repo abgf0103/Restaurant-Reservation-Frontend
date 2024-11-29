@@ -68,7 +68,6 @@ const FindPasswordResult = () => {
                 size="3x" // 크기 조정
               />
             </Form.Group>
-            {/* 아이콘을 클릭했을 때 복사 여부에 따라 아이콘 변경 */}
           </div>
 
           {/* 복사 성공 메시지 */}
