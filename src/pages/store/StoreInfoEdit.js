@@ -269,30 +269,25 @@ const RegisterStore = () => {
 
     return (
         <main>
-            <Form onSubmit={requestStoreRegister}>
+            <Form onSubmit={requestStoreRegister} className="registerStoreForm">
                 <Form.Group className="mb-3">
                     <Form.Label>
                         <h2 className="title">{storeData.storeName}</h2>
                     </Form.Label>
                 </Form.Group>
-                <Button variant="danger" onClick={() => handleDelete(storeId)} disabled={isDelete}>
+                <Button className="deleteStoreBtn" variant="danger" onClick={() => handleDelete(storeId)} disabled={isDelete}>
                     {isDelete ? "삭제 중" : "삭제 요청"}
                 </Button>
 
                 <h5>대표 이미지를 선택하세요</h5>
                 <input type="file" onChange={handleFileChange} accept="image/*" />
                 <p>
-                    <Button
-                        className="btnColorSecondary btnMargin"
-                        variant="primary"
-                        type="button"
-                        onClick={handleFileUpload}
-                    >
+                    <Button variant="colorSecondary" type="button" onClick={handleFileUpload}>
                         이미지 업로드
                     </Button>{" "}
                     <Button
                         type="button"
-                        className="btnColorPrimary"
+                        variant="colorPrimary"
                         onClick={() => {
                             console.log("삭제 요청 시 storeData.saveFileTarget:", storeData.saveFileTarget); // 삭제 버튼 클릭 시 콘솔에 출력
                             deleteFile(storeData.fileId, storeData.saveFileTarget); // storeData.saveFileTarget을 사용하여 삭제 요청
@@ -321,7 +316,7 @@ const RegisterStore = () => {
                 )}
 
                 <Form.Group className="mb-3">
-                    <Button className="btnColorSecondary" variant="primary" type="button" onClick={handleClick}>
+                    <Button variant="colorSecondary" type="button" onClick={handleClick}>
                         주소 검색
                     </Button>
                     {/* 주소입력 다음 api 추가해서 도로명 주소 받도록 */}
@@ -393,7 +388,7 @@ const RegisterStore = () => {
                     />
                 </Form.Group>
 
-                <Button variant="primary" type="submit">
+                <Button variant="colorPrimary" type="submit">
                     수정하기
                 </Button>
             </Form>

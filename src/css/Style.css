@@ -3,208 +3,211 @@
 
 /* 색상 선언 */
 :root {
-  --primary-color: #ff4747; /* 기본 색상 */
-  --primaryHober-color: #ff2525; /* 기본 색상 */
-  --secondary-color: #ff9c73; /* 보조 색상 */
-  --secondaryHover-color: #ff451a; /* 보조 색상 하버 */
-  --secondaryHover2-color: #e68d67; /* 보조 색상 하버2 */
-  --tertiary-color: #fbd288; /* 보조 색상 */
-  --quaternary-color: #fcf596; /* 보조 색상 */
-  --background-color: #ffffff; /* 색상 white */
-  --background-color-gray: #efefef; /* 색상 gray */
-  --background-color-black: #3d3d3d; /* 검은 배경 색상 */
-  --text-color-black: #222222; /* 검은 텍스트 색상 */
-  --text-color-white: #f7f7f7; /* 하얀 텍스트 색상 */
-  --text-color-gray: #808080; /* 하얀 텍스트 색상 */
-  max-width: 100%; /* 화면 크기에 맞게 너비 조정 */
-  width: 1280px;
-  margin: 0 auto; /* 중앙 정렬 */
+    --primary-color: #ff4747; /* 기본 색상 */
+    --primaryHober-color: #ff2525; /* 기본 색상 */
+    --secondary-color: #ff9c73; /* 보조 색상 */
+    --secondaryHover-color: #ff451a; /* 보조 색상 하버 */
+    --secondaryHover2-color: #e68d67; /* 보조 색상 하버2 */
+    --tertiary-color: #fbd288; /* 보조 색상 */
+    --quaternary-color: #fcf596; /* 보조 색상 */
+    --background-color: #ffffff; /* 색상 white */
+    --background-color-gray: #efefef; /* 색상 gray */
+    --background-color-black: #3d3d3d; /* 검은 배경 색상 */
+    --text-color-black: #222222; /* 검은 텍스트 색상 */
+    --text-color-white: #f7f7f7; /* 하얀 텍스트 색상 */
+    --text-color-gray: #808080; /* 하얀 텍스트 색상 */
+    max-width: 100%; /* 화면 크기에 맞게 너비 조정 */
+    width: 1280px;
+    margin: 0 auto; /* 중앙 정렬 */
 }
 
 /* style reset */
 ul,
 ol {
-  list-style-type: none;
+    list-style-type: none;
 }
 
-.btnColorPrimary {
+.btn.btn-colorPrimary {
     background-color: var(--primary-color);
     border: none;
-  }
-  
-  .btnColorPrimary:hover {
+    color: var(--text-color-white);
+}
+
+.btn.btn-colorPrimary:hover {
     background-color: var(--primaryHober-color);
-  }
-  
-  .btnColorSecondary {
+    color: var(--text-color-white);
+}
+
+.btn.btn-colorSecondary {
     background-color: var(--secondary-color);
     border: none;
-  }
-  
-  .btnColorSecondary:hover {
-    background-color: var(--secondaryHover-color);
-  }
+    color: var(--text-color-white);
+}
 
+.btn.btn-colorSecondary:hover {
+    background-color: var(--secondaryHover-color);
+    color: var(--text-color-white);
+}
 
 /* 고정된 헤더 스타일 */
 header {
-  background-color: white;
-  position: sticky;
-  top: 0;
-  left: 50%;
-  width: 100%;
-  max-width: 1280px; /* 최대 너비 */
-  /* transform: translateX(-50%); 중앙 정렬 */
-  z-index: 1000;
-  text-align: center;
-  height: 85px; /* 헤더 높이 */
-  line-height: 58px; /* 텍스트 수직 중앙 정렬 */
-  /*overflow: hidden; /* 내용이 넘어가지 않도록 설정 */
+    background-color: var(--background-color);
+    position: sticky;
+    top: 0;
+    left: 50%;
+    width: 100%;
+    max-width: 1280px; /* 최대 너비 */
+    /* transform: translateX(-50%); 중앙 정렬 */
+    z-index: 1000;
+    text-align: center;
+    height: 85px; /* 헤더 높이 */
+    line-height: 58px; /* 텍스트 수직 중앙 정렬 */
+    /*overflow: hidden; /* 내용이 넘어가지 않도록 설정 */
 }
 
 /* header Button*/
 /* 뒤로가기 버튼 */
 .btn.btn-back {
-  background-color: var(--background-color);
-  color: var(--text-color-black);
+    background-color: var(--background-color);
+    color: var(--text-color-black);
 }
 
 .btn.btn-back:hover {
-  background-color: var(--background-color-gray);
+    background-color: var(--background-color-gray);
 }
 
 /* 검색 버튼 */
 .btn.btn-search {
-  background-color: var(--secondary-color);
-  color: var(--text-color-white);
-  height: 35px;
-  width: 70px;
-  margin-left: 5px;
-  justify-content: center;
+    background-color: var(--secondary-color);
+    color: var(--text-color-white);
+    height: 35px;
+    width: 70px;
+    margin-left: 5px;
+    justify-content: center;
 }
 
 .btn.btn-search:hover {
-  background-color: var(--secondaryHover2-color);
-  color: var(--text-color-white);
+    background-color: var(--secondaryHover2-color);
+    color: var(--text-color-white);
 }
 
 /* 로그인 관련 버튼 */
 .btn.btn-login,
 .btn.btn-join,
 .btn.btn-logout {
-  margin: 10px 10px;
-  padding: 1px 10px;
-  border-radius: 5px;
-  font-size: 12px;
-  height: 30px;
-  position: relative;
-  top: 10px;
+    margin: 10px 10px;
+    padding: 1px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    height: 30px;
+    position: relative;
+    top: 10px;
 }
 
 .btn.btn-login:hover,
 .btn.btn-join:hover,
 .btn.btn-logout:hover {
-  transition: all 0.3s ease-out;
-  color: var(--text-color-white);
+    transition: all 0.3s ease-out;
+    color: var(--text-color-white);
 }
 
 .btn.btn-login,
 .btn.btn-join,
 .btn.btn-logout {
-  background-color: var(--secondary-color);
-  color: var(--text-color-white);
+    background-color: var(--secondary-color);
+    color: var(--text-color-white);
 }
 
 .btn.btn-login:hover,
 .btn.btn-join:hover,
 .btn.btn-logout:hover {
-  background-color: var(--secondaryHover2-color);
+    background-color: var(--secondaryHover2-color);
 }
 
 .logoImg {
-  width: 50px;
-  height: 50px;
+    width: 50px;
+    height: 50px;
 }
 
 /* 고정된 푸터 스타일 */
 footer {
-  position: sticky;
-  bottom: 0;
-  left: 50%;
-  width: 100%;
-  max-width: 1280px; /* 최대 너비 */
-  /* transform: translateX(-50%); 중앙 정렬 */
-  text-align: center;
+    position: sticky;
+    bottom: 0;
+    left: 50%;
+    width: 100%;
+    max-width: 1280px; /* 최대 너비 */
+    /* transform: translateX(-50%); 중앙 정렬 */
+    text-align: center;
 
-  z-index: 1000;
-  height: 70px; /* 푸터 높이 */
-  line-height: 50px; /* 텍스트 수직 중앙 정렬 */
+    z-index: 1000;
+    height: 70px; /* 푸터 높이 */
+    line-height: 50px; /* 텍스트 수직 중앙 정렬 */
 }
 
 .footerContainer {
-  padding-bottom: 10px;
+    padding-bottom: 10px;
 }
 
 header form {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 20px;
-  padding: 0 20px; /* 20px 여�� */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 20px;
+    padding: 0 20px; /* 20px 여�� */
 }
 
 /* 본문 내용에 상단과 하단 여백을 추가 */
 main {
-  background-color: var(--background-color-gray);
-  padding: 20px;
-  max-width: 1280px; /* 최대 너비 */
-  width: 100%; /* 화면 크기에 맞게 너비 조정 */
-  margin: 0 auto; /* 중앙 정렬 */
-  box-sizing: border-box; /* padding 포함 */
-  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2); /* 수평, 수직, 흐림 정도, 색상 */
+    background-color: var(--background-color-gray);
+    padding: 20px;
+    max-width: 1280px; /* 최대 너비 */
+    width: 100%; /* 화면 크기에 맞게 너비 조정 */
+    margin: 0 auto; /* 중앙 정렬 */
+    box-sizing: border-box; /* padding 포함 */
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2); /* 수평, 수직, 흐림 정도, 색상 */
 }
 
 html {
-  background-color: var(--background-color-black);
+    background-color: var(--background-color-black);
 }
 
 html,
 body {
-  height: 100%;
-  margin: 0;
+    height: 100%;
+    margin: 0;
 }
 
 /* footerNav 클래스로 Nav 항목을 flex로 설정 */
 .footer-nav {
-  display: flex; /* Flexbox로 설정 */
-  justify-content: center; /* 항목들 간에 균등한 간격을 두도록 설정 */
-  width: 100%; /* Nav 전체 폭을 100%로 설정 */
-  padding: 0; /* 불필요한 패딩 제거 */
+    display: flex; /* Flexbox로 설정 */
+    justify-content: center; /* 항목들 간에 균등한 간격을 두도록 설정 */
+    width: 100%; /* Nav 전체 폭을 100%로 설정 */
+    padding: 0; /* 불필요한 패딩 제거 */
 }
 
 .footer-nav .nav-link {
-  font-size: 30px;
-  margin: 0 20px;
+    font-size: 30px;
+    margin: 0 20px;
 }
 
 .footer-nav .nav-link :only-child {
-  margin-bottom: 10px;
+    margin-bottom: 10px;
 }
 
 /* 페이지네이션 */
 .pagination {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
 }
 .pagination button {
-  border: none;
-  background-color: var(--background-color-gray);
-  color: var(--text-color-black);
-  box-shadow: none;
-  padding: 10px;
-  margin: 0 4px;
+    border: none;
+    background-color: var(--background-color-gray);
+    color: var(--text-color-black);
+    box-shadow: none;
+    padding: 10px;
+    margin: 0 4px;
 }
 .paginated-list {
-  list-style: none;
+    list-style: none;
 }

@@ -4,18 +4,18 @@ import { useSelector } from "react-redux";
 import { getUserInfo } from "../../hooks/userSlice"; // 로그인된 사용자 정보
 import Swal from "sweetalert2";
 import instance from "../../api/instance"; // instance 임포트
-import { Card, ListGroup, Col, Spinner, CardText } from "react-bootstrap";
+import { Card, ListGroup, Col, Spinner, CardText, Row } from "react-bootstrap";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import {
   ButtonDelete,
   ButtonEdit,
   ListGroupItem,
+  MiniTitle,
   MyReviewContainer,
   MyReviewTitle,
   ReviewButtons,
   ReviewCard,
   ReviewImage,
-  ReviewRow,
   Username,
 } from "../../components/Review/MyReviewStyle";
 
@@ -140,38 +140,39 @@ const MyReview = () => {
       <MyReviewTitle>
         <Username>{userInfo.username}</Username> 고객님 리뷰 목록
       </MyReviewTitle>
-      <ReviewRow className="row-eq-height">
+      <Row className="row-eq-height">
         {reviews.length > 0 ? (
           reviews.map((review) => (
             <Col xs={12} md={4} lg={3} key={review.reviewId} className="d-flex">
               <ReviewCard>
-                <Card.Body>
-                  <Card.Title>{review.storeName}</Card.Title>
-                  <CardText>{review.reviewComment}</CardText>
-                  <ListGroup variant="flush">
-                    <ListGroupItem>
-                      별점: {renderStars(review.rating)}
-                    </ListGroupItem>
-                    <ListGroupItem>
-                      좋아요 수: {review.likeCount} ❤️
-                    </ListGroupItem>
-                  </ListGroup>
-                </Card.Body>
+                <div>
+                  <Card.Body>
+                    <MiniTitle>{review.storeName}</MiniTitle>
+                    <CardText>{review.reviewComment}</CardText>
+                    <ListGroup variant="flush">
+                      <ListGroupItem>
+                        별점: {renderStars(review.rating)}
+                      </ListGroupItem>
+                      <ListGroupItem>
+                        좋아요 수: {review.likeCount} ❤️
+                      </ListGroupItem>
+                    </ListGroup>
+                  </Card.Body>
 
-                {/* 파일이 있다면 이미지 보여주기 */}
-                {review.files.length > 0 && (
-                  <ReviewImage>
-                    {review.files.map((file, index) => (
-                      <img
-                        key={index}
-                        src={`${process.env.REACT_APP_HOST}/file/view/${file.saveFileName}`}
-                        alt={`첨부 파일 ${index + 1}`}
-                        className="img-fluid"
-                      />
-                    ))}
-                  </ReviewImage>
-                )}
-
+                  {/* 파일이 있다면 이미지 보여주기 */}
+                  {review.files.length > 0 && (
+                    <ReviewImage>
+                      {review.files.map((file, index) => (
+                        <img
+                          key={index}
+                          src={`${process.env.REACT_APP_HOST}/file/view/${file.saveFileName}`}
+                          alt={`첨부 파일 ${index + 1}`}
+                          className="img-fluid"
+                        />
+                      ))}
+                    </ReviewImage>
+                  )}
+                </div>
                 <ReviewButtons>
                   <ButtonEdit
                     variant="outline-primary"
@@ -194,7 +195,7 @@ const MyReview = () => {
         ) : (
           <p>작성된 리뷰가 없습니다.</p>
         )}
-      </ReviewRow>
+      </Row>
     </MyReviewContainer>
   );
 };

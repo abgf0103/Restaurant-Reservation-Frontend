@@ -5,6 +5,8 @@ import { getUserInfo } from "../../hooks/userSlice"; // 로그인된 사용자 �
 import Swal from "sweetalert2";
 import instance from "../../api/instance"; // instance 임포트
 import {
+  DeleteFileButton,
+  DivStar,
   FileImage,
   FileItem,
   FileLibel,
@@ -12,7 +14,6 @@ import {
   FileUploadButton,
   FileUploadSection,
   RatingFormGroup,
-  RatingInput,
   RatingLabel,
   ReviewCommentFormGroup,
   ReviewCommentLabel,
@@ -160,6 +161,68 @@ const Review = () => {
       });
   };
 
+  const deleteFile = (file) => {
+    // 삭제 확인 팝업 띄우기
+    console.log({
+      id: file.id, // 파일 ID
+      fileTarget: userInfo.username, // 파일 소유자
+      reserveId: review.reserveId, // 예약 ID
+    });
+    Swal.fire({
+      title: "정말로 이 파일을 삭제하시겠습니까?",
+      text: "삭제된 파일은 복구할 수 없습니다.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "삭제",
+      cancelButtonText: "취소",
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // 사용자가 삭제를 확인한 경우에만 파일 삭제
+        instance
+          .post("/file/delete", {
+            id: file.id, // 파일 ID
+            fileTarget: userInfo.username, // 파일 소유자
+            reserveId: review.reserveId, // 예약 ID
+          })
+          .then((res) => {
+            if (res.status === 200) {
+              // 파일 삭제 후 상태 업데이트
+              const files = fileList.filter((item) => item.id !== file.id);
+              setFileList([...files]);
+              // setReview((prevReview) => {
+              //   const updatedFiles = prevReview.files.filter(
+              //     (item) => item.id !== file.id
+              //   );
+              //   return { ...prevReview, files: updatedFiles }; // 새로운 파일 목록을 포함한 상태 반환
+              // });
+
+              Swal.fire({
+                title: "성공",
+                text: "파일이 삭제되었습니다.",
+                icon: "success",
+              });
+            }
+          })
+          .catch((error) => {
+            console.error("파일 삭제 오류:", error);
+            Swal.fire({
+              title: "실패",
+              text: "파일 삭제에 실패했습니다.",
+              icon: "error",
+            });
+          });
+      } else {
+        // 사용자가 취소한 경우
+        Swal.fire({
+          title: "취소",
+          text: "파일 삭제가 취소되었습니다.",
+          icon: "info",
+        });
+      }
+    });
+  };
+
   // 리뷰 저장하기 (백엔드로 POST 요청)
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -239,8 +302,8 @@ const Review = () => {
   const EmptyStar = () => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="30"
-      height="30"
+      width="50"
+      height="50"
       fill=""
       viewBox="0 0 16 16"
     >
@@ -252,8 +315,8 @@ const Review = () => {
   const FilledStar = () => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="30"
-      height="30"
+      width="50"
+      height="50"
       fill="gold"
       viewBox="0 0 16 16"
     >
@@ -278,7 +341,7 @@ const Review = () => {
             <Form onSubmit={handleSubmit}>
               <RatingFormGroup controlId="rating">
                 <RatingLabel>Rating:</RatingLabel>
-                <>
+                <DivStar>
                   {[1, 2, 3, 4, 5].map((value) => (
                     <span
                       key={value}
@@ -288,7 +351,7 @@ const Review = () => {
                       {review.rating >= value ? <FilledStar /> : <EmptyStar />}
                     </span>
                   ))}
-                </>
+                </DivStar>
               </RatingFormGroup>
 
               <ReviewCommentFormGroup
@@ -338,6 +401,14 @@ const Review = () => {
                       src={`${process.env.REACT_APP_HOST}/file/view/${item.saveFileName}`}
                       alt="첨부파일"
                     />
+                    <DeleteFileButton
+                      variant="danger"
+                      size="sm"
+                      className="mt-2"
+                      onClick={() => deleteFile(item)}
+                    >
+                      삭제
+                    </DeleteFileButton>
                   </FileItem>
                 ))}
               </FileList>

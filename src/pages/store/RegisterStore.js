@@ -261,7 +261,7 @@ const RegisterStore = () => {
                 <h5>대표 이미지를 선택하세요</h5>
                 <input type="file" onChange={handleFileChange} accept="image/*" />
                 <p>
-                    <Button className="btnColorSecondary btnMargin" variant="primary" type="button" onClick={handleFileUpload}>
+                    <Button className=" btnMargin" variant="colorSecondary" type="button" onClick={handleFileUpload}>
                         이미지 업로드
                     </Button>
                 </p>
@@ -291,7 +291,7 @@ const RegisterStore = () => {
                 </Form.Group>
 
                 <Form.Group className="mb-3">
-                    <Button className="btnColorSecondary" variant="primary" type="button" onClick={handleClick}>
+                    <Button variant="colorSecondary" type="button" onClick={handleClick}>
                         주소 검색
                     </Button>
                     <Form.Control
@@ -358,7 +358,7 @@ const RegisterStore = () => {
                     />
                 </Form.Group>
 
-                <Button className="btnColorPrimary" variant="primary" type="submit">
+                <Button  variant="colorPrimary" type="submit">
                     가게 등록
                 </Button>
             </Form>

@@ -8,6 +8,7 @@ import instance from "../../api/instance";
 import { Form, Row, Col, Card } from "react-bootstrap";
 import {
   DeleteFileButton,
+  DivStar,
   FileImage,
   FileItem,
   FileLibel,
@@ -259,8 +260,8 @@ const ReviewEdit = () => {
   const EmptyStar = () => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="16"
-      height="16"
+      width="50"
+      height="50"
       fill=""
       viewBox="0 0 16 16"
     >
@@ -272,8 +273,8 @@ const ReviewEdit = () => {
   const FilledStar = () => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="16"
-      height="16"
+      width="50"
+      height="50"
       fill="gold"
       viewBox="0 0 16 16"
     >
@@ -296,7 +297,7 @@ const ReviewEdit = () => {
             <Form onSubmit={handleSubmit}>
               <RatingFormGroup controlId="rating" className="mb-4">
                 <RatingLabel>Rating:</RatingLabel>
-                <div>
+                <DivStar>
                   {[...Array(5)].map((_, index) => (
                     <span
                       key={index}
@@ -306,7 +307,7 @@ const ReviewEdit = () => {
                       {review.rating > index ? <FilledStar /> : <EmptyStar />}
                     </span>
                   ))}
-                </div>
+                </DivStar>
               </RatingFormGroup>
 
               <ReviewCommentFormGroup

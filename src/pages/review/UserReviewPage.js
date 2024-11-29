@@ -4,14 +4,15 @@ import Swal from "sweetalert2";
 import instance from "../../api/instance"; // instance 임포트
 import {
   ListGroupItem,
+  MiniTitle,
   UserReviewCard,
   UserReviewImage,
   UserReviewPageContainer,
   UserReviewRow,
   UserReviewTitle,
-  UserReviewCol, // 새로 추가한 UserReviewCol 임포트
+  Username,
 } from "../../components/Review/UserReviewPageStyle"; // MyReviewStyle에서 스타일 임포트
-import { Card, CardText, ListGroup } from "react-bootstrap";
+import { Card, CardText, Col, ListGroup, Row } from "react-bootstrap";
 
 const UserReviewPage = () => {
   const { username } = useParams();
@@ -80,44 +81,48 @@ const UserReviewPage = () => {
 
   return (
     <UserReviewPageContainer>
-      <UserReviewTitle>{username} 사용자님의 리뷰 페이지</UserReviewTitle>
-      <UserReviewRow>
+      <UserReviewTitle>
+        <Username>{username}</Username> 사용자님의 리뷰 페이지
+      </UserReviewTitle>
+      <Row className="row-eq-height">
         {reviews.length > 0 ? (
           reviews.map((review) => (
-            <UserReviewCol key={review.reviewId}>
+            <Col xs={12} md={4} lg={3} key={review.reviewId} className="d-flex">
               <UserReviewCard>
-                <Card.Body>
-                  <Card.Title>{review.storeName}</Card.Title>
-                  <CardText>{review.reviewComment}</CardText>
-                  <ListGroup variant="flush">
-                    <ListGroupItem>
-                      별점: {renderStars(review.rating)}
-                    </ListGroupItem>
-                    <ListGroupItem>
-                      좋아요 수: {review.likeCount} ❤️
-                    </ListGroupItem>
-                  </ListGroup>
-                </Card.Body>
+                <div>
+                  <Card.Body>
+                    <MiniTitle>{review.storeName}</MiniTitle>
+                    <CardText>{review.reviewComment}</CardText>
+                    <ListGroup variant="flush">
+                      <ListGroupItem>
+                        별점: {renderStars(review.rating)}
+                      </ListGroupItem>
+                      <ListGroupItem>
+                        좋아요 수: {review.likeCount} ❤️
+                      </ListGroupItem>
+                    </ListGroup>
+                  </Card.Body>
 
-                {review.files.length > 0 && (
-                  <UserReviewImage>
-                    {review.files.map((file, index) => (
-                      <img
-                        key={index}
-                        src={`${process.env.REACT_APP_HOST}/file/view/${file.saveFileName}`}
-                        alt={`첨부 파일 ${index + 1}`}
-                        className="img-fluid"
-                      />
-                    ))}
-                  </UserReviewImage>
-                )}
+                  {review.files.length > 0 && (
+                    <UserReviewImage>
+                      {review.files.map((file, index) => (
+                        <img
+                          key={index}
+                          src={`${process.env.REACT_APP_HOST}/file/view/${file.saveFileName}`}
+                          alt={`첨부 파일 ${index + 1}`}
+                          className="img-fluid"
+                        />
+                      ))}
+                    </UserReviewImage>
+                  )}
+                </div>
               </UserReviewCard>
-            </UserReviewCol>
+            </Col>
           ))
         ) : (
           <p>이 사용자는 작성한 리뷰가 없습니다.</p>
         )}
-      </UserReviewRow>
+      </Row>
     </UserReviewPageContainer>
   );
 };
