@@ -26,6 +26,15 @@ ol {
   list-style-type: none;
 }
 
+.btnColorSecondary {
+    background-color: var(--secondary-color);
+    color: var(--text-color-white);
+}
+
+.btnColorSecondary:hover {
+    background-color: var(--secondaryHover-color);
+}
+
 /* 고정된 헤더 스타일 */
 header {
   background-color: white;
