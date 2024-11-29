@@ -207,23 +207,25 @@ const StoreInfo = () => {
 
                 setReviews(reviewsWithLikes); // 리뷰 목록 상태 업데이트
 
-                // 리뷰별로 좋아요 상태 가져오기
-                reviewsWithLikes.forEach((review) => {
-                    instance
-                        .get(`/review/likes/status?reviewId=${review.reviewId}`)
-                        .then((statusRes) => {
-                            console.log(review);
-                            // 해당 리뷰에 대한 좋아요 상태를 갱신
-                            setReviews((prevReviews) =>
-                                prevReviews.map((r) =>
-                                    r.reviewId === review.reviewId ? { ...r, liked: statusRes.data } : r
-                                )
-                            );
-                        })
-                        .catch((error) => {
-                            console.error("좋아요 상태 확인 실패:", error);
-                        });
-                });
+                if (userInfo.id !== "") {
+                    // 리뷰별로 좋아요 상태 가져오기
+                    reviewsWithLikes.forEach((review) => {
+                        instance
+                            .get(`/review/likes/status?reviewId=${review.reviewId}`)
+                            .then((statusRes) => {
+                                console.log(review);
+                                // 해당 리뷰에 대한 좋아요 상태를 갱신
+                                setReviews((prevReviews) =>
+                                    prevReviews.map((r) =>
+                                        r.reviewId === review.reviewId ? { ...r, liked: statusRes.data } : r
+                                    )
+                                );
+                            })
+                            .catch((error) => {
+                                console.error("좋아요 상태 확인 실패:", error);
+                            });
+                    });
+                }
             })
             .catch((error) => {
                 console.error("리뷰 목록 가져오기 실패:", error);
@@ -280,68 +282,76 @@ const StoreInfo = () => {
 
     //좋아요 버튼 클릭 핸들러
     const handleLikeClick = (reviewId, isLiked) => {
-        const apiCall = isLiked
-            ? instance.delete(`/review/unlike/${reviewId}`, FormData) // 좋아요 취소
-            : instance.post(`/review/like/${reviewId}`, FormData); // 좋아요 추가
+        console.log(userInfo.id);
+        if (userInfo.id !== "") {
+            const apiCall = isLiked
+                ? instance.delete(`/review/unlike/${reviewId}`, FormData) // 좋아요 취소
+                : instance.post(`/review/like/${reviewId}`, FormData); // 좋아요 추가
 
-        apiCall
-            .then((res) => {
-                if (res.data.success) {
-                    // 좋아요 상태가 변경되면 리뷰 업데이트
-                    instance
-                        .get(`/review/view/${reviewId}`, FormData)
-                        .then((updatedReviewRes) => {
-                            const updatedReview = updatedReviewRes.data.data;
-                            setReviews((prevReviews) =>
-                                prevReviews.map((r) =>
-                                    r.reviewId === reviewId
-                                        ? {
-                                              ...r,
-                                              liked: !isLiked, // 상태 변경
-                                              likeCount: updatedReview.likeCount, // 업데이트된 좋아요 수 (서버에서 받은 값으로 갱신)
-                                          }
-                                        : r
-                                )
-                            );
-                        })
-                        .catch((error) => {
-                            console.error("리뷰 업데이트 실패:", error);
-                        });
-                }
-            })
-            .catch((error) => {
-                console.error(isLiked ? "좋아요 취소 실패" : "좋아요 추가 실패", error);
-                Swal.fire("실패", isLiked ? "좋아요 취소에 실패했습니다." : "좋아요 추가에 실패했습니다.", "error");
-            });
+            apiCall
+                .then((res) => {
+                    if (res.data.success) {
+                        // 좋아요 상태가 변경되면 리뷰 업데이트
+                        instance
+                            .get(`/review/view/${reviewId}`, FormData)
+                            .then((updatedReviewRes) => {
+                                const updatedReview = updatedReviewRes.data.data;
+                                setReviews((prevReviews) =>
+                                    prevReviews.map((r) =>
+                                        r.reviewId === reviewId
+                                            ? {
+                                                  ...r,
+                                                  liked: !isLiked, // 상태 변경
+                                                  likeCount: updatedReview.likeCount, // 업데이트된 좋아요 수 (서버에서 받은 값으로 갱신)
+                                              }
+                                            : r
+                                    )
+                                );
+                            })
+                            .catch((error) => {
+                                console.error("리뷰 업데이트 실패:", error);
+                            });
+                    }
+                })
+                .catch((error) => {
+                    console.error(isLiked ? "좋아요 취소 실패" : "좋아요 추가 실패", error);
+                    Swal.fire("실패", isLiked ? "좋아요 취소에 실패했습니다." : "좋아요 추가에 실패했습니다.", "error");
+                });
+        } else {
+            isNotLoginSwal();
+            navigate("/user/login");
+        }
     };
 
     //즐겨찾기 여부
     const getIsFavorite = () => {
         console.log(userInfo.id);
         console.log(storeId);
-        instance
-            .post(`/favorite/checkFavoriteByUserStore`, {
-                userId: userInfo.id,
-                storeId: storeId,
-            })
-            .then((res) => {
-                if (res.data) {
-                    console.log(res.data);
-                    // 해당 storeId에 대한 즐겨찾기 상태를 업데이트
-                    setIsFavorite((prevFavorites) => ({
-                        ...prevFavorites,
-                        [storeId]: true, // 해당 storeId는 즐겨찾기 등록
-                    }));
-                } else {
-                    setIsFavorite((prevFavorites) => ({
-                        ...prevFavorites,
-                        [storeId]: false, // 해당 storeId는 즐겨찾기 미등록
-                    }));
-                }
-            })
-            .catch((err) => {
-                console.error("즐겨찾기 여부 조회 실패", err);
-            });
+        if (userInfo.id !== "") {
+            instance
+                .post(`/favorite/checkFavoriteByUserStore`, {
+                    userId: userInfo.id,
+                    storeId: storeId,
+                })
+                .then((res) => {
+                    if (res.data) {
+                        console.log(res.data);
+                        // 해당 storeId에 대한 즐겨찾기 상태를 업데이트
+                        setIsFavorite((prevFavorites) => ({
+                            ...prevFavorites,
+                            [storeId]: true, // 해당 storeId는 즐겨찾기 등록
+                        }));
+                    } else {
+                        setIsFavorite((prevFavorites) => ({
+                            ...prevFavorites,
+                            [storeId]: false, // 해당 storeId는 즐겨찾기 미등록
+                        }));
+                    }
+                })
+                .catch((err) => {
+                    console.error("즐겨찾기 여부 조회 실패", err);
+                });
+        }
     };
 
     useEffect(() => {

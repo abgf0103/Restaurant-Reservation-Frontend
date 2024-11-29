@@ -118,7 +118,7 @@ const RegisterMenu = () => {
   console.log();
 
   return (
-    <div>
+    <main>
       <h2>메뉴 추가</h2>
       <Form onSubmit={requestMenuRegister}>
         <Form.Group className="mb-3">
@@ -171,7 +171,7 @@ const RegisterMenu = () => {
           메뉴 추가
         </Button>
       </Form>
-    </div>
+    </main>
   );
 };
 export default RegisterMenu;

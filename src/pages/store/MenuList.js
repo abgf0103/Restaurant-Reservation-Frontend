@@ -43,7 +43,7 @@ const MenuList = () => {
   }
 
   return (
-    <div>
+    <main>
       {menuList.length > 0 ? (
         <ul>
           {menuList.map((item) => (
@@ -65,7 +65,7 @@ const MenuList = () => {
       ) : (
         <p>메뉴가 없습니다.</p>
       )}
-    </div>
+    </main>
   );
 };
 export default MenuList;

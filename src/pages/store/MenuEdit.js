@@ -222,7 +222,7 @@ const MenuEdit = () => {
   };
 
   return (
-    <div>
+    <main>
       <Form onSubmit={requestMenuUpdate}>
         <Form.Group className="mb-3">
           <Form.Label>
@@ -300,7 +300,7 @@ const MenuEdit = () => {
           메뉴 수정
         </Button>
       </Form>
-    </div>
+    </main>
   );
 };
 

@@ -205,147 +205,149 @@ function Admin() {
 
     console.log(users);
     return (
-        <Container>
-            <Tabs activeKey={key} onSelect={(k) => setKey(k)} id="store-management-tabs">
-                {/* 가게 목록 탭 */}
-                <Tab eventKey="stores" title="가게 목록">
-                    <Table className="align-middle" striped bordered hover>
-                        <thead className="text-center">
-                            <tr>
-                                <th>가게 ID</th>
-                                <th>가게 이름</th>
-                                <th>상태</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {stores.map((store) => (
-                                <tr key={store.storeId}>
-                                    <td>{store.storeId}</td>
-                                    <td>{store.storeName}</td>
-                                    <td className="text-center">
-                                        {store.isActive === 0 && <span>승인 대기중</span>}
-                                        {store.isActive === 1 && <span>서비스중</span>}
-                                        {store.isActive === 2 && <span>삭제 대기중</span>}
-                                        {store.isActive === 3 && <span>삭제됨</span>}
-                                    </td>
-                                    <td className="text-center">
-                                        {store.isActive === 0 && (
-                                            <Button variant="success" onClick={() => acceptStore(store.storeId)}>
-                                                승인
+        <main>
+            <Container>
+                <Tabs activeKey={key} onSelect={(k) => setKey(k)} id="store-management-tabs">
+                    {/* 가게 목록 탭 */}
+                    <Tab eventKey="stores" title="가게 목록">
+                        <Table className="align-middle" striped bordered hover>
+                            <thead className="text-center">
+                                <tr>
+                                    <th>가게 ID</th>
+                                    <th>가게 이름</th>
+                                    <th>상태</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {stores.map((store) => (
+                                    <tr key={store.storeId}>
+                                        <td>{store.storeId}</td>
+                                        <td>{store.storeName}</td>
+                                        <td className="text-center">
+                                            {store.isActive === 0 && <span>승인 대기중</span>}
+                                            {store.isActive === 1 && <span>서비스중</span>}
+                                            {store.isActive === 2 && <span>삭제 대기중</span>}
+                                            {store.isActive === 3 && <span>삭제됨</span>}
+                                        </td>
+                                        <td className="text-center">
+                                            {store.isActive === 0 && (
+                                                <Button variant="success" onClick={() => acceptStore(store.storeId)}>
+                                                    승인
+                                                </Button>
+                                            )}
+                                            {store.isActive === 1 && (
+                                                <Button variant="danger" onClick={() => deleteStore(store.storeId)}>
+                                                    삭제
+                                                </Button>
+                                            )}
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </Table>
+                    </Tab>
+
+                    {/* 사업자 목록 탭 */}
+                    <Tab eventKey="businessUsers" title="사업자 목록">
+                        <Table className="align-middle" striped bordered hover>
+                            <thead className="text-center">
+                                <tr>
+                                    <th>아이디</th>
+                                    <th>닉네임</th>
+                                    <th>이메일</th>
+                                    <th>상태</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {businessUsers.map((user) => (
+                                    <tr key={user.id}>
+                                        <td>{user.username}</td>
+                                        <td>{user.name}</td>
+                                        <td>{user.email}</td>
+                                        <td className="text-center">
+                                            <span>{user.active ? "활성" : "비활성"}</span>
+                                        </td>{" "}
+                                        {/* 상태 표시 */}
+                                        <td className="text-center">
+                                            <Button variant="danger" onClick={() => deactiveUser(user.id)}>
+                                                활동 제한
                                             </Button>
-                                        )}
-                                        {store.isActive === 1 && (
-                                            <Button variant="danger" onClick={() => deleteStore(store.storeId)}>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </Table>
+                    </Tab>
+
+                    {/* 일반 사용자 목록 탭 */}
+                    <Tab eventKey="regularUsers" title="일반 사용자 목록">
+                        <Table className="align-middle" striped bordered hover>
+                            <thead className="text-center">
+                                <tr>
+                                    <th>아이디</th>
+                                    <th>닉네임</th>
+                                    <th>이메일</th>
+                                    <th>상태</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {regularUsers.map((user) => (
+                                    <tr key={user.id}>
+                                        <td>{user.username}</td>
+                                        <td>{user.name}</td>
+                                        <td>{user.email}</td>
+                                        <td className="text-center">
+                                            <span>{user.active ? "활성" : "비활성"}</span>
+                                        </td>
+                                        {/* 상태 표시 */}
+                                        <td className="text-center">
+                                            <Button variant="danger" onClick={() => deactiveUser(user.id)}>
+                                                활동 제한
+                                            </Button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </Table>
+                    </Tab>
+
+                    {/* 리뷰 관리 탭 */}
+                    <Tab eventKey="reviews" title="리뷰 목록">
+                        <Table className="align-middle" striped bordered hover>
+                            <thead className="text-center">
+                                <tr>
+                                    <th>리뷰 ID</th>
+                                    <th>가게 이름</th>
+                                    <th>유저 ID</th>
+                                    <th>리뷰 내용</th>
+                                    <th>평점</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {reviews.map((review) => (
+                                    <tr key={review.reviewId}>
+                                        <td>{review.reviewId}</td>
+                                        <td>{review.storeName}</td>
+                                        <td>{review.username}</td>
+                                        <td>{review.reviewComment}</td>
+                                        <td className="text-center">{review.rating}</td>
+                                        <td className="text-center">
+                                            <Button variant="danger" onClick={() => deleteReview(review.reviewId)}>
                                                 삭제
                                             </Button>
-                                        )}
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </Table>
-                </Tab>
-
-                {/* 사업자 목록 탭 */}
-                <Tab eventKey="businessUsers" title="사업자 목록">
-                    <Table className="align-middle" striped bordered hover>
-                        <thead className="text-center">
-                            <tr>
-                                <th>아이디</th>
-                                <th>닉네임</th>
-                                <th>이메일</th>
-                                <th>상태</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {businessUsers.map((user) => (
-                                <tr key={user.id} >
-                                    <td>{user.username}</td>
-                                    <td>{user.name}</td>
-                                    <td>{user.email}</td>
-                                    <td className="text-center">
-                                        <span>{user.active ? "활성" : "비활성"}</span>
-                                    </td>{" "}
-                                    {/* 상태 표시 */}
-                                    <td className="text-center">
-                                        <Button variant="danger" onClick={() => deactiveUser(user.id)}>
-                                        활동 제한
-                                        </Button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </Table>
-                </Tab>
-
-                {/* 일반 사용자 목록 탭 */}
-                <Tab eventKey="regularUsers" title="일반 사용자 목록">
-                    <Table className="align-middle" striped bordered hover>
-                        <thead className="text-center">
-                            <tr>
-                                <th>아이디</th>
-                                <th>닉네임</th>
-                                <th>이메일</th>
-                                <th>상태</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {regularUsers.map((user) => (
-                                <tr key={user.id}>
-                                    <td>{user.username}</td>
-                                    <td>{user.name}</td>
-                                    <td>{user.email}</td>
-                                    <td className="text-center">
-                                        <span>{user.active ? "활성" : "비활성"}</span>
-                                    </td>
-                                    {/* 상태 표시 */}
-                                    <td className="text-center">
-                                        <Button variant="danger" onClick={() => deactiveUser(user.id)}>
-                                            활동 제한
-                                        </Button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </Table>
-                </Tab>
-
-                {/* 리뷰 관리 탭 */}
-                <Tab eventKey="reviews" title="리뷰 목록">
-                    <Table className="align-middle" striped bordered hover>
-                        <thead className="text-center">
-                            <tr>
-                                <th>리뷰 ID</th>
-                                <th>가게 이름</th>
-                                <th>유저 ID</th>
-                                <th>리뷰 내용</th>
-                                <th>평점</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {reviews.map((review) => (
-                                <tr key={review.reviewId}>
-                                    <td>{review.reviewId}</td>
-                                    <td>{review.storeName}</td>
-                                    <td>{review.username}</td>
-                                    <td>{review.reviewComment}</td>
-                                    <td className="text-center">{review.rating}</td>
-                                    <td className="text-center">
-                                        <Button variant="danger" onClick={() => deleteReview(review.reviewId)}>
-                                            삭제
-                                        </Button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </Table>
-                </Tab>
-            </Tabs>
-        </Container>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </Table>
+                    </Tab>
+                </Tabs>
+            </Container>
+        </main>
     );
 }
 
