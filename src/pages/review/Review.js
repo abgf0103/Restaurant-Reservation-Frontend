@@ -239,8 +239,8 @@ const Review = () => {
   const EmptyStar = () => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="16"
-      height="16"
+      width="30"
+      height="30"
       fill=""
       viewBox="0 0 16 16"
     >
@@ -252,8 +252,8 @@ const Review = () => {
   const FilledStar = () => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="16"
-      height="16"
+      width="30"
+      height="30"
       fill="gold"
       viewBox="0 0 16 16"
     >
@@ -303,7 +303,7 @@ const Review = () => {
                   onChange={(e) =>
                     setReview({ ...review, reviewComment: e.target.value })
                   }
-                  placeholder="리뷰를 작성해주세요."
+                  placeholder="음식의 맛과 식당 분위기에 대해 자유롭게 작성해주세요. 추천 메뉴나 서비스에 대한 의견도 환영합니다."
                   required
                   className="form-control"
                 />
