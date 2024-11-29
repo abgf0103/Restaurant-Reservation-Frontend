@@ -88,10 +88,10 @@ const MenuManagement = () => {
   };
 
   return (
-    <main>
-      <h2>메뉴 관리 페이지</h2>
+    <main className="menuManagementMain">
+      <h2 className="title">메뉴 관리</h2>
       {menuList.length > 0 ? (
-        <ul>
+        <ul className="menuListManagement">
           {menuList.map((item) => (
             <li key={item.menuId}>
               <Card style={{ width: "18rem" }}>
@@ -126,7 +126,7 @@ const MenuManagement = () => {
         <p>메뉴가 없습니다.</p>
       )}
       <Card style={{ width: "25rem" }}>
-        <Button variant="primary" onClick={() => registerMenuClick(storeId)}>
+        <Button className="addMenuBtn"  variant="colorSecondary" onClick={() => registerMenuClick(storeId)}>
           +
         </Button>
       </Card>

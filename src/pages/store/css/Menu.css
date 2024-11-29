@@ -1,21 +1,43 @@
-.menuInfo{
+.menuInfo {
     background-color: var(--background-color);
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
 }
 
-.menuTitle, .menuDes, .menuPrice {
+.menuTitle,
+.menuDes,
+.menuPrice {
     padding: 10px;
 }
 
-.menuTitle{
+.menuTitle {
     font-weight: bold !important;
 }
 
-.menuPrice{
+.menuPrice {
     text-align: right;
 }
 
 .slick-slide {
     padding: 0 5px; /* 슬라이드 항목의 좌우 여백 추가 */
-  }
+}
+
+.menuListManagement{
+    display: grid;               /* 그리드 레이아웃 사용 */
+    grid-template-columns: repeat(2, 1fr); /* 2열 레이아웃 */
+    gap: 50px;
+}
+
+.menuListManagement li {
+    text-align: center;          /* 텍스트 중앙 정렬 */
+    margin: 0 auto;
+}
+
+.menuManagementMain{
+    display: grid;
+    place-items: center;      /* 가로 및 세로 중앙 정렬 */
+}
+
+.addMenuBtn{
+    text-align: center;
+}
