@@ -1,0 +1,44 @@
+.user-edit-main-container {
+  height: 785px; /* 화면의 전체 높이를 차지하도록 설정 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px; /* 작은 화면에서도 여백을 주기 위해 패딩 추가 */
+  box-sizing: border-box; /* padding을 포함한 너비 계산 */
+}
+
+.user-edit-container {
+  width: 80%; /* 화면 크기에 따라 크기를 80%로 설정 */
+  max-width: 700px; /* 최대 너비 제한 */
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.user-edit-input {
+  width: 61% !important; /* 부모 요소의 100% 너비를 사용 */
+  height: 60px;
+  border: 1px solid black !important;
+}
+
+.user-edit-input:hover {
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
+
+.user-edit-btn {
+  background-color: var(--secondary-color) !important;
+  width: 100%; /* 버튼도 부모 요소의 100% 너비로 설정 */
+}
+
+.user-edit-btn:hover {
+  background-color: var(--secondaryHover-color) !important;
+}
+
+.user-edit-text {
+  font-size: 50px; /* 화면 너비에 따라 폰트 크기 조정 */
+  text-align: center;
+  margin: 0;
+  width: 35%;
+  bottom: 700px;
+  padding-bottom: 20px;
+  position: absolute;
+}

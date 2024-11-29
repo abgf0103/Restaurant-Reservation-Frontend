@@ -8,6 +8,8 @@ import { getUserInfo } from "../../hooks/userSlice";
 import instance from "../../api/instance";
 import { setUserInfo } from "../../hooks/userSlice";
 import { useDispatch } from "react-redux";
+import "./css/userEdit.css";
+import { formatPhoneNumber } from "../../utils/tools";
 
 const UserEdit = () => {
   const navigate = useNavigate();
@@ -37,19 +39,19 @@ const UserEdit = () => {
     const { id, value } = e.target;
 
     // 전화번호가 11자리를 넘지 않도록 제한
-    if (id === "phone" && value.replace(/-/g, "").length <= 11) {
+    if (id === "phone") {
+      const formattedPhone = formatPhoneNumber(value);
       setFormData((prevState) => ({
         ...prevState,
-        [id]: value,
+        [id]: formattedPhone,
       }));
-    } else if (id !== "phone") {
+    } else {
       setFormData((prevState) => ({
         ...prevState,
         [id]: value,
       }));
     }
   };
-
   // 유효성 검사 함수
   const validateForm = () => {
     const { name, phone } = formData;
@@ -65,19 +67,9 @@ const UserEdit = () => {
       return false;
     }
 
-    // 전화번호 유효성 검사: 숫자 11자리, 하이픈 포함
-    const phoneRegex = /^[0-9]{3}-[0-9]{3,4}-[0-9]{4}$/;
-    if (!phoneRegex.test(phone)) {
-      Swal.fire({
-        title: "오류",
-        text: "전화번호는 11자리 숫자와 하이픈(-)을 포함해야 합니다.",
-        icon: "error",
-      });
-      return false;
-    }
-
     // 전화번호 길이 체크 (하이픈 포함 총 13자리로 검증)
     const phoneWithoutHyphen = phone.replace(/-/g, "");
+
     if (phoneWithoutHyphen.length !== 11) {
       Swal.fire({
         title: "오류",
@@ -116,7 +108,7 @@ const UserEdit = () => {
       .then((response) => {
         Swal.fire({
           title: "성공",
-          text: "사용자 정보가 성공적으로 수정되었습니다.",
+          text: "수정 완료.",
           icon: "success",
         });
         // 수정된 사용자 정보를 로컬 저장소에 저장
@@ -150,12 +142,15 @@ const UserEdit = () => {
   };
 
   return (
-    <div className="container">
-      <h2>회원 정보 수정</h2>
-      <Form onSubmit={onSubmit}>
+    <div className="user-edit-main-container">
+      <Form onSubmit={onSubmit} className="user-edit-container">
+        <h2>
+          <span className="user-edit-text">회원 정보</span>
+        </h2>
         <Form.Group className="mb-3" controlId="name">
           <Form.Label>이름</Form.Label>
           <Form.Control
+            className="user-edit-input"
             type="text"
             value={formData.name}
             onChange={onChange}
@@ -166,6 +161,7 @@ const UserEdit = () => {
         <Form.Group className="mb-3" controlId="phone">
           <Form.Label>전화번호</Form.Label>
           <Form.Control
+            className="user-edit-input"
             type="text"
             value={formData.phone}
             onChange={onChange}
@@ -174,8 +170,9 @@ const UserEdit = () => {
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="password">
-          <Form.Label>비밀번호</Form.Label>
+          <Form.Label>새로운 비밀번호</Form.Label>
           <Form.Control
+            className="user-edit-input"
             type="password"
             value={userInfo.password}
             onChange={onChange}
@@ -183,7 +180,7 @@ const UserEdit = () => {
           />
         </Form.Group>
 
-        <Button variant="primary" type="submit">
+        <Button variant="primary" type="submit" className="user-edit-btn">
           수정하기
         </Button>
       </Form>
