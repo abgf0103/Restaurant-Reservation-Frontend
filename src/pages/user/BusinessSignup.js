@@ -17,6 +17,8 @@ const BusinessSignup = () => {
     phone: "",
     roleNum: "",
     businessNum: "", // 사업자 등록 번호
+    id: 0,
+    active: true,
   });
 
   const [errors, setErrors] = useState({});
@@ -79,6 +81,7 @@ const BusinessSignup = () => {
     const validationErrors = {};
 
     // 아이디 유효성 검사 (4~15자, 영문 + 숫자)
+
     const usernamePattern = /^[a-zA-Z0-9]{4,15}$/;
     if (!usernamePattern.test(formData.username)) {
       validationErrors.username =

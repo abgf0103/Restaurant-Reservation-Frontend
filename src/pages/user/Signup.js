@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Form, Button, Col } from "react-bootstrap"; // react-bootstrap에서 필요한 컴포넌트 임포트
 import { formatPhoneNumber } from "../../utils/tools";
 import "./css/businessSignup.css";
+import BusinessSignup from "./BusinessSignup";
 
 const MemberSignup = () => {
   const navigate = useNavigate();
@@ -16,6 +17,10 @@ const MemberSignup = () => {
     name: "",
     email: "",
     phone: "",
+    roleNum: "",
+    BusinessNum: 0,
+    active: true,
+    id: 0,
   });
 
   const [errors, setErrors] = useState({});
