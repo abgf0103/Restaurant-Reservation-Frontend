@@ -197,7 +197,7 @@ const MyReserve = () => {
           <ul className="reserve-card-wrapper">
             {currentItems.map((reservation) => (
               <li key={reservation.reserveId} className="reserve-card">
-                <Card className="reserve-card-item">
+                <Card>
                   <Card.Body className="reserve-card-body">
                     <Card.Title className="reserve-card-title">
                       {reservation.storeName}
@@ -245,7 +245,7 @@ const MyReserve = () => {
                           </Button>
                         )}
                       <Button
-                        variant="store-info"
+                        id="store-info"
                         onClick={() =>
                           navigate("/store/info", {
                             state: reservation.storeId,

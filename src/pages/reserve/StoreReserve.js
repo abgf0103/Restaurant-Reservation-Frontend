@@ -171,7 +171,7 @@ const StoreReserve = () => {
           {storeName}
         </h2>
         <Form.Group controlId="filterStatus" className="filter-status">
-          <Form.Label>예약 상태 선택 : </Form.Label>
+          <Form.Label id="form-label">예약 상태 선택 : </Form.Label>
           <Form.Control
             as="select"
             value={filterStatus}
@@ -213,7 +213,7 @@ const StoreReserve = () => {
                       )}
                       {reserve.reserveStatus === 1 && (
                         <Button
-                          variant="commit"
+                          id="commit"
                           onClick={() => handleComplete(reserve.reserveId)}
                         >
                           예약 완료

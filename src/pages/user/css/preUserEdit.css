@@ -20,7 +20,7 @@
   align-items: center !important; /* 버튼 내 아이콘과 텍스트를 세로 중앙 정렬 */
   justify-content: center !important; /* 버튼 내 아이콘과 텍스트를 가로 중앙 정렬 */
   padding: 10px 20px; /* 버튼의 내부 여백을 설정 (필요에 따라 조정) */
-  background-color: var(--primaryHober-color) !important;
+  background-color: var(--primaryHover-color) !important;
   width: 320px;
 }
 .edit-button:hover {

@@ -8,6 +8,11 @@
   margin-left: 40px;
 }
 
+/* 예약 상태 선택 */
+.form-label {
+  margin: 0 !important;
+}
+
 .filter-status {
   display: flex;
   width: 300px;
@@ -17,12 +22,7 @@
 }
 
 .filter-status select {
-  width: 150px;
-}
-
-/* 예약 상태 선택 */
-.filter-status {
-  width: 150px;
+  width: 140px;
 }
 
 /* reserve-card-wrapper */
@@ -39,7 +39,7 @@
 .reserve-card {
   margin: 20px 20px 0 20px;
 }
-.reserve-card .reserve-card-item,
+.reserve-card.reserve-card-item,
 .reserve-card-body {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin: 0; /* 카드의 여백을 제거하여 요소들 간의 간격을 최소화 */
@@ -67,25 +67,25 @@
   margin: 0;
 }
 
-.btn.btn-store-info {
+#store-info {
   background-color: var(--secondary-color);
   color: var(--text-color-white);
   border: none;
   height: 38px;
 }
 
-.btn.btn-store-info:hover {
+#store-info:hover {
   background-color: var(--secondaryHover2-color);
   color: var(--text-color-white);
 }
-.btn.btn-commit {
+#commit {
   background-color: var(--secondary-color);
   color: var(--text-color-white);
   border: none;
   height: 38px;
 }
 
-.btn.btn-commit :hover {
+#commit :hover {
   background-color: var(--secondaryHover2-color);
   color: var(--text-color-white);
 }
