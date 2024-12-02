@@ -22,6 +22,7 @@
 .info {
     font-weight: bold;
     font-size: x-large;
+    margin-top: 20px;
 }
 /* 전체 버튼 컨테이너 스타일 */
 .button-container {
@@ -133,19 +134,19 @@
     padding-bottom: 10px; /* 밑줄과 텍스트 간의 간격 */
 }
 
-.btnMargin{
+.btnMargin {
     margin: 5px 0;
 }
 
-.storeMain{
+.storeMain {
     padding: 30px 50px;
 }
 
-.registerStoreForm{
+.registerStoreForm {
     position: relative;
 }
 
-.deleteStoreBtn{
+.deleteStoreBtn {
     position: absolute;
     top: 5px;
     right: 5px;

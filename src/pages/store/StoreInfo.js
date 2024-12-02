@@ -61,6 +61,9 @@ const StoreInfo = () => {
     //즐겨찾기 여부
     const [isFavorite, setIsFavorite] = useState({});
 
+    //안내 및 유의사항 여부
+    const [isGuideLines, setIsGuideLines] = useState(0);
+
     const getRatingAvgByStoreId = () => {
         instance.get(`/review/getRatingAvgByStoreId?storeId=${storeId}`).then((res) => {
             setAvgRating(res.data);
@@ -487,36 +490,32 @@ const StoreInfo = () => {
             <p className="score">
                 별점 : {avgRating}({reviewCount}) tel : {storeData.phone}
             </p>
-
             <Button variant="colorSecondary" className="onClick-button" onClick={() => scrollToSection("description")}>
                 가게 설명
-            </Button> {" "}
+            </Button>{" "}
             <Button variant="colorSecondary" className="onClick-button" onClick={() => scrollToSection("menu")}>
                 메뉴
-            </Button> {" "}
+            </Button>{" "}
             <Button variant="colorSecondary" className="onClick-button" onClick={() => scrollToSection("review")}>
                 리뷰
-            </Button> {" "}
+            </Button>{" "}
             <Button variant="colorSecondary" className="onClick-button" onClick={() => scrollToSection("map")}>
                 상세위치
-            </Button> {" "}
+            </Button>{" "}
             <Button variant="colorSecondary" className="onClick-button" onClick={() => scrollToSection("info")}>
                 상세정보
             </Button>
-
-            <h4 className="description" id="description">
+            <h4 className="description info" id="description">
                 가게 설명
             </h4>
             <p>{storeData.description}</p>
-
-            <h2 className="menu" id="menu">
+            <h4 className="menu info" id="menu">
                 메뉴
-            </h2>
+            </h4>
             <MenuList />
-
-            <h1 className="review" id="review">
+            <h4 className="review info" id="review">
                 리뷰
-            </h1>
+            </h4>
             {reviews.length > 0 ? (
                 <ul>
                     {reviews.map((review) => (
@@ -570,7 +569,9 @@ const StoreInfo = () => {
                 </button>
             )}
             <ul id="map">
-            <li className="address"><FontAwesomeIcon icon={faLocationDot} /> {storeData.address}</li>
+                <li className="address">
+                    <FontAwesomeIcon icon={faLocationDot} /> {storeData.address}
+                </li>
                 {nearByStationList.length > 0 &&
                     nearByStationList.map((item, index) => {
                         return (
@@ -614,7 +615,6 @@ const StoreInfo = () => {
                         );
                     })}
             </ul>
-
             <KakaoMap
                 center={{ lat: storeData.latlng.lat, lng: storeData.latlng.lng }}
                 style={{ width: "500px", height: "300px" }}
@@ -628,17 +628,25 @@ const StoreInfo = () => {
                     />
                 )}
             </KakaoMap>
-
             <h4 className="info" id="info">
                 상세 정보
             </h4>
             <p className="storeHours">영업시간: {storeData.storeHours}</p>
             <p className="phone">연락처: {storeData.phone}</p>
-
+            {isGuideLines && (
+                <>
+                    <h4 className="info" id="info">
+                        안내 및 유의사항
+                    </h4>
+                    <p className="storeGuideLines">{storeData.storeGuideLines}</p>
+                </>
+            )}
+            <h4 className="info" id="info">
+                비슷한 레스토랑 추천
+            </h4>
             <button className="reserve-button-info" onClick={handleReserveClick}>
                 예약하기
             </button>
-
             <SlideUpModal isOpen={isPanelOpen} onClose={() => setIsPanelOpen(false)} selectedStoreId={storeId} />
         </main>
     );
