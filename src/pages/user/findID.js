@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // useNavigate import
 import instance from "../../api/instance"; // 커스텀 axios 인스턴스를 임포트
 import "./css/findID.css";
+import { Button, Container, Form } from "react-bootstrap";
 
 const FindIdForm = () => {
   const [email, setEmail] = useState("");
@@ -52,28 +53,30 @@ const FindIdForm = () => {
   return (
     <main>
       <main>
-        <div className="cover">
-          <div className="idtitle">
+        <Container className="find-id-cover">
+          <div className="find-id-main">
             <h4>아이디 찾기</h4>
+
+            <Form onSubmit={handleSubmit} className="findIdBox">
+              <Form.Label>이메일</Form.Label>
+              <Form.Control
+                type="email"
+                value={email}
+                onChange={handleEmailChange}
+                placeholder="이메일을 입력하세요"
+                className="find-id-input"
+              />
+              <Button type="submit" disabled={loading} className="find-id-btn">
+                {loading ? "로딩 중..." : "아이디 찾기"}
+              </Button>
+            </Form>
+            {message && (
+              <div className="find-id-message">
+                <p>{message}</p>
+              </div>
+            )}
           </div>
-          <form onSubmit={handleSubmit} className="findIdBox">
-            <input
-              type="email"
-              value={email}
-              onChange={handleEmailChange}
-              placeholder="이메일을 입력하세요"
-              className="idInput"
-            />
-            <button type="submit" disabled={loading} className="idbutton">
-              {loading ? "로딩 중..." : "아이디 찾기"}
-            </button>
-          </form>
-          {message && (
-            <div className="idmessage">
-              <p>{message}</p>
-            </div>
-          )}
-        </div>
+        </Container>
       </main>
     </main>
   );
