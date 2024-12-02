@@ -16,6 +16,7 @@ const RegisterStore = () => {
     const [storeCategory, setStoreCategory] = useState();
     const [address, setAddress] = useState("");
     const [isAgree, setIsAgree] = useState(false);
+    const [isGuideLines, setIsGuideLines] = useState(false); // 가게 안내 및 유의사항 체크박스 상태
     const [selectedFile, setSelectedFile] = useState(null); // 업로드할 파일
     const [fileList, setFileList] = useState([]); // 업로드된 파일 리스트
 
@@ -44,14 +45,12 @@ const RegisterStore = () => {
         const { name, value } = e.target;
         // 전화번호 포맷을 위한 분기
         if (name === "phone") {
-            console.log(name, value);
             const phoneValue = formatPhoneNumber(e.target.value);
             setStoreData((prevState) => ({
                 ...prevState,
                 [name]: phoneValue,
             }));
         } else if (name === "storeHours") {
-            console.log(1);
             const storeHours = formatStoreHours(e.target.value);
             setStoreData((prevState) => ({
                 ...prevState,
@@ -64,24 +63,24 @@ const RegisterStore = () => {
                 [name]: value,
             }));
         }
-
-        console.log("Store Data:", storeData); // 콘솔에 가게 정보 확인
+        console.log("Store Data:", storeData); // �����에 가게 정보 확인
     };
 
     const isAgreeHandler = (e) => {
         setIsAgree(e.target.checked);
-        console.log("Agree Checkbox:", isAgree); // 콘솔에 약관 동의 체크 상태 확인
+    };
+
+    const isGuideLinesHandler = (e) => {
+        setIsGuideLines(e.target.checked); // 가게 안내 및 유의사항 체크박스 상태 업데이트
     };
 
     // 카테고리 선택 핸들러
     const storeCategoryHandler = (e) => {
         setStoreCategory(e.target.value);
-        console.log("Selected Category:", storeCategory); // 콘솔에 선택된 카테고리 확인
     };
 
     // 파일 업로드 관련 핸들러
     const handleFileChange = (e) => {
-        console.log("Selected File:", e.target.files[0]);
         setSelectedFile(e.target.files[0]);
     };
 
@@ -98,12 +97,10 @@ const RegisterStore = () => {
                     },
                 })
                 .then((res) => {
-                    console.log("File Upload Response:", res.data); // 콘솔에 파일 업로드 결과 확인
                     setSelectedFile(null);
-                    setFileList([...fileList, ...res.data]); // 업로드된 파일 목록에 추가
+                    setFileList([...fileList, ...res.data]);
                 })
                 .catch((err) => {
-                    console.error("File Upload Error:", err); // 콘솔에 파일 업로드 에러 확인
                     Swal.fire({
                         title: "파일 업로드 실패",
                         text: "파일 업로드 중 오류가 발생했습니다.",
@@ -115,7 +112,6 @@ const RegisterStore = () => {
 
     // 주소 검색 처리
     const handleComplete = (data) => {
-        console.log("Address Search Data:", data); // 콘솔에 주소 검색 결과 확인
         let fullAddress = data.address;
         let extraAddress = "";
         let localAddress = data.sido + " " + data.sigungu;
@@ -141,24 +137,6 @@ const RegisterStore = () => {
     const requestStoreRegister = (e) => {
         e.preventDefault();
 
-        // 가게 이름 중복 체크
-        console.log("Store Name Check:", storeData.storeName); // 콘솔에 가게 이름 확인
-        instance
-            .get("/store/hasStoreName", {
-                params: { storeName: storeData.storeName },
-            })
-            .then((res) => {
-                if (res.data) {
-                    Swal.fire({
-                        title: "가게 이름 중복",
-                        text: "동일한 가게 이름이 존재합니다.",
-                        icon: "error",
-                    });
-                    return;
-                }
-            });
-
-        // 카테고리 선택 및 약관 동의 체크
         if (storeCategory === undefined) {
             Swal.fire({
                 title: "카테고리 선택",
@@ -177,9 +155,16 @@ const RegisterStore = () => {
             return;
         }
 
-        // 파일 ID 가져오기
-        const fileId = fileList[0]?.id; // 업로드된 파일 ID
-        console.log("File ID:", fileId); // 콘솔에 파일 ID 확인
+        if (!isGuideLines) {
+            Swal.fire({
+                title: "유의사항 작성",
+                text: "가게 안내와 유의사항을 작성하려면 해당 항목을 체크하세요.",
+                icon: "warning",
+            });
+            return;
+        }
+
+        const fileId = fileList[0]?.id;
 
         if (!fileId) {
             Swal.fire({
@@ -190,7 +175,6 @@ const RegisterStore = () => {
             return;
         }
 
-        // 가게 등록
         instance
             .post("/store/insert", {
                 userId: userInfo.id,
@@ -200,7 +184,8 @@ const RegisterStore = () => {
                 phone: storeData.phone,
                 description: storeData.description,
                 identity: storeData.identity,
-                fileId: fileId, // fileId를 사용하여 파일 정보와 연결
+                fileId: fileId,
+                guideLines : storeData.guideLines
             })
             .then(() => {
                 Swal.fire({
@@ -209,21 +194,19 @@ const RegisterStore = () => {
                     icon: "success",
                 });
 
-                // storeName으로 storeId 찾아오기
                 instance
                     .get("/store/findStoreIdByStoreName", {
                         params: { storeName: storeData.storeName },
                     })
                     .then((res) => {
                         const storeId = res.data;
-                        console.log("Store ID:", storeId); // 콘솔에 storeId 확인
                         instance
                             .post("/storeCategory/save", {
                                 storeId: storeId,
                                 categoryId: storeCategory,
                             })
                             .then(() => {
-                                navigate("/store/mystore"); // 내 가게 페이지로 이동
+                                navigate("/store/mystore");
                             })
                             .catch(() => {
                                 Swal.fire({
@@ -267,8 +250,7 @@ const RegisterStore = () => {
                 </p>
 
                 {fileList.length > 0 && (
-                    <div
-                    className="storeMainImg">
+                    <div className="storeMainImg">
                         <img
                             src={`${process.env.REACT_APP_HOST}/file/view/${fileList[0]?.saveFileName}`}
                             alt="미리보기"
@@ -276,6 +258,7 @@ const RegisterStore = () => {
                         />
                     </div>
                 )}
+
                 <Form.Group className="mb-3">
                     <Form.Label>카테고리</Form.Label>
                     <Form.Select name="category" onChange={storeCategoryHandler} value={storeCategory} required>
@@ -351,6 +334,39 @@ const RegisterStore = () => {
                 <Form.Group className="mb-3">
                     <Form.Check
                         type="checkbox"
+                        id="agreeGuideCheckbox"
+                        label="가게 안내와 유의사항 작성하기"
+                        onChange={isGuideLinesHandler}
+                    />
+                </Form.Group>
+
+                {isGuideLines && (
+                    <>
+                        <Form.Group className="mb-3">
+                            <Form.Label>유의사항</Form.Label>
+                            <Form.Control
+                                as="textarea"
+                                placeholder="유의사항을 입력하세요"
+                                name="guideLines"
+                                onChange={onChangeHandler}
+                                rows={3} // 기본적으로 3행 크기 설정
+                                
+                                onInput={(e) => {
+                                    e.target.style.height = "auto";
+                                    e.target.style.height = `${e.target.scrollHeight}px`; // 자동으로 크기 조정
+                                }}
+                                style={{
+                                    overflow: "hidden", // 스크롤 숨기기
+                                    resize: "none",     // 사용자가 크기를 조정하지 못하도록
+                                }}
+                            />
+                        </Form.Group>
+                    </>
+                )}
+
+                <Form.Group className="mb-3">
+                    <Form.Check
+                        type="checkbox"
                         id="agreeCheckbox"
                         label="약관에 동의합니다."
                         onChange={isAgreeHandler}
@@ -358,7 +374,7 @@ const RegisterStore = () => {
                     />
                 </Form.Group>
 
-                <Button  variant="colorPrimary" type="submit">
+                <Button variant="colorPrimary" type="submit">
                     가게 등록
                 </Button>
             </Form>
