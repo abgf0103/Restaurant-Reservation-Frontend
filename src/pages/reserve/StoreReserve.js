@@ -194,6 +194,8 @@ const StoreReserve = () => {
                   <Card.Body className="reserve-card-body">
                     <Card.Title>예약 ID: {reserve.reserveId}</Card.Title>
                     <Card.Text>
+                      <strong>예약자 이름:</strong> {userInfo.username}
+                      <br />
                       <strong>예약 날짜:</strong>{" "}
                       {new Date(reserve.reserveDate).toLocaleString()} <br />
                       <strong>인원 수:</strong> {reserve.partySize}명 <br />
