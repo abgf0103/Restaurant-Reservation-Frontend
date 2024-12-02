@@ -219,33 +219,42 @@ const MyReserve = () => {
                         ? "취소된 예약입니다."
                         : "알 수 없는 상태"}
                     </Card.Text>
-                    {reservation.reserveStatus === 2 &&
-                      (reviewExistMap[reservation.reserveId] ? (
-                        <p>{"리뷰 작성 완료 :)"}</p>
-                      ) : (
-                        <Link
-                          to={`/writeReview/${reservation.storeId}/${reservation.reserveId}`}
-                        >
-                          <Button variant="primary">리뷰 작성</Button>
-                        </Link>
-                      ))}
-                    {reservation.reserveStatus !== 3 &&
-                      reservation.reserveStatus !== 2 && (
-                        <Button
-                          variant="danger"
-                          onClick={() =>
-                            deleteReservation(
-                              reservation.reserveId,
-                              reservation.reserveDate
-                            )
-                          }
-                        >
-                          예약 취소
-                        </Button>
-                      )}
-                    <Link to={"/store/info"} state={reservation.storeId}>
-                      <Button variant="store-info">가게 페이지 방문</Button>
-                    </Link>
+                    <div className="btn-container">
+                      {reservation.reserveStatus === 2 &&
+                        (reviewExistMap[reservation.reserveId] ? (
+                          <p>{"리뷰 작성 완료 :)"}</p>
+                        ) : (
+                          <Link
+                            to={`/writeReview/${reservation.storeId}/${reservation.reserveId}`}
+                          >
+                            <Button variant="primary">리뷰 작성</Button>
+                          </Link>
+                        ))}
+                      {reservation.reserveStatus !== 3 &&
+                        reservation.reserveStatus !== 2 && (
+                          <Button
+                            variant="danger"
+                            onClick={() =>
+                              deleteReservation(
+                                reservation.reserveId,
+                                reservation.reserveDate
+                              )
+                            }
+                          >
+                            예약 취소
+                          </Button>
+                        )}
+                      <Button
+                        variant="store-info"
+                        onClick={() =>
+                          navigate("/store/info", {
+                            state: reservation.storeId,
+                          })
+                        }
+                      >
+                        가게 페이지 방문
+                      </Button>
+                    </div>
                   </Card.Body>
                 </Card>
               </li>
