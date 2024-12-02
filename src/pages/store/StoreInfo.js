@@ -63,8 +63,9 @@ const EventMarkerContainer = ({ position, content }) => {
               //   justifyContent: "center", // 수평 중앙 정렬
               //   alignItems: "center", // 수직 중앙 정렬
               textAlign: "center",
-              fontSize: "14px",
+              fontSize: "16px",
               color: "#333",
+              fontWeight: "bold",
               //   visibility: isVisible ? "visible" : "hidden", // visibility를 사용하여 깜빡임 방지
               //   opacity: isVisible ? 1 : 0, // opacity로 부드러운 전환 효과 추가
               //   transition: "opacity 0.3s ease-in-out", // 부드러운 전환
