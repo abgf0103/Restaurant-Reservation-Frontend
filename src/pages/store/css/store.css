@@ -32,30 +32,31 @@
     padding: 20px 0; /* 상하 여백 */
     overflow: hidden; /* 넘치는 콘텐츠를 숨김 */
 }
-
-/* 버튼 스타일 */
+/*
+버튼 스타일
 .onClick-button {
-    background: linear-gradient(145deg, #6a5acd, #483d8b); /* 그라디언트 배경 */
-    color: white; /* 텍스트 색상 */
-    padding: 12px 30px; /* 버튼 패딩 */
-    font-size: 16px; /* 글자 크기 */
-    border: 2px solid transparent; /* 기본 테두리 없앰 */
-    border-radius: 30px; /* 둥근 모서리 */
-    cursor: pointer; /* 마우스 커서 손 모양 */
-    transition: all 0.3s ease-in-out; /* 모든 속성에 애니메이션 추가 */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
-    text-transform: uppercase; /* 텍스트 대문자로 */
-    font-weight: bold; /* 글자 두껍게 */
-    white-space: nowrap; /* 텍스트 줄바꿈 방지 */
-    flex-shrink: 0; /* 버튼 크기 축소 방지 */
+    /* background: linear-gradient(145deg, #6a5acd, #483d8b); 
+    color: white; 
+    padding: 12px 30px; 
+    font-size: 16px; 
+    border: 2px solid transparent; 
+    border-radius: 30px; 
+    cursor: pointer; 
+    transition: all 0.3s ease-in-out; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); 
+    text-transform: uppercase; 
+    font-weight: bold; 
+    white-space: nowrap; 
+    flex-shrink: 0;
 }
 
-/* 버튼 hover 효과 */
+ 버튼 hover 효과 
 .onClick-button:hover {
-    background: linear-gradient(145deg, #483d8b, #6a5acd); /* 호버시 배경 변화 */
-    transform: translateY(-4px); /* 버튼을 위로 밀어 올리는 효과 */
-    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3); /* 그림자 강화 */
+    background: linear-gradient(145deg, #483d8b, #6a5acd);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3);
 }
+*/
 
 /* 버튼 active (클릭 시) 효과 */
 .onClick-button:active {

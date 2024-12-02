@@ -41,3 +41,10 @@
 .addMenuBtn{
     text-align: center;
 }
+
+.menuImg{
+    width: 70%;
+    height: 50vh; /* 이미지 높이 160px */
+    object-fit: cover; /* 이미지 비율 유지하며 잘리거나 맞춰서 표시 */
+    margin: 0 auto;
+}

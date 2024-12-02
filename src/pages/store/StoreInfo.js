@@ -16,7 +16,7 @@ import { isNotLoginSwal } from "../../utils/tools";
 import { useSelector } from "react-redux";
 import { getUserInfo } from "../../hooks/userSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBookmark as faBookmarkSolid } from "@fortawesome/free-solid-svg-icons";
+import { faBookmark as faBookmarkSolid, faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import { faBookmark as faBookmarkRegular } from "@fortawesome/free-regular-svg-icons";
 
 const { kakao } = window;
@@ -488,19 +488,19 @@ const StoreInfo = () => {
                 별점 : {avgRating}({reviewCount}) tel : {storeData.phone}
             </p>
 
-            <Button className="onClick-button" onClick={() => scrollToSection("description")}>
+            <Button variant="colorSecondary" className="onClick-button" onClick={() => scrollToSection("description")}>
                 가게 설명
-            </Button>
-            <Button className="onClick-button" onClick={() => scrollToSection("menu")}>
+            </Button> {" "}
+            <Button variant="colorSecondary" className="onClick-button" onClick={() => scrollToSection("menu")}>
                 메뉴
-            </Button>
-            <Button className="onClick-button" onClick={() => scrollToSection("review")}>
+            </Button> {" "}
+            <Button variant="colorSecondary" className="onClick-button" onClick={() => scrollToSection("review")}>
                 리뷰
-            </Button>
-            <Button className="onClick-button" onClick={() => scrollToSection("map")}>
+            </Button> {" "}
+            <Button variant="colorSecondary" className="onClick-button" onClick={() => scrollToSection("map")}>
                 상세위치
-            </Button>
-            <Button className="onClick-button" onClick={() => scrollToSection("info")}>
+            </Button> {" "}
+            <Button variant="colorSecondary" className="onClick-button" onClick={() => scrollToSection("info")}>
                 상세정보
             </Button>
 
@@ -570,6 +570,7 @@ const StoreInfo = () => {
                 </button>
             )}
             <ul id="map">
+            <li className="address"><FontAwesomeIcon icon={faLocationDot} /> {storeData.address}</li>
                 {nearByStationList.length > 0 &&
                     nearByStationList.map((item, index) => {
                         return (
@@ -631,7 +632,6 @@ const StoreInfo = () => {
             <h4 className="info" id="info">
                 상세 정보
             </h4>
-            <p className="address">가게 주소: {storeData.address}</p>
             <p className="storeHours">영업시간: {storeData.storeHours}</p>
             <p className="phone">연락처: {storeData.phone}</p>
 
