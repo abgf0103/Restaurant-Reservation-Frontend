@@ -15,6 +15,7 @@ const BusinessSignup = () => {
     name: "",
     email: "",
     phone: "",
+    roleNum: "",
     businessNum: "", // 사업자 등록 번호
   });
 
