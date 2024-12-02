@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { getUserInfo } from "../../hooks/userSlice";
 import Swal from "sweetalert2";
 import instance from "../../api/instance";
-import { Button, Card } from "react-bootstrap";
+import { Button, Card, Form } from "react-bootstrap";
 import { reserveStatus } from "./../../utils/tools";
 import "./css/Reserve.css";
 
@@ -12,11 +12,12 @@ const StoreReserve = () => {
   const { storeId } = useParams(); // URL에서 storeId 추출
   const navigate = useNavigate();
   const userInfo = useSelector(getUserInfo); // 로그인된 사용자 정보
-
   const [reserves, setReserves] = useState([]);
   const [storeName, setStoreName] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 15;
+  const [filterStatus, setFilterStatus] = useState("all"); // 필터 상태 추가
+  const [filteredReservations, setFilteredReservations] = useState([]); // 필터링된 예약 목록 추가
 
   // 로그인 상태 체크
   useEffect(() => {
@@ -32,6 +33,7 @@ const StoreReserve = () => {
       .then((res) => {
         console.log(res.data);
         setReserves(res.data);
+        setFilteredReservations(res.data); // 초기 예약 목록으로 필터링된 예약 목록 설정
       })
       .catch((error) => {
         console.error("예약 목록 가져오기 실패:", error);
@@ -70,11 +72,31 @@ const StoreReserve = () => {
               : reserve
           )
         );
+        setFilteredReservations((prevReserves) =>
+          prevReserves.map((reserve) =>
+            reserve.reserveId === reserveId
+              ? { ...reserve, reserveStatus: newStatus }
+              : reserve
+          )
+        );
       })
       .catch((error) => {
         console.error("예약 상태 업데이트 실패:", error);
         Swal.fire("실패", "예약 상태를 업데이트하는 데 실패했습니다.", "error");
       });
+  };
+
+  // 예약 상태 필터링 함수 추가
+  const handleFilterChange = (e) => {
+    const status = e.target.value;
+    setFilterStatus(status);
+    if (status === "all") {
+      setFilteredReservations(reserves);
+    } else {
+      setFilteredReservations(
+        reserves.filter((reserve) => parseInt(status) === reserve.reserveStatus)
+      );
+    }
   };
 
   // 예약 확정
@@ -131,9 +153,12 @@ const StoreReserve = () => {
   // 페이지네이션 관련 로직
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = reserves.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = filteredReservations.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
 
-  const totalPages = Math.ceil(reserves.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredReservations.length / itemsPerPage);
   const goToPage = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
@@ -145,8 +170,22 @@ const StoreReserve = () => {
           <br />
           {storeName}
         </h2>
+        <Form.Group controlId="filterStatus" className="filter-status">
+          <Form.Label>예약 상태 선택 : </Form.Label>
+          <Form.Control
+            as="select"
+            value={filterStatus}
+            onChange={handleFilterChange}
+          >
+            <option value="all">전체</option>
+            <option value="0">확인 중인 예약</option>
+            <option value="1">확정된 예약</option>
+            <option value="2">완료된 예약</option>
+            <option value="3">취소된 예약</option>
+          </Form.Control>
+        </Form.Group>
       </div>
-      {reserves.length > 0 ? (
+      {filteredReservations.length > 0 ? (
         <>
           <ul className="reserve-card-wrapper">
             {currentItems.map((reserve) => (
@@ -163,31 +202,33 @@ const StoreReserve = () => {
                       <strong>예약 신청 시간:</strong>{" "}
                       {new Date(reserve.createdAt).toLocaleString()}
                     </Card.Text>
-                    {reserve.reserveStatus === 0 && (
-                      <Button
-                        variant="primary"
-                        onClick={() => handleConfirm(reserve.reserveId)}
-                      >
-                        예약 확정
-                      </Button>
-                    )}
-                    {reserve.reserveStatus === 1 && (
-                      <Button
-                        variant="commit"
-                        onClick={() => handleComplete(reserve.reserveId)}
-                      >
-                        예약 완료
-                      </Button>
-                    )}
-                    {(reserve.reserveStatus === 0 ||
-                      reserve.reserveStatus === 1) && (
-                      <Button
-                        variant="danger"
-                        onClick={() => handleCancel(reserve.reserveId)}
-                      >
-                        예약 취소
-                      </Button>
-                    )}
+                    <div className="btn-container">
+                      {reserve.reserveStatus === 0 && (
+                        <Button
+                          variant="primary"
+                          onClick={() => handleConfirm(reserve.reserveId)}
+                        >
+                          예약 확정
+                        </Button>
+                      )}
+                      {reserve.reserveStatus === 1 && (
+                        <Button
+                          variant="commit"
+                          onClick={() => handleComplete(reserve.reserveId)}
+                        >
+                          예약 완료
+                        </Button>
+                      )}
+                      {(reserve.reserveStatus === 0 ||
+                        reserve.reserveStatus === 1) && (
+                        <Button
+                          variant="danger"
+                          onClick={() => handleCancel(reserve.reserveId)}
+                        >
+                          예약 취소
+                        </Button>
+                      )}
+                    </div>
                   </Card.Body>
                 </Card>
               </li>
