@@ -41,14 +41,67 @@ export const Username = styled.span`
   color: transparent; /* 텍스트 색상을 투명하게 해서 그라데이션이 보이도록 */
 `;
 
-// 쓴 리뷰 총 갯수, 총 좋아요 갯수 스타일
+// 정보 표시 아이콘 컴포넌트
+export const InfoIcon = styled.div`
+  font-size: 24px; /* 아이콘 크기 */
+  color: var(--primary-color); /* 기본 색상 */
+  cursor: pointer; /* 클릭 가능 표시 */
+  margin-bottom: 10px; /* 아이콘 아래 마진 추가 */
+  transition: color 0.3s ease, transform 0.3s ease; /* hover 효과 및 변환 애니메이션 */
+
+  &:hover {
+    color: var(--secondary-color); /* hover 시 색상 변경 */
+    transform: scale(1.1); /* hover 시 아이콘 크기 확대 */
+  }
+
+  &:focus {
+    outline: none; /* focus 시 outline 없애기 */
+  }
+`;
+
+// 정보 아이콘 배치 컴포넌트
+export const InfoContainer = styled.div`
+  display: flex;
+  align-items: center; /* 세로 가운데 정렬 */
+  gap: 15px; /* 아이콘 간격 설정 */
+  padding-left: 0; /* 왼쪽 여백 없애기 */
+  margin-left: 0; /* 왼쪽 여백 없애기 */
+`;
+
+// WLSum 스타일 수정
 export const WLSum = styled.h2`
   color: var(--text-color-black);
-  margin-bottom: 30px; /* 하단에 마진 추가 */
-  font-size: 1.5rem; /* 적절한 폰트 크기 설정 */
-  display: flex; /* 아이콘과 텍스트를 가로로 배치 */
-  align-items: center; /* 아이콘과 텍스트 세로 중앙 정렬 */
-  gap: 10px; /* 아이콘과 텍스트 사이의 간격 추가 */
+  padding-left: 20px;
+  margin-bottom: 30px;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 30px;
+
+  span {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text-color-black); /* 기본 텍스트 색상 설정 */
+
+    svg {
+      font-size: 1.2rem; /* 아이콘 크기 설정 */
+      color: var(--icon-color); /* 기본 아이콘 색상 설정 */
+    }
+
+    /* 펜 아이콘 색상 */
+    &:nth-child(1) svg {
+      color: var(--primary-color); /* 펜 아이콘에 기본 색상 추가 */
+    }
+    /* 하트 아이콘 색상 */
+    &:nth-child(2) svg {
+      color: var(--primaryHober-color); /* 하트 아이콘에 기본 색상 추가 */
+    }
+    /* 트로피 아이콘 색상 */
+    &:nth-child(3) svg {
+      color: var(--tertiary-color); /* 트로피 아이콘에 밝은 색상 추가 */
+    }
+  }
 `;
 
 // 전체 페이지 컨테이너 스타일

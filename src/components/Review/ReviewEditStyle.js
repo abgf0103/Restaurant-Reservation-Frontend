@@ -5,22 +5,21 @@ import { Container, Button, Form } from "react-bootstrap";
 export const ReviewEditTitle = styled.h2`
   text-align: center;
   color: var(--text-color-white); /* 텍스트 색상을 흰색으로 */
-  font-size: 2.5rem; /* 더 큰 폰트 크기 */
+  font-size: 1.8rem; /* 더 큰 폰트 크기 */
   font-weight: bold; /* 두꺼운 글씨 */
   margin-bottom: 30px;
   padding: 20px 0;
   background: linear-gradient(
     135deg,
     var(--primary-color),
-    var(--secondary-color)
-  ); /* 기본 색상과 보조 색상 그라데이션 */
+    /* 기본 색상 */ var(--secondary-color) /* 보조 색상 */
+  );
   border-radius: 10px; /* 둥근 모서리 */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* 텍스트 그림자 */
   position: relative;
   z-index: 1;
 
-  /* 반응형 디자인 */
   @media (max-width: 768px) {
     font-size: 2rem; /* 모바일에서는 폰트 크기를 조금 더 작게 */
     padding: 15px 0;
@@ -30,16 +29,24 @@ export const ReviewEditTitle = styled.h2`
 // 제목에 있는 사용자 이름
 export const Username = styled.span`
   color: var(--primary-color); /* 사용자 이름을 기본 색상으로 강조 */
-  font-size: 2.8rem; /* 사용자 이름만 조금 더 크게 */
+  font-size: 2rem; /* 사용자 이름만 조금 더 크게 */
   font-weight: bold;
   background: linear-gradient(
     135deg,
     var(--tertiary-color),
-    var(--quaternary-color)
-  ); /* 배경에 다른 그라데이션 적용 */
+    /* 다른 그라데이션 색상 */ var(--quaternary-color) /* 또 다른 보조 색상 */
+  );
   -webkit-background-clip: text; /* 그라데이션 텍스트로 적용 */
   color: transparent; /* 텍스트 색상을 투명하게 해서 그라데이션이 보이도록 */
 `;
+
+// 제목에 있는 가게 이름
+export const StoreName = styled.span`
+  color: var(--text-color-black); /* 가게 이름을 기본 색상으로 강조 */
+  font-size: 2rem; /* 가게 이름을 좀 더 크게 */
+  font-weight: bold;
+`;
+
 export const ReveiwContainer = styled(Container)`
   padding: 50px 0; /* 충분한 여백을 주어 화면 중앙 정렬 */
   background-color: var(--background-color);

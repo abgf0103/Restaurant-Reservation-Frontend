@@ -20,7 +20,9 @@ import {
   ReviewCommentTextArea,
   ReviewContainer,
   ReviewTitle,
+  StoreName,
   SubmitButton,
+  UserName,
   Username,
 } from "../../components/Review/ReviewWriteStyle";
 import { Card, Col, Form, Row } from "react-bootstrap";
@@ -42,6 +44,8 @@ const Review = () => {
   const [selectedFiles, setSelectedFiles] = useState([]); // 선택된 파일 목록
   const [fileList, setFileList] = useState([]); // 업로드된 파일 목록
 
+  const [storeName, setStoreName] = useState(""); // 가게 이름 상태 추가
+
   // 로그인 상태 체크
   useEffect(() => {
     if (!userInfo.username) {
@@ -49,6 +53,27 @@ const Review = () => {
       navigate("/user/login");
     }
   }, [navigate, userInfo]);
+
+  // 매장 정보 불러오기
+  useEffect(() => {
+    if (storeId) {
+      // 가게 정보 조회 API 호출
+      instance
+        .get(`/store/view/${storeId}`)
+        .then((response) => {
+          console.log(response);
+          setStoreName(response.data.storeName); // 가게 이름을 상태로 설정
+        })
+        .catch((error) => {
+          console.error("가게 정보 조회 오류:", error);
+          Swal.fire({
+            title: "오류",
+            text: "가게 정보를 불러오는 데 실패했습니다.",
+            icon: "error",
+          });
+        });
+    }
+  }, [storeId]);
 
   // 매장 예약 상태 체크 및 중복 리뷰 여부 체크
   useEffect(() => {
@@ -335,7 +360,8 @@ const Review = () => {
         <Col md={8}>
           <Card className="shadow-lg p-4">
             <ReviewTitle>
-              <Username>{userInfo.username}</Username> 고객님 리뷰 작성
+              <UserName>{userInfo.username}</UserName> 고객님,
+              <StoreName>{storeName}</StoreName>에 대한 리뷰 작성
             </ReviewTitle>
 
             <Form onSubmit={handleSubmit}>

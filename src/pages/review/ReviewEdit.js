@@ -22,6 +22,7 @@ import {
   ReviewCommentLabel,
   ReviewCommentTextArea,
   ReviewEditTitle,
+  StoreName,
   SubmitButton,
   Username,
 } from "../../components/Review/ReviewEditStyle";
@@ -31,6 +32,7 @@ const ReviewEdit = () => {
   const navigate = useNavigate();
   const tokenInfo = useSelector(getTokenInfo);
   const userInfo = useSelector(getUserInfo);
+  const [storeName, setStoreName] = useState(""); // 가게 이름 상태 추가
 
   const [review, setReview] = useState({
     createdAt: "",
@@ -41,12 +43,12 @@ const ReviewEdit = () => {
     reviewComment: "",
     reviewId: 0,
     storeId: 0,
-    storeName: "",
     updatedAt: "",
     userId: 0,
     username: "",
   });
 
+  const [store, setStore] = useState(null); // 가게 정보 상태 추가
   const [loading, setLoading] = useState(true);
   const [selectedFiles, setSelectedFiles] = useState([]); // 새로 선택한 파일 목록
   const [fileList, setFileList] = useState([]); // 업로드된 새 파일 목록 (ID 포함)
@@ -66,6 +68,7 @@ const ReviewEdit = () => {
         .get(`/review/view/${reviewId}`)
         .then((res) => {
           const { data } = res.data;
+          console.log("API 응답 데이터:", data);
           setReview(data);
         })
         .catch((error) => {
@@ -83,6 +86,27 @@ const ReviewEdit = () => {
 
     fetchReview();
   }, [reviewId, tokenInfo]);
+
+  // 매장 정보 불러오기
+  useEffect(() => {
+    if (review.storeId) {
+      // 가게 정보 조회 API 호출
+      instance
+        .get(`/store/view/${review.storeId}`)
+        .then((response) => {
+          console.log(response);
+          setStoreName(response.data.storeName); // 가게 이름을 상태로 설정
+        })
+        .catch((error) => {
+          console.error("가게 정보 조회 오류:", error);
+          Swal.fire({
+            title: "오류",
+            text: "가게 정보를 불러오는 데 실패했습니다.",
+            icon: "error",
+          });
+        });
+    }
+  }, [review.storeId]);
 
   const findDuplicates = (arr) => {
     const count = {};
@@ -293,7 +317,8 @@ const ReviewEdit = () => {
         <Col md={8}>
           <Card className="shadow-lg p-4">
             <ReviewEditTitle>
-              <Username> {userInfo.username} </Username>고객님 리뷰 수정
+              <Username> {userInfo.username} </Username>고객님,
+              <StoreName>{storeName}</StoreName>에 대한 리뷰 수정
             </ReviewEditTitle>
             <Form onSubmit={handleSubmit}>
               <RatingFormGroup controlId="rating" className="mb-4">

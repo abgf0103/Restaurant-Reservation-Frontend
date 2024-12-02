@@ -5,12 +5,14 @@ import { getUserInfo } from "../../hooks/userSlice"; // 로그인된 사용자 �
 import Swal from "sweetalert2";
 import instance from "../../api/instance"; // instance 임포트
 import { Card, ListGroup, Col, Spinner, CardText, Row } from "react-bootstrap";
-import { FaEdit, FaTrashAlt } from "react-icons/fa";
+import { FaEdit, FaTrashAlt, FaTrophy, FaHeart } from "react-icons/fa";
 import { FaPenToSquare } from "react-icons/fa6";
-import { FaTrophy } from "react-icons/fa";
+import { IoIosInformationCircleOutline } from "react-icons/io";
 import {
   ButtonDelete,
   ButtonEdit,
+  InfoContainer,
+  InfoIcon,
   ListGroupItem,
   MiniTitle,
   MyReviewContainer,
@@ -162,6 +164,27 @@ const MyReview = () => {
     return stars;
   };
 
+  // 정보 아이콘 클릭 시 팝업을 띄우는 함수
+  const handleInfoClick = () => {
+    Swal.fire({
+      title: "리뷰 통계 정보",
+      html: `
+        <p><strong>작성된 리뷰 수:</strong> ${reviews.length}개</p>  
+        <p><strong>내가 받은 좋아요 수:</strong> ${likeSum}개</p>    
+        <p><strong>현재 사용자 랭킹:</strong> ${
+          ranking ? ranking : "불러오는 중..."
+        }</p>
+        <br />
+        
+        <!-- 받은 좋아요 수와 랭킹에 대한 더 구체적이고 직관적인 설명 추가 -->
+        <p><em>참고:</em> 내가 받은 좋아요 수는 <strong>내가 작성한 모든 리뷰에서 받은 좋아요의 총합</strong>을 의미합니다. <strong>모든 리뷰의 좋아요를 합산하여 표시</strong>됩니다.</p>
+        <p><em>현재 사용자 랭킹:</em> 내 리뷰에 달린 <strong>좋아요 수</strong>를 기준으로 순위가 매겨집니다. <strong>내가 받은 모든 리뷰에서의 좋아요 수 총합</strong>을 반영하여, 다른 사용자들과의 비교를 통해 순위가 결정됩니다.</p>
+      `,
+      icon: "info",
+      confirmButtonText: "확인",
+    });
+  };
+
   if (loading) {
     return <Spinner animation="border" variant="primary" />;
   }
@@ -171,9 +194,21 @@ const MyReview = () => {
       <MyReviewTitle>
         <Username>{userInfo.username}</Username> 고객님 리뷰 목록
       </MyReviewTitle>
+      <InfoContainer>
+        <InfoIcon onClick={handleInfoClick}>
+          <IoIosInformationCircleOutline />
+        </InfoIcon>
+      </InfoContainer>
       <WLSum>
-        <FaPenToSquare /> : {reviews.length} ❤️ : {likeSum} <FaTrophy /> :{" "}
-        {ranking ? ranking : "불러오는 중..."}
+        <span>
+          <FaPenToSquare /> : {reviews.length}
+        </span>
+        <span>
+          <FaHeart /> : {likeSum}
+        </span>
+        <span>
+          <FaTrophy /> : {ranking ? ranking : "불러오는 중..."}
+        </span>
       </WLSum>
       <Row className="row-eq-height">
         {reviews.length > 0 ? (
