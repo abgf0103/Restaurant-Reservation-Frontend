@@ -6,7 +6,7 @@ import { getUserInfo, removeUserInfo } from "../hooks/userSlice";
 import { useDispatch } from "react-redux";
 import { removeTokenInfo } from "../hooks/tokenSlice";
 import { Link, useNavigate } from "react-router-dom";
-import { Button, Form, FormControl } from "react-bootstrap";
+import { Button, Form, FormControl, Dropdown } from "react-bootstrap";
 import { useState } from "react";
 import instance from "../api/instance";
 import logoImg from "../img/logo.png";
@@ -60,57 +60,73 @@ const Header = () => {
   return (
     <header>
       <Navbar expand="lg">
-        <Container className="headerContainer">
+        <Container id="headerContainer">
           {/* 기본경로에선 goBack 버튼 숨기기 */}
           {window.location.pathname === "/" ? (
             <></>
           ) : (
-            <Button variant="back" onClick={goBack}>
+            <Button id="back" onClick={goBack}>
               ←
             </Button>
           )}
           <Navbar.Brand href="/">
             <img src={logoImg} alt="" className="logoImg" />
           </Navbar.Brand>
-          <Form onSubmit={handleSearchSubmit}>
-            <FormControl
-              type="search"
-              placeholder="검색어를 입력하세요"
-              className="mr-sm-2"
-              value={searchKeyword}
-              onChange={handleSearchChange}
-            />
-            <Button variant="search" type="submit">
+          <Form onSubmit={handleSearchSubmit} id="search-form">
+            <div id="search-bar">
+              <FormControl
+                type="search"
+                placeholder="검색어를 입력하세요"
+                className="mr-sm-2"
+                value={searchKeyword}
+                onChange={handleSearchChange}
+              />
+            </div>
+            <Button
+              id="search"
+              type="submit"
+              style={{ position: "absolute", top: "2px", right: "15px" }}
+            >
               검색
             </Button>
           </Form>
-          <div>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <Navbar.Collapse id="basic-navbar-nav">
-              <Nav className="me-auto">
-                {/* 로그인된 사용자에 따라 로그인 또는 로그아웃 버튼 표시 */}
-                {userInfo && userInfo.username ? (
-                  <Nav>
-                    <span>{userInfo.username} </span>
-                    <Button onClick={handleLogout} variant="logout">
-                      로그아웃
-                    </Button>
-                  </Nav>
-                ) : (
-                  <Link to="/user/login">
-                    <Button variant="login">로그인</Button>
-                  </Link>
-                )}
-                {userInfo && userInfo.username ? (
-                  <></>
-                ) : (
-                  <Link to="/user/PreUserEdit">
-                    <Button variant="join">회원가입</Button>
-                  </Link>
-                )}
-              </Nav>
-            </Navbar.Collapse>
-          </div>
+          <Dropdown>
+            <Dropdown.Toggle id="dropdown-basic"></Dropdown.Toggle>
+
+            <Dropdown.Menu id="dropdown-menu">
+              {userInfo && userInfo.username ? (
+                // 로그인 상태일 때만 보여줌 (로그아웃 버튼)
+                <Dropdown.Item id="dropdown-item">
+                  <span className="nickname">{userInfo.username + "님"} </span>
+                  <Button onClick={handleLogout} id="logout">
+                    로그아웃
+                  </Button>
+                </Dropdown.Item>
+              ) : (
+                <>
+                  {/* 비로그인 상태일 때만 보여줌 (로그인/회원가입 버튼) */}
+                  <div className="btn-container">
+                    <Dropdown.Item id="dropdown-item">
+                      <Button
+                        id="login"
+                        onClick={() => navigate("/user/login")}
+                      >
+                        로그인
+                      </Button>
+                    </Dropdown.Item>
+                    <Dropdown.Item id="dropdown-item">
+                      <Button
+                        id="join"
+                        onClick={() => navigate("/user/PreUserEdit")}
+                      >
+                        회원가입
+                      </Button>
+                    </Dropdown.Item>
+                  </div>
+                </>
+              )}
+            </Dropdown.Menu>
+          </Dropdown>
         </Container>
       </Navbar>
     </header>

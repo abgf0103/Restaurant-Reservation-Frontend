@@ -4,7 +4,7 @@
 /* 색상 선언 */
 :root {
   --primary-color: #ff4747; /* 기본 색상 */
-  --primaryHober-color: #ff2525; /* 기본 색상 */
+  --primaryHover-color: #ff2525; /* 기본 색상 */
   --secondary-color: #ff9c73; /* 보조 색상 */
   --secondaryHover-color: #ff451a; /* 보조 색상 하버 */
   --secondaryHover2-color: #e68d67; /* 보조 색상 하버2 */
@@ -21,6 +21,10 @@
   margin: 0 auto; /* 중앙 정렬 */
 }
 
+* {
+  transition: 0.5s;
+}
+
 /* style reset */
 ul,
 ol {
@@ -34,7 +38,7 @@ ol {
 }
 
 .btn.btn-colorPrimary:hover {
-  background-color: var(--primaryHober-color);
+  background-color: var(--primaryHover-color);
   color: var(--text-color-white);
 }
 
@@ -50,6 +54,12 @@ ol {
 }
 
 /* 고정된 헤더 스타일 */
+#headerContainer {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+}
+
 header {
   background-color: var(--background-color);
   position: sticky;
@@ -60,67 +70,133 @@ header {
   /* transform: translateX(-50%); 중앙 정렬 */
   z-index: 1000;
   text-align: center;
-  height: 85px; /* 헤더 높이 */
   line-height: 58px; /* 텍스트 수직 중앙 정렬 */
   /*overflow: hidden; /* 내용이 넘어가지 않도록 설정 */
 }
 
 /* header Button*/
 /* 뒤로가기 버튼 */
-.btn.btn-back {
+#back {
   background-color: var(--background-color);
   color: var(--text-color-black);
+  border: none;
+  width: 36px;
+  height: 36px;
 }
 
-.btn.btn-back:hover {
+#back:hover {
   background-color: var(--background-color-gray);
 }
 
-/* 검색 버튼 */
-.btn.btn-search {
-  background-color: var(--secondary-color);
-  color: var(--text-color-white);
-  height: 35px;
-  width: 70px;
-  margin-left: 5px;
-  justify-content: center;
+/* 검색 바 */
+#search-form {
+  position: relative;
+  display: block;
 }
 
-.btn.btn-search:hover {
+#search-bar {
+  padding-right: 70px;
+}
+
+/* 검색 버튼 */
+#search {
+  background-color: var(--secondary-color);
+  color: var(--text-color-white);
+  margin-left: 5px;
+  justify-content: center;
+  position: absolute;
+  top: 2px;
+  right: 15px;
+  border: none;
+}
+
+#search:hover {
   background-color: var(--secondaryHover2-color);
   color: var(--text-color-white);
 }
 
+/* 드롭다운 버튼 */
+#dropdown-basic {
+  background-color: var(--background-color);
+  color: var(--text-color-gray);
+  border: 1px solid var(--background-color-gray);
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+}
+
+#dropdown-basic:focus,
+#dropdown-basic:hover {
+  background-color: var(--background-color-gray);
+}
+
+.dropdown-item {
+  cursor: auto;
+  background-color: var(--background-color);
+}
+
+.dropdown-item:active {
+  background-color: var(--background-color) !important;
+  color: var(--text-color-black) !important;
+  cursor: auto;
+}
+
+.dropdown-item:hover {
+  background-color: var(--background-color);
+}
+
+#dropdown-item {
+  cursor: auto;
+  margin: 0;
+  background-color: var(--background-color);
+  border-radius: 10px;
+}
+
+#dropdown-item:hover {
+  background-color: var(--background-color);
+}
+
+#dropdown-menu {
+  transform: translateX(-70%);
+  cursor: auto;
+  margin: 0;
+  padding: 0;
+  background-color: var(--background-color);
+}
+
 /* 로그인 관련 버튼 */
-.btn.btn-login,
-.btn.btn-join,
-.btn.btn-logout {
-  margin: 10px 10px;
-  padding: 1px 10px;
+#login,
+#join,
+#logout {
+  margin: 0;
+  border: none;
   border-radius: 5px;
   font-size: 12px;
   height: 30px;
   position: relative;
-  top: 10px;
 }
 
-.btn.btn-login:hover,
-.btn.btn-join:hover,
-.btn.btn-logout:hover {
+#login:hover,
+#join:hover,
+#logout:hover {
   transition: all 0.3s ease-out;
   color: var(--text-color-white);
 }
 
-.btn.btn-login,
-.btn.btn-join,
-.btn.btn-logout {
+#login,
+#join,
+#logout {
   background-color: var(--secondary-color);
   color: var(--text-color-white);
 }
 
-.btn.btn-login:hover,
-.btn.btn-join:hover,
-.btn.btn-logout:hover {
+#login:hover,
+#join:hover,
+#logout:hover {
   background-color: var(--secondaryHover2-color);
 }
 
@@ -144,11 +220,9 @@ footer {
   line-height: 50px; /* 텍스트 수직 중앙 정렬 */
 }
 
-.footerContainer {
-}
-
 header form {
   display: flex;
+  width: 640px;
   justify-content: space-between;
   align-items: center;
   padding: 0 20px; /* 20px 여�� */
