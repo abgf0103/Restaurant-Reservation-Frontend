@@ -5,7 +5,7 @@ import NotFound from "./pages/error/NotFound";
 import UnAuth from "./pages/error/UnAuth";
 import RequireAuth from "./components/RequireAuth";
 import Test from "./pages/test/Test";
-import Review from "./pages/review/Review";
+import ReviewWrite from "./pages/review/ReviewWrite";
 import Signup from "./pages/user/Signup";
 import StoreInfo from "./pages/store/StoreInfo";
 import StoreInfoEdit from "./pages/store/StoreInfoEdit";
@@ -39,7 +39,7 @@ import MenuManagement from "./pages/store/MenuManagement";
 import Admin from "./pages/Admin";
 import FindIdResult from "./pages/user/findIdResult";
 import FindPasswordResult from "./pages/user/findPasswordResult";
-import { useState } from 'react';
+import { useState } from "react";
 
 const ROLES = {
   ROLE_USER: 1,
@@ -48,9 +48,11 @@ const ROLES = {
 };
 
 function App() {
-      // 로컬 스토리지에서 상태를 가져와 초기값 설정
+  // 로컬 스토리지에서 상태를 가져와 초기값 설정
   const storedActiveFooterIcon = localStorage.getItem("activeFooterIcon");
-  const [activeFooterIcon, setActiveFooterIcon] = useState(storedActiveFooterIcon || "home");
+  const [activeFooterIcon, setActiveFooterIcon] = useState(
+    storedActiveFooterIcon || "home"
+  );
 
   // 아이콘 클릭 시 상태 변경
   const handleFooterIconClick = (iconName) => {
@@ -60,9 +62,15 @@ function App() {
 
   return (
     <Provider store={store}>
-      <AppLayout activeFooterIcon={activeFooterIcon} onFooterIconClick={handleFooterIconClick}>
+      <AppLayout
+        activeFooterIcon={activeFooterIcon}
+        onFooterIconClick={handleFooterIconClick}
+      >
         <Routes>
-          <Route path="/writeReview/:storeId/:reserveId" element={<Review />} />{" "}
+          <Route
+            path="/writeReview/:storeId/:reserveId"
+            element={<ReviewWrite />}
+          />{" "}
           {/* storeId를 URL 파라미터로 전달 */}
           {/* review 부분 */}
           <Route path="/review/list" element={<ReviewList />} />

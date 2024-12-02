@@ -26,6 +26,7 @@ export const ReviewTitle = styled.h2`
     padding: 15px 0;
   }
 `;
+
 // 제목에 있는 사용자 이름
 export const Username = styled.span`
   color: var(--primary-color); /* 사용자 이름을 기본 색상으로 강조 */

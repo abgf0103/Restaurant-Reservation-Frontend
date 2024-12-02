@@ -6,6 +6,8 @@ import Swal from "sweetalert2";
 import instance from "../../api/instance"; // instance 임포트
 import { Card, ListGroup, Col, Spinner, CardText, Row } from "react-bootstrap";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
+import { FaPenToSquare } from "react-icons/fa6";
+import { FaTrophy } from "react-icons/fa";
 import {
   ButtonDelete,
   ButtonEdit,
@@ -17,6 +19,7 @@ import {
   ReviewCard,
   ReviewImage,
   Username,
+  WLSum,
 } from "../../components/Review/MyReviewStyle";
 
 const MyReview = () => {
@@ -25,6 +28,8 @@ const MyReview = () => {
 
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [likeSum, setLikeSum] = useState(0);
+  const [ranking, setRanking] = useState(null); // 랭킹 상태 추가
 
   // 로그인 상태 체크
   useEffect(() => {
@@ -44,6 +49,13 @@ const MyReview = () => {
           files: review.files || [], // 파일 정보가 없을 수 있으므로 기본값을 빈 배열로 설정
         }));
         setReviews(reviewsWithFiles); // 사용자 리뷰 목록 설정
+
+        // likeCount 값을 모두 더하여 likeSum 상태에 저장
+        let totalLikes = 0; // 총 좋아요 수를 저장할 변수
+        reviewsWithFiles.forEach((review) => {
+          totalLikes += review.likeCount; // 각 리뷰의 likeCount 값을 더함
+        });
+        setLikeSum(totalLikes); // 총 좋아요 수 업데이트
       })
       .catch((error) => {
         console.error("나의 리뷰 가져오기 실패:", error);
@@ -58,9 +70,28 @@ const MyReview = () => {
       });
   };
 
+  // 사용자 랭킹 가져오기
+  const fetchUserRanking = () => {
+    instance
+      .get("/review/LikedRanking") // 랭킹 API 호출
+      .then((response) => {
+        const userRanking = response.data; // 랭킹 데이터
+        setRanking(userRanking); // 랭킹 상태 업데이트
+      })
+      .catch((error) => {
+        console.error("사용자 랭킹 가져오기 실패:", error);
+        Swal.fire({
+          title: "실패",
+          text: "사용자 랭킹을 가져오는 데 실패했습니다.",
+          icon: "error",
+        });
+      });
+  };
+
   useEffect(() => {
     fetchMyReviews();
-  }, []);
+    fetchUserRanking(); // 랭킹 API 호출 추가
+  }, []); // 처음 한 번만 호출
 
   const handleEditClick = (reviewId) => {
     // 리뷰 수정 페이지로 이동하며, 수정할 리뷰 ID 전달
@@ -140,6 +171,10 @@ const MyReview = () => {
       <MyReviewTitle>
         <Username>{userInfo.username}</Username> 고객님 리뷰 목록
       </MyReviewTitle>
+      <WLSum>
+        <FaPenToSquare /> : {reviews.length} ❤️ : {likeSum} <FaTrophy /> :{" "}
+        {ranking ? ranking : "불러오는 중..."}
+      </WLSum>
       <Row className="row-eq-height">
         {reviews.length > 0 ? (
           reviews.map((review) => (

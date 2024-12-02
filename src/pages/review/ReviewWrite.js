@@ -22,7 +22,7 @@ import {
   ReviewTitle,
   SubmitButton,
   Username,
-} from "../../components/Review/ReviewStyle";
+} from "../../components/Review/ReviewWriteStyle";
 import { Card, Col, Form, Row } from "react-bootstrap";
 
 const Review = () => {

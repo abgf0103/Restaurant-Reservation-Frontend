@@ -26,6 +26,7 @@ export const MyReviewTitle = styled.h2`
     padding: 15px 0;
   }
 `;
+
 // 제목에 있는 사용자 이름
 export const Username = styled.span`
   color: var(--primary-color); /* 사용자 이름을 기본 색상으로 강조 */
@@ -39,6 +40,17 @@ export const Username = styled.span`
   -webkit-background-clip: text; /* 그라데이션 텍스트로 적용 */
   color: transparent; /* 텍스트 색상을 투명하게 해서 그라데이션이 보이도록 */
 `;
+
+// 쓴 리뷰 총 갯수, 총 좋아요 갯수 스타일
+export const WLSum = styled.h2`
+  color: var(--text-color-black);
+  margin-bottom: 30px; /* 하단에 마진 추가 */
+  font-size: 1.5rem; /* 적절한 폰트 크기 설정 */
+  display: flex; /* 아이콘과 텍스트를 가로로 배치 */
+  align-items: center; /* 아이콘과 텍스트 세로 중앙 정렬 */
+  gap: 10px; /* 아이콘과 텍스트 사이의 간격 추가 */
+`;
+
 // 전체 페이지 컨테이너 스타일
 export const MyReviewContainer = styled(Container)`
   padding: 50px 0; /* 충분한 여백을 주어 화면 중앙 정렬 */
