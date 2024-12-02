@@ -18,6 +18,7 @@ import { getUserInfo } from "../../hooks/userSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBookmark as faBookmarkSolid, faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import { faBookmark as faBookmarkRegular } from "@fortawesome/free-regular-svg-icons";
+import SimilarStoreList from "./SimilarStoreList";
 
 const { kakao } = window;
 
@@ -493,7 +494,7 @@ const StoreInfo = () => {
                 별점 : {avgRating}({reviewCount}) tel : {storeData.phone}
             </p>
             <Button variant="colorSecondary" className="onClick-button" onClick={() => scrollToSection("description")}>
-                가게 설명
+                매장 소개
             </Button>{" "}
             <Button variant="colorSecondary" className="onClick-button" onClick={() => scrollToSection("menu")}>
                 메뉴
@@ -508,7 +509,7 @@ const StoreInfo = () => {
                 상세정보
             </Button>
             <h4 className="description info" id="description">
-                가게 설명
+                매장 소개
             </h4>
             <p>{storeData.description}</p>
             <h4 className="menu info" id="menu">
@@ -645,8 +646,9 @@ const StoreInfo = () => {
                 </>
             )}
             <h4 className="info" id="info">
-                비슷한 레스토랑 추천
+                비슷한 매장 추천
             </h4>
+            <SimilarStoreList />
             <button className="reserve-button-info" onClick={handleReserveClick}>
                 예약하기
             </button>
