@@ -372,6 +372,7 @@ const StoreInfo = () => {
     useEffect(() => {
         getMap();
         getData();
+        console.log(storeData);
     }, [storeId]);
 
     //리뷰가 있으면 getRatingAvgByStoreId 실행으로 변경
@@ -379,6 +380,7 @@ const StoreInfo = () => {
         getReviewCountByStoreId();
         getIsFavorite();
         console.log(isFavorite);
+        console.log(storeData);
     }, []);
 
     const handleReserveClick = () => {
@@ -633,12 +635,13 @@ const StoreInfo = () => {
             </h4>
             <p className="storeHours">영업시간: {storeData.storeHours}</p>
             <p className="phone">연락처: {storeData.phone}</p>
-            {isGuideLines && (
+
+            {storeData.guideLines !== null && (
                 <>
                     <h4 className="info" id="info">
                         안내 및 유의사항
                     </h4>
-                    <p className="storeGuideLines">{storeData.storeGuideLines}</p>
+                    <p className="guideLines">{storeData.guideLines}</p>
                 </>
             )}
             <h4 className="info" id="info">
