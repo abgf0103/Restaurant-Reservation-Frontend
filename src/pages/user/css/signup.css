@@ -1,0 +1,16 @@
+.member-signup-width-cover {
+  height: 820px;
+  display: flex;
+  justify-content: center;
+}
+.member-signup-main-cover {
+  position: absolute;
+  margin: 50px;
+  padding: 50px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8); /* 그림자 효과 */
+  width: 800px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* 수평 중앙 정렬 */
+  align-items: center; /* 수직 중앙 정렬 */
+}
