@@ -115,6 +115,13 @@ header {
   color: var(--text-color-white);
 }
 
+/* 유저 버튼 */
+#user-buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 /* 드롭다운 버튼 */
 #dropdown-basic {
   background-color: var(--background-color);
