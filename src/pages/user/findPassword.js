@@ -33,12 +33,12 @@ function FindPassword() {
       setMessage(response.data.message); // 응답 메시지 설정
 
       // 결과 페이지로 이동하며 message 전달
-      if (response.data) {
+      if (response.data.success) {
         navigate("/user/findPasswordResult", {
           state: { message: response.data.message },
         });
       } else {
-        setMessage("입력된 정보에 해당하는 비밀번호가 없습니다");
+        setMessage("입력된 정보가 잘못되었습니다");
       }
     } catch (error) {
       console.error("Error fetching temp password:", error);
@@ -92,13 +92,12 @@ function FindPassword() {
             임시 비밀번호 발급받기
           </Button>
         </Form>
+        {message && (
+          <Alert variant="info" className="mt-3">
+            <p>{message}</p>
+          </Alert>
+        )}
       </div>
-
-      {message && (
-        <Alert variant="info" className="mt-3">
-          <p>{message}</p>
-        </Alert>
-      )}
     </Container>
   );
 }
