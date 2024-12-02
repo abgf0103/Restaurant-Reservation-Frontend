@@ -1,9 +1,35 @@
 .businessSignup-width-cover {
-  height: 780px;
+  height: 820px;
+  display: flex;
+  justify-content: center;
 }
 .businessSignup-main-cover {
+  position: absolute;
   margin: 50px;
   padding: 50px;
-
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8); /* 그림자 효과 */
+  width: 800px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* 수평 중앙 정렬 */
+  align-items: center; /* 수직 중앙 정렬 */
+}
+.business-input {
+  width: 500px !important;
+  border: 1px solid var(--primary-color) !important;
+}
+.business-input:focus {
+  border: 3px solid var(--secondaryHover-color) !important;
+}
+.business-text {
+  margin-top: 3px;
+}
+.business-btn {
+  width: 500px;
+  height: 60px;
+  margin-top: 20px;
+  background-color: var(--primary-color) !important;
+}
+.business-btn:hover {
+  background-color: var(--secondaryHover2-color) !important;
 }

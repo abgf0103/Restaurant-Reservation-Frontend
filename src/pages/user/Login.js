@@ -149,7 +149,7 @@ const Login = () => {
           />
         </Form.Group>
 
-        <div className="button-container">
+        <div className="button-container1">
           <Button type="button" onClick={findidgo} className="find-button">
             아이디 찾기
           </Button>

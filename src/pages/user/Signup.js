@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Form, Button, Col } from "react-bootstrap"; // react-bootstrap에서 필요한 컴포넌트 임포트
 import { formatPhoneNumber } from "../../utils/tools";
+import "./css/businessSignup.css";
 
 const MemberSignup = () => {
   const navigate = useNavigate();
@@ -97,18 +98,20 @@ const MemberSignup = () => {
   };
 
   return (
-    <div>
-      <h2>회원가입</h2>
-
-      <Form onSubmit={handleSubmit}>
+    <div className="businessSignup-width-cover">
+      <Form onSubmit={handleSubmit} className="businessSignup-main-cover">
+        <h2>회원가입</h2>
+        <hr />
         <Form.Group controlId="username">
-          <Form.Label>아이디</Form.Label>
+          <Form.Label className="business-text">아이디</Form.Label>
           <Form.Control
             type="text"
             name="username"
             value={formData.username}
             onChange={handleChange}
             isInvalid={!!errors.username}
+            placeholder="아이디를 입력해주세요"
+            className="business-input"
             required
           />
           <Form.Control.Feedback type="invalid">
@@ -117,13 +120,15 @@ const MemberSignup = () => {
         </Form.Group>
 
         <Form.Group controlId="password">
-          <Form.Label>비밀번호</Form.Label>
+          <Form.Label className="business-text">비밀번호</Form.Label>
           <Form.Control
             type="password"
             name="password"
             value={formData.password}
             onChange={handleChange}
             isInvalid={!!errors.password}
+            placeholder="비밀번호를 입력해주세요"
+            className="business-input"
             required
           />
           <Form.Control.Feedback type="invalid">
@@ -132,13 +137,15 @@ const MemberSignup = () => {
         </Form.Group>
 
         <Form.Group controlId="passwordConfirm">
-          <Form.Label>비밀번호 재입력</Form.Label>
+          <Form.Label className="business-text">비밀번호 재입력</Form.Label>
           <Form.Control
             type="password"
             name="passwordConfirm"
             value={formData.passwordConfirm}
             onChange={handleChange}
             isInvalid={!!errors.passwordConfirm}
+            placeholder="비밀번호를 다시 입력해주세요"
+            className="business-input"
             required
           />
           <Form.Control.Feedback type="invalid">
@@ -147,13 +154,15 @@ const MemberSignup = () => {
         </Form.Group>
 
         <Form.Group controlId="name">
-          <Form.Label>이름</Form.Label>
+          <Form.Label className="business-text">이름</Form.Label>
           <Form.Control
             type="text"
             name="name"
             value={formData.name}
             onChange={handleChange}
             isInvalid={!!errors.name}
+            placeholder="성함을 입력해주세요"
+            className="business-input"
             required
           />
           <Form.Control.Feedback type="invalid">
@@ -162,24 +171,28 @@ const MemberSignup = () => {
         </Form.Group>
 
         <Form.Group controlId="email">
-          <Form.Label>이메일</Form.Label>
+          <Form.Label className="business-text">이메일</Form.Label>
           <Form.Control
             type="email"
             name="email"
             value={formData.email}
             onChange={handleChange}
+            placeholder="이메일을 입력해주세요"
+            className="business-input"
             required
           />
         </Form.Group>
 
         <Form.Group controlId="phone">
-          <Form.Label>전화번호</Form.Label>
+          <Form.Label className="business-text">전화번호</Form.Label>
           <Form.Control
             type="tel"
             name="phone"
             value={formData.phone}
             onChange={handlePhoneChange}
             isInvalid={!!errors.phone}
+            placeholder="전화번호를 입력해주세요"
+            className="business-input"
             required
           />
           <Form.Control.Feedback type="invalid">
@@ -187,7 +200,7 @@ const MemberSignup = () => {
           </Form.Control.Feedback>
         </Form.Group>
 
-        <Button type="submit" disabled={loading}>
+        <Button type="submit" disabled={loading} className="business-btn">
           {loading ? "로딩 중..." : "가입"}
         </Button>
       </Form>

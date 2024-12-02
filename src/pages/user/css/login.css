@@ -6,12 +6,13 @@
   color: var(--text-color-gray) !important;
   border-color: transparent !important;
 }
-.button-container {
+.button-container1 {
   display: flex; /* 버튼들을 가로로 나열 */
   gap: 10px; /* 버튼 간의 간격을 10px로 설정 */
   padding-top: 0px !important;
   justify-content: flex-end !important;
   max-width: 1080px;
+  margin-bottom: 20px;
 }
 .login-button {
   width: 1080px;
