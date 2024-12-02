@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Form, Button } from "react-bootstrap"; // Bootstrap 컴포넌트 임포트
+import "./css/businessSignup.css";
 
 const BusinessSignup = () => {
   const navigate = useNavigate();
@@ -144,110 +145,114 @@ const BusinessSignup = () => {
 
   return (
     <>
-      <h2>사업자 회원가입</h2>
+      <div className="businessSignup-width-cover">
+        <h2>사업자 회원가입</h2>
+        <hr />
+        <Form onSubmit={handleSubmit} className="businessSignup-main-cover">
+          <Form.Group controlId="username">
+            <Form.Label>아이디</Form.Label>
+            <Form.Control
+              type="text"
+              name="username"
+              value={formData.username}
+              onChange={handleChange}
+              required
+            />
+            {errors.username && (
+              <Form.Text style={{ color: "red" }}>{errors.username}</Form.Text>
+            )}
+          </Form.Group>
 
-      <Form onSubmit={handleSubmit}>
-        <Form.Group controlId="username">
-          <Form.Label>아이디</Form.Label>
-          <Form.Control
-            type="text"
-            name="username"
-            value={formData.username}
-            onChange={handleChange}
-            required
-          />
-          {errors.username && (
-            <Form.Text style={{ color: "red" }}>{errors.username}</Form.Text>
-          )}
-        </Form.Group>
+          <Form.Group controlId="password">
+            <Form.Label>비밀번호</Form.Label>
+            <Form.Control
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+            {errors.password && (
+              <Form.Text style={{ color: "red" }}>{errors.password}</Form.Text>
+            )}
+          </Form.Group>
 
-        <Form.Group controlId="password">
-          <Form.Label>비밀번호</Form.Label>
-          <Form.Control
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
-          {errors.password && (
-            <Form.Text style={{ color: "red" }}>{errors.password}</Form.Text>
-          )}
-        </Form.Group>
+          <Form.Group controlId="passwordConfirm">
+            <Form.Label>비밀번호 재입력</Form.Label>
+            <Form.Control
+              type="password"
+              name="passwordConfirm"
+              value={formData.passwordConfirm}
+              onChange={handleChange}
+              required
+            />
+            {errors.passwordConfirm && (
+              <Form.Text style={{ color: "red" }}>
+                {errors.passwordConfirm}
+              </Form.Text>
+            )}
+          </Form.Group>
 
-        <Form.Group controlId="passwordConfirm">
-          <Form.Label>비밀번호 재입력</Form.Label>
-          <Form.Control
-            type="password"
-            name="passwordConfirm"
-            value={formData.passwordConfirm}
-            onChange={handleChange}
-            required
-          />
-          {errors.passwordConfirm && (
-            <Form.Text style={{ color: "red" }}>
-              {errors.passwordConfirm}
-            </Form.Text>
-          )}
-        </Form.Group>
+          <Form.Group controlId="name">
+            <Form.Label>이름</Form.Label>
+            <Form.Control
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+            />
+            {errors.name && (
+              <Form.Text style={{ color: "red" }}>{errors.name}</Form.Text>
+            )}
+          </Form.Group>
 
-        <Form.Group controlId="name">
-          <Form.Label>이름</Form.Label>
-          <Form.Control
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-          />
-          {errors.name && (
-            <Form.Text style={{ color: "red" }}>{errors.name}</Form.Text>
-          )}
-        </Form.Group>
+          <Form.Group controlId="email">
+            <Form.Label>이메일</Form.Label>
+            <Form.Control
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+          </Form.Group>
 
-        <Form.Group controlId="email">
-          <Form.Label>이메일</Form.Label>
-          <Form.Control
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-        </Form.Group>
+          <Form.Group controlId="phone">
+            <Form.Label>전화번호</Form.Label>
+            <Form.Control
+              type="tel"
+              name="phone"
+              value={formData.phone}
+              onChange={handlePhoneChange}
+              required
+            />
+            {errors.phone && (
+              <Form.Text style={{ color: "red" }}>{errors.phone}</Form.Text>
+            )}
+          </Form.Group>
 
-        <Form.Group controlId="phone">
-          <Form.Label>전화번호</Form.Label>
-          <Form.Control
-            type="tel"
-            name="phone"
-            value={formData.phone}
-            onChange={handlePhoneChange}
-            required
-          />
-          {errors.phone && (
-            <Form.Text style={{ color: "red" }}>{errors.phone}</Form.Text>
-          )}
-        </Form.Group>
+          <Form.Group controlId="businessNum">
+            <Form.Label>사업자등록번호</Form.Label>
+            <Form.Control
+              type="text"
+              name="businessNum"
+              value={formData.businessNum}
+              onChange={handleBusinessNumberChange}
+              required
+            />
+            {errors.businessNum && (
+              <Form.Text style={{ color: "red" }}>
+                {errors.businessNum}
+              </Form.Text>
+            )}
+          </Form.Group>
 
-        <Form.Group controlId="businessNum">
-          <Form.Label>사업자등록번호</Form.Label>
-          <Form.Control
-            type="text"
-            name="businessNum"
-            value={formData.businessNum}
-            onChange={handleBusinessNumberChange}
-            required
-          />
-          {errors.businessNum && (
-            <Form.Text style={{ color: "red" }}>{errors.businessNum}</Form.Text>
-          )}
-        </Form.Group>
-
-        <Button variant="primary" type="submit" disabled={loading}>
-          {loading ? "로딩 중..." : "가입"}
-        </Button>
-      </Form>
+          <Button variant="primary" type="submit" disabled={loading}>
+            {loading ? "로딩 중..." : "가입"}
+          </Button>
+        </Form>
+      </div>
     </>
   );
 };
