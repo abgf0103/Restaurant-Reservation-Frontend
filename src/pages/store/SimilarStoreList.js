@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { useEffect, useState } from "react";
 import instance from "../../api/instance";
@@ -16,12 +16,12 @@ import { isNotLoginSwal } from "../../utils/tools";
 const SimilarStoreList = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
-    const [categoryId, setCategoryId] = useState(0);
+    const [categoryId, setCategoryId] = useState("");
 
     const location = useLocation();
     const storeId = location.state;
 
-    const [storeList, setStoreList] = useState([]);
+    const [similarStoreList, setSimilarStoreList] = useState([]);
 
     const userInfo = useSelector(getUserInfo);
     const [isFavorite, setIsFavorite] = useState({});
@@ -31,7 +31,7 @@ const SimilarStoreList = () => {
     // 슬라이드 설정
     const settings = {
         dots: false, // 점 네비게이션 표시
-        infinite: true, // 무한 루프 설정
+        infinite: false, // 무한 루프 설정
         speed: 500, // 슬라이드 전환 속도
         slidesToShow: 5, // 한 번에 보여줄 슬라이드 개수
         slidesToScroll: 1, // 드래그할 때 한 번에 이동할 슬라이드 수
@@ -40,36 +40,6 @@ const SimilarStoreList = () => {
         draggable: true, // 드래그 활성화
         swipeToSlide: true, // 드래그한 만큼 슬라이드가 이동하도록 설정
         centerMode: false, // 센터모드 비활성화 (중앙 정렬)
-    };
-
-    //카테고리 ID 조회
-    const getCategoryId = () => {
-        console.log(storeId);
-        instance.get(`/category/getCategoryIdByStoreId?storeId=${storeId}`).then((res) => {
-            console.log(res.data);
-            setCategoryId(res.data);
-        });
-    };
-
-    //비슷한 가게 정보 가져오기
-    const getSimilarStoreList = (categoryId) => {
-        instance
-            .get(`/store/getSimilarStoreList?categoryId=${categoryId}`)
-            .then((res) => {
-                console.log(res.data);
-                setStoreList(res.data); // 비슷한 가게 목록 설정
-            })
-            .catch((error) => {
-                console.error("비슷한 가게 정보 가져오기 실패:", error);
-                Swal.fire({
-                    title: "실패",
-                    text: "비슷한 가게 정보 리스트 가져오는 데 실패했습니다.",
-                    icon: "error",
-                });
-            })
-            .finally(() => {
-                setLoading(false);
-            });
     };
 
     // 즐겨찾기 등록 버튼 클릭 핸들러
@@ -147,7 +117,7 @@ const SimilarStoreList = () => {
         const ratings = {};
         const reviewCounts = {};
 
-        for (const store of storeList) {
+        for (const store of similarStoreList) {
             const rating = await getRatingAvgByStoreId(store.storeId);
             const reviewCount = await getReviewCountByStoreId(store.storeId);
 
@@ -159,6 +129,10 @@ const SimilarStoreList = () => {
         setStoreReviewCounts(reviewCounts);
     };
 
+    const reload = () => {
+        window.location.reload();
+    };
+
     // 페이지 로드 시 사용자의 즐겨찾기 정보 불러오기
     useEffect(() => {
         if (userInfo.id) {
@@ -166,19 +140,50 @@ const SimilarStoreList = () => {
         }
     }, [userInfo.id]);
 
-    // storeData가 업데이트 될 때마다 평점과 리뷰 수 가져오기
+    // storeData가 업데이트 될 때마다 평점과 리뷰 수 가져오기1
     useEffect(() => {
-        if (storeList.length > 0) {
+        if (similarStoreList.length > 0) {
             fetchRatingsAndReviews();
         }
-    }, [storeList]);
+    }, [similarStoreList]);
 
     // 비슷한 가게 정보 가져오기
     useEffect(() => {
-        getCategoryId();
-        getSimilarStoreList(categoryId);
-        console.log(storeList);
+        console.log(storeId);
+        instance
+            .get(`/category/getCategoryIdByStoreId?storeId=${storeId}`)
+            .then((res) => {
+                console.log(res.data);
+                setCategoryId(res.data);
+                instance
+                    .get(`/store/getSimilarStoreList?categoryId=${res.data}&storeId=${storeId}`)
+                    .then((res) => {
+                        console.log(res.data);
+                        setSimilarStoreList(res.data); // 비슷한 가게 목록 설정
+                    })
+                    .catch((error) => {
+                        console.error("비슷한 가게 정보 가져오기 실패:", error);
+                        Swal.fire({
+                            title: "실패",
+                            text: "비슷한 가게 정보 리스트 가져오는 데 실패했습니다.",
+                            icon: "error",
+                        });
+                    })
+                    .finally(() => {
+                        setLoading(false);
+                    });
+            })
+            .catch((error) => {
+                console.error("카테고리ID 가져오기 실패:", error);
+                Swal.fire({
+                    title: "실패",
+                    text: "카테고리ID 가져오기를 실패했습니다.",
+                    icon: "error",
+                });
+            });
     }, []);
+
+    console.log(similarStoreList);
 
     if (loading) {
         return <div>로딩 중...</div>;
@@ -187,37 +192,36 @@ const SimilarStoreList = () => {
     return (
         <>
             <div style={{ width: "100%" }}>
-                <Slider {...settings}>
-                    {storeList.map((item, index) => (
+                <Slider {...settings} draggable="false">
+                    {similarStoreList.map((item, index) => (
                         <div key={index}>
-                            <img
-                                src={`${process.env.REACT_APP_HOST}/file/view/${item.saveFileName}`}
-                                alt={`slide ${index}`}
-                                style={{
-                                    width: "100%",
-                                    height: "auto",
-                                    borderTopRightRadius: "8px",
-                                    borderTopLeftRadius: "8px",
-                                }}
-                            />
+                            <Link to="/store/info" state={item.storeId}>
+                                <img
+                                    onClick={reload}
+                                    src={`${process.env.REACT_APP_HOST}/file/view/${item.saveFileName}`}
+                                    alt={`slide ${index}`}
+                                    style={{
+                                        width: "100%",
+                                        height: "auto",
+                                        borderTopRightRadius: "8px",
+                                        borderTopLeftRadius: "8px",
+                                    }}
+                                />
+                            </Link>
                             <Card.Body className="menuInfo">
-                                <Card.Title className="menuTitle">{item.storeName}</Card.Title>
-                                    <Card.Text>
+                                <Link to="/store/info" state={item.storeId}>
+                                    <Card.Title onClick={reload} className="menuTitle">{item.storeName}</Card.Title>
+                                    <Card.Text onClick={reload}>
                                         ⭐{storeRatings[item.storeId] || 0}({storeReviewCounts[item.storeId] || 0}){" "}
                                         {item.identity}
                                     </Card.Text>
-                                    {isFavorite[item.storeId] ? (
-                                    <Button
-                                        className="favoriteBtn onBtn"
-                                        onClick={() => favoriteCancelClickHandler(item.storeId)}
-                                    >
+                                </Link>
+                                {isFavorite[item.storeId] ? (
+                                    <Button className="onBtn" onClick={() => favoriteCancelClickHandler(item.storeId)}>
                                         <FontAwesomeIcon icon={faBookmarkSolid} />
                                     </Button>
                                 ) : (
-                                    <Button
-                                        className="favoriteBtn offBtn"
-                                        onClick={() => favoriteClickHandler(item.storeId)}
-                                    >
+                                    <Button className="offBtn" onClick={() => favoriteClickHandler(item.storeId)}>
                                         <FontAwesomeIcon icon={faBookmarkRegular} />
                                     </Button>
                                 )}
@@ -226,27 +230,6 @@ const SimilarStoreList = () => {
                     ))}
                 </Slider>
             </div>
-            {/* {menuList.length > 0 ? (
-                <ul>
-                    {menuList.map((item) => (
-                        <li key={item.menuId}>
-                            <Card style={{ width: "18rem" }}>
-                                <Card.Img
-                                    variant="top"
-                                    src={`${process.env.REACT_APP_HOST}/file/view/${item.saveFileName}`}
-                                />
-                                <Card.Body>
-                                    <Card.Title>{item.menuName}</Card.Title>
-                                    <Card.Text>{item.description}</Card.Text>
-                                    <Card.Text>{convertToWon(item.price)}</Card.Text>
-                                </Card.Body>
-                            </Card>
-                        </li>
-                    ))}
-                </ul>
-            ) : (
-                <p>메뉴가 없습니다.</p>
-            )} */}
         </>
     );
 };
