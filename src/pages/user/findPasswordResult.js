@@ -4,7 +4,7 @@ import { Button, Form, Container, Alert } from "react-bootstrap"; // react-boots
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCopy as faCopySolid } from "@fortawesome/free-solid-svg-icons"; // solid 아이콘 임포트
 import { faCopy as faCopyRegular } from "@fortawesome/free-regular-svg-icons"; // regular 아이콘 임포트
-
+import "./css/findPasswordResult.css";
 const FindPasswordResult = () => {
   const location = useLocation(); // 현재 위치 정보 받기
   const { message } = location.state || {}; // state에서 message 받기
@@ -40,17 +40,15 @@ const FindPasswordResult = () => {
 
   return (
     <Container className="find-pw-result-container">
-      {message ? (
-        <>
-          <div className="find-pw-box">
-            {" "}
+      <div className="find-pw-result-cover">
+        <h5>임시 비밀번호</h5>
+        {message ? (
+          <>
             {/* d-flex로 수평 배치 */}
-            <Form.Group controlId="resultMessage" className="flex-grow-1">
-              {" "}
-              {/* Form.Control 크기 조정 */}
-              <Form.Label>
-                <h5>임시 비밀번호</h5>
-              </Form.Label>
+            <Form.Group
+              controlId="resultMessage"
+              className="find-pw-result-text-icon"
+            >
               <Form.Control
                 as="textarea"
                 ref={copyTxtRef} // ref 연결
@@ -60,28 +58,29 @@ const FindPasswordResult = () => {
                 style={{ resize: "none" }} // 크기 조절 비활성화
                 className="find-pw-text"
               ></Form.Control>
-              <FontAwesomeIcon
-                className="copy-icon ms-2" // ms-2로 아이콘과 텍스트 간격 조정
-                icon={isCopied ? faCopyRegular : faCopySolid}
-                onClick={copy}
-                style={{ cursor: "pointer" }} // 아이콘 클릭 시 포인터 모양
-                size="3x" // 크기 조정
-              />
+              <div>
+                <FontAwesomeIcon
+                  className="find-pw-icon"
+                  icon={isCopied ? faCopyRegular : faCopySolid}
+                  onClick={copy}
+                  style={{ cursor: "pointer" }} // 아이콘 클릭 시 포인터 모양
+                  size="3x" // 크기 조정
+                />
+              </div>
             </Form.Group>
-          </div>
-
-          {/* 복사 성공 메시지 */}
-          {copyMessage && (
-            <Alert variant="success" className="mt-3">
-              {copyMessage}
-            </Alert>
-          )}
-        </>
-      ) : (
-        <Alert variant="warning" className="mt-3">
-          <p>임시 비밀번호를 찾을 수 없습니다. 다시 시도해 주세요.</p>
-        </Alert>
-      )}
+            {/* 복사 성공 메시지 */}
+            {copyMessage && (
+              <Alert variant="success" className="find-pw-text">
+                {copyMessage}
+              </Alert>
+            )}
+          </>
+        ) : (
+          <Alert variant="warning" className="find-pw-text">
+            <p>임시 비밀번호를 찾을 수 없습니다. 다시 시도해 주세요.</p>
+          </Alert>
+        )}
+      </div>
     </Container>
   );
 };
