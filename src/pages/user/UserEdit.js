@@ -38,6 +38,10 @@ const UserEdit = () => {
   const onChange = (e) => {
     const { id, value } = e.target;
 
+    if (value.replace(/\D/g, "").length > 11) {
+      return; // 11자리가 넘으면 입력을 막음
+    }
+
     // 전화번호가 11자리를 넘지 않도록 제한
     if (id === "phone") {
       const formattedPhone = formatPhoneNumber(value);

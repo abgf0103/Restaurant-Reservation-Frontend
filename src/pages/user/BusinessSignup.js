@@ -47,6 +47,10 @@ const BusinessSignup = () => {
 
   const handlePhoneChange = (e) => {
     const value = formatPhoneNumber(e.target.value);
+    if (value.replace(/\D/g, "").length > 11) {
+      return; // 11자리가 넘으면 입력을 막음
+    }
+
     setFormData({
       ...formData,
       phone: value,
