@@ -18,7 +18,6 @@ import { getUserInfo } from "../../hooks/userSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBookmark as faBookmarkSolid, faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import { faBookmark as faBookmarkRegular } from "@fortawesome/free-regular-svg-icons";
-import SimilarStoreList from "./SimilarStoreList";
 
 const { kakao } = window;
 
@@ -370,27 +369,13 @@ const StoreInfo = () => {
         }
     };
 
-    useEffect(() => {
-        getMap();
-        getData();
-        console.log(storeData);
-    }, [storeId]);
-
-    //리뷰가 있으면 getRatingAvgByStoreId 실행으로 변경
-    useEffect(() => {
-        getReviewCountByStoreId();
-        getIsFavorite();
-        console.log(isFavorite);
-        console.log(storeData);
-    }, []);
 
     const handleReserveClick = () => {
         setIsPanelOpen(true);
     };
+        
 
-    if (loading) {
-        return <div>로딩 중...</div>;
-    }
+    
 
     // 스크롤 이벤트 처리 함수
     const scrollToSection = (sectionId) => {
@@ -411,6 +396,7 @@ const StoreInfo = () => {
     };
 
     console.log(reviews);
+    
 
     // 별점을 처리하는 함수
     const renderStars = (rating) => {
@@ -430,6 +416,7 @@ const StoreInfo = () => {
         }
         return stars;
     };
+    
 
     // 즐겨찾기 등록 버튼 클릭 핸들러
     const favoriteClickHandler = () => {
@@ -469,6 +456,24 @@ const StoreInfo = () => {
                 });
             });
     };
+    
+    useEffect(() => {
+        getMap();
+        getData();
+        console.log(storeData);
+    }, [storeId]);
+
+    //리뷰가 있으면 getRatingAvgByStoreId 실행으로 변경
+    useEffect(() => {
+        getReviewCountByStoreId();
+        getIsFavorite();
+        console.log(isFavorite);
+        console.log(storeData);
+    }, []);
+
+    if (loading) {
+        return <div>로딩 중...</div>;
+    }
 
     return (
         <main className="storeMain">
@@ -648,7 +653,7 @@ const StoreInfo = () => {
             <h4 className="info" id="info">
                 비슷한 매장 추천
             </h4>
-            <SimilarStoreList />
+            <MenuList />
             <button className="reserve-button-info" onClick={handleReserveClick}>
                 예약하기
             </button>
