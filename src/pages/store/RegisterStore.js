@@ -185,7 +185,7 @@ const RegisterStore = () => {
                 description: storeData.description,
                 identity: storeData.identity,
                 fileId: fileId,
-                guideLines : storeData.guideLines
+                guideLines : storeData.guideLines,
             })
             .then(() => {
                 Swal.fire({

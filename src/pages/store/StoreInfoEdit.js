@@ -1,7 +1,7 @@
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import instance from "../../api/instance";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Swal from "sweetalert2";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDaumPostcodePopup } from "react-daum-postcode";
@@ -13,6 +13,7 @@ const RegisterStore = () => {
     const [address, setAddress] = useState([]);
     const [selectedFile, setSelectedFile] = useState(null); // 업로드할 파일
     const [fileList, setFileList] = useState([]); // 업로드된 파일 리스트
+    const [isGuideLines, setIsGuideLines] = useState(false); // 가게 안내 및 유의사항 체크박스 상태
 
     // 유저정보 가져오기
     const [userInfo, setUserInfo] = useState("");
@@ -33,11 +34,15 @@ const RegisterStore = () => {
         storeName: "", // 가게 이름
         address: "", // 주소
         identity: "", // 가게 정체성
+        guideLines: "", // 가게 유의사항
     });
 
     const getStoreData = () => {
         instance.get(`/store/view/${storeId}`).then((res) => {
             console.log(res.data);
+            if (res.data.guideLines !== null) {
+                setIsGuideLines(true);
+            }
             setStoreData(res.data);
         });
     };
@@ -73,6 +78,12 @@ const RegisterStore = () => {
 
         console.log("Store Data:", storeData); // 콘솔에 가게 정보 확인
     };
+
+    const isGuideLinesHandler = (e) => {
+        setIsGuideLines(e.target.checked); // 가게 안내 및 유의사항 체크박스 상태 업데이트
+    };
+
+    const getGuideLines = () => {};
 
     const [isAgrre, setIsAgree] = useState(false);
 
@@ -137,6 +148,7 @@ const RegisterStore = () => {
                 description: storeData.description,
                 identity: storeData.identity,
                 fileId: storeData.fileId,
+                guideLines : storeData.guideLines,
             })
             .then(() => {
                 Swal.fire({
@@ -267,6 +279,16 @@ const RegisterStore = () => {
             });
     };
 
+    const textAreaRef = useRef(null); // textarea에 접근하기 위한 ref
+
+    useEffect(() => {
+        if (textAreaRef.current) {
+            // 초기 렌더링 시 텍스트 영역의 높이를 자동으로 설정
+            textAreaRef.current.style.height = "auto";
+            textAreaRef.current.style.height = `${textAreaRef.current.scrollHeight}px`;
+        }
+    }, [storeData.guideLines]); // storeData.guideLines가 변경될 때마다 텍스트 영역 크기 재조정
+
     return (
         <main>
             <Form onSubmit={requestStoreRegister} className="registerStoreForm">
@@ -275,7 +297,12 @@ const RegisterStore = () => {
                         <h2 className="title">{storeData.storeName}</h2>
                     </Form.Label>
                 </Form.Group>
-                <Button className="deleteStoreBtn" variant="danger" onClick={() => handleDelete(storeId)} disabled={isDelete}>
+                <Button
+                    className="deleteStoreBtn"
+                    variant="danger"
+                    onClick={() => handleDelete(storeId)}
+                    disabled={isDelete}
+                >
                     {isDelete ? "삭제 중" : "삭제 요청"}
                 </Button>
 
@@ -377,6 +404,43 @@ const RegisterStore = () => {
                         onChange={onChangeHandler}
                     />
                 </Form.Group>
+
+                <Form.Group className="mb-3">
+                    <Form.Check
+                        type="checkbox"
+                        id="agreeGuideCheckbox"
+                        checked={isGuideLines}
+                        label="가게 안내와 유의사항 작성하기"
+                        onChange={isGuideLinesHandler}
+                    />
+                </Form.Group>
+
+                {isGuideLines && (
+                    <>
+                        {isGuideLines && (
+                            <Form.Group className="mb-3">
+                                <Form.Label>유의사항</Form.Label>
+                                <Form.Control
+                                    as="textarea"
+                                    placeholder="유의사항을 입력하세요"
+                                    name="guideLines"
+                                    value={storeData.guideLines}
+                                    onChange={onChangeHandler}
+                                    rows={3} // 기본적으로 3행 크기 설정
+                                    ref={textAreaRef} // textarea에 ref 추가
+                                    onInput={(e) => {
+                                        e.target.style.height = "auto"; // 기존 크기 초기화
+                                        e.target.style.height = `${e.target.scrollHeight}px`; // 자동으로 크기 조정
+                                    }}
+                                    style={{
+                                        overflow: "hidden", // 스크롤 숨기기
+                                        resize: "none", // 사용자가 크기를 조정하지 못하도록
+                                    }}
+                                />
+                            </Form.Group>
+                        )}
+                    </>
+                )}
 
                 <Form.Group className="mb-3">
                     <Form.Check

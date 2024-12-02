@@ -12,7 +12,7 @@ import { Button } from "react-bootstrap";
 import moment from "moment";
 import Swal from "sweetalert2";
 import "./css/store.css";
-import { isNotLoginSwal } from "../../utils/tools";
+import { convertNewlinesToBr, isNotLoginSwal } from "../../utils/tools";
 import { useSelector } from "react-redux";
 import { getUserInfo } from "../../hooks/userSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -641,7 +641,7 @@ const StoreInfo = () => {
                     <h4 className="info" id="info">
                         안내 및 유의사항
                     </h4>
-                    <p className="guideLines">{storeData.guideLines}</p>
+                    <p className="guideLines">{convertNewlinesToBr(storeData.guideLines)}</p>
                 </>
             )}
             <h4 className="info" id="info">

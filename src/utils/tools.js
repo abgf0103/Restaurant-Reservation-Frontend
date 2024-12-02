@@ -62,3 +62,15 @@ export const formatStoreHours = (value) => {
         return cleaned.replace(/(\d{2})(\d{2})(\d{2})(\d{0,2})/, "$1:$2~$3:$4");
     }
 };
+
+export const convertNewlinesToBr = (text) => {
+    if (!text) {
+        return null; // 빈 문자열이나 null 또는 undefined일 경우 처리
+    }
+    return text.split("\n").map((line, index) => (
+        <span key={index}>
+            {line}
+            <br />
+        </span>
+    ));
+};
