@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import { removeTokenInfo } from "../hooks/tokenSlice";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Form, FormControl, Dropdown } from "react-bootstrap";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import instance from "../api/instance";
 import logoImg from "../img/logo.png";
 
@@ -16,44 +16,52 @@ const Header = () => {
   const userInfo = useSelector(getUserInfo); // Redux에서 로그인된 사용자 정보 가져오기
   const dispatch = useDispatch();
 
+  const [isMobileView, setIsMobileView] = useState(false); // 모바일 뷰 판단을 위한 상태
+
+  // 화면 크기에 따라 모바일 뷰 상태 업데이트
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobileView(window.innerWidth < 994); // 994 이하일 때 드롭다운 버튼 생성
+    };
+
+    // 초기 설정 및 resize 이벤트 리스너 추가
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    // 컴포넌트 언마운트 시 이벤트 리스너 제거
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   // 로그아웃 처리
   const handleLogout = () => {
-    // 로컬스토리지에서 로그인 정보 및 토큰 삭제
     localStorage.removeItem("tokenInfo");
     localStorage.removeItem("userInfo");
-
-    // Redux 상태 초기화
     dispatch(removeUserInfo());
     dispatch(removeTokenInfo());
-
-    // 메인 페이지로 리다이렉트
     navigate("/");
   };
 
-  // '/'경로인 상태면 goBack버튼이 보이지 않게
-
   const goBack = () => {
-    navigate(-1); // 이전 페이지로 돌아간다
+    navigate(-1);
   };
 
-  const [searchKeyword, setSearchKeyword] = useState([]); // 검색어 상태 관리
+  const [searchKeyword, setSearchKeyword] = useState([]);
 
   const handleSearchChange = (e) => {
-    setSearchKeyword(e.target.value); // 검색어 입력 시 상태 업데이트
+    setSearchKeyword(e.target.value);
   };
 
   const searchStore = (keyword) => {
     instance.get(`/store/search?searchKeyword=${keyword}`).then((res) => {
-      console.log(res.data);
       const result = res.data;
-      console.log(result);
       navigate("/", { state: { result } });
     });
   };
 
   const handleSearchSubmit = (e) => {
-    e.preventDefault(); // 폼 제출 시 페이지 리로드 방지
-    //검색어가 변경될때마다 키워드 검색결과 호출
+    e.preventDefault();
     searchStore(searchKeyword);
   };
 
@@ -61,16 +69,13 @@ const Header = () => {
     <header>
       <Navbar expand="lg">
         <Container id="headerContainer">
-          {/* 기본경로에선 goBack 버튼 숨기기 */}
-          {window.location.pathname === "/" ? (
-            <></>
-          ) : (
+          {window.location.pathname === "/" ? null : (
             <Button id="back" onClick={goBack}>
               ←
             </Button>
           )}
           <Navbar.Brand href="/">
-            <img src={logoImg} alt="" className="logoImg" />
+            <img src={logoImg} alt="Logo" className="logoImg" />
           </Navbar.Brand>
           <Form onSubmit={handleSearchSubmit} id="search-form">
             <div id="search-bar">
@@ -82,29 +87,25 @@ const Header = () => {
                 onChange={handleSearchChange}
               />
             </div>
-            <Button
-              id="search"
-              type="submit"
-              style={{ position: "absolute", top: "2px", right: "15px" }}
-            >
+            <Button id="search" type="submit">
               검색
             </Button>
           </Form>
-          <Dropdown>
-            <Dropdown.Toggle id="dropdown-basic"></Dropdown.Toggle>
+          {isMobileView ? (
+            <Dropdown>
+              <Dropdown.Toggle id="dropdown-basic"></Dropdown.Toggle>
 
-            <Dropdown.Menu id="dropdown-menu">
-              {userInfo && userInfo.username ? (
-                // 로그인 상태일 때만 보여줌 (로그아웃 버튼)
-                <Dropdown.Item id="dropdown-item">
-                  <span className="nickname">{userInfo.username + "님"} </span>
-                  <Button onClick={handleLogout} id="logout">
-                    로그아웃
-                  </Button>
-                </Dropdown.Item>
-              ) : (
-                <>
-                  {/* 비로그인 상태일 때만 보여줌 (로그인/회원가입 버튼) */}
+              <Dropdown.Menu id="dropdown-menu">
+                {userInfo && userInfo.username ? (
+                  <Dropdown.Item id="dropdown-item">
+                    <span className="nickname">
+                      {userInfo.username + "님"}{" "}
+                    </span>
+                    <Button onClick={handleLogout} id="logout">
+                      로그아웃
+                    </Button>
+                  </Dropdown.Item>
+                ) : (
                   <div className="btn-container">
                     <Dropdown.Item id="dropdown-item">
                       <Button
@@ -123,13 +124,37 @@ const Header = () => {
                       </Button>
                     </Dropdown.Item>
                   </div>
+                )}
+              </Dropdown.Menu>
+            </Dropdown>
+          ) : (
+            <div id="user-buttons">
+              {userInfo && userInfo.username ? (
+                <>
+                  <span className="nickname">{userInfo.username + "님"} </span>
+                  <Button onClick={handleLogout} id="logout">
+                    로그아웃
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button id="login" onClick={() => navigate("/user/login")}>
+                    로그인
+                  </Button>
+                  <Button
+                    id="join"
+                    onClick={() => navigate("/user/PreUserEdit")}
+                  >
+                    회원가입
+                  </Button>
                 </>
               )}
-            </Dropdown.Menu>
-          </Dropdown>
+            </div>
+          )}
         </Container>
       </Navbar>
     </header>
   );
 };
+
 export default Header;
