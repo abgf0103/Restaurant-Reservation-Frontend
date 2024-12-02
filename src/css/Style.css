@@ -21,8 +21,11 @@
   margin: 0 auto; /* 중앙 정렬 */
 }
 
-* {
-  transition: 0.5s;
+.kakaoMapContainer,
+.kakaoMapContainer > *,
+#__react-kakao-maps-sdk___Map,
+#__react-kakao-maps-sdk___Map > * {
+  transition: 0s !important;
 }
 
 /* style reset */
@@ -223,8 +226,8 @@ footer {
   text-align: center;
 
   z-index: 1000;
-  height: 70px; /* 푸터 높이 */
-  line-height: 50px; /* 텍스트 수직 중앙 정렬 */
+  /* height: 70px;  */
+  /* line-height: 50px;  */
 }
 
 header form {
@@ -275,7 +278,7 @@ body {
 }
 
 .footer-nav .nav-link :only-child {
-  margin-bottom: 10px;
+  /* margin-bottom: 10px; */
 }
 
 /* 페이지네이션 */
