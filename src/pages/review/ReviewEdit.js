@@ -15,15 +15,15 @@ import {
   FileList,
   FileUploadButton,
   FileUploadSection,
-  H1,
   RatingFormGroup,
-  RatingInput,
   RatingLabel,
   ReveiwContainer,
   ReviewCommentFormGroup,
   ReviewCommentLabel,
   ReviewCommentTextArea,
+  ReviewEditTitle,
   SubmitButton,
+  Username,
 } from "../../components/Review/ReviewEditStyle";
 
 const ReviewEdit = () => {
@@ -292,8 +292,9 @@ const ReviewEdit = () => {
       <Row className="justify-content-center">
         <Col md={8}>
           <Card className="shadow-lg p-4">
-            <H1>{userInfo.username} 고객님 리뷰 수정</H1>
-
+            <ReviewEditTitle>
+              <Username> {userInfo.username} </Username>고객님 리뷰 수정
+            </ReviewEditTitle>
             <Form onSubmit={handleSubmit}>
               <RatingFormGroup controlId="rating" className="mb-4">
                 <RatingLabel>Rating:</RatingLabel>
@@ -336,46 +337,43 @@ const ReviewEdit = () => {
                 리뷰 수정
               </SubmitButton>
             </Form>
-
             {/* 파일 첨부 부분 */}
-            {review.files.length > 0 && (
-              <FileUploadSection className="mt-5">
-                <FileLibel>첨부 파일:</FileLibel>
-                <input
-                  className="file-input mb-3"
-                  type="file"
-                  multiple
-                  onChange={handleFileChange}
-                  accept="image/*"
-                />
-                <FileUploadButton
-                  variant="danger"
-                  className="submit-button"
-                  onClick={handleFileUpload}
-                >
-                  업로드
-                </FileUploadButton>
+            <FileUploadSection className="mt-5">
+              <FileLibel>첨부 파일:</FileLibel>
+              <input
+                className="file-input mb-3"
+                type="file"
+                multiple
+                onChange={handleFileChange}
+                accept="image/*"
+              />
+              <FileUploadButton
+                variant="danger"
+                className="submit-button"
+                onClick={handleFileUpload}
+              >
+                업로드
+              </FileUploadButton>
 
-                <FileList>
-                  {review.files.map((fileItem) => (
-                    <FileItem key={fileItem.id}>
-                      <FileImage
-                        src={`${process.env.REACT_APP_HOST}/file/view/${fileItem.saveFileName}`}
-                        alt={`첨부 파일 ${fileItem.id}`}
-                      />
-                      <DeleteFileButton
-                        variant="danger"
-                        size="sm"
-                        className="mt-2"
-                        onClick={() => deleteFile(fileItem)}
-                      >
-                        삭제
-                      </DeleteFileButton>
-                    </FileItem>
-                  ))}
-                </FileList>
-              </FileUploadSection>
-            )}
+              <FileList>
+                {review.files.map((fileItem) => (
+                  <FileItem key={fileItem.id}>
+                    <FileImage
+                      src={`${process.env.REACT_APP_HOST}/file/view/${fileItem.saveFileName}`}
+                      alt={`첨부 파일 ${fileItem.id}`}
+                    />
+                    <DeleteFileButton
+                      variant="danger"
+                      size="sm"
+                      className="mt-2"
+                      onClick={() => deleteFile(fileItem)}
+                    >
+                      삭제
+                    </DeleteFileButton>
+                  </FileItem>
+                ))}
+              </FileList>
+            </FileUploadSection>
           </Card>
         </Col>
       </Row>

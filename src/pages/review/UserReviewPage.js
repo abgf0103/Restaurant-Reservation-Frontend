@@ -82,7 +82,7 @@ const UserReviewPage = () => {
   return (
     <UserReviewPageContainer>
       <UserReviewTitle>
-        <Username>{username}</Username> 사용자님의 리뷰 페이지
+        <Username>{username}</Username> 사용자님의 리뷰 목록
       </UserReviewTitle>
       <Row className="row-eq-height">
         {reviews.length > 0 ? (
