@@ -140,6 +140,7 @@ const MyReview = () => {
       stars.push(
         i < rating ? (
           <svg
+            key={`star-${i}`} // 각 별에 고유 key 추가
             xmlns="http://www.w3.org/2000/svg"
             width="16"
             height="16"
@@ -150,6 +151,7 @@ const MyReview = () => {
           </svg>
         ) : (
           <svg
+            key={`star-${i}`} // 각 별에 고유 key 추가
             xmlns="http://www.w3.org/2000/svg"
             width="16"
             height="16"
@@ -220,10 +222,10 @@ const MyReview = () => {
                     <MiniTitle>{review.storeName}</MiniTitle>
                     <CardText>{review.reviewComment}</CardText>
                     <ListGroup variant="flush">
-                      <ListGroupItem>
+                      <ListGroupItem key={`rating-${review.reviewId}`}>
                         별점: {renderStars(review.rating)}
                       </ListGroupItem>
-                      <ListGroupItem>
+                      <ListGroupItem key={`like-${review.reviewId}`}>
                         좋아요 수: {review.likeCount} ❤️
                       </ListGroupItem>
                     </ListGroup>
