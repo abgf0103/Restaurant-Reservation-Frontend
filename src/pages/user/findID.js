@@ -6,6 +6,7 @@ import { Button, Container, Form } from "react-bootstrap";
 
 const FindIdForm = () => {
   const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate(); // navigate 함수
@@ -13,22 +14,16 @@ const FindIdForm = () => {
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
   };
-
+  //폼 제출 처리
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!email) {
-      setMessage("이메일을 입력해주세요.");
-      return;
-    }
 
     setLoading(true);
     setMessage("");
 
-    //백엔드에 email전달
     try {
       const response = await instance.get("/member/user/findID", {
-        params: { email },
+        params: { name: name, email: email },
       });
 
       console.log(response);
@@ -41,7 +36,7 @@ const FindIdForm = () => {
           state: { cause: response.data.cause },
         });
       } else {
-        setMessage("이메일에 해당하는 아이디가 없습니다.");
+        setMessage("입력된 정보에 해당하는 아이디가 없습니다.");
       }
     } catch (error) {
       setMessage("서버 오류가 발생했습니다.");
@@ -56,7 +51,17 @@ const FindIdForm = () => {
         <Container className="find-id-cover">
           <div className="find-id-main">
             <h4>아이디 찾기</h4>
-
+            <Form controlId="name">
+              <Form.Label>이름</Form.Label>
+              <Form.Control
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+                placeholder="이름을 입력해주세요"
+                className="find-pw-input"
+              />
+            </Form>
             <Form onSubmit={handleSubmit} className="findIdBox">
               <Form.Label>이메일</Form.Label>
               <Form.Control
