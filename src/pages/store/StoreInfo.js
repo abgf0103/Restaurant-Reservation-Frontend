@@ -30,9 +30,8 @@ const EventMarkerContainer = ({ position, content }) => {
   const map = useMap();
   const [isVisible, setIsVisible] = useState(false);
 
-  // 식당에 어울리는 마커 이미지
   const customMarkerImage =
-    "https://cdn-icons-png.flaticon.com/512/1516/1516034.png"; // 식당 아이콘 이미지 URL (예시)
+    "https://cdn-icons-png.flaticon.com/512/1516/1516034.png"; // 식당 아이콘 이미지 URL
 
   return (
     <MapMarker
