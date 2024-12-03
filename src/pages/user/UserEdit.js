@@ -206,7 +206,7 @@ const UserEdit = () => {
           variant="primary"
           type="submit"
           className="user-edit-delete-btn"
-          onChange={deleteChange}
+          onClick={deleteChange}
         >
           회원 탈퇴
         </Button>
