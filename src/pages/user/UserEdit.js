@@ -156,12 +156,15 @@ const UserEdit = () => {
         });
       });
   };
+  const deleteChange = () => {
+    navigate("/user/deleteUser");
+  };
 
   return (
     <div className="user-edit-main-container">
       <Form onSubmit={onSubmit} className="user-edit-container">
         <h2>
-          <span className="user-edit-text">회원 정보</span>
+          <span className="user-edit-text">회원 관리</span>
         </h2>
         <Form.Group className="mb-3" controlId="name">
           <Form.Label>이름</Form.Label>
@@ -198,6 +201,14 @@ const UserEdit = () => {
 
         <Button variant="primary" type="submit" className="user-edit-btn">
           수정하기
+        </Button>
+        <Button
+          variant="primary"
+          type="submit"
+          className="user-edit-delete-btn"
+          onChange={deleteChange}
+        >
+          회원 탈퇴
         </Button>
       </Form>
     </div>

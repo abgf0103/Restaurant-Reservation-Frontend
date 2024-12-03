@@ -34,11 +34,22 @@
 }
 
 .user-edit-text {
-  font-size: 50px; /* 화면 너비에 따라 폰트 크기 조정 */
+  font-size: 4vw; /* 화면 너비에 따라 폰트 크기 조정 */
   text-align: center;
   margin: 0;
   width: 35%;
   bottom: 700px;
   padding-bottom: 20px;
   position: absolute;
+}
+.user-edit-delete-btn {
+  margin-top: 150px;
+  background-color: var(--secondary-color) !important;
+  width: 100%; /* 버튼도 부모 요소의 100% 너비로 설정 */
+}
+.user-edit-delete-btn {
+  background-color: rgb(231, 33, 33) !important;
+}
+.user-edit-delete-btn:hover {
+  background-color: rgb(194, 6, 6) !important;
 }

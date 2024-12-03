@@ -11,7 +11,7 @@
   padding: 30px; /* 내부 여백을 추가 */
   background-color: #fff; /* 배경색을 설정 (선택사항) */
   border-radius: 10px; /* 모서리를 둥글게 (선택사항) */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 (선택사항) */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8); /* 그림자 효과 (선택사항) */
   transform: translateY(-20px); /* 위로 살짝 띄운 효과 */
 }
 .find-id-input {

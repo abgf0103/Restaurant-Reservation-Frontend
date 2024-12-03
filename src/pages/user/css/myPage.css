@@ -8,7 +8,7 @@
 .mypage-container {
   display: flex;
   position: absolute;
-  flex-direction: column; /* 수직으로 배치 */
+
   align-items: center; /* 중앙 정렬 */
   text-align: center; /* 텍스트 중앙 정렬 */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8); /* 그림자 효과 (선택사항) */
@@ -78,9 +78,7 @@
   border-radius: 5px;
   gap: 50px;
 }
-.mypage-button-delete:hover {
-  background-color: rgb(231, 33, 33) !important;
-}
+
 .mypage-button:hover {
   background-color: var(--tertiary-color);
 }
