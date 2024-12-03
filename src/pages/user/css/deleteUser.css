@@ -1,0 +1,20 @@
+.deleteUser-container {
+  height: 785px;
+  position: relative; /* 자식 요소의 absolute 위치 기준 설정 */
+  display: flex;
+  justify-content: center; /* 수평 중앙 정렬 */
+  align-items: center; /* 수직 중앙 정렬 */
+}
+.deleteUser-cover {
+  position: relative; /* 자식 요소의 absolute 위치 기준 설정 */
+  display: flex;
+  justify-content: center; /* 수평 중앙 정렬 */
+  align-items: center; /* 수직 중앙 정렬 */
+  flex-direction: column; /* 수직으로 배치 */
+  padding: 100px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8); /* 그림자 효과 (선택사항) */
+}
+.deleteUser-text {
+  width: 100%;
+  text-align: center;
+}

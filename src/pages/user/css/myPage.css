@@ -85,11 +85,6 @@
   background-color: var(--tertiary-color);
 }
 .mypage-text {
-  text-decoration: none;
-  text-decoration-line: none;
   font-size: 20px;
   font-weight: 600;
-}
-.mypage-button .btn-link {
-  text-decoration: none; /* 링크의 밑줄 제거 */
 }
