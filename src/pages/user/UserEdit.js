@@ -58,7 +58,7 @@ const UserEdit = () => {
   };
   // 유효성 검사 함수
   const validateForm = () => {
-    const { name, phone } = formData;
+    const { name, phone, password } = formData;
 
     // 이름 유효성 검사: 한글 2자 이상, 10자 이하
     const nameRegex = /^[가-힣]{2,10}$/;
@@ -83,6 +83,18 @@ const UserEdit = () => {
       return false;
     }
 
+    if (password) {
+      const passwordPattern =
+        /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,15}$/;
+      if (!passwordPattern.test(password)) {
+        Swal.fire({
+          title: "오류",
+          text: "비밀번호는 8~15자, 영문 + 숫자 + 특수문자를 포함해야 합니다.",
+          icon: "error",
+        });
+        return false;
+      }
+    }
     return true;
   };
 
