@@ -24,6 +24,13 @@ const RegisterStore = () => {
     const postcodeScriptUrl = "https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
     const open = useDaumPostcodePopup(postcodeScriptUrl);
 
+    // 영업 시간 검증
+    const [storeTime, setStoreTime] = useState({
+        storeHours: "",
+    });
+    const [errorMessage, setErrorMessage] = useState("");
+    const [isValidTime, setIsValidTime] = useState(true);
+
     // 카테고리 리스트를 API로 받아서 state에 저장
     useEffect(() => {
         instance.get("/category/list").then((res) => {
@@ -52,6 +59,7 @@ const RegisterStore = () => {
             }));
         } else if (name === "storeHours") {
             const storeHours = formatStoreHours(e.target.value);
+            console.log(storeHours);
             setStoreData((prevState) => ({
                 ...prevState,
                 [name]: storeHours,
@@ -155,17 +163,8 @@ const RegisterStore = () => {
             return;
         }
 
-        if (!isGuideLines) {
-            Swal.fire({
-                title: "유의사항 작성",
-                text: "가게 안내와 유의사항을 작성하려면 해당 항목을 체크하세요.",
-                icon: "warning",
-            });
-            return;
-        }
-
+        // 파일 업로드 검증
         const fileId = fileList[0]?.id;
-
         if (!fileId) {
             Swal.fire({
                 title: "파일 업로드 오류",
@@ -175,6 +174,49 @@ const RegisterStore = () => {
             return;
         }
 
+        // storeHours 검증
+        const storeHours = storeData.storeHours;
+        const timePattern = /^(\d{2}):(\d{2})~(\d{2}):(\d{2})$/; // 'HH:mm~HH:mm' 형식
+        const match = storeHours.match(timePattern);
+
+        if (!match) {
+            Swal.fire({
+                title: "시간 형식 오류",
+                text: "가게 운영시간을 올바른 형식으로 입력해주세요 (예: 17:00~23:00).",
+                icon: "warning",
+            });
+            return;
+        }
+
+        const startHour = parseInt(match[1]);
+        const startMinute = parseInt(match[2]);
+        const endHour = parseInt(match[3]);
+        const endMinute = parseInt(match[4]);
+
+        // 시간 범위 검증
+        if (startHour > 24 || endHour > 24 || startMinute > 59 || endMinute > 59) {
+            Swal.fire({
+                title: "시간 범위 오류",
+                text: "시간은 00:00부터 23:59까지 입력할 수 있습니다.",
+                icon: "warning",
+            });
+            return;
+        }
+
+        // 시작 시간이 종료시간보다 크면 안 됨
+        if (startHour > endHour || (startHour === endHour && startMinute >= endMinute)) {
+            Swal.fire({
+                title: "시간 오류",
+                text: "시작시간은 종료시간보다 늦을 수 없습니다.",
+                icon: "warning",
+            });
+            return;
+        }
+
+        console.log(storeData.guideLines);
+        if (storeData.guideLines === undefined) {
+            storeData.guideLines = "";
+        }
         instance
             .post("/store/insert", {
                 userId: userInfo.id,
@@ -185,7 +227,7 @@ const RegisterStore = () => {
                 description: storeData.description,
                 identity: storeData.identity,
                 fileId: fileId,
-                guideLines : storeData.guideLines,
+                guideLines: storeData.guideLines,
             })
             .then(() => {
                 Swal.fire({
@@ -350,14 +392,13 @@ const RegisterStore = () => {
                                 name="guideLines"
                                 onChange={onChangeHandler}
                                 rows={3} // 기본적으로 3행 크기 설정
-                                
                                 onInput={(e) => {
                                     e.target.style.height = "auto";
                                     e.target.style.height = `${e.target.scrollHeight}px`; // 자동으로 크기 조정
                                 }}
                                 style={{
                                     overflow: "hidden", // 스크롤 숨기기
-                                    resize: "none",     // 사용자가 크기를 조정하지 못하도록
+                                    resize: "none", // 사용자가 크기를 조정하지 못하도록
                                 }}
                             />
                         </Form.Group>
