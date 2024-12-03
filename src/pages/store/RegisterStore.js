@@ -6,6 +6,8 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { useDaumPostcodePopup } from "react-daum-postcode";
 import { formatPhoneNumber, formatStoreHours } from "../../utils/tools";
+import moment from "moment";
+import { checkStoreHours } from "./../../utils/tools";
 
 const RegisterStore = () => {
     const navigate = useNavigate();
@@ -141,8 +143,26 @@ const RegisterStore = () => {
         open({ onComplete: handleComplete });
     };
 
+    const [startTime, setStartTime] = useState("");
+    const [endTime, setEndTime] = useState("");
+    const [validationMessage, setValidationMessage] = useState("");
+
     // 가게 등록 API 호출
     const requestStoreRegister = (e) => {
+                // storeHours 검증
+
+        // 시작 시간과 종료 시간을 moment 객체로 변환
+        const start = moment(storeData.storeHours.slice(0, 5), "HH:mm", true);
+        const end = moment(storeData.storeHours.slice(6, 11), "HH:mm", true);
+
+        // 시작 시간이 종료 시간보다 이전인지 확인
+        console.log(start, end);
+        console.log(validationMessage);
+        if (start.isBefore(end)) {
+            setValidationMessage("시작 시간이 종료 시간보다 이전입니다.");
+        } else {
+            setValidationMessage("시작 시간이 종료 시간보다 이전이어야 합니다.");
+        }
         e.preventDefault();
 
         if (storeCategory === undefined) {
@@ -174,44 +194,6 @@ const RegisterStore = () => {
             return;
         }
 
-        // storeHours 검증
-        const storeHours = storeData.storeHours;
-        const timePattern = /^(\d{2}):(\d{2})~(\d{2}):(\d{2})$/; // 'HH:mm~HH:mm' 형식
-        const match = storeHours.match(timePattern);
-
-        if (!match) {
-            Swal.fire({
-                title: "시간 형식 오류",
-                text: "가게 운영시간을 올바른 형식으로 입력해주세요 (예: 17:00~23:00).",
-                icon: "warning",
-            });
-            return;
-        }
-
-        const startHour = parseInt(match[1]);
-        const startMinute = parseInt(match[2]);
-        const endHour = parseInt(match[3]);
-        const endMinute = parseInt(match[4]);
-
-        // 시간 범위 검증
-        if (startHour > 24 || endHour > 24 || startMinute > 59 || endMinute > 59) {
-            Swal.fire({
-                title: "시간 범위 오류",
-                text: "시간은 00:00부터 23:59까지 입력할 수 있습니다.",
-                icon: "warning",
-            });
-            return;
-        }
-
-        // 시작 시간이 종료시간보다 크면 안 됨
-        if (startHour > endHour || (startHour === endHour && startMinute >= endMinute)) {
-            Swal.fire({
-                title: "시간 오류",
-                text: "시작시간은 종료시간보다 늦을 수 없습니다.",
-                icon: "warning",
-            });
-            return;
-        }
 
         console.log(storeData.guideLines);
         if (storeData.guideLines === undefined) {

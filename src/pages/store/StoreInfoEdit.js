@@ -138,7 +138,12 @@ const RegisterStore = () => {
             description: storeData.description,
             identity: storeData.identity,
             fileId: storeData.fileId,
+            guideLines : storeData.guideLines,
         });
+
+        if (storeData.guideLines === undefined) {
+            storeData.guideLines = "";
+        }
         instance
             .post("/store/update", {
                 storeId: storeData.storeId,

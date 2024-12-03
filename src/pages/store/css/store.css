@@ -217,3 +217,11 @@
     height: auto;
     border-radius: 8px;
 }
+
+.component-line{
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+    margin-top: 5px;
+    margin-bottom: 5px;
+}

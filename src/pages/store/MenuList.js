@@ -126,20 +126,24 @@ const MenuList = () => {
                     onMouseUp={handleMouseUp} // 마우스 클릭 종료
                     className="horizontal-scroll-menu"
                 >
-                    {menuList.map((item, index) => (
-                        <div key={index} className="horizontal-item">
+                    {menuList.length > 0 ? (
+                        menuList.map((item, index) => (
+                            <div key={index} className="horizontal-item">
                                 <img
                                     src={`${process.env.REACT_APP_HOST}/file/view/${item.saveFileName}`}
                                     alt={`slide ${index}`}
                                     className="menuImg"
                                 />
-                            <Card.Body className="menuInfo">
-                                <Card.Title className="menuTitle">{item.menuName}</Card.Title>
-                                <Card.Text>{item.description}</Card.Text>
-                                <Card.Text className="menuPrice">{convertToWon(item.price)}</Card.Text>
-                            </Card.Body>
-                        </div>
-                    ))}
+                                <Card.Body className="menuInfo">
+                                    <Card.Title className="menuTitle">{item.menuName}</Card.Title>
+                                    <Card.Text>{item.description}</Card.Text>
+                                    <Card.Text className="menuPrice">{convertToWon(item.price)}</Card.Text>
+                                </Card.Body>
+                            </div>
+                        ))
+                    ) : (
+                        <p>메뉴가 등록되지 않았습니다</p>
+                    )}
                 </div>
             </div>
         </>
