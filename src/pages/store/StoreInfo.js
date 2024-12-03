@@ -625,90 +625,114 @@ const StoreInfo = () => {
       >
         상세정보
       </Button>
-      <h4 className="description" id="description">
-        가게 설명
-      </h4>
-      <p>{storeData.description}</p>
-      <h2 className="menu" id="menu">
-        메뉴
-      </h2>
-      <MenuList />
-      <h1 className="review" id="review">
-        리뷰
-      </h1>
-      {reviews.length > 0 ? (
-        <ul>
-          {reviews.map((review) => (
-            <li key={review.reviewId}>
-              <strong>작성자:</strong>
-              <Link to={`/review/${review.username}`}>{review.username}</Link>
-              <br />
-              <strong>가게 이름:</strong> {review.storeName} <br />
-              <strong>별점:</strong> {renderStars(review.rating)}
-              <br />
-              <strong>리뷰:</strong> {review.reviewComment}
-              <br />
-              <strong>좋아요:</strong> {review.likeCount}{" "}
-              <button
-                className="like-button"
-                onClick={() => handleLikeClick(review.reviewId, review.liked)}
-              >
-                {review.liked ? "❤️" : "🤍"}
-              </button>
-              <br />
-              {/* 파일 첨부 부분 */}
-              {review.files.length > 0 && (
-                <div>
-                  <strong>첨부된 파일:</strong>
-                  <div>
-                    {review.files.map((fileItem, index) => (
-                      <img
-                        key={index}
-                        src={`${process.env.REACT_APP_HOST}/file/view/${fileItem.saveFileName}`}
-                        alt={`첨부 파일 ${index + 1}`}
-                        style={{
-                          width: "100px",
-                          marginRight: "10px",
-                          marginBottom: "10px",
-                        }}
-                      />
-                    ))}
-                  </div>
-                </div>
-              )}
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>작성된 리뷰가 없습니다.</p>
-      )}
-      {/* "더보기" 버튼 */}
-      {buttonVisible && (
-        <button type="button" onClick={nextPage} className="review-button">
-          리뷰 더보기
-        </button>
-      )}
-      <ul id="map">
-        {nearByStationList.length > 0 &&
-          nearByStationList.map((item, index) => {
-            return (
-              <li key={index}>
-                🚇 {item.place_name}에서 {item.distance}m
-                <span
-                  style={{
-                    padding: "3px 6px",
-                    borderRadius: "5px",
-                    display: "inline-block",
-                    margin: "0 2px",
-                    textAlign: "center",
-                    fontSize: "12px",
-                    color: "#fff",
-                    background: item.color,
-                  }}
+      <div className="component-line">
+        <h4 className="description" id="description">
+          가게 설명
+        </h4>
+        <p>{storeData.description}</p>
+      </div>
+      <div className="component-line">
+        <h2 className="menu" id="menu">
+          메뉴
+        </h2>
+        <MenuList />
+      </div>
+      <div className="component-line">
+        <h1 className="review" id="review">
+          리뷰
+        </h1>
+        {reviews.length > 0 ? (
+          <ul>
+            {reviews.map((review) => (
+              <li key={review.reviewId}>
+                <strong>작성자:</strong>
+                <Link to={`/review/${review.username}`}>{review.username}</Link>
+                <br />
+                <strong>가게 이름:</strong> {review.storeName} <br />
+                <strong>별점:</strong> {renderStars(review.rating)}
+                <br />
+                <strong>리뷰:</strong> {review.reviewComment}
+                <br />
+                <strong>좋아요:</strong> {review.likeCount}{" "}
+                <button
+                  className="like-button"
+                  onClick={() => handleLikeClick(review.reviewId, review.liked)}
                 >
-                  {item?.congestion}
-                </span>
-                {/* {item?.congestion?.map((item, index) => {
+                  {review.liked ? "❤️" : "🤍"}
+                </button>
+                <br />
+                {/* 파일 첨부 부분 */}
+                {review.files.length > 0 && (
+                  <div>
+                    <strong>첨부된 파일:</strong>
+                    <div>
+                      {review.files.map((fileItem, index) => (
+                        <img
+                          key={index}
+                          src={`${process.env.REACT_APP_HOST}/file/view/${fileItem.saveFileName}`}
+                          alt={`첨부 파일 ${index + 1}`}
+                          style={{
+                            width: "100px",
+                            marginRight: "10px",
+                            marginBottom: "10px",
+                          }}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>작성된 리뷰가 없습니다.</p>
+        )}
+        {/* "더보기" 버튼 */}
+        {buttonVisible && (
+          <button type="button" onClick={nextPage} className="review-button">
+            리뷰 더보기
+          </button>
+        )}
+      </div>
+      <div className="component-line">
+        <h4 className="info" id="info">
+          위치
+        </h4>
+        <div className="kakaoMapContainer">
+          <KakaoMap
+            center={{ lat: storeData.latlng.lat, lng: storeData.latlng.lng }}
+            style={{ width: "500px", height: "300px" }}
+            level={3}
+          >
+            {isReady && (
+              <EventMarkerContainer
+                key={`EventMarkerContainer-${storeData.latlng.lat}-${storeData.latlng.lng}`}
+                position={storeData.latlng}
+                content={storeData.content}
+              />
+            )}
+          </KakaoMap>
+          <ul id="map">
+            {nearByStationList.length > 0 &&
+              nearByStationList.map((item, index) => {
+                return (
+                  <li key={index}>
+                    🚇 {item.place_name}에서 {item.distance}m
+                    <span
+                      style={{
+                        padding: "3px 6px",
+                        borderRadius: "5px",
+                        display: "inline-block",
+                        margin: "0 2px",
+                        textAlign: "center",
+                        fontSize: "12px",
+                        color: "#fff",
+                        background: item.color,
+                      }}
+                    >
+                      {item?.congestion}
+                    </span>
+                    {/* {item?.congestion?.map((item, index) => {
                   return (
                     <span
                       key={index}
@@ -728,48 +752,36 @@ const StoreInfo = () => {
                     </span>
                   );
                 })} */}
-              </li>
-            );
-          })}
-      </ul>
-      <h4 className="info" id="info">
-        위치
-      </h4>
-      <div className="kakaoMapContainer">
-        <KakaoMap
-          center={{ lat: storeData.latlng.lat, lng: storeData.latlng.lng }}
-          style={{ width: "500px", height: "300px" }}
-          level={3}
-        >
-          {isReady && (
-            <EventMarkerContainer
-              key={`EventMarkerContainer-${storeData.latlng.lat}-${storeData.latlng.lng}`}
-              position={storeData.latlng}
-              content={storeData.content}
-            />
-          )}
-        </KakaoMap>
+                  </li>
+                );
+              })}
+          </ul>
+        </div>
       </div>
-      <h4 className="info" id="info">
-        상세정보
-      </h4>
-      <p className="address">가게 주소: {storeData.address}</p>
-      <p className="storeHours">영업시간: {storeData.storeHours}</p>
-      <p className="phone">연락처: {storeData.phone}</p>
+      <div className="component-line">
+        <h4 className="info" id="info">
+          상세정보
+        </h4>
+        <p className="address">가게 주소: {storeData.address}</p>
+        <p className="storeHours">영업시간: {storeData.storeHours}</p>
+        <p className="phone">연락처: {storeData.phone}</p>
+      </div>
       {storeData.guideLines !== null && (
-        <>
+        <div className="component-line">
           <h4 className="info" id="info">
             안내 및 유의사항
           </h4>
           <p className="guideLines">
             {convertNewlinesToBr(storeData.guideLines)}
           </p>
-        </>
+        </div>
       )}
-      <h4 className="info" id="info">
-        비슷한 매장 추천
-      </h4>
-      <SimilarStoreList />
+      <div className="component-line">
+        <h4 className="info" id="info">
+          비슷한 매장 추천
+        </h4>
+        <SimilarStoreList />
+      </div>
       <button className="reserve-button-info" onClick={handleReserveClick}>
         예약하기
       </button>
