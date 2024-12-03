@@ -93,7 +93,7 @@ const Mypage = () => {
         <div className="mypage-main-cover">
           <div className="mypage-chooseUser1">
             <div>
-              <Link to="/user/CheckUserEdit">
+              <Link to="/user/CheckUserEdit" className="text-decoration-none">
                 <button
                   className="mypage-button"
                   onMouseEnter={() => setIsHoveredPen(true)} // hover 시 상태 변경
@@ -105,7 +105,7 @@ const Mypage = () => {
                     icon={isHoveredPen ? faPenRegular : faPenToSquare}
                     size="7x"
                   />
-                  회원 수정
+                  <span className="mypage-text">회원 수정</span>
                 </button>
               </Link>
             </div>
@@ -113,7 +113,7 @@ const Mypage = () => {
 
           <div className="mypage-chooseUser2">
             <div className="mypage-detail-cover">
-              <Link to="/review/myreview">
+              <Link to="/review/myreview" className="text-decoration-none">
                 <button
                   className="mypage-button"
                   onMouseEnter={() => setIsHoveredComment(true)} // hover 시 상태 변경
@@ -125,7 +125,7 @@ const Mypage = () => {
                     icon={isHoveredComment ? faCommentRegular : faComment}
                     size="7x"
                   />
-                  나의 리뷰
+                  <span className="mypage-text">나의 리뷰</span>
                 </button>
               </Link>
             </div>
@@ -133,7 +133,7 @@ const Mypage = () => {
 
           <div className="mypage-chooseUser3">
             <div>
-              <Link to="/user/deleteUser">
+              <Link to="/user/deleteUser" className="text-decoration-none">
                 <button className="mypage-button-delete">
                   {" "}
                   <FontAwesomeIcon
@@ -141,7 +141,7 @@ const Mypage = () => {
                     icon={faUserSlash}
                     size="7x"
                   />
-                  회원 삭제
+                  <span className="mypage-text">회원 삭제</span>
                 </button>
               </Link>
             </div>
