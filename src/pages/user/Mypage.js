@@ -11,6 +11,10 @@ import {
   faUserSlash,
   faCircleUser, // 기본 아이콘 추가
 } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPenToSquare as faPenRegular,
+  faComment as faCommentRegular,
+} from "@fortawesome/free-regular-svg-icons"; // regular 아이콘 임포트
 import FileUpload from "./fileupload"; // FileUpload 컴포넌트 import
 import { Link } from "react-router-dom";
 import "./css/myPage.css";
@@ -20,6 +24,8 @@ const Mypage = () => {
   const userInfo = useSelector(getUserInfo); // 로그인된 사용자 정보
   const [isAdmin, setIsAdmin] = useState(false);
   const [profileImageUrl, setProfileImageUrl] = useState(""); // 프로필 이미지 URL 상태 추가
+  const [isHoveredPen, setIsHoveredPen] = useState(false);
+  const [isHoveredComment, setIsHoveredComment] = useState(false);
 
   // 로그인 상태 체크
   useEffect(() => {
@@ -69,42 +75,79 @@ const Mypage = () => {
   }, [userInfo]);
 
   return (
-    <div>
-      <h2>마이 페이지</h2>
+    <div className="mypage-height-cover">
       {/* 프로필 이미지 부분 */}
       <div className="mypage-container">
         {profileImageUrl ? (
           <img className="aaa" src={profileImageUrl} alt="프로필" />
         ) : (
           <FontAwesomeIcon
-            className="default-icon"
+            className="mypage-default-icon"
             icon={faCircleUser}
-            style={{ fontSize: "200px", width: "200px", height: "200px" }} // 크기 설정
+            style={{ fontSize: "150px", width: "160px", height: "160px" }} // 크기 설정
           />
         )}
         {/* 파일 업로드 컴포넌트 */}
         <FileUpload onFileUploadSuccess={handleFileUploadSuccess} />
-      </div>
 
-      <div>
-        <FontAwesomeIcon icon={faPenToSquare} />
-        <Link to="/user/CheckUserEdit">회원수정 페이지</Link>
-      </div>
-      <div>
-        <FontAwesomeIcon icon={faComment} />
-        <Link to="/review/myreview">나의 리뷰 페이지</Link>
-      </div>
+        <div className="mypage-main-cover">
+          <div className="mypage-chooseUser1">
+            <div>
+              <Link to="/user/CheckUserEdit" className="text-decoration-none">
+                <button
+                  className="mypage-button"
+                  onMouseEnter={() => setIsHoveredPen(true)} // hover 시 상태 변경
+                  onMouseLeave={() => setIsHoveredPen(false)} // hover 종료 시 상태 변경
+                >
+                  {" "}
+                  <FontAwesomeIcon
+                    className="mypage-icon"
+                    icon={isHoveredPen ? faPenRegular : faPenToSquare}
+                    size="7x"
+                  />
+                  <span className="mypage-text">회원 수정</span>
+                </button>
+              </Link>
+            </div>
+          </div>
 
-      <p>
-        <FontAwesomeIcon icon={faUserSlash} />
-        <Link to="/user/deleteUser">회원 삭제</Link>
-      </p>
-      {/* 어드민만 보이는 페이지 */}
-      {isAdmin && (
-        <p>
-          <Link to="/admin">어드민 페이지</Link>
-        </p>
-      )}
+          <div className="mypage-chooseUser2">
+            <div className="mypage-detail-cover">
+              <Link to="/review/myreview" className="text-decoration-none">
+                <button
+                  className="mypage-button"
+                  onMouseEnter={() => setIsHoveredComment(true)} // hover 시 상태 변경
+                  onMouseLeave={() => setIsHoveredComment(false)}
+                >
+                  {" "}
+                  <FontAwesomeIcon
+                    className="mypage-icon"
+                    icon={isHoveredComment ? faCommentRegular : faComment}
+                    size="7x"
+                  />
+                  <span className="mypage-text">나의 리뷰</span>
+                </button>
+              </Link>
+            </div>
+          </div>
+
+          <div className="mypage-chooseUser3">
+            <div>
+              <Link to="/user/deleteUser" className="text-decoration-none">
+                <button className="mypage-button-delete">
+                  {" "}
+                  <FontAwesomeIcon
+                    className="mypage-icon"
+                    icon={faUserSlash}
+                    size="7x"
+                  />
+                  <span className="mypage-text">회원 삭제</span>
+                </button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

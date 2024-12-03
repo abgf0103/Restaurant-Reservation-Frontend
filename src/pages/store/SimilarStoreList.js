@@ -269,12 +269,6 @@ const SimilarStoreList = () => {
                                     onClick={reload}
                                     src={`${process.env.REACT_APP_HOST}/file/view/${item.saveFileName}`}
                                     alt={`slide ${index}`}
-                                    style={{
-                                        width: "100%",
-                                        height: "auto",
-                                        borderTopRightRadius: "8px",
-                                        borderTopLeftRadius: "8px",
-                                    }}
                                 />
                             </Link>
                             <Card.Body className="menuInfo">
