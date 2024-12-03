@@ -1,27 +1,31 @@
-.menuInfo {
-    background-color: var(--background-color);
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
+.horizontal-scroll-menu{
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+    height: 300px;
+    cursor: grab;
+    overflow: hidden;
 }
 
-.menuTitle,
-.menuDes,
-.menuPrice {
-    padding: 10px;
+.menuInfo {
+    width: 100%;
+    position: relative;
 }
+
 
 .menuTitle {
     font-weight: bold !important;
+    margin-top: 5px!important;
 }
 
 .menuPrice {
-    text-align: right;
+    position: absolute;
+    bottom: 0;
+    right: 0;
 }
 
-.slick-slide {
-    padding: 0 5px; /* 슬라이드 항목의 좌우 여백 추가 */
-}
 
+/* 메뉴 관리 */
 .menuListManagement{
     display: grid;               /* 그리드 레이아웃 사용 */
     grid-template-columns: repeat(2, 1fr); /* 2열 레이아웃 */
@@ -43,7 +47,7 @@
 }
 
 .menuImg{
-    width: 70%;
+    width: 100%;
     height: 50vh; /* 이미지 높이 160px */
     object-fit: cover; /* 이미지 비율 유지하며 잘리거나 맞춰서 표시 */
     margin: 0 auto;

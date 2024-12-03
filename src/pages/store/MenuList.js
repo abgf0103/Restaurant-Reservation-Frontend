@@ -1,6 +1,6 @@
-import { useLocation} from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import instance from "../../api/instance";
 import { Card } from "react-bootstrap";
 import { convertToWon } from "../../utils/tools";
@@ -15,33 +15,79 @@ const MenuList = () => {
 
     const [menuList, setMenuList] = useState([]);
 
-    // 슬라이드 설정
-    const settings = {
-        dots: false, // 점 네비게이션 표시
-        infinite: false, // 무한 루프 설정
-        speed: 500, // 슬라이드 전환 속도
-        slidesToShow: 5, // 한 번에 보여줄 슬라이드 개수
-        slidesToScroll: 1, // 드래그할 때 한 번에 이동할 슬라이드 수
-        variableWidth: false, // 슬라이드의 너비 자동 조정 (비활성화)
-        arrows: false, // 화살표 버튼 비활성화
-        draggable: false, // 드래그 활성화
-        swipeToSlide: true, // 드래그한 만큼 슬라이드가 이동하도록 설정
-        centerMode: false, // 센터모드 비활성화 (중앙 정렬)
+    const scrollRef = useRef(null);
+    const [isMouseOver, setIsMouseOver] = useState(false); // 마우스 오버 상태
+    const isDragging = useRef(false); // 마우스 드래그 상태 추적
+    const startX = useRef(0); // 드래그 시작 위치
+    const scrollLeft = useRef(0); // 드래그 시작 시 스크롤 위치
+
+    // 마우스가 div 영역에 들어갔을 때
+    const handleMouseEnter = () => {
+        setIsMouseOver(true);
     };
 
-    // 슬라이드 설정
-    const settings2 = {
-        dots: false, // 점 네비게이션 표시
-        infinite: true, // 무한 루프 설정
-        speed: 500, // 슬라이드 전환 속도
-        slidesToShow: 5, // 한 번에 보여줄 슬라이드 개수
-        slidesToScroll: 1, // 드래그할 때 한 번에 이동할 슬라이드 수
-        variableWidth: false, // 슬라이드의 너비 자동 조정 (비활성화)
-        arrows: false, // 화살표 버튼 비활성화
-        draggable: true, // 드래그 활성화
-        swipeToSlide: true, // 드래그한 만큼 슬라이드가 이동하도록 설정
-        centerMode: false, // 센터모드 비활성화 (중앙 정렬)
+    // 마우스가 div 영역에서 나갔을 때
+    const handleMouseLeave = () => {
+        setIsMouseOver(false);
+        isDragging.current = false; // 마우스가 나가면 드래그 상태 종료
     };
+
+    // 마우스 휠 이벤트 처리 함수
+    const handleWheel = (e) => {
+        if (isMouseOver) {
+            // 마우스가 div 영역에 있을 때만 수평 스크롤 가능
+            if (e.deltaY !== 0) {
+                //e.preventDefault();  // 수직 스크롤 방지
+                if (scrollRef.current) {
+                    scrollRef.current.scrollLeft += e.deltaY; // 수평 스크롤 이동
+                }
+            }
+        } else {
+            // 마우스가 div 영역을 벗어났을 때는 기본적으로 세로 스크롤 가능
+            return; // 이 경우 수직 스크롤을 허용
+        }
+    };
+
+    // 마우스 드래그 시작
+    const handleMouseDown = (e) => {
+        isDragging.current = true;
+        startX.current = e.clientX; // 드래그 시작 위치
+        scrollLeft.current = scrollRef.current.scrollLeft; // 드래그 시작 시 스크롤 위치
+        e.preventDefault(); // 기본 드래그 방지
+    };
+
+    // 마우스 드래그 중
+    const handleMouseMove = (e) => {
+        if (!isDragging.current) return; // 드래그 상태일 때만 처리
+
+        const distance = e.clientX - startX.current; // 드래그한 거리
+        if (scrollRef.current) {
+            scrollRef.current.scrollLeft = scrollLeft.current - distance; // 스크롤 이동
+        }
+    };
+
+    // 마우스 드래그 종료
+    const handleMouseUp = () => {
+        isDragging.current = false; // 드래그 종료
+    };
+
+    // 전체 화면에서 수직 스크롤을 방지하는 useEffect
+    useEffect(() => {
+        // 전체 화면에서 수직 스크롤 방지
+        const preventDefaultScroll = (e) => {
+            if (isMouseOver) {
+                e.preventDefault(); // 수직 스크롤 방지
+            }
+        };
+
+        // 전체 화면에서 수직 스크롤 방지
+        document.body.addEventListener("wheel", preventDefaultScroll, { passive: false });
+
+        // 컴포넌트가 언마운트될 때 수직 스크롤 방지 해제
+        return () => {
+            document.body.removeEventListener("wheel", preventDefaultScroll);
+        };
+    }, [isMouseOver]);
 
     // 가게 메뉴 가져오기
     useEffect(() => {
@@ -68,58 +114,35 @@ const MenuList = () => {
         return <div>로딩 중...</div>;
     }
 
-    const sliderSettings = menuList.length >= 5 ? settings2 : settings;
-
     return (
         <>
             <div style={{ width: "100%" }}>
-                {menuList.length > 0 ? (
-                    <Slider {...sliderSettings}>
-                        {menuList.map((item, index) => (
-                            <div key={index}>
+                <div
+                    ref={scrollRef}
+                    onWheel={handleWheel} // 마우스 휠 이벤트 핸들러
+                    onMouseEnter={handleMouseEnter} // 마우스가 div 영역에 들어갔을 때
+                    onMouseLeave={handleMouseLeave} // 마우스가 div 영역을 떠났을 때 (드래그 종료와 마우스 오버 상태 업데이트)
+                    onMouseDown={handleMouseDown} // 마우스 클릭 시작
+                    onMouseMove={handleMouseMove} // 마우스 드래그 중
+                    onMouseUp={handleMouseUp} // 마우스 클릭 종료
+                    className="horizontal-scroll-menu"
+                >
+                    {menuList.map((item, index) => (
+                        <div key={index} className="horizontal-item">
                                 <img
                                     src={`${process.env.REACT_APP_HOST}/file/view/${item.saveFileName}`}
                                     alt={`slide ${index}`}
-                                    style={{
-                                        width: "100%",
-                                        height: "auto",
-                                        borderTopRightRadius: "8px",
-                                        borderTopLeftRadius: "8px",
-                                    }}
+                                    className="menuImg"
                                 />
-                                <Card.Body className="menuInfo">
-                                    <Card.Title className="menuTitle">{item.menuName}</Card.Title>
-                                    <Card.Text className="menuDes">{item.description}</Card.Text>
-                                    <Card.Text className="menuPrice">{convertToWon(item.price)}</Card.Text>
-                                </Card.Body>
-                            </div>
-                        ))}
-                    </Slider>
-                ) : (
-                    <p>메뉴가 없습니다.</p>
-                )}
-            </div>
-            {/* {menuList.length > 0 ? (
-                <ul>
-                    {menuList.map((item) => (
-                        <li key={item.menuId}>
-                            <Card style={{ width: "18rem" }}>
-                                <Card.Img
-                                    variant="top"
-                                    src={`${process.env.REACT_APP_HOST}/file/view/${item.saveFileName}`}
-                                />
-                                <Card.Body>
-                                    <Card.Title>{item.menuName}</Card.Title>
-                                    <Card.Text>{item.description}</Card.Text>
-                                    <Card.Text>{convertToWon(item.price)}</Card.Text>
-                                </Card.Body>
-                            </Card>
-                        </li>
+                            <Card.Body className="menuInfo">
+                                <Card.Title className="menuTitle">{item.menuName}</Card.Title>
+                                <Card.Text>{item.description}</Card.Text>
+                                <Card.Text className="menuPrice">{convertToWon(item.price)}</Card.Text>
+                            </Card.Body>
+                        </div>
                     ))}
-                </ul>
-            ) : (
-                <p>메뉴가 없습니다.</p>
-            )} */}
+                </div>
+            </div>
         </>
     );
 };
