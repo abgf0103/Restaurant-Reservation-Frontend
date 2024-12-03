@@ -75,18 +75,35 @@ const MyStore = () => {
                     {stores.map((item) => (
                         <li key={item.storeId}>
                             <Card className="storeList-card">
-                                <Link to={"/store/info"} state={item.storeId}>
+                                {item.isActive === 1 ? (
+                                    <Link to={"/store/info"} state={item.storeId}>
+                                        <Card.Img
+                                            className="myStoreList-img"
+                                            variant="top"
+                                            src={`${process.env.REACT_APP_HOST}/file/view/${item.saveFileName}`}
+                                        />
+                                    </Link>
+                                ) : (
                                     <Card.Img
                                         className="myStoreList-img"
                                         variant="top"
                                         src={`${process.env.REACT_APP_HOST}/file/view/${item.saveFileName}`}
                                     />
-                                </Link>
+                                )}
+
                                 <Card.Body>
-                                    <Link to={"/store/info"} state={item.storeId}>
-                                        <Card.Title>{item.storeName}</Card.Title>
-                                    <Card.Text>{item.description}</Card.Text>
-                                    </Link>
+                                    {item.isActive === 1 ? (
+                                        <Link to={"/store/info"} state={item.storeId}>
+                                            <Card.Title>{item.storeName}</Card.Title>
+                                            <Card.Text>{item.description}</Card.Text>
+                                        </Link>
+                                    ) : (
+                                        <>
+                                            <Card.Title>{item.storeName}</Card.Title>
+                                            <Card.Text>{item.description}</Card.Text>
+                                        </>
+                                    )}
+
                                     {item.isActive === 1 && (
                                         <>
                                             <Button variant="success" onClick={() => handleReserveClick(item.storeId)}>
