@@ -1,10 +1,9 @@
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
 import { useEffect, useRef, useState } from "react";
 import instance from "../../api/instance";
 import { Card } from "react-bootstrap";
 import { convertToWon } from "../../utils/tools";
-import Slider from "react-slick";
 import "./css/Menu.css";
 
 const MenuList = () => {
