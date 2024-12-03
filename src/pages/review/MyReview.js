@@ -231,7 +231,7 @@ const MyReview = () => {
           <FaHeart /> : {likeSum}
         </span>
         <span>
-          <FaTrophy /> : {ranking ? ranking : "불러오는 중..."}
+          <FaTrophy /> : {ranking ? ranking : "Not ranked"}
         </span>
       </WLSum>
       <Row className="row-eq-height">
