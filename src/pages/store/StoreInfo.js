@@ -54,7 +54,7 @@ const EventMarkerContainer = ({ position, content }) => {
           <div
             style={{
               borderRadius: "12px", // 둥글게 만든 인포윈도우
-              padding: "10px 50px",
+              padding: "10px 70px",
               backgroundColor: "#fff",
               border: "1px solid #ddd",
               boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
@@ -617,7 +617,7 @@ const StoreInfo = () => {
         className="onClick-button"
         onClick={() => scrollToSection("map")}
       >
-        상세위치
+        위치
       </Button>{" "}
       <Button
         variant="colorSecondary"
@@ -733,6 +733,9 @@ const StoreInfo = () => {
             );
           })}
       </ul>
+      <h4 className="info" id="info">
+        위치
+      </h4>
       <div className="kakaoMapContainer">
         <KakaoMap
           center={{ lat: storeData.latlng.lat, lng: storeData.latlng.lng }}
@@ -749,7 +752,7 @@ const StoreInfo = () => {
         </KakaoMap>
       </div>
       <h4 className="info" id="info">
-        상세 정보
+        상세정보
       </h4>
       <p className="address">가게 주소: {storeData.address}</p>
       <p className="storeHours">영업시간: {storeData.storeHours}</p>
