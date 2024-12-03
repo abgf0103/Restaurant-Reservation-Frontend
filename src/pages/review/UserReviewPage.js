@@ -12,12 +12,21 @@ import {
   UserReviewTitle,
   Username,
 } from "../../components/Review/UserReviewPageStyle"; // MyReviewStyle에서 스타일 임포트
-import { Card, CardText, Col, ListGroup, Row } from "react-bootstrap";
+import {
+  Card,
+  CardText,
+  Col,
+  ListGroup,
+  Pagination,
+  Row,
+} from "react-bootstrap";
 
 const UserReviewPage = () => {
   const { username } = useParams();
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1); // 페이지 시작은 1로 설정
+  const [reviewsPerPage] = useState(4); // 한 페이지에 표시할 리뷰 개수
 
   useEffect(() => {
     instance
@@ -79,14 +88,33 @@ const UserReviewPage = () => {
     return stars;
   };
 
+  // 페이지네이션 처리 (현재 페이지에 맞는 리뷰만 표시)
+  const indexOfLastReview = currentPage * reviewsPerPage;
+  const indexOfFirstReview = indexOfLastReview - reviewsPerPage;
+  const currentReviews = reviews.slice(indexOfFirstReview, indexOfLastReview);
+
+  // pageCount 계산
+  const pageCount = Math.ceil(reviews.length / reviewsPerPage);
+
+  // 페이지 변경 시 호출되는 함수
+  const handlePageChange = (pageNumber) => {
+    if (pageNumber < 1) {
+      setCurrentPage(1); // 첫 페이지로 이동
+    } else if (pageNumber > pageCount) {
+      setCurrentPage(pageCount); // 마지막 페이지로 이동
+    } else {
+      setCurrentPage(pageNumber); // 정상적인 페이지로 이동
+    }
+  };
+
   return (
     <UserReviewPageContainer>
       <UserReviewTitle>
         <Username>{username}</Username> 사용자님의 리뷰 목록
       </UserReviewTitle>
       <Row className="row-eq-height">
-        {reviews.length > 0 ? (
-          reviews.map((review) => (
+        {currentReviews.length > 0 ? (
+          currentReviews.map((review) => (
             <Col xs={12} md={4} lg={3} key={review.reviewId} className="d-flex">
               <UserReviewCard>
                 <div>
@@ -123,6 +151,33 @@ const UserReviewPage = () => {
           <p>이 사용자는 작성한 리뷰가 없습니다.</p>
         )}
       </Row>
+      <Pagination>
+        <Pagination.First
+          onClick={() => handlePageChange(1)}
+          disabled={currentPage === 1}
+        />
+        <Pagination.Prev
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+        />
+        {Array.from({ length: pageCount }, (_, index) => (
+          <Pagination.Item
+            key={index + 1}
+            active={currentPage === index + 1}
+            onClick={() => handlePageChange(index + 1)}
+          >
+            {index + 1}
+          </Pagination.Item>
+        ))}
+        <Pagination.Next
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === pageCount}
+        />
+        <Pagination.Last
+          onClick={() => handlePageChange(pageCount)}
+          disabled={currentPage === pageCount}
+        />
+      </Pagination>
     </UserReviewPageContainer>
   );
 };

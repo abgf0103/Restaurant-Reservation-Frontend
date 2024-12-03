@@ -8,6 +8,7 @@ import { Card, ListGroup, Col, Spinner, CardText, Row } from "react-bootstrap";
 import { FaEdit, FaTrashAlt, FaTrophy, FaHeart } from "react-icons/fa";
 import { FaPenToSquare } from "react-icons/fa6";
 import { IoIosInformationCircleOutline } from "react-icons/io";
+import { Pagination } from "react-bootstrap";
 import {
   ButtonDelete,
   ButtonEdit,
@@ -32,6 +33,8 @@ const MyReview = () => {
   const [loading, setLoading] = useState(true);
   const [likeSum, setLikeSum] = useState(0);
   const [ranking, setRanking] = useState(null); // 랭킹 상태 추가
+  const [currentPage, setCurrentPage] = useState(1); // 페이지 시작은 1로 설정
+  const [reviewsPerPage] = useState(4); // 한 페이지에 표시할 리뷰 개수
 
   // 로그인 상태 체크
   useEffect(() => {
@@ -94,6 +97,25 @@ const MyReview = () => {
     fetchMyReviews();
     fetchUserRanking(); // 랭킹 API 호출 추가
   }, []); // 처음 한 번만 호출
+
+  // 페이지네이션 처리 (현재 페이지에 맞는 리뷰만 표시)
+  const indexOfLastReview = currentPage * reviewsPerPage;
+  const indexOfFirstReview = indexOfLastReview - reviewsPerPage;
+  const currentReviews = reviews.slice(indexOfFirstReview, indexOfLastReview);
+
+  // pageCount 계산
+  const pageCount = Math.ceil(reviews.length / reviewsPerPage);
+
+  // 페이지 변경 시 호출되는 함수
+  const handlePageChange = (pageNumber) => {
+    if (pageNumber < 1) {
+      setCurrentPage(1); // 첫 페이지로 이동
+    } else if (pageNumber > pageCount) {
+      setCurrentPage(pageCount); // 마지막 페이지로 이동
+    } else {
+      setCurrentPage(pageNumber); // 정상적인 페이지로 이동
+    }
+  };
 
   const handleEditClick = (reviewId) => {
     // 리뷰 수정 페이지로 이동하며, 수정할 리뷰 ID 전달
@@ -213,8 +235,8 @@ const MyReview = () => {
         </span>
       </WLSum>
       <Row className="row-eq-height">
-        {reviews.length > 0 ? (
-          reviews.map((review) => (
+        {currentReviews.length > 0 ? (
+          currentReviews.map((review) => (
             <Col xs={12} md={4} lg={3} key={review.reviewId} className="d-flex">
               <ReviewCard>
                 <div>
@@ -268,6 +290,33 @@ const MyReview = () => {
           <p>작성된 리뷰가 없습니다.</p>
         )}
       </Row>
+      <Pagination>
+        <Pagination.First
+          onClick={() => handlePageChange(1)}
+          disabled={currentPage === 1}
+        />
+        <Pagination.Prev
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+        />
+        {Array.from({ length: pageCount }, (_, index) => (
+          <Pagination.Item
+            key={index + 1}
+            active={currentPage === index + 1}
+            onClick={() => handlePageChange(index + 1)}
+          >
+            {index + 1}
+          </Pagination.Item>
+        ))}
+        <Pagination.Next
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === pageCount}
+        />
+        <Pagination.Last
+          onClick={() => handlePageChange(pageCount)}
+          disabled={currentPage === pageCount}
+        />
+      </Pagination>
     </MyReviewContainer>
   );
 };
