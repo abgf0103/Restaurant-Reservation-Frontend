@@ -181,7 +181,7 @@ const MyReserve = () => {
             onChange={handleFilterChange}
           >
             <option value="all">전체</option>
-            <option value="0">확인 중인 예약</option>
+            <option value="0">대기 중인 예약</option>
             <option value="1">확정된 예약</option>
             <option value="2">완료된 예약</option>
             <option value="3">취소된 예약</option>
@@ -210,7 +210,7 @@ const MyReserve = () => {
                       <br />
                       <strong>인원 수:</strong> {reservation.partySize} <br />
                       {reservation.reserveStatus === 0
-                        ? "예약 확인 중 입니다."
+                        ? "예약 대기 중 입니다."
                         : reservation.reserveStatus === 1
                         ? "예약이 확정 되었습니다."
                         : reservation.reserveStatus === 2
