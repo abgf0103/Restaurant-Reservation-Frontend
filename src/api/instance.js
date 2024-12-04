@@ -1,6 +1,4 @@
 import axios from "axios";
-import { useSelector } from "react-redux";
-import { getTokenInfo } from "../hooks/tokenSlice";
 import { getStorageToken } from "../helper/storage";
 import Swal from "sweetalert2";
 
@@ -74,6 +72,9 @@ instance.interceptors.response.use(
             text: msg,
             icon: "error",
         });
+        if (error.response.status === 403) {
+            window.location.href = '/';
+        }
         return Promise.reject(error); //컴파일때 사용
         //return { message: error.message }; //개발할때 사용
     }

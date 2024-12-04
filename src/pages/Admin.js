@@ -4,17 +4,34 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import instance from "../api/instance";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { useSelector } from "react-redux";
+import { getUserInfo } from "../hooks/userSlice";
+import { useNavigate } from "react-router-dom";
 
 function Admin() {
     const [key, setKey] = useState("stores");
+    const navigate = useNavigate();
 
     // 상태 변수 설정
+    const [isAdmin, setIsAdmin] = useState(false);
+    const userInfo = useSelector(getUserInfo); // 로그인된 사용자 정보
     const [stores, setStores] = useState([]);
     const [users, setUsers] = useState([]);
     const [reviews, setReviews] = useState([]);
     const [userTypes, setUserTypes] = useState({});
     const [businessUsers, setBusinessUsers] = useState([]); // 사업자 목록
     const [regularUsers, setRegularUsers] = useState([]); // 일반 사용자 목록
+
+    // 어드민 확인
+    useEffect(() => {
+        if (userInfo.id) {
+            instance.get(`/user/isAdminByUserId?userId=${userInfo.id}`).then((res) => {
+                if (res.data === 3) {
+                    setIsAdmin(true);
+                }
+            });
+        }
+    }, [userInfo.id]);
 
     // 데이터 로드 함수
     const loadData = () => {
@@ -201,9 +218,12 @@ function Admin() {
     // 컴포넌트가 처음 렌더링될 때 데이터 로드
     useEffect(() => {
         loadData();
+        console.log(isAdmin);
+        if(isAdmin){
+            console.log(isAdmin);
+            navigate('/');
+        }
     }, []);
-
-    console.log(users);
     return (
         <main>
             <Container>
@@ -237,6 +257,11 @@ function Admin() {
                                                 </Button>
                                             )}
                                             {store.isActive === 1 && (
+                                                <Button variant="danger" onClick={() => deleteStore(store.storeId)}>
+                                                    삭제
+                                                </Button>
+                                            )}
+                                            {store.isActive === 2 && (
                                                 <Button variant="danger" onClick={() => deleteStore(store.storeId)}>
                                                     삭제
                                                 </Button>
