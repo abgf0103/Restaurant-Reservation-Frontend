@@ -1,84 +1,29 @@
-.mb-3 {
-  width: 1080px;
+.login-maincover {
+  height: 785px;
+  position: relative; /* 자식 요소의 absolute 위치 기준 설정 */
+  display: flex;
+  justify-content: center; /* 수평 중앙 정렬 */
+  align-items: center; /* 수직 중앙 정렬 */
 }
-.find-button {
-  background-color: transparent !important;
-  color: var(--text-color-gray) !important;
-  border-color: transparent !important;
+.login-container {
+  box-shadow: 0 4px 8px rgba(148, 50, 12, 0.8); /* 그림자 효과 (선택사항) */
+  padding: 80px;
+  width: 100%;
+  max-width: 600px;
 }
 .button-container1 {
-  display: flex; /* 버튼들을 가로로 나열 */
-  gap: 10px; /* 버튼 간의 간격을 10px로 설정 */
-  padding-top: 0px !important;
-  justify-content: flex-end !important;
-  max-width: 1080px;
-  margin-bottom: 20px;
+  color: gray;
+  margin-top: 50px; /* 아래로 50px 이동 */
+  display: flex; /* flexbox로 설정 */
+  justify-content: center; /* 가운데 정렬 */
+  gap: 20px; /* 아이디 찾기와 비밀번호 찾기 사이에 20px 간격 */
 }
+
 .login-button {
-  width: 1080px;
+  width: 100%;
+  margin-bottom: 10px;
   background-color: var(--secondary-color) !important;
 }
 .login-button:hover {
   background-color: var(--secondaryHover-color) !important;
-}
-.login-input {
-  border-color: var(--secondaryHover-color) !important;
-}
-.loginContainer {
-  position: absolute;
-  padding: (--bs);
-  justify-content: center; /* 가로 중앙 정렬 */
-  align-items: center; /* 세로 중앙 정렬 */
-  width: 100%; /* 화면 전체 너비 */
-  flex-direction: column; /* 세로로 요소 배치 */
-  padding: 0 20px;
-
-  position: relative;
-  /* left: -250px; */
-  align-items: stretch; /* 자식 요소들을 부모에 맞춰 확장 */
-}
-.maincover {
-  position: relative;
-  top: 100px;
-  height: 765px;
-}
-
-@media screen and (max-width: 1000px) {
-  .loginContainer {
-    width: 500px;
-    position: relative;
-  }
-  .login-button {
-    width: 700px;
-  }
-  .mb-3 {
-    width: 700px;
-  }
-  .button-container {
-    display: flex; /* 버튼들을 가로로 나열 */
-    gap: 10px; /* 버튼 간의 간격을 10px로 설정 */
-    margin-bottom: 10px; /* 버튼들 아래에 간격 추가 */
-    justify-content: flex-end !important;
-    width: 700px;
-  }
-}
-
-@media screen and (max-width: 620px) {
-  .loginContainer {
-    width: 300px;
-    position: relative;
-  }
-  .login-button {
-    width: 400px;
-  }
-  .mb-3 {
-    width: 400px;
-  }
-  .button-container {
-    display: flex; /* 버튼들을 가로로 나열 */
-    gap: 10px; /* 버튼 간의 간격을 10px로 설정 */
-    margin-bottom: 10px; /* 버튼들 아래에 간격 추가 */
-    justify-content: flex-end !important;
-    width: 400px;
-  }
 }

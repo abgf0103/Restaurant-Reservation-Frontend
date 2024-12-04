@@ -116,8 +116,8 @@ const Login = () => {
   };
 
   return (
-    <main className="maincover">
-      <Form className="loginContainer" onSubmit={onSubmit}>
+    <div className="login-maincover">
+      <Form className="login-container" onSubmit={onSubmit}>
         <h3>Login</h3>
         <hr />
         <Form.Group className="mb-3" controlId="username">
@@ -148,20 +148,19 @@ const Login = () => {
             onChange={handleCheckboxChange}
           />
         </Form.Group>
-
-        <div className="button-container1">
-          <Button type="button" onClick={findidgo} className="find-button">
-            아이디 찾기
-          </Button>
-          <Button type="button" onClick={findpwgo} className="find-button">
-            비밀번호 찾기
-          </Button>
-        </div>
         <Button type="submit" className="login-button">
           로그인
         </Button>
+        <div className="button-container1">
+          <span type="button" onClick={findidgo} className="find-button">
+            아이디 찾기
+          </span>
+          <span type="button" onClick={findpwgo} className="find-button">
+            비밀번호 찾기
+          </span>
+        </div>
       </Form>
-    </main>
+    </div>
   );
 };
 
