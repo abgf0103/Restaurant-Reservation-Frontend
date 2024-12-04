@@ -115,7 +115,7 @@ const MyStore = () => {
 
     return (
         <main>
-            <Button variant="primary" onClick={() => registerStoreClick()}>
+            <Button variant="colorSecondary" onClick={() => registerStoreClick()}>
                 등록 요청
             </Button>
             {stores.length > 0 ? (
@@ -160,9 +160,8 @@ const MyStore = () => {
                                         <>
                                             <Button variant="success" onClick={() => handleReserveClick(item.storeId)}>
                                                 예약 조회
-                                            </Button>
-
-                                            <Button variant="primary" onClick={() => handleEditClick(item.storeId)}>
+                                            </Button>{" "}
+                                            <Button variant="colorSecondary" onClick={() => handleEditClick(item.storeId)}>
                                                 가게 정보 수정
                                             </Button>
                                             <Button variant="warning" onClick={() => handleMenuClick(item.storeId)}>

@@ -380,30 +380,7 @@ const Review = () => {
                 </DivStar>
               </RatingFormGroup>
 
-              <ReviewCommentFormGroup
-                controlId="reviewComment"
-                className="mb-4"
-              >
-                <ReviewCommentLabel>Review Comment:</ReviewCommentLabel>
-                <ReviewCommentTextArea
-                  as="textarea"
-                  name="reviewComment"
-                  value={review.reviewComment}
-                  onChange={(e) =>
-                    setReview({ ...review, reviewComment: e.target.value })
-                  }
-                  placeholder="음식의 맛과 식당 분위기에 대해 자유롭게 작성해주세요. 추천 메뉴나 서비스에 대한 의견도 환영합니다."
-                  required
-                  className="form-control"
-                />
-              </ReviewCommentFormGroup>
-
-              <SubmitButton variant="danger" type="submit">
-                리뷰 작성
-              </SubmitButton>
-            </Form>
-
-            <FileUploadSection className="mt-5">
+              <FileUploadSection className="mt-5">
               <FileLibel>첨부 파일:</FileLibel>
               <input
                 className="file-input mb-3"
@@ -439,6 +416,31 @@ const Review = () => {
                 ))}
               </FileList>
             </FileUploadSection>
+
+              <ReviewCommentFormGroup
+                controlId="reviewComment"
+                className="mb-4"
+              >
+                <ReviewCommentLabel>Review Comment:</ReviewCommentLabel>
+                <ReviewCommentTextArea
+                  as="textarea"
+                  name="reviewComment"
+                  value={review.reviewComment}
+                  onChange={(e) =>
+                    setReview({ ...review, reviewComment: e.target.value })
+                  }
+                  placeholder="음식의 맛과 식당 분위기에 대해 자유롭게 작성해주세요. 추천 메뉴나 서비스에 대한 의견도 환영합니다."
+                  required
+                  className="form-control"
+                />
+              </ReviewCommentFormGroup>
+
+              <SubmitButton variant="danger" type="submit">
+                리뷰 작성
+              </SubmitButton>
+            </Form>
+
+            
           </Card>
         </Col>
       </Row>

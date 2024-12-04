@@ -218,11 +218,6 @@ function Admin() {
     // 컴포넌트가 처음 렌더링될 때 데이터 로드
     useEffect(() => {
         loadData();
-        console.log(isAdmin);
-        if(isAdmin){
-            console.log(isAdmin);
-            navigate('/');
-        }
     }, []);
     return (
         <main>
@@ -293,7 +288,7 @@ function Admin() {
                                         <td>{user.email}</td>
                                         <td className="text-center">
                                             <span>{user.active ? "활성" : "비활성"}</span>
-                                        </td>{" "}
+                                        </td>
                                         {/* 상태 표시 */}
                                         <td className="text-center">
                                             <Button variant="danger" onClick={() => deactiveUser(user.id)}>
