@@ -13,12 +13,60 @@ const MyStore = () => {
     const [stores, setStores] = useState([]);
     const [loading, setLoading] = useState(true);
 
+    const [storeRatings, setStoreRatings] = useState({}); // 각 가게의 평점 저장
+    const [storeReviewCounts, setStoreReviewCounts] = useState({}); // 각 가게의 리뷰 수 저장
+
     // 로그인 상태 체크
     useEffect(() => {
         if (!userInfo.username) {
             navigate("/user/login");
         }
     }, [navigate, userInfo]);
+
+    // 리뷰 평균 평점 구하기
+    const getRatingAvgByStoreId = async (storeId) => {
+        try {
+            const res = await instance.get(`/review/getRatingAvgByStoreId?storeId=${storeId}`);
+            return res.data || 0;
+        } catch (error) {
+            console.error("Error fetching rating:", error);
+        }
+    };
+
+    // 리뷰 개수 구하기
+    const getReviewCountByStoreId = async (storeId) => {
+        try {
+            const res = await instance.get(`/review/getReviewCountByStoreId?storeId=${storeId}`);
+            return res.data; // 리뷰 수가 없으면 0
+        } catch (error) {
+            console.error("Error fetching review count:", error);
+        }
+    };
+
+    // storeData 배열의 각 storeId에 대한 평점과 리뷰 수를 비동기적으로 가져오기
+    const fetchRatingsAndReviews = async () => {
+        console.log()
+        const ratings = {};
+        const reviewCounts = {};
+
+        for (const store of stores) {
+            const rating = await getRatingAvgByStoreId(store.storeId);
+            const reviewCount = await getReviewCountByStoreId(store.storeId);
+
+            ratings[store.storeId] = rating;
+            reviewCounts[store.storeId] = reviewCount;
+        }
+
+        setStoreRatings(ratings);
+        setStoreReviewCounts(reviewCounts);
+    };
+
+    // storeData가 업데이트 될 때마다 평점과 리뷰 수 가져오기
+    useEffect(() => {
+        if (stores.length > 0) {
+            fetchRatingsAndReviews();
+        }
+    }, [stores]);
 
     // 내 가게 가져오기
     useEffect(() => {
@@ -96,6 +144,10 @@ const MyStore = () => {
                                         <Link to={"/store/info"} state={item.storeId}>
                                             <Card.Title>{item.storeName}</Card.Title>
                                             <Card.Text>{item.description}</Card.Text>
+                                            <Card.Text>
+                                                ⭐{storeRatings[item.storeId] || 0}(
+                                                {storeReviewCounts[item.storeId] || 0}) {item.identity}
+                                            </Card.Text>
                                         </Link>
                                     ) : (
                                         <>
