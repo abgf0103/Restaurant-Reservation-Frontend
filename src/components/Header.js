@@ -1,15 +1,16 @@
 import Container from "react-bootstrap/Container";
-import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { useSelector } from "react-redux";
 import { getUserInfo, removeUserInfo } from "../hooks/userSlice";
 import { useDispatch } from "react-redux";
 import { removeTokenInfo } from "../hooks/tokenSlice";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Button, Form, FormControl, Dropdown } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import instance from "../api/instance";
 import logoImg from "../img/logo.png";
+import Notification from "./Notification";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -97,12 +98,14 @@ const Header = () => {
               <Dropdown.Menu id="dropdown-menu">
                 {userInfo && userInfo.username ? (
                   <Dropdown.Item id="dropdown-item">
-                    <span className="nickname">
-                      {userInfo.username + "님"}{" "}
-                    </span>
-                    <Button onClick={handleLogout} id="logout">
-                      로그아웃
-                    </Button>
+                    <div className="btn-container">
+                      <span className="nickname">
+                        {userInfo.username + "님"}{" "}
+                      </span>
+                      <Button onClick={handleLogout} id="logout">
+                        로그아웃
+                      </Button>
+                    </div>
                   </Dropdown.Item>
                 ) : (
                   <div className="btn-container">
@@ -165,6 +168,7 @@ const Header = () => {
               )}
             </div>
           )}
+          <Notification />
         </Container>
       </Navbar>
     </header>

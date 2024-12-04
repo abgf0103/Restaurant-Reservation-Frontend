@@ -123,6 +123,7 @@ header {
   display: flex;
   align-items: center;
   gap: 10px;
+  margin-right: 10px;
 }
 
 /* 드롭다운 버튼 */
@@ -137,26 +138,12 @@ header {
   justify-content: center;
   width: 50px;
   height: 50px;
+  margin-right: 10px;
 }
 
 #dropdown-basic:focus,
 #dropdown-basic:hover {
   background-color: var(--background-color-gray);
-}
-
-.dropdown-item {
-  cursor: auto;
-  background-color: var(--background-color);
-}
-
-.dropdown-item:active {
-  background-color: var(--background-color) !important;
-  color: var(--text-color-black) !important;
-  cursor: auto;
-}
-
-.dropdown-item:hover {
-  background-color: var(--background-color);
 }
 
 #dropdown-item {
@@ -186,6 +173,7 @@ header {
   border: none;
   border-radius: 5px;
   font-size: 12px;
+  width: 72px;
   height: 30px;
   position: relative;
 }
@@ -213,6 +201,79 @@ header {
 .logoImg {
   width: 50px;
   height: 50px;
+}
+
+/* 알림창 스타일 */
+
+#notification-dropdown-toggle {
+  width: 80px;
+  background-color: var(--secondary-color);
+  border: none;
+  margin-right: 15px;
+}
+
+#notification-dropdown-toggle:hover {
+  background-color: var(--secondaryHover2-color);
+}
+
+#notification-menu {
+  position: absolute;
+  width: auto;
+  height: 700px;
+  background-color: var(--background-color);
+  border: 1px solid var(--background-color);
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  overflow-y: auto;
+  right: 15px;
+  left: auto;
+  transform: translateX(0);
+}
+
+#notification-list {
+  padding: 10px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+#notification-item {
+  padding: 8px;
+  border-bottom: 1px solid var(--background-color-gray);
+  height: 180px;
+  cursor: auto;
+}
+
+#no-notifications {
+  padding: 10px;
+  text-align: center;
+  color: var(--text-color-gray);
+}
+
+#notification-dropdown .MuiSvgIcon-root {
+  font-size: 1.5rem;
+  color: var(--background-color-gray);
+}
+
+#btn-my {
+  background-color: var(--secondary-color);
+  color: var(--text-color-white);
+  border: none;
+  height: 31px;
+}
+
+#btn-my:hover {
+  background-color: var(--secondaryHover2-color);
+  color: var(--text-color-white);
+}
+
+#btn-all-delete {
+  background-color: var(--primary-color);
+  border: none;
+  transform: translateX(165px);
+}
+
+#btn-all-delete:hover {
+  background-color: var(--primaryHover-color);
 }
 
 /* 고정된 푸터 스타일 */

@@ -249,16 +249,28 @@ const SlideUpModal = ({ isOpen, onClose, selectedStoreId }) => {
       let currentHour = openHour;
       let currentMinute = openMinute;
 
+      // 현재 시각
+      const now = new Date();
+      const nowHour = now.getHours();
+      const nowMinute = now.getMinutes();
+
       // 한 시간 간격으로 종료 시간 전까지 생성
       while (
         currentHour < closeHour ||
         (currentHour === closeHour && currentMinute < closeMinute)
       ) {
-        timeOptions.push(
-          `${String(currentHour).padStart(2, "0")}:${String(
-            currentMinute
-          ).padStart(2, "0")}`
-        );
+        // 생성 중인 시간과 현재 시간 비교하여 한 시간 이상 전의 시간 제외
+        if (
+          currentHour > nowHour ||
+          (currentHour === nowHour && currentMinute >= nowMinute + 60)
+        ) {
+          timeOptions.push(
+            `${String(currentHour).padStart(2, "0")}:${String(
+              currentMinute
+            ).padStart(2, "0")}`
+          );
+        }
+
         currentHour += 1;
       }
 

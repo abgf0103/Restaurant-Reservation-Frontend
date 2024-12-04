@@ -31,7 +31,6 @@ const StoreReserve = () => {
     instance
       .get(`/reservations/store/reserve/${storeId}`)
       .then((res) => {
-        console.log(res.data);
         setReserves(res.data);
         setFilteredReservations(res.data); // 초기 예약 목록으로 필터링된 예약 목록 설정
       })
@@ -60,7 +59,6 @@ const StoreReserve = () => {
 
   // 예약 상태 변경 처리 함수
   const handleStatusChange = (reserveId, newStatus, successMessage) => {
-    console.log({ status: newStatus });
     instance
       .put(`/reservations/update-status/${reserveId}`, { status: newStatus })
       .then(() => {
