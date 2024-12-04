@@ -156,15 +156,6 @@ header {
 #dropdown-item:hover {
   background-color: var(--background-color);
 }
-
-#dropdown-menu {
-  transform: translateX(-70%);
-  cursor: auto;
-  margin: 0;
-  padding: 0;
-  background-color: var(--background-color);
-}
-
 /* 로그인 관련 버튼 */
 #login,
 #join,
@@ -269,7 +260,7 @@ header {
 #btn-all-delete {
   background-color: var(--primary-color);
   border: none;
-  transform: translateX(165px);
+  transform: translateX(208px);
 }
 
 #btn-all-delete:hover {
