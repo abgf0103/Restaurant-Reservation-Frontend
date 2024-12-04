@@ -11,6 +11,7 @@ import {
   faPen,
   faComment,
   faCommentDots,
+  faUserTie,
 } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "react-bootstrap";
 import Swal from "sweetalert2";
@@ -191,6 +192,20 @@ const Mypage = () => {
               </Link>
             </div>
           </div>
+
+          {isAdmin && (
+            <div className="mypage-chooseUser3">
+              <div>
+                <Link to="/admin" className="text-decoration-none">
+                  <button className="mypage-button">
+                    {" "}
+                    <FontAwesomeIcon icon={faUserTie} size="3x" />
+                    <span className="mypage-text">어드민 페이지</span>
+                  </button>
+                </Link>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
