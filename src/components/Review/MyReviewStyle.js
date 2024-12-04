@@ -4,122 +4,134 @@ import { Card, Button, Container, ListGroup } from "react-bootstrap";
 // 제목 스타일
 export const MyReviewTitle = styled.h2`
   text-align: center;
-  color: var(--text-color-white); /* 텍스트 색상을 흰색으로 */
-  font-size: 2.5rem; /* 더 큰 폰트 크기 */
-  font-weight: bold; /* 두꺼운 글씨 */
-
-  padding: 20px 0;
-  background: linear-gradient(
-    135deg,
-    var(--primary-color),
-    var(--secondary-color)
-  ); /* 기본 색상과 보조 색상 그라데이션 */
-  border-radius: 10px; /* 둥근 모서리 */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* 텍스트 그림자 */
-  position: relative;
-  z-index: 1;
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--text-color-black);
+  margin-bottom: 0; /* 제목과 아래 요소들 간의 여백 제거 */
+  padding: 10px 0;
+  border-bottom: 3px solid var(--primary-color); /* 제목 아래에 세련된 밑줄 추가 */
 
   /* 반응형 디자인 */
   @media (max-width: 768px) {
-    font-size: 2rem; /* 모바일에서는 폰트 크기를 조금 더 작게 */
-    padding: 15px 0;
+    font-size: 1.8rem; /* 모바일에서 폰트 크기 약간 감소 */
   }
 `;
 
 // 제목에 있는 사용자 이름
 export const Username = styled.span`
-  color: var(--primary-color); /* 사용자 이름을 기본 색상으로 강조 */
-  font-size: 2.8rem; /* 사용자 이름만 조금 더 크게 */
-  font-weight: bold;
+  color: var(--primary-color);
+  font-size: 1.8rem;
+  font-weight: 600;
+  display: block;
+  margin-top: 10px;
+
+  /* 그라데이션 적용 */
   background: linear-gradient(
     135deg,
     var(--tertiary-color),
     var(--quaternary-color)
-  ); /* 배경에 다른 그라데이션 적용 */
-  -webkit-background-clip: text; /* 그라데이션 텍스트로 적용 */
-  color: transparent; /* 텍스트 색상을 투명하게 해서 그라데이션이 보이도록 */
+  );
+  -webkit-background-clip: text;
+  color: transparent;
 `;
 
 // 프로필 이미지 스타일링
 export const ProfileImage = styled.div`
   display: flex;
-  align-items: center; /* 세로 가운데 정렬 */
-  justify-content: center; /* 가로 가운데 정렬 */
+  align-items: center; /* 가로로 배치 */
+  justify-content: flex-start;
+  gap: 20px; /* 프로필 이미지와 텍스트 간 간격 */
+  padding: 20px 0;
+  position: relative; /* 정보 아이콘을 우측 상단에 배치하기 위한 설정 */
 
   img {
-    width: 80px; /* 이미지 크기 */
-    height: 80px;
-    border-radius: 50%; /* 원형 이미지 */
-    margin-right: 15px; /* 이미지와 텍스트 사이의 간격 */
+    width: 100px; /* 프로필 이미지 크기 */
+    height: 100px;
+    border-radius: 50%;
+    border: 2px solid var(--primary-color); /* 이미지에 테두리 추가 */
+    object-fit: cover;
   }
 
-  /* 반응형 디자인 */
-  @media (max-width: 768px) {
-    padding: 0 10px; /* 모바일에서는 좌우 패딩을 좀 더 적게 */
+  /* 유저네임 */
+  ${Username} {
+    margin-top: 0;
+    display: inline-block;
+  }
+`;
+
+// 정보 아이콘 배치 (세련되게 아이콘을 옆에 배치)
+export const InfoIconContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  cursor: pointer;
+  transition: transform 0.3s ease, color 0.3s ease;
+  font-size: 30px;
+  color: var(--primary-color);
+
+  &:hover {
+    color: var(--secondary-color);
+    transform: scale(1.1); /* 마우스 오버 시 확대 효과 */
+  }
+
+  &:focus {
+    outline: none;
   }
 `;
 
 // 정보 표시 아이콘 컴포넌트
 export const InfoIcon = styled.div`
-  font-size: 30px; /* 아이콘 크기 */
-  color: var(--primary-color); /* 기본 색상 */
-  cursor: pointer; /* 클릭 가능 표시 */
-  margin-bottom: 10px; /* 아이콘 아래 마진 추가 */
-  transition: color 0.3s ease, transform 0.3s ease; /* hover 효과 및 변환 애니메이션 */
+  font-size: 30px;
+  color: var(--primary-color);
+  cursor: pointer;
+  margin-bottom: 10px;
+  transition: color 0.3s ease, transform 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   &:hover {
-    color: var(--secondary-color); /* hover 시 색상 변경 */
-    transform: scale(1.1); /* hover 시 아이콘 크기 확대 */
+    color: var(--secondary-color);
+    transform: scale(1.1);
   }
 
   &:focus {
-    outline: none; /* focus 시 outline 없애기 */
+    outline: none;
   }
 `;
 
-// 정보 아이콘 배치 컴포넌트
-export const InfoContainer = styled.div`
+// WLSum 스타일 수정 (WLSum과 InfoIcon을 같은 줄에 배치)
+export const WLSumContainer = styled.div`
   display: flex;
-  align-items: center; /* 세로 가운데 정렬 */
-  gap: 15px; /* 아이콘 간격 설정 */
-  padding-left: 0; /* 왼쪽 여백 없애기 */
-  margin-left: 0; /* 왼쪽 여백 없애기 */
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px; /* 제목과 WLSum 사이에 여백 추가 */
+  font-size: 1.2rem;
+  color: var(--text-color-black);
 `;
 
-// WLSum 스타일 수정
-export const WLSum = styled.h2`
-  color: var(--text-color-black);
-  padding-left: 20px;
-  margin-bottom: 30px;
-  font-size: 1.5rem;
+// WLSum 아이템 스타일
+export const WLSumItem = styled.span`
   display: flex;
   align-items: center;
-  gap: 30px;
+  gap: 10px;
 
-  span {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: var(--text-color-black); /* 기본 텍스트 색상 설정 */
+  svg {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+  }
 
-    svg {
-      font-size: 1.2rem; /* 아이콘 크기 설정 */
-      color: var(--icon-color); /* 기본 아이콘 색상 설정 */
-    }
+  /* 각 아이템에 색상을 다르게 적용 */
+  &:nth-child(1) svg {
+    color: var(--primary-color);
+  }
 
-    /* 펜 아이콘 색상 */
-    &:nth-child(1) svg {
-      color: var(--primary-color); /* 펜 아이콘에 기본 색상 추가 */
-    }
-    /* 하트 아이콘 색상 */
-    &:nth-child(2) svg {
-      color: var(--primaryHober-color); /* 하트 아이콘에 기본 색상 추가 */
-    }
-    /* 트로피 아이콘 색상 */
-    &:nth-child(3) svg {
-      color: var(--tertiary-color); /* 트로피 아이콘에 밝은 색상 추가 */
-    }
+  &:nth-child(2) svg {
+    color: var(--secondary-color);
+  }
+
+  &:nth-child(3) svg {
+    color: var(--tertiary-color);
   }
 `;
 

@@ -323,7 +323,7 @@ const ReviewEdit = () => {
                   src={`${process.env.REACT_APP_HOST}/file/viewId/${userInfo.fileId}`}
                   alt="Profile"
                 />
-                <Username>{userInfo.username}</Username> 고객님,
+                <Username>{userInfo.username}</Username>고객님,
                 <StoreName>{storeName}</StoreName>에 대한 리뷰 수정
               </ProfileImage>
             </ReviewEditTitle>

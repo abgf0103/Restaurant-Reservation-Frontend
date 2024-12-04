@@ -12,8 +12,7 @@ import { Pagination } from "react-bootstrap";
 import {
   ButtonDelete,
   ButtonEdit,
-  InfoContainer,
-  InfoIcon,
+  InfoIconContainer,
   ListGroupItem,
   MiniTitle,
   MyReviewContainer,
@@ -23,7 +22,8 @@ import {
   ReviewCard,
   ReviewImage,
   Username,
-  WLSum,
+  WLSumContainer,
+  WLSumItem,
 } from "../../components/Review/MyReviewStyle";
 
 const MyReview = () => {
@@ -224,25 +224,34 @@ const MyReview = () => {
               alt="Profile"
             />
           )}
-          <Username>{userInfo.username}</Username> 고객님 리뷰 목록
+          <div>
+            <div>
+              <Username>{userInfo.username}</Username> 고객님 리뷰 목록
+            </div>
+            <div>
+              <WLSumContainer>
+                {/* 정보 아이콘 맨 앞에 배치 */}
+                <InfoIconContainer onClick={handleInfoClick}>
+                  <IoIosInformationCircleOutline />
+                </InfoIconContainer>
+
+                {/* WLSum 항목들 */}
+                <WLSumItem>
+                  <FaPenToSquare /> : {reviews.length}
+                </WLSumItem>
+                <WLSumItem>
+                  <FaHeart /> : {likeSum}
+                </WLSumItem>
+                <WLSumItem>
+                  <FaTrophy /> : {ranking ? ranking : "Not ranked"}
+                </WLSumItem>
+              </WLSumContainer>
+            </div>
+          </div>
         </ProfileImage>
       </MyReviewTitle>
-      <InfoContainer>
-        <InfoIcon onClick={handleInfoClick}>
-          <IoIosInformationCircleOutline />
-        </InfoIcon>
-      </InfoContainer>
-      <WLSum>
-        <span>
-          <FaPenToSquare /> : {reviews.length}
-        </span>
-        <span>
-          <FaHeart /> : {likeSum}
-        </span>
-        <span>
-          <FaTrophy /> : {ranking ? ranking : "Not ranked"}
-        </span>
-      </WLSum>
+
+      {/* 리뷰 카드 부분 */}
       <Row className="row-eq-height">
         {currentReviews.length > 0 ? (
           currentReviews.map((review) => (
@@ -276,6 +285,7 @@ const MyReview = () => {
                     </ReviewImage>
                   )}
                 </div>
+
                 <ReviewButtons>
                   <ButtonEdit
                     variant="outline-primary"
@@ -299,6 +309,8 @@ const MyReview = () => {
           <p>작성된 리뷰가 없습니다.</p>
         )}
       </Row>
+
+      {/* 페이지네이션 */}
       <Pagination>
         <Pagination.First
           onClick={() => handlePageChange(1)}
