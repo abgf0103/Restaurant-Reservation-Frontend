@@ -218,10 +218,12 @@ const MyReview = () => {
     <MyReviewContainer>
       <MyReviewTitle>
         <ProfileImage>
-          <img
-            src={`${process.env.REACT_APP_HOST}/file/viewId/${userInfo.fileId}`}
-            alt="Profile"
-          />
+          {userInfo.fileId && (
+            <img
+              src={`${process.env.REACT_APP_HOST}/file/viewId/${userInfo.fileId}`}
+              alt="Profile"
+            />
+          )}
           <Username>{userInfo.username}</Username> 고객님 리뷰 목록
         </ProfileImage>
       </MyReviewTitle>
