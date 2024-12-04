@@ -588,7 +588,7 @@ const StoreInfo = () => {
                     리뷰
                 </h1>
                 {reviews.length > 0 ? (
-                    <ul>
+                    <ul style={{padding:0}}>
                         {reviews.map((review) => (
                             <li key={review.reviewId} className="reviewItem">
                                 <strong>작성자:</strong>
@@ -645,7 +645,7 @@ const StoreInfo = () => {
                 <div className="kakaoMapContainer">
                     <KakaoMap
                         center={{ lat: storeData.latlng.lat, lng: storeData.latlng.lng }}
-                        style={{ width: "500px", height: "300px" }}
+                        style={{ width: "100%", height: "300px", borderRadius: "10px"}}
                         level={3}
                     >
                         {isReady && (
@@ -656,7 +656,7 @@ const StoreInfo = () => {
                             />
                         )}
                     </KakaoMap>
-                    <ul id="map">
+                    <ul id="map" style={{padding:0, marginTop:"10px"}}>
                         {nearByStationList.length > 0 &&
                             nearByStationList.map((item, index) => {
                                 return (

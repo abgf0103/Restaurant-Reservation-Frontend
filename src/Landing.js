@@ -2,7 +2,6 @@ import { useEffect} from "react";
 import { useLocation } from "react-router-dom";
 import StoreList from './pages/store/StoreList';
 import ImageSlider from "./components/ImageSlider";
-import './css/Landing.css';
 
 const Landing = () => {
     // redux 저장소에 저장된 토큰 정보 호출
