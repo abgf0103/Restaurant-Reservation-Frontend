@@ -5,10 +5,10 @@ import instance from "../../api/instance"; // instance 임포트
 import {
   ListGroupItem,
   MiniTitle,
+  ProfileImage,
   UserReviewCard,
   UserReviewImage,
   UserReviewPageContainer,
-  UserReviewRow,
   UserReviewTitle,
   Username,
 } from "../../components/Review/UserReviewPageStyle"; // MyReviewStyle에서 스타일 임포트
@@ -110,7 +110,13 @@ const UserReviewPage = () => {
   return (
     <UserReviewPageContainer>
       <UserReviewTitle>
-        <Username>{username}</Username> 사용자님의 리뷰 목록
+        <ProfileImage>
+          <img
+            src={`${process.env.REACT_APP_HOST}/file/viewId/${reviews[0].fileId}`}
+            alt="Profile"
+          />
+          <Username>{username}</Username> 사용자님의 리뷰 목록
+        </ProfileImage>
       </UserReviewTitle>
       <Row className="row-eq-height">
         {currentReviews.length > 0 ? (

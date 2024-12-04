@@ -11,6 +11,7 @@ const userSlice = createSlice({
       id: "",
       phone: "",
       name: "",
+      fileId: "",
     },
   },
   reducers: {
@@ -26,6 +27,7 @@ const userSlice = createSlice({
         id: "",
         phone: "",
         name: "",
+        fileId: "",
       };
     },
   },

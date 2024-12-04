@@ -15,6 +15,7 @@ import {
   FileList,
   FileUploadButton,
   FileUploadSection,
+  ProfileImage,
   RatingFormGroup,
   RatingLabel,
   ReveiwContainer,
@@ -317,8 +318,14 @@ const ReviewEdit = () => {
         <Col md={8}>
           <Card className="shadow-lg p-4">
             <ReviewEditTitle>
-              <Username> {userInfo.username} </Username>고객님,
-              <StoreName>{storeName}</StoreName>에 대한 리뷰 수정
+              <ProfileImage>
+                <img
+                  src={`${process.env.REACT_APP_HOST}/file/viewId/${userInfo.fileId}`}
+                  alt="Profile"
+                />
+                <Username>{userInfo.username}</Username> 고객님,
+                <StoreName>{storeName}</StoreName>에 대한 리뷰 수정
+              </ProfileImage>
             </ReviewEditTitle>
             <Form onSubmit={handleSubmit}>
               <RatingFormGroup controlId="rating" className="mb-4">

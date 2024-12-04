@@ -47,6 +47,25 @@ export const StoreName = styled.span`
   font-weight: bold;
 `;
 
+// 프로필 이미지 스타일링
+export const ProfileImage = styled.div`
+  display: flex;
+  align-items: center; /* 세로 가운데 정렬 */
+  justify-content: center; /* 가로 가운데 정렬 */
+
+  img {
+    width: 80px; /* 이미지 크기 */
+    height: 80px;
+    border-radius: 50%; /* 원형 이미지 */
+    margin-right: 15px; /* 이미지와 텍스트 사이의 간격 */
+  }
+
+  /* 반응형 디자인 */
+  @media (max-width: 768px) {
+    padding: 0 10px; /* 모바일에서는 좌우 패딩을 좀 더 적게 */
+  }
+`;
+
 export const ReveiwContainer = styled(Container)`
   padding: 50px 0; /* 충분한 여백을 주어 화면 중앙 정렬 */
   background-color: var(--background-color);

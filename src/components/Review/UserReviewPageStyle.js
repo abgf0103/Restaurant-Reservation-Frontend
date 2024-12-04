@@ -27,6 +27,25 @@ export const UserReviewTitle = styled.h2`
   }
 `;
 
+// 프로필 이미지 스타일링
+export const ProfileImage = styled.div`
+  display: flex;
+  align-items: center; /* 세로 가운데 정렬 */
+  justify-content: center; /* 가로 가운데 정렬 */
+
+  img {
+    width: 80px; /* 이미지 크기 */
+    height: 80px;
+    border-radius: 50%; /* 원형 이미지 */
+    margin-right: 15px; /* 이미지와 텍스트 사이의 간격 */
+  }
+
+  /* 반응형 디자인 */
+  @media (max-width: 768px) {
+    padding: 0 10px; /* 모바일에서는 좌우 패딩을 좀 더 적게 */
+  }
+`;
+
 // 제목에 있는 사용자 이름
 export const Username = styled.span`
   color: var(--primary-color); /* 사용자 이름을 기본 색상으로 강조 */

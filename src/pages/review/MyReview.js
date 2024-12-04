@@ -18,6 +18,7 @@ import {
   MiniTitle,
   MyReviewContainer,
   MyReviewTitle,
+  ProfileImage,
   ReviewButtons,
   ReviewCard,
   ReviewImage,
@@ -216,7 +217,13 @@ const MyReview = () => {
   return (
     <MyReviewContainer>
       <MyReviewTitle>
-        <Username>{userInfo.username}</Username> 고객님 리뷰 목록
+        <ProfileImage>
+          <img
+            src={`${process.env.REACT_APP_HOST}/file/viewId/${userInfo.fileId}`}
+            alt="Profile"
+          />
+          <Username>{userInfo.username}</Username> 고객님 리뷰 목록
+        </ProfileImage>
       </MyReviewTitle>
       <InfoContainer>
         <InfoIcon onClick={handleInfoClick}>

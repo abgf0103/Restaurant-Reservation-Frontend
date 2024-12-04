@@ -7,7 +7,7 @@ export const MyReviewTitle = styled.h2`
   color: var(--text-color-white); /* 텍스트 색상을 흰색으로 */
   font-size: 2.5rem; /* 더 큰 폰트 크기 */
   font-weight: bold; /* 두꺼운 글씨 */
-  margin-bottom: 30px;
+
   padding: 20px 0;
   background: linear-gradient(
     135deg,
@@ -41,9 +41,28 @@ export const Username = styled.span`
   color: transparent; /* 텍스트 색상을 투명하게 해서 그라데이션이 보이도록 */
 `;
 
+// 프로필 이미지 스타일링
+export const ProfileImage = styled.div`
+  display: flex;
+  align-items: center; /* 세로 가운데 정렬 */
+  justify-content: center; /* 가로 가운데 정렬 */
+
+  img {
+    width: 80px; /* 이미지 크기 */
+    height: 80px;
+    border-radius: 50%; /* 원형 이미지 */
+    margin-right: 15px; /* 이미지와 텍스트 사이의 간격 */
+  }
+
+  /* 반응형 디자인 */
+  @media (max-width: 768px) {
+    padding: 0 10px; /* 모바일에서는 좌우 패딩을 좀 더 적게 */
+  }
+`;
+
 // 정보 표시 아이콘 컴포넌트
 export const InfoIcon = styled.div`
-  font-size: 24px; /* 아이콘 크기 */
+  font-size: 30px; /* 아이콘 크기 */
   color: var(--primary-color); /* 기본 색상 */
   cursor: pointer; /* 클릭 가능 표시 */
   margin-bottom: 10px; /* 아이콘 아래 마진 추가 */
