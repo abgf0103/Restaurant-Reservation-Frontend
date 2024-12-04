@@ -178,7 +178,7 @@ const StoreReserve = () => {
             onChange={handleFilterChange}
           >
             <option value="all">전체</option>
-            <option value="0">확인 중인 예약</option>
+            <option value="0">대기 중인 예약</option>
             <option value="1">확정된 예약</option>
             <option value="2">완료된 예약</option>
             <option value="3">취소된 예약</option>
