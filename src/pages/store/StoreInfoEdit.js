@@ -5,7 +5,7 @@ import { useState, useEffect, useRef } from "react";
 import Swal from "sweetalert2";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDaumPostcodePopup } from "react-daum-postcode";
-import { formatPhoneNumber, formatStoreHours } from "../../utils/tools";
+import { formatPhoneNumber, formatStoreHours, validateStoreHours } from "../../utils/tools";
 
 const RegisterStore = () => {
     const navigate = useNavigate();
@@ -83,9 +83,7 @@ const RegisterStore = () => {
         setIsGuideLines(e.target.checked); // 가게 안내 및 유의사항 체크박스 상태 업데이트
     };
 
-    const getGuideLines = () => {};
-
-    const [isAgrre, setIsAgree] = useState(false);
+    const [isAgree, setIsAgree] = useState(false);
 
     const isAgreeHandler = (e) => {
         setIsAgree(e.target.checked);
@@ -122,10 +120,20 @@ const RegisterStore = () => {
     const requestStoreRegister = (e) => {
         e.preventDefault();
 
-        if (!isAgrre) {
+        if (!isAgree) {
             Swal.fire({
                 title: "약관 확인",
-                text: "가게 수정을 진행하려면 약관에 동의하세요.",
+                text: "가게 등록을 진행하려면 약관에 동의하세요.",
+                icon: "warning",
+            });
+            return;
+        }
+
+        // 가게 영업시간 검증
+        if (!validateStoreHours(storeData.storeHours)){
+            Swal.fire({
+                title: "영업시간 오류",
+                text: "영업시간을 다시 입력하세요.",
                 icon: "warning",
             });
             return;
@@ -141,7 +149,7 @@ const RegisterStore = () => {
             guideLines : storeData.guideLines,
         });
 
-        if (storeData.guideLines === undefined) {
+        if (storeData.guideLines === undefined || isGuideLines === false) {
             storeData.guideLines = "";
         }
         instance
@@ -311,7 +319,7 @@ const RegisterStore = () => {
                     {isDelete ? "삭제 중" : "삭제 요청"}
                 </Button>
 
-                <h5>대표 이미지를 선택하세요</h5>
+                <h5>대표 이미지 수정</h5>
                 <input type="file" onChange={handleFileChange} accept="image/*" />
                 <p>
                     <Button variant="colorSecondary" type="button" onClick={handleFileUpload}>
@@ -452,7 +460,7 @@ const RegisterStore = () => {
                         type="checkbox"
                         id="agreeCheckbox"
                         label="약관에 동의합니다."
-                        checked={isAgrre}
+                        checked={isAgree}
                         onChange={isAgreeHandler}
                     />
                 </Form.Group>

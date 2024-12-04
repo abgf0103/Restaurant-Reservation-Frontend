@@ -136,7 +136,7 @@ const MenuList = () => {
                                 />
                                 <Card.Body className="menuInfo">
                                     <Card.Title className="menuTitle">{item.menuName}</Card.Title>
-                                    <Card.Text>{item.description}</Card.Text>
+                                    <Card.Text className="menuDescription">{item.description}</Card.Text>
                                     <Card.Text className="menuPrice">{convertToWon(item.price)}</Card.Text>
                                 </Card.Body>
                             </div>

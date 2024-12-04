@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import moment from "moment";
 import Swal from "sweetalert2";
 
 // 숫자에 3자리마다 쉼표 추가하는 함수
@@ -63,6 +63,30 @@ export const formatStoreHours = (value) => {
     }
 };
 
+// 영업시간 검증
+export const validateStoreHours = (value) => {
+    console.log(value);
+    const [startTime, endTime] = value.split("~");
+
+    console.log(startTime, endTime);
+
+    // moment로 시작 시간과 종료 시간 생성
+    const start = moment(startTime, "HH:mm"); // 시작 시간
+    const end = moment(endTime, "HH:mm"); // 종료 시간
+    console.log(start, end);
+    if (start.isValid() && end.isValid()) {
+        // 시작 시간이 종료 시간보다 이전인지를 검증
+        if (start.isBefore(end)) {
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
+};
+
+//문자열의 줄바꿈을 찾아 적용시키는 함수
 export const convertNewlinesToBr = (text) => {
     if (!text) {
         return null; // 빈 문자열이나 null 또는 undefined일 경우 처리

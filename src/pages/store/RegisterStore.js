@@ -5,9 +5,7 @@ import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { useDaumPostcodePopup } from "react-daum-postcode";
-import { formatPhoneNumber, formatStoreHours } from "../../utils/tools";
-import moment from "moment";
-import { checkStoreHours } from "./../../utils/tools";
+import { formatPhoneNumber, formatStoreHours, validateStoreHours } from "../../utils/tools";
 
 const RegisterStore = () => {
     const navigate = useNavigate();
@@ -25,13 +23,6 @@ const RegisterStore = () => {
     // Daum 우편번호 API 스크립트 URL
     const postcodeScriptUrl = "https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
     const open = useDaumPostcodePopup(postcodeScriptUrl);
-
-    // 영업 시간 검증
-    const [storeTime, setStoreTime] = useState({
-        storeHours: "",
-    });
-    const [errorMessage, setErrorMessage] = useState("");
-    const [isValidTime, setIsValidTime] = useState(true);
 
     // 카테고리 리스트를 API로 받아서 state에 저장
     useEffect(() => {
@@ -81,6 +72,7 @@ const RegisterStore = () => {
     };
 
     const isGuideLinesHandler = (e) => {
+        console.log(e.target.checked);
         setIsGuideLines(e.target.checked); // 가게 안내 및 유의사항 체크박스 상태 업데이트
     };
 
@@ -143,26 +135,8 @@ const RegisterStore = () => {
         open({ onComplete: handleComplete });
     };
 
-    const [startTime, setStartTime] = useState("");
-    const [endTime, setEndTime] = useState("");
-    const [validationMessage, setValidationMessage] = useState("");
-
     // 가게 등록 API 호출
     const requestStoreRegister = (e) => {
-                // storeHours 검증
-
-        // 시작 시간과 종료 시간을 moment 객체로 변환
-        const start = moment(storeData.storeHours.slice(0, 5), "HH:mm", true);
-        const end = moment(storeData.storeHours.slice(6, 11), "HH:mm", true);
-
-        // 시작 시간이 종료 시간보다 이전인지 확인
-        console.log(start, end);
-        console.log(validationMessage);
-        if (start.isBefore(end)) {
-            setValidationMessage("시작 시간이 종료 시간보다 이전입니다.");
-        } else {
-            setValidationMessage("시작 시간이 종료 시간보다 이전이어야 합니다.");
-        }
         e.preventDefault();
 
         if (storeCategory === undefined) {
@@ -194,9 +168,18 @@ const RegisterStore = () => {
             return;
         }
 
+        // 가게 영업시간 검증
+        if (!validateStoreHours(storeData.storeHours)){
+            Swal.fire({
+                title: "영업시간 오류",
+                text: "영업시간을 다시 입력하세요.",
+                icon: "warning",
+            });
+            return;
+        }
 
         console.log(storeData.guideLines);
-        if (storeData.guideLines === undefined) {
+        if (storeData.guideLines === undefined || isGuideLines === false) {
             storeData.guideLines = "";
         }
         instance

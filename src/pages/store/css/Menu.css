@@ -2,7 +2,6 @@
     display: flex;
     overflow-x: auto;
     white-space: nowrap;
-    height: 300px;
     cursor: grab;
     overflow: hidden;
 }
@@ -16,6 +15,11 @@
 .menuTitle {
     font-weight: bold !important;
     margin-top: 5px!important;
+}
+
+.menuDescription{
+    white-space: normal;
+    width: 200px;
 }
 
 .menuPrice {
