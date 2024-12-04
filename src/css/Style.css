@@ -210,7 +210,7 @@ header {
 #notification-menu {
   position: absolute;
   width: auto;
-  height: 700px;
+  height: auto;
   background-color: var(--background-color);
   border: 1px solid var(--background-color);
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
@@ -234,6 +234,13 @@ header {
   cursor: auto;
 }
 
+/* :focus상태 (제거 시 클릭하면 파랗게 됨) */
+#notification-item:focus {
+  outline: none;
+  background-color: inherit;
+  color: inherit;
+}
+
 #no-notifications {
   padding: 10px;
   text-align: center;
@@ -245,6 +252,7 @@ header {
   color: var(--background-color-gray);
 }
 
+/* 알림창 버튼 */
 #btn-my {
   background-color: var(--secondary-color);
   color: var(--text-color-white);
