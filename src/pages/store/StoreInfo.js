@@ -550,6 +550,12 @@ const StoreInfo = () => {
             <p className="score">
                 별점 : {avgRating}({reviewCount}) tel : {storeData.phone}
             </p>
+            <div className="storeInfoImg">
+                <img
+                    src={`${process.env.REACT_APP_HOST}/file/view/${storeData.saveFileName}`}
+                    alt={`가게 메인 이미지`}
+                />
+            </div>
             <Button variant="colorSecondary" className="onClick-button" onClick={() => scrollToSection("description")}>
                 가게 설명
             </Button>{" "}

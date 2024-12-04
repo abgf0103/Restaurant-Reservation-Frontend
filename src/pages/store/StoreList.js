@@ -154,7 +154,6 @@ const StoreList = () => {
     useEffect(() => {
         setResult(null);
         if (location.state?.result) {
-            console.log(1);
             setResult(location.state.result);
         }
     }, [location.state]);
