@@ -590,14 +590,13 @@ const StoreInfo = () => {
                 {reviews.length > 0 ? (
                     <ul>
                         {reviews.map((review) => (
-                            <li key={review.reviewId}>
+                            <li key={review.reviewId} className="reviewItem">
                                 <strong>작성자:</strong>
                                 <Link to={`/review/${review.username}`}>{review.username}</Link>
                                 <br />
-                                <strong>가게 이름:</strong> {review.storeName} <br />
                                 <strong>별점:</strong> {renderStars(review.rating)}
                                 <br />
-                                <strong>리뷰:</strong> {review.reviewComment}
+                                {review.reviewComment}
                                 <br />
                                 <strong>좋아요:</strong> {review.likeCount}{" "}
                                 <button
@@ -610,7 +609,6 @@ const StoreInfo = () => {
                                 {/* 파일 첨부 부분 */}
                                 {review.files.length > 0 && (
                                     <div>
-                                        <strong>첨부된 파일:</strong>
                                         <div>
                                             {review.files.map((fileItem, index) => (
                                                 <img
