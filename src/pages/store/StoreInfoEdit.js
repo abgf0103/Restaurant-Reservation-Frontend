@@ -15,6 +15,8 @@ const RegisterStore = () => {
     const [fileList, setFileList] = useState([]); // 업로드된 파일 리스트
     const [isGuideLines, setIsGuideLines] = useState(false); // 가게 안내 및 유의사항 체크박스 상태
 
+    const [isFile, setIsFile] = useState(true);
+
     // 유저정보 가져오기
     const [userInfo, setUserInfo] = useState("");
     useEffect(() => {
@@ -49,6 +51,9 @@ const RegisterStore = () => {
 
     useEffect(() => {
         getStoreData();
+        if (storeData.saveFileName === null) {
+            setIsFile(false);
+        }
     }, []);
 
     const onChangeHandler = (e) => {
@@ -120,6 +125,15 @@ const RegisterStore = () => {
     const requestStoreRegister = (e) => {
         e.preventDefault();
 
+        if (!isFile) {
+            Swal.fire({
+                title: "대표 이미지 확인",
+                text: "대표 이미지를 선택하세요.",
+                icon: "warning",
+            });
+            return;
+        }
+
         if (!isAgree) {
             Swal.fire({
                 title: "약관 확인",
@@ -130,7 +144,7 @@ const RegisterStore = () => {
         }
 
         // 가게 영업시간 검증
-        if (!validateStoreHours(storeData.storeHours)){
+        if (!validateStoreHours(storeData.storeHours)) {
             Swal.fire({
                 title: "영업시간 오류",
                 text: "영업시간을 다시 입력하세요.",
@@ -146,7 +160,7 @@ const RegisterStore = () => {
             description: storeData.description,
             identity: storeData.identity,
             fileId: storeData.fileId,
-            guideLines : storeData.guideLines,
+            guideLines: storeData.guideLines,
         });
 
         if (storeData.guideLines === undefined || isGuideLines === false) {
@@ -161,7 +175,7 @@ const RegisterStore = () => {
                 description: storeData.description,
                 identity: storeData.identity,
                 fileId: storeData.fileId,
-                guideLines : storeData.guideLines,
+                guideLines: storeData.guideLines,
             })
             .then(() => {
                 Swal.fire({
@@ -243,6 +257,7 @@ const RegisterStore = () => {
                         ...storeData,
                         fileId: res.data[0].id,
                     });
+                    setIsFile(true);
                 })
                 .catch((err) => {
                     console.error("File Upload Error:", err); // 콘솔에 파일 업로드 에러 확인
@@ -258,6 +273,7 @@ const RegisterStore = () => {
     const deleteFile = (fileId, fileTarget) => {
         console.log("삭제할 파일 ID:", fileId); // fileId 출력
         console.log("삭제할 파일 Target:", fileTarget); // fileTarget 출력
+        setIsFile(false);
 
         instance
             .post("/file/delete", {
@@ -320,21 +336,26 @@ const RegisterStore = () => {
                 </Button>
 
                 <h5>대표 이미지 수정</h5>
-                <input type="file" onChange={handleFileChange} accept="image/*" />
                 <p>
-                    <Button variant="colorSecondary" type="button" onClick={handleFileUpload}>
-                        이미지 업로드
-                    </Button>{" "}
-                    <Button
-                        type="button"
-                        variant="colorPrimary"
-                        onClick={() => {
-                            console.log("삭제 요청 시 storeData.saveFileTarget:", storeData.saveFileTarget); // 삭제 버튼 클릭 시 콘솔에 출력
-                            deleteFile(storeData.fileId, storeData.saveFileTarget); // storeData.saveFileTarget을 사용하여 삭제 요청
-                        }}
-                    >
-                        삭제
-                    </Button>
+                    {!isFile ? (
+                        <>
+                            <input type="file" onChange={handleFileChange} accept="image/*" />
+                            <Button variant="colorSecondary" type="button" onClick={handleFileUpload}>
+                                이미지 업로드
+                            </Button>{" "}
+                        </>
+                    ) : (
+                        <Button
+                            type="button"
+                            variant="colorPrimary"
+                            onClick={() => {
+                                console.log("삭제 요청 시 storeData.saveFileTarget:", storeData.saveFileTarget); // 삭제 버튼 클릭 시 콘솔에 출력
+                                deleteFile(storeData.fileId, storeData.saveFileTarget); // storeData.saveFileTarget을 사용하여 삭제 요청
+                            }}
+                        >
+                            삭제
+                        </Button>
+                    )}
                 </p>
                 {fileList.length > 0 && (
                     <div className="storeMainImg">
