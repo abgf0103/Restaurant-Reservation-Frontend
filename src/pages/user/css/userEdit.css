@@ -15,7 +15,7 @@
 }
 
 .user-edit-input {
-  width: 61% !important; /* 부모 요소의 100% 너비를 사용 */
+  width: 100% !important; /* 부모 요소의 100% 너비를 사용 */
   height: 60px;
   border: 1px solid black !important;
 }
@@ -34,7 +34,7 @@
 }
 
 .user-edit-text {
-  font-size: 4vw; /* 화면 너비에 따라 폰트 크기 조정 */
+  margin-bottom: 30px !important;
   text-align: center;
   margin: 0;
   width: 35%;

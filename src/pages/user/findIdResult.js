@@ -8,16 +8,16 @@ const FindIdResult = () => {
   const { cause } = location.state || {}; // state에서 cause 받기
   const navigate = useNavigate();
 
-  // 아이디의 맨 앞글자와 맨 뒷글자를 *로 감추는 함수
+  // 아이디의 앞 4자리를 보이고 나머지는 *로 가리는 함수
   const maskId = (id) => {
-    if (id && id.length > 2) {
-      const firstChar = id.charAt(0); // 첫 문자
-      const lastChar = id.charAt(id.length - 1); // 마지막 문자
-      const middleChars = id.substring(1, id.length - 1); // 중간 문자들
-      return `${firstChar}***${lastChar}`; // 첫 문자, *** 중간 문자들, 마지막 문자
+    if (id && id.length > 4) {
+      const firstPart = id.substring(0, 4); // 첫 4자리
+      const maskedPart = "*".repeat(id.length - 4); // 나머지 부분을 *로 가리기
+      return `${firstPart}${maskedPart}`; // 첫 4자리 + *로 가려진 나머지
     }
-    return id; // 아이디 길이가 2 이하일 경우 그대로 반환
+    return id; // 아이디 길이가 4자리 이하일 경우 그대로 반환
   };
+
   const goFindPW = () => {
     navigate("/user/findPassword");
   };

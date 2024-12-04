@@ -162,10 +162,10 @@ const UserEdit = () => {
 
   return (
     <div className="user-edit-main-container">
+      <h2>
+        <span className="user-edit-text">회원 관리</span>
+      </h2>
       <Form onSubmit={onSubmit} className="user-edit-container">
-        <h2>
-          <span className="user-edit-text">회원 관리</span>
-        </h2>
         <Form.Group className="mb-3" controlId="name">
           <Form.Label>이름</Form.Label>
           <Form.Control
