@@ -13,6 +13,7 @@
 
 
 .menuTitle {
+    white-space: normal;
     font-weight: bold !important;
     margin-top: 5px!important;
 }
