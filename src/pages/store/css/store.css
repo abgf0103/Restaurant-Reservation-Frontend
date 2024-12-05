@@ -208,8 +208,8 @@
 
 .similarFavoriteBtn {
     position: absolute;
-    bottom: 22px;
-    right: 25px;
+    bottom: 0;
+    right: 0;
     padding: 8px 16px; /* 버튼 크기 설정 */
     font-size: 14px; /* 버튼 텍스트 크기 */
     border-color: #ffffff00 !important;
@@ -234,6 +234,13 @@
     box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.1);
     margin-top: 10px;
     margin-bottom: 10px;
+}
+
+.storeInfoIdentity{
+    font-size: 14px;
+    font-weight: lighter;
+    color: var(--text-color-gray);
+    margin-left: 5px;
 }
 
 .storeInfoImg {

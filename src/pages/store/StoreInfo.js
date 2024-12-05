@@ -121,6 +121,8 @@ const StoreInfo = () => {
     //즐겨찾기 여부
     const [isFavorite, setIsFavorite] = useState({});
 
+    const [shortAddr, setShortAddr] = useState([]);
+
     const getRatingAvgByStoreId = () => {
         instance.get(`/review/getRatingAvgByStoreId?storeId=${storeId}`).then((res) => {
             setAvgRating(res.data);
@@ -139,6 +141,8 @@ const StoreInfo = () => {
                         res.latlng = { lat: coords.getLat(), lng: coords.getLng() };
                         setStoreData(res);
                         setIsReady(true);
+                        setShortAddr(result[0].road_address.region_3depth_name);
+                        console.log(result[0].road_address);
                         axios
                             .get("https://dapi.kakao.com/v2/local/search/keyword.json", {
                                 headers: {
@@ -521,6 +525,7 @@ const StoreInfo = () => {
         getIsFavorite();
         console.log(isFavorite);
         console.log(storeData);
+        console.log(nearByStationList);
     }, []);
 
     if (loading) {
@@ -529,24 +534,27 @@ const StoreInfo = () => {
 
     return (
         <main className="storeMain">
-            <h2>
-                {storeData.storeName}
-                {isFavorite[storeData.storeId] ? (
-                    <Button
-                        className="storeInfoFavoriteBtn onBtn"
-                        onClick={() => favoriteCancelClickHandler(storeData.storeId)}
-                    >
-                        <FontAwesomeIcon icon={faBookmarkSolid} />
-                    </Button>
-                ) : (
-                    <Button
-                        className="storeInfoFavoriteBtn offBtn"
-                        onClick={() => favoriteClickHandler(storeData.storeId)}
-                    >
-                        <FontAwesomeIcon icon={faBookmarkRegular} />
-                    </Button>
-                )}
-            </h2>
+            <div>
+                <span className="storeInfoIdentity">{shortAddr} | {storeData.identity}</span>
+                <h2>
+                    {storeData.storeName}
+                    {isFavorite[storeData.storeId] ? (
+                        <Button
+                            className="storeInfoFavoriteBtn onBtn"
+                            onClick={() => favoriteCancelClickHandler(storeData.storeId)}
+                        >
+                            <FontAwesomeIcon icon={faBookmarkSolid} />
+                        </Button>
+                    ) : (
+                        <Button
+                            className="storeInfoFavoriteBtn offBtn"
+                            onClick={() => favoriteClickHandler(storeData.storeId)}
+                        >
+                            <FontAwesomeIcon icon={faBookmarkRegular} />
+                        </Button>
+                    )}
+                </h2>
+            </div>
             <p className="score">
                 별점 : {avgRating}({reviewCount}) tel : {storeData.phone}
             </p>
@@ -556,21 +564,27 @@ const StoreInfo = () => {
                     alt={`가게 메인 이미지`}
                 />
             </div>
-            <Button variant="colorSecondary" className="onClick-button" onClick={() => scrollToSection("description")}>
-                가게 설명
-            </Button>{" "}
-            <Button variant="colorSecondary" className="onClick-button" onClick={() => scrollToSection("menu")}>
-                메뉴
-            </Button>{" "}
-            <Button variant="colorSecondary" className="onClick-button" onClick={() => scrollToSection("review")}>
-                리뷰
-            </Button>{" "}
-            <Button variant="colorSecondary" className="onClick-button" onClick={() => scrollToSection("map")}>
-                위치
-            </Button>{" "}
-            <Button variant="colorSecondary" className="onClick-button" onClick={() => scrollToSection("info")}>
-                상세정보
-            </Button>
+            <div>
+                <Button
+                    variant="colorSecondary"
+                    className="onClick-button"
+                    onClick={() => scrollToSection("description")}
+                >
+                    가게 설명
+                </Button>{" "}
+                <Button variant="colorSecondary" className="onClick-button" onClick={() => scrollToSection("menu")}>
+                    메뉴
+                </Button>{" "}
+                <Button variant="colorSecondary" className="onClick-button" onClick={() => scrollToSection("review")}>
+                    리뷰
+                </Button>{" "}
+                <Button variant="colorSecondary" className="onClick-button" onClick={() => scrollToSection("map")}>
+                    위치
+                </Button>{" "}
+                <Button variant="colorSecondary" className="onClick-button" onClick={() => scrollToSection("info")}>
+                    상세정보
+                </Button>
+            </div>
             <div className="component-line">
                 <h4 className="description" id="description">
                     가게 설명
@@ -588,7 +602,7 @@ const StoreInfo = () => {
                     리뷰
                 </h1>
                 {reviews.length > 0 ? (
-                    <ul style={{padding:0}}>
+                    <ul style={{ padding: 0 }}>
                         {reviews.map((review) => (
                             <li key={review.reviewId} className="reviewItem">
                                 <strong>작성자:</strong>
@@ -645,7 +659,7 @@ const StoreInfo = () => {
                 <div className="kakaoMapContainer">
                     <KakaoMap
                         center={{ lat: storeData.latlng.lat, lng: storeData.latlng.lng }}
-                        style={{ width: "100%", height: "300px", borderRadius: "10px"}}
+                        style={{ width: "100%", height: "300px", borderRadius: "10px" }}
                         level={3}
                     >
                         {isReady && (
@@ -656,7 +670,7 @@ const StoreInfo = () => {
                             />
                         )}
                     </KakaoMap>
-                    <ul id="map" style={{padding:0, marginTop:"10px"}}>
+                    <ul id="map" style={{ padding: 0, marginTop: "10px" }}>
                         {nearByStationList.length > 0 &&
                             nearByStationList.map((item, index) => {
                                 return (
