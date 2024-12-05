@@ -139,7 +139,7 @@ const RegisterMenu = () => {
                         이미지 업로드
                     </Button>
                 </p>
-                
+
                 {fileList.length > 0 && (
                     <img
                         className="menuImg"

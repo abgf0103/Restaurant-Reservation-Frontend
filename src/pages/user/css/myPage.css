@@ -1,5 +1,5 @@
 .mypage-height-cover {
-  height: 800px;
+  height: 700px;
   position: relative; /* 자식 요소의 absolute 위치 기준 설정 */
   display: flex;
   justify-content: center; /* 수평 중앙 정렬 */
@@ -15,6 +15,12 @@
   width: 100%; /* 너비를 100%로 설정 */
   max-width: 500px; /* 최대 너비만 설정 */
   padding: 50px;
+  border-radius: 10px;
+}
+
+.mypage-profile-img{
+    border-radius: 100px;
+    border: 2px solid var(--secondary-color);
 }
 
 .aaa {
