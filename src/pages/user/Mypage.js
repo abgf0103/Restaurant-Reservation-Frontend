@@ -30,18 +30,19 @@ const Mypage = () => {
 
   // 로그인 상태 체크
   useEffect(() => {
+    console.log(userInfo.fileId);
     if (!userInfo.username) {
       isNotLoginSwal();
       navigate("/user/login");
     } else {
-      // 사용자 정보가 있으면 프로필 이미지 fileId로 상태 설정
+      // 사용자 정보가 있으면 프로필 이미지 설정
       if (userInfo.fileId) {
-        console.log(userInfo);
-        setProfileImage(userInfo.fileId);
+        setProfileImage(userInfo.fileId); // fileId가 있을 때 프로필 이미지 설정
+      } else {
+        setProfileImage(null); // fileId가 없으면 기본 이미지로 설정
       }
     }
   }, [navigate, userInfo]);
-
   // 어드민 확인
   useEffect(() => {
     if (userInfo.id) {
@@ -100,6 +101,64 @@ const Mypage = () => {
     }
   };
 
+  const handleProfileImageDelete = () => {
+    Swal.fire({
+      title: "정말로 프로필 이미지를 삭제하시겠습니까?",
+      text: "삭제된 이미지는 복구할 수 없습니다.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "삭제",
+      cancelButtonText: "취소",
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        console.log({
+          id: profileImage,
+          fileTarget: "profileImage", // 이미지 파일 종류 지정
+        });
+        instance
+          .post("/file/delete", {
+            id: profileImage,
+            fileTarget: "profileImage", // 이미지 파일 종류 지정
+          })
+          .then((res) => {
+            if (res.status === 200) {
+              setProfileImage(null); // 프로필 이미지 삭제 후 상태 업데이트
+
+              // Redux 상태 업데이트
+              dispatch(
+                setUserInfo({
+                  ...userInfo, // 기존 userInfo 유지
+                  fileId: null, // fileId를 null로 설정
+                })
+              );
+
+              Swal.fire({
+                title: "성공",
+                text: "프로필 이미지가 삭제되었습니다.",
+                icon: "success",
+              });
+            }
+          })
+          .catch((error) => {
+            console.error("프로필 이미지 삭제 오류:", error);
+            Swal.fire({
+              title: "실패",
+              text: "프로필 이미지 삭제에 실패했습니다.",
+              icon: "error",
+            });
+          });
+      } else {
+        // 사용자가 취소한 경우
+        Swal.fire({
+          title: "취소",
+          text: "프로필 이미지 삭제가 취소되었습니다.",
+          icon: "info",
+        });
+      }
+    });
+  };
+
   return (
     <div className="mypage-height-cover">
       <div className="mypage-container">
@@ -143,6 +202,7 @@ const Mypage = () => {
                 프로필 사진 선택
               </Button>
             </label>
+
             <Button
               variant="secondary"
               type="button"
@@ -150,6 +210,16 @@ const Mypage = () => {
             >
               업로드
             </Button>
+
+            {profileImage && (
+              <Button
+                variant="danger"
+                type="button"
+                onClick={handleProfileImageDelete}
+              >
+                삭제
+              </Button>
+            )}
           </div>
 
           {/* 나머지 마이페이지 버튼들 */}

@@ -4,60 +4,58 @@ import { Card, Container, ListGroup, Row } from "react-bootstrap";
 // 제목 스타일
 export const UserReviewTitle = styled.h2`
   text-align: center;
-  color: var(--text-color-white); /* 텍스트 색상을 흰색으로 */
-  font-size: 2.5rem; /* 더 큰 폰트 크기 */
-  font-weight: bold; /* 두꺼운 글씨 */
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--text-color-black);
   margin-bottom: 30px;
-  padding: 20px 0;
-  background: linear-gradient(
-    135deg,
-    var(--primary-color),
-    var(--secondary-color)
-  ); /* 기본 색상과 보조 색상 그라데이션 */
-  border-radius: 10px; /* 둥근 모서리 */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* 텍스트 그림자 */
-  position: relative;
-  z-index: 1;
+  border-bottom: 3px solid var(--primary-color); /* 제목 아래에 세련된 밑줄 추가 */
 
   /* 반응형 디자인 */
   @media (max-width: 768px) {
-    font-size: 2rem; /* 모바일에서는 폰트 크기를 조금 더 작게 */
-    padding: 15px 0;
-  }
-`;
-
-// 프로필 이미지 스타일링
-export const ProfileImage = styled.div`
-  display: flex;
-  align-items: center; /* 세로 가운데 정렬 */
-  justify-content: center; /* 가로 가운데 정렬 */
-
-  img {
-    width: 80px; /* 이미지 크기 */
-    height: 80px;
-    border-radius: 50%; /* 원형 이미지 */
-    margin-right: 15px; /* 이미지와 텍스트 사이의 간격 */
-  }
-
-  /* 반응형 디자인 */
-  @media (max-width: 768px) {
-    padding: 0 10px; /* 모바일에서는 좌우 패딩을 좀 더 적게 */
+    font-size: 1.8rem; /* 모바일에서 폰트 크기 약간 감소 */
   }
 `;
 
 // 제목에 있는 사용자 이름
 export const Username = styled.span`
-  color: var(--primary-color); /* 사용자 이름을 기본 색상으로 강조 */
-  font-size: 2.8rem; /* 사용자 이름만 조금 더 크게 */
-  font-weight: bold;
+  color: var(--primary-color);
+  font-size: 1.8rem;
+  font-weight: 600;
+  display: block;
+  margin-top: 10px;
+
+  /* 그라데이션 적용 */
   background: linear-gradient(
     135deg,
     var(--tertiary-color),
     var(--quaternary-color)
-  ); /* 배경에 다른 그라데이션 적용 */
-  -webkit-background-clip: text; /* 그라데이션 텍스트로 적용 */
-  color: transparent; /* 텍스트 색상을 투명하게 해서 그라데이션이 보이도록 */
+  );
+  -webkit-background-clip: text;
+  color: transparent;
+`;
+
+// 프로필 이미지 스타일링
+export const ProfileImage = styled.div`
+  display: flex;
+  align-items: center; /* 가로로 배치 */
+  justify-content: flex-start;
+  gap: 20px; /* 프로필 이미지와 텍스트 간 간격 */
+  padding: 20px 0;
+  position: relative; /* 정보 아이콘을 우측 상단에 배치하기 위한 설정 */
+
+  img {
+    width: 100px; /* 프로필 이미지 크기 */
+    height: 100px;
+    border-radius: 50%;
+    border: 2px solid var(--primary-color); /* 이미지에 테두리 추가 */
+    object-fit: cover;
+  }
+
+  /* 유저네임 */
+  ${Username} {
+    margin-top: 0;
+    display: inline-block;
+  }
 `;
 
 // 전체 페이지 컨테이너 스타일

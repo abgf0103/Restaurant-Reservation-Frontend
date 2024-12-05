@@ -26,6 +26,8 @@ import {
   Username,
 } from "../../components/Review/ReviewWriteStyle";
 import { Card, Col, Form, Row } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
 
 const Review = () => {
   const navigate = useNavigate();
@@ -361,10 +363,30 @@ const Review = () => {
           <Card className="shadow-lg p-4">
             <ReviewTitle>
               <ProfileImage>
-                <img
-                  src={`${process.env.REACT_APP_HOST}/file/viewId/${userInfo.fileId}`}
-                  alt="Profile"
-                />
+                {userInfo.fileId ? (
+                  <img
+                    src={`${process.env.REACT_APP_HOST}/file/viewId/${userInfo.fileId}`}
+                    alt=""
+                    style={{
+                      width: "100px",
+                      height: "100px",
+                      borderRadius: "50%",
+                      objectFit: "cover",
+                      border: "2px solid var(--primary-color)",
+                    }}
+                  />
+                ) : (
+                  <FontAwesomeIcon
+                    className="mypage-default-icon"
+                    icon={faCircleUser} // 기본 아이콘
+                    style={{
+                      fontSize: "50px", // 적당한 크기로 설정
+                      width: "100px",
+                      height: "100px",
+                      borderRadius: "50%",
+                    }}
+                  />
+                )}
                 <Username>{userInfo.username}</Username>고객님,
                 <StoreName>{storeName}</StoreName>에 대한 리뷰 작성
               </ProfileImage>

@@ -25,6 +25,8 @@ import {
   WLSumContainer,
   WLSumItem,
 } from "../../components/Review/MyReviewStyle";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
 
 const MyReview = () => {
   const navigate = useNavigate();
@@ -218,10 +220,30 @@ const MyReview = () => {
     <MyReviewContainer>
       <MyReviewTitle>
         <ProfileImage>
-          {userInfo.fileId && (
-            <img
-              src={`${process.env.REACT_APP_HOST}/file/viewId/${userInfo.fileId}`}
-              alt="Profile"
+          {userInfo.fileId ? (
+            <div
+              style={{
+                width: "100px",
+                height: "100px",
+                borderRadius: "50%",
+                border: "2px solid var(--primary-color)",
+                objectFit: "cover",
+                overflow: "hidden",
+                backgroundImage: `url(${process.env.REACT_APP_HOST}/file/viewId/${userInfo.fileId})`,
+                backgroundPosition: "center",
+                backgroundSize: "cover",
+              }}
+            ></div>
+          ) : (
+            <FontAwesomeIcon
+              className="mypage-default-icon"
+              icon={faCircleUser} // 기본 아이콘
+              style={{
+                fontSize: "150px",
+                width: "100px",
+                height: "100px",
+                borderRadius: "50%",
+              }}
             />
           )}
           <div>
@@ -271,8 +293,7 @@ const MyReview = () => {
                     </ListGroup>
                   </Card.Body>
 
-                  {/* 파일이 있다면 이미지 보여주기 */}
-                  {review.files.length > 0 && (
+                  {review.files.length > 0 ? (
                     <ReviewImage>
                       {review.files.map((file, index) => (
                         <img
@@ -282,6 +303,18 @@ const MyReview = () => {
                           className="img-fluid"
                         />
                       ))}
+                    </ReviewImage>
+                  ) : (
+                    <ReviewImage>
+                      <FontAwesomeIcon
+                        className="mypage-default-icon"
+                        icon={faCircleUser} // 기본 아이콘
+                        style={{
+                          fontSize: "150px",
+                          width: "160px",
+                          height: "160px",
+                        }}
+                      />
                     </ReviewImage>
                   )}
                 </div>

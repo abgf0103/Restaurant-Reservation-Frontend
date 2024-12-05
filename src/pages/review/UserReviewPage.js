@@ -20,6 +20,8 @@ import {
   Pagination,
   Row,
 } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
 
 const UserReviewPage = () => {
   const { username } = useParams();
@@ -111,10 +113,28 @@ const UserReviewPage = () => {
     <UserReviewPageContainer>
       <UserReviewTitle>
         <ProfileImage>
-          {reviews[0].fileId != null && (
+          {reviews[0].fileId ? (
             <img
               src={`${process.env.REACT_APP_HOST}/file/viewId/${reviews[0].fileId}`}
-              alt="Profile"
+              alt="프로필 사진"
+              style={{
+                width: "100px",
+                height: "100px",
+                borderRadius: "50%",
+                objectFit: "cover",
+                border: "2px solid var(--primary-color)",
+              }}
+            />
+          ) : (
+            <FontAwesomeIcon
+              className="mypage-default-icon"
+              icon={faCircleUser} // 기본 아이콘
+              style={{
+                fontSize: "50px", // 적당한 크기로 설정
+                width: "100px",
+                height: "100px",
+                borderRadius: "50%",
+              }}
             />
           )}
           <Username>{username}</Username> 사용자님의 리뷰 목록
