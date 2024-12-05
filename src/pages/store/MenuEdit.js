@@ -237,6 +237,17 @@ const MenuEdit = () => {
                     메뉴 삭제
                 </Button>
 
+                <Form.Group className="mb-3">
+                    <Form.Label>메뉴 이름</Form.Label>
+                    <Form.Control
+                        placeholder="메뉴 이름을 입력하세요"
+                        name="menuName"
+                        value={menuData.menuName}
+                        onChange={onChangeHandler}
+                        required
+                    />
+                </Form.Group>
+
                 <h5>메뉴 이미지</h5>
                 {/* 이미지 업로드 */}
                 <p>
@@ -264,24 +275,12 @@ const MenuEdit = () => {
                 )}
 
                 <Form.Group className="mb-3">
-                    <Form.Label>메뉴 이름</Form.Label>
-                    <Form.Control
-                        placeholder="메뉴 이름을 입력하세요"
-                        name="menuName"
-                        value={menuData.menuName}
-                        onChange={onChangeHandler}
-                        required
-                    />
-                </Form.Group>
-
-                <Form.Group className="mb-3">
                     <Form.Label>메뉴 설명</Form.Label>
                     <Form.Control
                         placeholder="메뉴 설명을 입력하세요"
                         name="description"
                         value={menuData.description}
                         onChange={onChangeHandler}
-                        required
                     />
                 </Form.Group>
 

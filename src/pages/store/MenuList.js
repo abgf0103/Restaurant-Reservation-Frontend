@@ -129,11 +129,16 @@ const MenuList = () => {
                     {menuList.length > 0 ? (
                         menuList.map((item, index) => (
                             <div key={index} className="horizontal-item">
-                                <img
-                                    src={`${process.env.REACT_APP_HOST}/file/view/${item.saveFileName}`}
-                                    alt={`slide ${index}`}
+                                <div
                                     className="menuImg"
-                                />
+                                    style={{
+                                        backgroundImage: `url(${process.env.REACT_APP_HOST}/file/view/${item.saveFileName})`,
+                                        height: "200px",
+                                        width: "100%",
+                                        backgroundPosition: "center",
+                                        backgroundSize: "cover"
+                                    }}
+                                ></div>
                                 <Card.Body className="menuInfo">
                                     <Card.Title className="menuTitle">{item.menuName}</Card.Title>
                                     <Card.Text className="menuDescription">{item.description}</Card.Text>
