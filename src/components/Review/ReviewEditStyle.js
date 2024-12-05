@@ -49,6 +49,7 @@ export const ProfileImage = styled.div`
     height: 80px;
     border-radius: 50%; /* 원형 이미지 */
     margin-right: 15px; /* 이미지와 텍스트 사이의 간격 */
+    border: 2px solid var(--primary-color);
   }
 
   /* 반응형 디자인 */
@@ -116,7 +117,7 @@ export const FileImage = styled.img`
   height: 100px;
   object-fit: cover;
   border-radius: 5px;
-  border: 1px solid var(--tertiary-color); /* 이미지 테두리 색상 */
+  border: 1px solid var(--primary-color); /* 이미지 테두리 색상 */
 `;
 
 export const FileUploadButton = styled(Button)`

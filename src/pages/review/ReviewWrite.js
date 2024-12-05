@@ -13,6 +13,7 @@ import {
   FileList,
   FileUploadButton,
   FileUploadSection,
+  ProfileImage,
   RatingFormGroup,
   RatingLabel,
   ReviewCommentFormGroup,
@@ -22,7 +23,6 @@ import {
   ReviewTitle,
   StoreName,
   SubmitButton,
-  UserName,
   Username,
 } from "../../components/Review/ReviewWriteStyle";
 import { Card, Col, Form, Row } from "react-bootstrap";
@@ -360,8 +360,14 @@ const Review = () => {
         <Col md={8}>
           <Card className="shadow-lg p-4">
             <ReviewTitle>
-              <UserName>{userInfo.username}</UserName> 고객님,
-              <StoreName>{storeName}</StoreName>에 대한 리뷰 작성
+              <ProfileImage>
+                <img
+                  src={`${process.env.REACT_APP_HOST}/file/viewId/${userInfo.fileId}`}
+                  alt="Profile"
+                />
+                <Username>{userInfo.username}</Username>고객님,
+                <StoreName>{storeName}</StoreName>에 대한 리뷰 작성
+              </ProfileImage>
             </ReviewTitle>
 
             <Form onSubmit={handleSubmit}>
@@ -381,41 +387,41 @@ const Review = () => {
               </RatingFormGroup>
 
               <FileUploadSection className="mt-5">
-              <FileLibel>첨부 파일:</FileLibel>
-              <input
-                className="file-input mb-3"
-                type="file"
-                multiple
-                onChange={handleFileChange}
-                accept="image/*"
-              />
-              <FileUploadButton
-                variant="warning"
-                className="mb-3"
-                onClick={handleFileUpload}
-              >
-                업로드
-              </FileUploadButton>
+                <FileLibel>첨부 파일:</FileLibel>
+                <input
+                  className="file-input mb-3"
+                  type="file"
+                  multiple
+                  onChange={handleFileChange}
+                  accept="image/*"
+                />
+                <FileUploadButton
+                  variant="warning"
+                  className="mb-3"
+                  onClick={handleFileUpload}
+                >
+                  업로드
+                </FileUploadButton>
 
-              <FileList>
-                {fileList.map((item) => (
-                  <FileItem key={item.id}>
-                    <FileImage
-                      src={`${process.env.REACT_APP_HOST}/file/view/${item.saveFileName}`}
-                      alt="첨부파일"
-                    />
-                    <DeleteFileButton
-                      variant="danger"
-                      size="sm"
-                      className="mt-2"
-                      onClick={() => deleteFile(item)}
-                    >
-                      삭제
-                    </DeleteFileButton>
-                  </FileItem>
-                ))}
-              </FileList>
-            </FileUploadSection>
+                <FileList>
+                  {fileList.map((item) => (
+                    <FileItem key={item.id}>
+                      <FileImage
+                        src={`${process.env.REACT_APP_HOST}/file/view/${item.saveFileName}`}
+                        alt="첨부파일"
+                      />
+                      <DeleteFileButton
+                        variant="danger"
+                        size="sm"
+                        className="mt-2"
+                        onClick={() => deleteFile(item)}
+                      >
+                        삭제
+                      </DeleteFileButton>
+                    </FileItem>
+                  ))}
+                </FileList>
+              </FileUploadSection>
 
               <ReviewCommentFormGroup
                 controlId="reviewComment"
@@ -439,8 +445,6 @@ const Review = () => {
                 리뷰 작성
               </SubmitButton>
             </Form>
-
-            
           </Card>
         </Col>
       </Row>

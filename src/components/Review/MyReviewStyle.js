@@ -7,8 +7,7 @@ export const MyReviewTitle = styled.h2`
   font-size: 2rem;
   font-weight: bold;
   color: var(--text-color-black);
-  margin-bottom: 0; /* 제목과 아래 요소들 간의 여백 제거 */
-  padding: 10px 0;
+  margin-bottom: 30px;
   border-bottom: 3px solid var(--primary-color); /* 제목 아래에 세련된 밑줄 추가 */
 
   /* 반응형 디자인 */

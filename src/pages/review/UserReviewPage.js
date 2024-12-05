@@ -111,10 +111,12 @@ const UserReviewPage = () => {
     <UserReviewPageContainer>
       <UserReviewTitle>
         <ProfileImage>
-          <img
-            src={`${process.env.REACT_APP_HOST}/file/viewId/${reviews[0].fileId}`}
-            alt="Profile"
-          />
+          {reviews[0].fileId != null && (
+            <img
+              src={`${process.env.REACT_APP_HOST}/file/viewId/${reviews[0].fileId}`}
+              alt="Profile"
+            />
+          )}
           <Username>{username}</Username> 사용자님의 리뷰 목록
         </ProfileImage>
       </UserReviewTitle>
