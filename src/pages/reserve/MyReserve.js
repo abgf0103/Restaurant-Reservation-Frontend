@@ -15,7 +15,6 @@ const MyReserve = () => {
   const [reservations, setReservations] = useState([]); // 예약 정보 상태 관리
   const [loading, setLoading] = useState(true); // 로딩 상태 관리
   const [reviewExistMap, setReviewExistMap] = useState({}); // 리뷰 여부 상태 관리
-  const [filteredReservations, setFilteredReservations] = useState([]); // 필터링된 예약 정보
   const [filterStatus, setFilterStatus] = useState("all"); // 필터 상태
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 상태
   const itemsPerPage = 15; // 페이지당 항목 수 설정
@@ -37,7 +36,6 @@ const MyReserve = () => {
           console.log("예약 목록:", res); // API 응답 확인
           if (res && Array.isArray(res)) {
             setReservations(res); // 예약 목록 상태 업데이트
-            setFilteredReservations(res); // 필터링된 예약 목록 초기화
 
             // 각 예약에 대한 리뷰 존재 여부를 확인
             res.forEach((reservation) => {
@@ -49,7 +47,6 @@ const MyReserve = () => {
             });
           } else {
             setReservations([]); // 예약이 없으면 빈 배열로 처리
-            setFilteredReservations([]); // 필터링된 예약 목록도 빈 배열로 처리
           }
         })
         .catch((error) => {
@@ -87,8 +84,7 @@ const MyReserve = () => {
   const deleteReservation = (reserveId, reserveDate) => {
     const today = new Date();
     const reservationDate = new Date(reserveDate);
-    const differenceInTime = reservationDate.getTime() - today.getTime();
-    const differenceInDays = differenceInTime / (1000 * 3600 * 24);
+    const differenceInDays = (reservationDate - today) / (1000 * 3600 * 24);
 
     if (differenceInDays < 3) {
       Swal.fire({
@@ -118,13 +114,8 @@ const MyReserve = () => {
               "예약이 성공적으로 취소되었습니다.",
               "success"
             );
-            // 예약 상태를 다시 불러와 업데이트
+            // 예약 목록 업데이트
             setReservations((prevReservations) =>
-              prevReservations.filter(
-                (reservation) => reservation.reserveId !== reserveId
-              )
-            );
-            setFilteredReservations((prevReservations) =>
               prevReservations.filter(
                 (reservation) => reservation.reserveId !== reserveId
               )
@@ -140,18 +131,16 @@ const MyReserve = () => {
 
   // 예약 필터링 함수
   const handleFilterChange = (e) => {
-    const status = e.target.value;
-    setFilterStatus(status);
-    if (status === "all") {
-      setFilteredReservations(reservations);
-    } else {
-      setFilteredReservations(
-        reservations.filter(
-          (reservation) => parseInt(status) === reservation.reserveStatus
-        )
-      );
-    }
+    setFilterStatus(e.target.value);
+    setCurrentPage(1); // 필터 변경 시 첫 페이지로 이동
   };
+
+  // 필터링된 예약 목록
+  const filteredReservations = reservations.filter((reservation) => {
+    return filterStatus === "all"
+      ? true
+      : parseInt(filterStatus) === reservation.reserveStatus;
+  });
 
   // 페이지네이션 관련 로직
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -164,15 +153,13 @@ const MyReserve = () => {
   const totalPages = Math.ceil(filteredReservations.length / itemsPerPage);
   const goToPage = (pageNumber) => {
     setCurrentPage(pageNumber);
+    window.scrollTo({ top: 0, behavior: "smooth" }); // 페이지 변경 시 스크롤 상단 이동
   };
 
   return (
     <div className="reserve-container">
       <div className="reserve-header">
-        <h4>
-          <br />
-          나의 예약 정보
-        </h4>
+        <h4>나의 예약 정보</h4>
         <Form.Group controlId="filterStatus" className="filter-status">
           <Form.Label>예약 상태 선택 : </Form.Label>
           <Form.Control
@@ -190,7 +177,7 @@ const MyReserve = () => {
       </div>
       {loading ? (
         <p>로딩 중...</p>
-      ) : filteredReservations.length === 0 ? (
+      ) : currentItems.length === 0 ? (
         <p>예약 내역이 없습니다.</p>
       ) : (
         <>
