@@ -13,6 +13,7 @@ import {
   FileList,
   FileUploadButton,
   FileUploadSection,
+  Name,
   ProfileImage,
   RatingFormGroup,
   RatingLabel,
@@ -23,7 +24,6 @@ import {
   ReviewTitle,
   StoreName,
   SubmitButton,
-  Username,
 } from "../../components/Review/ReviewWriteStyle";
 import { Card, Col, Form, Row } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -47,6 +47,7 @@ const Review = () => {
   const [fileList, setFileList] = useState([]); // 업로드된 파일 목록
 
   const [storeName, setStoreName] = useState(""); // 가게 이름 상태 추가
+  const [saveFileName, setSaveFileName] = useState(""); // 가게 이미지 상태 추가
 
   // 로그인 상태 체크
   useEffect(() => {
@@ -65,6 +66,7 @@ const Review = () => {
         .then((response) => {
           console.log(response);
           setStoreName(response.data.storeName); // 가게 이름을 상태로 설정
+          setSaveFileName(response.data.saveFileName); // 가게 이미지를 상태로 설정
         })
         .catch((error) => {
           console.error("가게 정보 조회 오류:", error);
@@ -143,6 +145,7 @@ const Review = () => {
   // 파일 선택
   const handleFileChange = (e) => {
     console.log(e.target.files);
+
     setSelectedFiles((prevState) => [
       ...prevState,
       ...Array.from(e.target.files),
@@ -176,7 +179,10 @@ const Review = () => {
       })
       .then((res) => {
         console.log(res);
-        setFileList(res.data); // 업로드한 파일 목록을 상태로 설정
+        // 기존 파일 목록에 새로 업로드된 파일을 합침
+        setFileList((prevState) => [...prevState, ...res.data]);
+        // 업로드가 완료되면 selectedFiles를 초기화
+        setSelectedFiles([]);
       })
       .catch((error) => {
         Swal.fire({
@@ -186,6 +192,9 @@ const Review = () => {
         });
         console.error(error);
       });
+
+    // 업로드 후 파일 인풋 초기화
+    document.querySelector('input[type="file"]').value = ""; // 파일 인풋 초기화
   };
 
   const deleteFile = (file) => {
@@ -215,8 +224,10 @@ const Review = () => {
           .then((res) => {
             if (res.status === 200) {
               // 파일 삭제 후 상태 업데이트
-              const files = fileList.filter((item) => item.id !== file.id);
-              setFileList([...files]);
+              setFileList((prevState) =>
+                prevState.filter((item) => item.id !== file.id)
+              );
+
               // setReview((prevReview) => {
               //   const updatedFiles = prevReview.files.filter(
               //     (item) => item.id !== file.id
@@ -387,8 +398,14 @@ const Review = () => {
                     }}
                   />
                 )}
-                <Username>{userInfo.username}</Username>고객님,
-                <StoreName>{storeName}</StoreName>에 대한 리뷰 작성
+                <div>
+                  <div style={{ textAlign: "left" }}>
+                    <Name>{userInfo.name}</Name>님,
+                  </div>
+                  <div style={{ textAlign: "left" }}>
+                    <StoreName>{storeName}</StoreName>에 대한 리뷰 작성
+                  </div>
+                </div>
               </ProfileImage>
             </ReviewTitle>
 
@@ -409,22 +426,6 @@ const Review = () => {
               </RatingFormGroup>
 
               <FileUploadSection className="mt-5">
-                <FileLibel>첨부 파일:</FileLibel>
-                <input
-                  className="file-input mb-3"
-                  type="file"
-                  multiple
-                  onChange={handleFileChange}
-                  accept="image/*"
-                />
-                <FileUploadButton
-                  variant="warning"
-                  className="mb-3"
-                  onClick={handleFileUpload}
-                >
-                  업로드
-                </FileUploadButton>
-
                 <FileList>
                   {fileList.map((item) => (
                     <FileItem key={item.id}>
@@ -443,6 +444,23 @@ const Review = () => {
                     </FileItem>
                   ))}
                 </FileList>
+                <div>
+                  <FileLibel>첨부 파일:</FileLibel>
+                  <input
+                    className="file-input mb-3"
+                    type="file"
+                    multiple
+                    onChange={handleFileChange}
+                    accept="image/*"
+                  />
+                  <FileUploadButton
+                    variant="warning"
+                    className="mb-3"
+                    onClick={handleFileUpload}
+                  >
+                    업로드
+                  </FileUploadButton>
+                </div>
               </FileUploadSection>
 
               <ReviewCommentFormGroup

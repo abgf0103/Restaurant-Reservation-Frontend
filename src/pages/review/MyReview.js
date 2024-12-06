@@ -17,11 +17,11 @@ import {
   MiniTitle,
   MyReviewContainer,
   MyReviewTitle,
+  Name,
   ProfileImage,
   ReviewButtons,
   ReviewCard,
   ReviewImage,
-  Username,
   WLSumContainer,
   WLSumItem,
 } from "../../components/Review/MyReviewStyle";
@@ -83,8 +83,8 @@ const MyReview = () => {
     instance
       .get("/review/LikedRanking") // 랭킹 API 호출
       .then((response) => {
-        const userRanking = response.data; // 랭킹 데이터
-        setRanking(userRanking); // 랭킹 상태 업데이트
+        const myRanking = response.data; // 랭킹 데이터
+        setRanking(myRanking); // 랭킹 상태 업데이트
       })
       .catch((error) => {
         console.error("사용자 랭킹 가져오기 실패:", error);
@@ -131,13 +131,14 @@ const MyReview = () => {
     console.log("삭제하려는 리뷰의 reserveId:", reserveId);
 
     Swal.fire({
-      title: "리뷰 삭제",
-      text: "정말로 이 리뷰를 삭제하시겠습니까?",
+      title: "정말로 이 리뷰를 삭제하시겠습니까?",
+      text: "삭제된 리뷰는 복구할 수 없습니다.",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#d33",
       cancelButtonColor: "#3085d6",
       confirmButtonText: "삭제",
+      cancelButtonText: "취소",
     }).then((result) => {
       if (result.isConfirmed) {
         // 리뷰 삭제 API 호출
@@ -154,6 +155,13 @@ const MyReview = () => {
             console.error("리뷰 삭제 실패:", error);
             Swal.fire("삭제 실패", "리뷰 삭제에 실패했습니다.", "error");
           });
+      } else {
+        // 사용자가 취소한 경우
+        Swal.fire({
+          title: "취소",
+          text: "리뷰 삭제가 취소되었습니다.",
+          icon: "info",
+        });
       }
     });
   };
@@ -248,7 +256,7 @@ const MyReview = () => {
           )}
           <div>
             <div>
-              <Username>{userInfo.username}</Username> 고객님 리뷰 목록
+              <Name>{userInfo.name}</Name> 님 리뷰 목록
             </div>
             <div>
               <WLSumContainer>

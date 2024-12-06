@@ -15,6 +15,7 @@ import {
   FileList,
   FileUploadButton,
   FileUploadSection,
+  Name,
   ProfileImage,
   RatingFormGroup,
   RatingLabel,
@@ -25,7 +26,6 @@ import {
   ReviewEditTitle,
   StoreName,
   SubmitButton,
-  Username,
 } from "../../components/Review/ReviewEditStyle";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
@@ -36,6 +36,7 @@ const ReviewEdit = () => {
   const tokenInfo = useSelector(getTokenInfo);
   const userInfo = useSelector(getUserInfo);
   const [storeName, setStoreName] = useState(""); // 가게 이름 상태 추가
+  const [saveFileName, setSaveFileName] = useState(""); // 가게 이미지 상태 추가
 
   const [review, setReview] = useState({
     createdAt: "",
@@ -99,6 +100,7 @@ const ReviewEdit = () => {
         .then((response) => {
           console.log(response);
           setStoreName(response.data.storeName); // 가게 이름을 상태로 설정
+          setSaveFileName(response.data.saveFileName); // 가게 이미지를 상태로 설정
         })
         .catch((error) => {
           console.error("가게 정보 조회 오류:", error);
@@ -345,8 +347,20 @@ const ReviewEdit = () => {
                     }}
                   />
                 )}
-                <Username>{userInfo.username}</Username>고객님,
-                <StoreName>{storeName}</StoreName>에 대한 리뷰 수정
+                <div>
+                  <div style={{ textAlign: "left" }}>
+                    <Name>{userInfo.name}</Name>님,
+                  </div>
+                  <div
+                    style={{
+                      textAlign: "left",
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <StoreName>{storeName}</StoreName>에 대한 리뷰 수정
+                  </div>
+                </div>
               </ProfileImage>
             </ReviewEditTitle>
             <Form onSubmit={handleSubmit}>
@@ -370,23 +384,8 @@ const ReviewEdit = () => {
                 className="mb-4"
               >
                 {/* 파일 첨부 부분 */}
-                <FileUploadSection className="mt-5">
-                  <FileLibel>첨부 파일:</FileLibel>
-                  <input
-                    className="file-input mb-3"
-                    type="file"
-                    multiple
-                    onChange={handleFileChange}
-                    accept="image/*"
-                  />
-                  <FileUploadButton
-                    variant="danger"
-                    className="submit-button"
-                    onClick={handleFileUpload}
-                  >
-                    업로드
-                  </FileUploadButton>
 
+                <FileUploadSection className="mt-5">
                   <FileList>
                     {review.files.map((fileItem) => (
                       <FileItem key={fileItem.id}>
@@ -405,6 +404,23 @@ const ReviewEdit = () => {
                       </FileItem>
                     ))}
                   </FileList>
+                  <div>
+                    <FileLibel>첨부 파일:</FileLibel>
+                    <input
+                      className="file-input mb-3"
+                      type="file"
+                      multiple
+                      onChange={handleFileChange}
+                      accept="image/*"
+                    />
+                    <FileUploadButton
+                      variant="danger"
+                      className="submit-button"
+                      onClick={handleFileUpload}
+                    >
+                      업로드
+                    </FileUploadButton>
+                  </div>
                 </FileUploadSection>
                 <ReviewCommentLabel>Review Comment:</ReviewCommentLabel>
                 <ReviewCommentTextArea

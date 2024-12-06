@@ -12,13 +12,12 @@ export const UserReviewTitle = styled.h2`
 
   /* 반응형 디자인 */
   @media (max-width: 768px) {
-    font-size: 1.8rem; /* 모바일에서 폰트 크기 약간 감소 */
+    font-size: 1.5rem; /* 모바일에서 폰트 크기 약간 감소 */
   }
 `;
 
 // 제목에 있는 사용자 이름
-export const Username = styled.span`
-  color: var(--primary-color);
+export const Name = styled.span`
   font-size: 1.8rem;
   font-weight: 600;
   display: block;
@@ -27,8 +26,8 @@ export const Username = styled.span`
   /* 그라데이션 적용 */
   background: linear-gradient(
     135deg,
-    var(--tertiary-color),
-    var(--quaternary-color)
+    var(--primary-color),
+    var(--tertiary-color)
   );
   -webkit-background-clip: text;
   color: transparent;
@@ -52,9 +51,85 @@ export const ProfileImage = styled.div`
   }
 
   /* 유저네임 */
-  ${Username} {
+  ${Name} {
     margin-top: 0;
     display: inline-block;
+  }
+`;
+
+// 정보 아이콘 배치 (세련되게 아이콘을 옆에 배치)
+export const InfoIconContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  cursor: pointer;
+  transition: transform 0.3s ease, color 0.3s ease;
+  font-size: 30px;
+  color: var(--primary-color);
+
+  &:hover {
+    color: var(--secondary-color);
+    transform: scale(1.1); /* 마우스 오버 시 확대 효과 */
+  }
+
+  &:focus {
+    outline: none;
+  }
+`;
+
+// 정보 표시 아이콘 컴포넌트
+export const InfoIcon = styled.div`
+  font-size: 30px;
+  color: var(--primary-color);
+  cursor: pointer;
+  margin-bottom: 10px;
+  transition: color 0.3s ease, transform 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:hover {
+    color: var(--secondary-color);
+    transform: scale(1.1);
+  }
+
+  &:focus {
+    outline: none;
+  }
+`;
+
+// WLSum 스타일 수정 (WLSum과 InfoIcon을 같은 줄에 배치)
+export const WLSumContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px; /* 제목과 WLSum 사이에 여백 추가 */
+  font-size: 1.2rem;
+  color: var(--text-color-black);
+`;
+
+// WLSum 아이템 스타일
+export const WLSumItem = styled.span`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  svg {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+  }
+
+  /* 각 아이템에 색상을 다르게 적용 */
+  &:nth-child(1) svg {
+    color: var(--primary-color);
+  }
+
+  &:nth-child(2) svg {
+    color: var(--secondary-color);
+  }
+
+  &:nth-child(3) svg {
+    color: var(--tertiary-color);
   }
 `;
 

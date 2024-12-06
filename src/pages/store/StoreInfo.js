@@ -266,10 +266,10 @@ const StoreInfo = () => {
     instance
       .get(`/review/list`)
       .then((res) => {
-        console.log(res.data);
         const filteredReviews = res.data.data.filter(
           (review) => review.storeId === storeId
         );
+        console.log(filteredReviews);
 
         setOrgReviews(filteredReviews); // 전체 리뷰 상태 저장
         setTotalCount(filteredReviews.length); // 전체 리뷰 개수 설정
@@ -278,7 +278,6 @@ const StoreInfo = () => {
 
         setReviews(filteredReviews);
         // 서버에서 반환되는 리뷰 데이터에 좋아요 수(likeCount)를 포함해서 처리
-        console.log(filteredReviews);
         const reviewsWithLikes = filteredReviews.slice(0, 3).map((review) => ({
           ...review,
           liked: false, // 좋아요 상태는 기본적으로 false
@@ -535,6 +534,7 @@ const StoreInfo = () => {
       navigate("/user/login");
     }
   };
+  console.log(storeData);
 
   // 즐겨찾기 취소 버튼 클릭 핸들러
   const favoriteCancelClickHandler = (storeId) => {
@@ -574,6 +574,7 @@ const StoreInfo = () => {
   if (loading) {
     return <div>로딩 중...</div>;
   }
+  console.log(reviews);
 
   return (
     <main className="storeMain">
@@ -665,11 +666,19 @@ const StoreInfo = () => {
         {reviews.length > 0 ? (
           <ul style={{ padding: 0 }}>
             {reviews.map((review) => (
-              <li key={review.reviewId} className="reviewItem">
+              <li
+                key={review.reviewId}
+                className="reviewItem"
+                style={{ marginBottom: "40px" }}
+              >
                 <strong>작성자:</strong>
                 <Link
                   to={`/review/${review.username}`}
-                  style={{ width: "40px", height: "40px" }}
+                  style={{
+                    width: "40px",
+                    height: "40px",
+                    textDecoration: "none",
+                  }}
                 >
                   {review.fileId ? (
                     <img
@@ -698,7 +707,7 @@ const StoreInfo = () => {
                       }}
                     />
                   )}
-                  {review.username}
+                  {review.name}
                 </Link>
                 <br />
                 <strong>별점:</strong> {renderStars(review.rating)}
@@ -724,7 +733,7 @@ const StoreInfo = () => {
                           src={`${process.env.REACT_APP_HOST}/file/view/${fileItem.saveFileName}`}
                           alt={`첨부 파일 ${index + 1}`}
                           style={{
-                            width: "150px",
+                            width: "200px",
                             marginTop: "10px",
                             marginRight: "10px",
                             marginBottom: "10px",

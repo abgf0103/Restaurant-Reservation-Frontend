@@ -12,13 +12,12 @@ export const MyReviewTitle = styled.h2`
 
   /* 반응형 디자인 */
   @media (max-width: 768px) {
-    font-size: 1.8rem; /* 모바일에서 폰트 크기 약간 감소 */
+    font-size: 1.5rem; /* 모바일에서 폰트 크기 약간 감소 */
   }
 `;
 
 // 제목에 있는 사용자 이름
-export const Username = styled.span`
-  color: var(--primary-color);
+export const Name = styled.span`
   font-size: 1.8rem;
   font-weight: 600;
   display: block;
@@ -27,8 +26,8 @@ export const Username = styled.span`
   /* 그라데이션 적용 */
   background: linear-gradient(
     135deg,
-    var(--tertiary-color),
-    var(--quaternary-color)
+    var(--primary-color),
+    var(--tertiary-color)
   );
   -webkit-background-clip: text;
   color: transparent;
@@ -52,7 +51,7 @@ export const ProfileImage = styled.div`
   }
 
   /* 유저네임 */
-  ${Username} {
+  ${Name} {
     margin-top: 0;
     display: inline-block;
   }
