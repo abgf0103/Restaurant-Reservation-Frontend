@@ -48,12 +48,18 @@ const Footer = () => {
     // 페이지 이동 시 activeIcon 상태를 설정
     useEffect(() => {
         // 현재 경로에 맞는 아이콘을 설정
+        if (location.pathname === ("/")) {
+            setActiveIcon("home");
+            return;
+        }
         if (location.pathname.startsWith("/store")) {
             setActiveIcon("store");
             return;
         } else if (location.pathname === "/user/FavoritePage"){
                     setActiveIcon("favorite");
                     return;
+        } else if(location.pathname === "/user/myreserve") {
+            setActiveIcon("reserve");
         } else if (location.pathname.startsWith("/user")) {
             setActiveIcon("mypage");
             return;
