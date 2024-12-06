@@ -65,7 +65,7 @@ const UserEdit = () => {
     if (!nameRegex.test(name)) {
       Swal.fire({
         title: "오류",
-        text: "이름은 한글 2자 이상 10자 이하로 입력해 주세요.",
+        text: "닉네임은 한글+영문 10자리 이하로 작성해야합니다.",
         icon: "error",
       });
       return false;

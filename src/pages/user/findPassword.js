@@ -7,7 +7,8 @@ import "./css/findPassword.css";
 function FindPassword() {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
-  const [name, setName] = useState("");
+
+  const [phone, setPhone] = useState("");
   const [message, setMessage] = useState("");
   const navigate = useNavigate(); // navigate 함수
 
@@ -18,7 +19,7 @@ function FindPassword() {
     const requestData = {
       email: email,
       username: username,
-      name: name,
+      phone: phone,
     };
 
     try {
@@ -76,14 +77,14 @@ function FindPassword() {
             />
           </Form.Group>
 
-          <Form.Group controlId="name">
-            <Form.Label>이름</Form.Label>
+          <Form.Group controlId="phone">
+            <Form.Label>전화번호</Form.Label>
             <Form.Control
               type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
               required
-              placeholder="이름을 입력해주세요"
+              placeholder="전화번호를 입력해주세요"
               className="find-pw-input"
             />
           </Form.Group>

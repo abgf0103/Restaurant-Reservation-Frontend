@@ -6,7 +6,7 @@ import { Button, Container, Form } from "react-bootstrap";
 
 const FindIdForm = () => {
   const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate(); // navigate 함수
@@ -23,7 +23,7 @@ const FindIdForm = () => {
 
     try {
       const response = await instance.get("/member/user/findID", {
-        params: { name: name, email: email },
+        params: { phone: phone, email: email },
       });
 
       console.log(response);
@@ -51,17 +51,7 @@ const FindIdForm = () => {
         <Container className="find-id-cover">
           <div className="find-id-main">
             <h4>아이디 찾기</h4>
-            <Form controlId="name">
-              <Form.Label>이름</Form.Label>
-              <Form.Control
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-                placeholder="이름을 입력해주세요"
-                className="find-pw-input"
-              />
-            </Form>
+
             <Form onSubmit={handleSubmit} className="findIdBox">
               <Form.Label>이메일</Form.Label>
               <Form.Control
@@ -71,6 +61,17 @@ const FindIdForm = () => {
                 placeholder="이메일을 입력하세요"
                 className="find-id-input"
               />
+              <Form controlId="phone">
+                <Form.Label>전화번호</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  required
+                  placeholder="이름을 입력해주세요"
+                  className="find-pw-input"
+                />
+              </Form>
               <Button type="submit" disabled={loading} className="find-id-btn">
                 {loading ? "로딩 중..." : "아이디 찾기"}
               </Button>
