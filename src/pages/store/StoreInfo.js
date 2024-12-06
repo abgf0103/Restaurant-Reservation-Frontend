@@ -703,7 +703,7 @@ const StoreInfo = () => {
                 <br />
                 <strong>별점:</strong> {renderStars(review.rating)}
                 <br />
-                {review.reviewComment}
+                <strong>리뷰 코멘트:</strong> {review.reviewComment}
                 <br />
                 <strong>좋아요:</strong> {review.likeCount}{" "}
                 <button
@@ -714,6 +714,7 @@ const StoreInfo = () => {
                 </button>
                 <br />
                 {/* 파일 첨부 부분 */}
+                <strong>리뷰 사진:</strong>
                 {review.files.length > 0 && (
                   <div>
                     <div>
@@ -723,7 +724,8 @@ const StoreInfo = () => {
                           src={`${process.env.REACT_APP_HOST}/file/view/${fileItem.saveFileName}`}
                           alt={`첨부 파일 ${index + 1}`}
                           style={{
-                            width: "100px",
+                            width: "150px",
+                            marginTop: "10px",
                             marginRight: "10px",
                             marginBottom: "10px",
                           }}
