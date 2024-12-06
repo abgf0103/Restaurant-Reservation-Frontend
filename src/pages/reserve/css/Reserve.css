@@ -32,7 +32,7 @@
   gap: 10px;
   padding: 0;
   margin: 0;
-  grid-template-columns: repeat(auto-fit, minmax(336px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
 }
 
 /* reserve-card */
@@ -45,7 +45,7 @@
   margin: 0; /* 카드의 여백을 제거하여 요소들 간의 간격을 최소화 */
   border-radius: 15px;
   background-color: var(--background-color);
-  min-width: 336px;
+  min-width: 288px;
   min-height: 204px;
 }
 
@@ -70,8 +70,10 @@
 #store-info {
   background-color: var(--secondary-color);
   color: var(--text-color-white);
+  width: 148px;
   border: none;
   height: 38px;
+  font-size: 0.9rem;
 }
 
 #store-info:hover {
