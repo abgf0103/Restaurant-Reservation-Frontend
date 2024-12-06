@@ -177,7 +177,7 @@
 }
 
 .horizontal-item {
-    width: 200vh;
+    width: 240px;
     margin-right: 10px;
     display: flex;
     flex-direction: column;
