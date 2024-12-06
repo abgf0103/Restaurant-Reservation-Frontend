@@ -126,6 +126,16 @@ header {
   margin-right: 10px;
 }
 
+#profile {
+  width: "40px";
+  height: "40px";
+  border-radius: "50%";
+  border: "1.5px solid var(--secondary-color)";
+  overflow: "hidden";
+  background-position: center;
+  background-size: cover;
+}
+
 /* 드롭다운 버튼 */
 #dropdown-basic {
   background-color: var(--background-color);
@@ -139,6 +149,11 @@ header {
   width: 50px;
   height: 50px;
   margin-right: 10px;
+}
+
+.dropdown-menu[data-bs-popper] {
+  right: 10px;
+  left: auto !important;
 }
 
 #dropdown-basic:focus,
@@ -161,10 +176,11 @@ header {
 #join,
 #logout {
   margin: 0;
+  padding: 0;
   border: none;
   border-radius: 5px;
   font-size: 12px;
-  width: 72px;
+  width: 72px !important;
   height: 30px;
   position: relative;
 }
@@ -189,13 +205,16 @@ header {
   background-color: var(--secondaryHover2-color);
 }
 
+.nickname {
+  width: 64px;
+}
+
 .logoImg {
   width: 50px;
   height: 50px;
 }
 
 /* 알림창 스타일 */
-
 #notification-dropdown-toggle {
   width: 80px;
   background-color: var(--secondary-color);
@@ -210,7 +229,7 @@ header {
 #notification-menu {
   position: absolute;
   width: auto;
-  height: auto;
+  height: 700px;
   background-color: var(--background-color);
   border: 1px solid var(--background-color);
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
@@ -250,6 +269,11 @@ header {
 #notification-dropdown .MuiSvgIcon-root {
   font-size: 1.5rem;
   color: var(--background-color-gray);
+}
+
+#dropdown-item:active {
+  background-color: inherit !important;
+  color: inherit !important;
 }
 
 /* 알림창 버튼 */
