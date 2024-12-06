@@ -1,12 +1,15 @@
 import React from 'react';
 import Slider from 'react-slick';
-import '../css/Style.css';
+import '../css/ImageSlider.css';
+import ad1 from '../img/ad/ad1.PNG';
+import ad2 from '../img/ad/ad2.PNG';
+import ad3 from '../img/ad/ad3.PNG';
 
 const ImageSlider = () => {
     const images = [
-      'https://via.placeholder.com/600x300/ff7f7f/333333?text=Image+1',
-      'https://via.placeholder.com/600x300/7fffd4/333333?text=Image+2',
-      'https://via.placeholder.com/600x300/7f7fff/333333?text=Image+3',
+        ad1,
+        ad2,
+        ad3,
     ];
   
     // 슬라이드 설정
@@ -23,14 +26,14 @@ const ImageSlider = () => {
     };
   
     return (
-      <div style={{ width: '600px', margin: '0 auto' }}>
+      <div className='imgSlider'>
         <Slider {...settings}>
           {images.map((image, index) => (
             <div key={index}>
               <img
+                className='imgItem'
                 src={image}
                 alt={`slide ${index}`}
-                style={{ width: '100%', height: 'auto', borderRadius: '8px' }}
               />
             </div>
           ))}

@@ -13,6 +13,7 @@ export const MyReviewTitle = styled.h2`
   /* 반응형 디자인 */
   @media (max-width: 768px) {
     font-size: 1.5rem; /* 모바일에서 폰트 크기 약간 감소 */
+    margin-bottom: 20px; /* 여백 감소 */
   }
 `;
 
@@ -31,6 +32,11 @@ export const Name = styled.span`
   );
   -webkit-background-clip: text;
   color: transparent;
+
+  /* 반응형 디자인 */
+  @media (max-width: 768px) {
+    font-size: 1.5rem; /* 모바일에서 폰트 크기 약간 감소 */
+  }
 `;
 
 // 프로필 이미지 스타일링
@@ -55,6 +61,13 @@ export const ProfileImage = styled.div`
     margin-top: 0;
     display: inline-block;
   }
+
+  /* 반응형 디자인 */
+  @media (max-width: 768px) {
+    flex-direction: column; /* 모바일에서 세로로 배치 */
+    align-items: center;
+    gap: 10px; /* 간격 줄이기 */
+  }
 `;
 
 // 정보 아이콘 배치 (세련되게 아이콘을 옆에 배치)
@@ -74,6 +87,11 @@ export const InfoIconContainer = styled.div`
 
   &:focus {
     outline: none;
+  }
+
+  /* 반응형 디자인 */
+  @media (max-width: 768px) {
+    font-size: 25px; /* 모바일에서 아이콘 크기 약간 줄이기 */
   }
 `;
 
@@ -96,6 +114,11 @@ export const InfoIcon = styled.div`
   &:focus {
     outline: none;
   }
+
+  /* 반응형 디자인 */
+  @media (max-width: 768px) {
+    font-size: 25px; /* 모바일에서 아이콘 크기 약간 줄이기 */
+  }
 `;
 
 // WLSum 스타일 수정 (WLSum과 InfoIcon을 같은 줄에 배치)
@@ -106,6 +129,13 @@ export const WLSumContainer = styled.div`
   margin-top: 20px; /* 제목과 WLSum 사이에 여백 추가 */
   font-size: 1.2rem;
   color: var(--text-color-black);
+
+  /* 반응형 디자인 */
+  @media (max-width: 768px) {
+    flex-direction: column; /* 모바일에서 세로 배치 */
+    font-size: 1rem; /* 모바일에서 폰트 크기 감소 */
+    gap: 10px;
+  }
 `;
 
 // WLSum 아이템 스타일
@@ -131,14 +161,21 @@ export const WLSumItem = styled.span`
   &:nth-child(3) svg {
     color: var(--tertiary-color);
   }
+
+  /* 반응형 디자인 */
+  @media (max-width: 768px) {
+    font-size: 1rem; /* 모바일에서 폰트 크기 감소 */
+  }
 `;
 
 // 전체 페이지 컨테이너 스타일
 export const MyReviewContainer = styled(Container)`
   padding: 50px 0; /* 충분한 여백을 주어 화면 중앙 정렬 */
   background-color: var(--background-color);
+
+  /* 반응형 디자인 */
   @media (max-width: 768px) {
-    padding: 30px 0;
+    padding: 30px 0; /* 모바일에서 여백 감소 */
   }
 `;
 
@@ -167,6 +204,16 @@ export const ReviewCard = styled(Card)`
     color: var(--text-color-gray); /* 리뷰 본문 텍스트 색상 */
     font-size: 1rem;
   }
+
+  /* 반응형 디자인 */
+  @media (max-width: 768px) {
+    .card-title {
+      font-size: 1rem; /* 모바일에서 제목 폰트 크기 감소 */
+    }
+    .card-text {
+      font-size: 0.9rem; /* 모바일에서 본문 폰트 크기 감소 */
+    }
+  }
 `;
 
 // 파일 이미지 섹션 스타일
@@ -185,6 +232,12 @@ export const ReviewImage = styled.div`
     border-radius: 5px;
     border: 1px solid var(--tertiary-color); /* 이미지 테두리 색상 */
   }
+
+  /* 반응형 디자인 */
+  @media (max-width: 768px) {
+    gap: 5px; /* 모바일에서 간격 좁힘 */
+    padding: 0.5rem; /* 모바일에서 패딩 줄이기 */
+  }
 `;
 
 // 버튼 섹션 스타일
@@ -198,6 +251,15 @@ export const ReviewButtons = styled.div`
     width: 48%;
     font-size: 1rem;
     padding: 10px;
+  }
+
+  /* 반응형 디자인 */
+  @media (max-width: 768px) {
+    flex-direction: column; /* 모바일에서 버튼 세로 배치 */
+    gap: 10px; /* 버튼 간 간격 추가 */
+    button {
+      width: 100%; /* 버튼 너비를 100%로 확장 */
+    }
   }
 `;
 
@@ -262,12 +324,22 @@ export const MiniTitle = styled.h2`
   font-size: 20px;
   font-weight: bold;
   color: var(--text-color-black);
+
+  /* 반응형 디자인 */
+  @media (max-width: 768px) {
+    font-size: 1.2rem; /* 모바일에서 폰트 크기 약간 감소 */
+  }
 `;
 
 // 카드 텍스트 스타일
 export const CardText = styled(Card.Text)`
   font-size: 14px;
   color: var(--text-color-gray);
+
+  /* 반응형 디자인 */
+  @media (max-width: 768px) {
+    font-size: 12px; /* 모바일에서 텍스트 크기 감소 */
+  }
 `;
 
 // 리스트 그룹 안의 각 항목 스타일
@@ -275,4 +347,9 @@ export const ListGroupItem = styled(ListGroup.Item)`
   font-size: 14px;
   padding: 10px;
   color: var(--text-color-black);
+
+  /* 반응형 디자인 */
+  @media (max-width: 768px) {
+    font-size: 12px; /* 모바일에서 폰트 크기 감소 */
+  }
 `;

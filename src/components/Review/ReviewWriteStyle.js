@@ -14,6 +14,8 @@ export const ReviewTitle = styled.h2`
   /* 반응형 디자인 */
   @media (max-width: 768px) {
     font-size: 1.5rem; /* 모바일에서 폰트 크기 약간 감소 */
+    margin-bottom: 20px;
+    padding-bottom: 20px;
   }
 `;
 
@@ -60,11 +62,17 @@ export const ProfileImage = styled.div`
     margin-top: 0;
     display: inline-block;
   }
+
+  /* 반응형 디자인 */
+  @media (max-width: 768px) {
+    flex-direction: column; /* 모바일에서 세로로 배치 */
+    align-items: center;
+  }
 `;
 
 // 제목에 있는 가게 이름
 export const StoreName = styled.span`
- font-size: 2rem;
+  font-size: 2rem;
   font-weight: bold;
   text-align: center;
 
@@ -80,13 +88,16 @@ export const StoreName = styled.span`
   /* 반응형 디자인 */
   @media (max-width: 768px) {
     font-size: 1.5rem; /* 모바일에서 폰트 크기 약간 감소 */
+  }
 `;
 
 export const ReviewContainer = styled(Container)`
   padding: 50px 0;
   background-color: var(--background-color); /* 배경 색상 */
+
+  /* 반응형 디자인 */
   @media (max-width: 768px) {
-    padding: 30px 0;
+    padding: 30px 15px; /* 모바일에서 패딩 축소 */
   }
 `;
 
@@ -100,12 +111,15 @@ export const SubmitButton = styled(Button)`
   width: 100%;
   transition: background-color 0.3s;
   cursor: pointer;
+
   &:hover {
     background-color: var(--secondary-color); /* 호버 시 색상 */
   }
   &:focus {
     outline: none;
   }
+
+  /* 반응형 디자인 */
   @media (max-width: 767px) {
     font-size: 1rem;
     padding: 10px 25px;
@@ -139,6 +153,12 @@ export const FileImage = styled.img`
   object-fit: cover;
   border-radius: 5px;
   border: 1px solid var(--primary-color); /* 이미지 테두리 색상 */
+
+  /* 반응형 디자인 */
+  @media (max-width: 768px) {
+    width: 100px;
+    height: 100px;
+  }
 `;
 
 export const FileUploadButton = styled(Button)`
@@ -160,11 +180,13 @@ export const FileUploadButton = styled(Button)`
     outline: none;
   }
 
+  /* 반응형 디자인 */
   @media (max-width: 767px) {
     font-size: 0.9rem;
     padding: 8px 15px; /* 모바일에서 패딩 크기 더 줄이기 */
   }
 `;
+
 export const DeleteFileButton = styled(Button)`
   position: absolute;
   top: 5px;
@@ -176,9 +198,11 @@ export const DeleteFileButton = styled(Button)`
   border: none;
   padding: 8px;
   transition: background-color 0.3s;
+
   &:hover {
     background-color: var(--secondary-color); /* 호버 시 색상 */
   }
+
   &:focus {
     outline: none;
   }
@@ -187,6 +211,11 @@ export const DeleteFileButton = styled(Button)`
 // Rating Input Section
 export const RatingFormGroup = styled(Form.Group)`
   margin-bottom: 20px; /* 각 입력 요소 간 간격 */
+
+  /* 반응형 디자인 */
+  @media (max-width: 768px) {
+    margin-bottom: 15px; /* 모바일에서 간격 약간 축소 */
+  }
 `;
 
 export const RatingLabel = styled(Form.Label)`
@@ -201,19 +230,32 @@ export const RatingInput = styled(Form.Control)`
   font-size: 1rem;
   border-radius: 8px;
   border: 1px solid var(--primary-color); /* 기본 색상 */
+
   &:hover {
     border-color: var(--secondary-color); /* 호버 시 색상 */
   }
+
   &:focus {
     outline: none;
     border-color: var(--tertiary-color); /* 포커스 색상 */
     box-shadow: none;
+  }
+
+  /* 반응형 디자인 */
+  @media (max-width: 768px) {
+    font-size: 0.9rem;
+    padding: 8px; /* 모바일에서 패딩 축소 */
   }
 `;
 
 // Review Comment Section
 export const ReviewCommentFormGroup = styled(Form.Group)`
   margin-bottom: 30px; /* 리뷰 작성 필드 간 간격 */
+
+  /* 반응형 디자인 */
+  @media (max-width: 768px) {
+    margin-bottom: 20px; /* 모바일에서 간격 축소 */
+  }
 `;
 
 export const ReviewCommentLabel = styled(Form.Label)`
@@ -229,13 +271,21 @@ export const ReviewCommentTextArea = styled(Form.Control)`
   font-size: 1rem;
   border-radius: 8px;
   border: 1px solid var(--primary-color); /* 기본 색상 */
+
   &:hover {
     border-color: var(--secondary-color); /* 호버 시 색상 */
   }
+
   &:focus {
     outline: none;
     border-color: var(--tertiary-color); /* 포커스 색상 */
     box-shadow: none;
+  }
+
+  /* 반응형 디자인 */
+  @media (max-width: 768px) {
+    font-size: 0.9rem;
+    height: 120px; /* 모바일에서 높이 조정 */
   }
 `;
 
@@ -251,4 +301,9 @@ export const DivStar = styled.div`
   justify-content: left;
   align-items: center; /* 세로 중앙정렬 */
   gap: 20px; /* 별들 간의 간격을 설정 */
+
+  /* 반응형 디자인 */
+  @media (max-width: 768px) {
+    gap: 10px; /* 모바일에서 별 간격 좁힘 */
+  }
 `;

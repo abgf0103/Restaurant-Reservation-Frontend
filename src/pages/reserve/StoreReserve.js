@@ -17,7 +17,6 @@ const StoreReserve = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 15;
   const [filterStatus, setFilterStatus] = useState("all"); // 필터 상태 추가
-  const [filteredReservations, setFilteredReservations] = useState([]); // 필터링된 예약 목록 추가
 
   // 로그인 상태 체크
   useEffect(() => {
@@ -32,7 +31,6 @@ const StoreReserve = () => {
       .get(`/reservations/store/reserve/${storeId}`)
       .then((res) => {
         setReserves(res.data);
-        setFilteredReservations(res.data); // 초기 예약 목록으로 필터링된 예약 목록 설정
       })
       .catch((error) => {
         console.error("예약 목록 가져오기 실패:", error);
@@ -70,13 +68,6 @@ const StoreReserve = () => {
               : reserve
           )
         );
-        setFilteredReservations((prevReserves) =>
-          prevReserves.map((reserve) =>
-            reserve.reserveId === reserveId
-              ? { ...reserve, reserveStatus: newStatus }
-              : reserve
-          )
-        );
       })
       .catch((error) => {
         console.error("예약 상태 업데이트 실패:", error);
@@ -86,16 +77,16 @@ const StoreReserve = () => {
 
   // 예약 상태 필터링 함수 추가
   const handleFilterChange = (e) => {
-    const status = e.target.value;
-    setFilterStatus(status);
-    if (status === "all") {
-      setFilteredReservations(reserves);
-    } else {
-      setFilteredReservations(
-        reserves.filter((reserve) => parseInt(status) === reserve.reserveStatus)
-      );
-    }
+    setFilterStatus(e.target.value);
+    setCurrentPage(1); // 필터 변경 시 첫 페이지로 이동
   };
+
+  // 필터링된 예약 목록
+  const filteredReservations = reserves.filter((reserve) => {
+    return filterStatus === "all"
+      ? true
+      : parseInt(filterStatus) === reserve.reserveStatus;
+  });
 
   // 예약 확정
   const handleConfirm = (reserveId) => {
@@ -159,6 +150,7 @@ const StoreReserve = () => {
   const totalPages = Math.ceil(filteredReservations.length / itemsPerPage);
   const goToPage = (pageNumber) => {
     setCurrentPage(pageNumber);
+    window.scrollTo({ top: 0, behavior: "smooth" }); // 페이지 변경 시 스크롤 상단 이동
   };
 
   return (

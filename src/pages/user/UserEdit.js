@@ -150,7 +150,7 @@ const UserEdit = () => {
             });
           });
 
-        navigate("/");
+        navigate("/user/mypage");
       })
       .catch((error) => {
         Swal.fire({

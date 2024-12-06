@@ -1,0 +1,20 @@
+.imgSlider {
+    width: 70vh;
+    margin: 0 auto;
+}
+
+.imgItem {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+    /* mobile view */
+    .imgSlider {
+        width: 100%;
+    }
+    .storeList-card-list {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}

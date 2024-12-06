@@ -14,6 +14,8 @@ export const ReviewEditTitle = styled.h2`
   /* 반응형 디자인 */
   @media (max-width: 768px) {
     font-size: 1.5rem; /* 모바일에서 폰트 크기 약간 감소 */
+    margin-bottom: 20px;
+    padding-bottom: 20px;
   }
 `;
 
@@ -60,6 +62,12 @@ export const ProfileImage = styled.div`
     margin-top: 0;
     display: inline-block;
   }
+
+  /* 반응형 디자인 */
+  @media (max-width: 768px) {
+    flex-direction: column; /* 모바일에서 세로로 배치 */
+    align-items: center;
+  }
 `;
 
 // 제목에 있는 가게 이름
@@ -80,6 +88,7 @@ export const StoreName = styled.span`
   /* 반응형 디자인 */
   @media (max-width: 768px) {
     font-size: 1.5rem; /* 모바일에서 폰트 크기 약간 감소 */
+  }
 `;
 
 export const ReveiwContainer = styled(Container)`
@@ -140,6 +149,12 @@ export const FileImage = styled.img`
   object-fit: cover;
   border-radius: 5px;
   border: 1px solid var(--primary-color); /* 이미지 테두리 색상 */
+
+  /* 반응형 디자인 */
+  @media (max-width: 768px) {
+    width: 100px;
+    height: 100px;
+  }
 `;
 
 export const FileUploadButton = styled(Button)`
@@ -189,6 +204,11 @@ export const DeleteFileButton = styled(Button)`
 // Rating Input Section
 export const RatingFormGroup = styled(Form.Group)`
   margin-bottom: 20px; /* 각 입력 요소 간 간격 */
+
+  /* 반응형 디자인 */
+  @media (max-width: 768px) {
+    margin-bottom: 15px; /* 모바일에서 간격 약간 축소 */
+  }
 `;
 
 export const RatingLabel = styled(Form.Label)`
@@ -211,11 +231,22 @@ export const RatingInput = styled(Form.Control)`
     border-color: var(--tertiary-color);
     box-shadow: none; /* 기존의 포커스 효과 (박스 그림자) 제거 */
   }
+
+  /* 반응형 디자인 */
+  @media (max-width: 768px) {
+    font-size: 0.9rem;
+    padding: 8px;
+  }
 `;
 
 // Review Comment Section
 export const ReviewCommentFormGroup = styled(Form.Group)`
   margin-bottom: 30px; /* 리뷰 작성 필드 간 간격 */
+
+  /* 반응형 디자인 */
+  @media (max-width: 768px) {
+    margin-bottom: 20px; /* 모바일에서 간격 약간 축소 */
+  }
 `;
 
 export const ReviewCommentLabel = styled(Form.Label)`
@@ -239,6 +270,12 @@ export const ReviewCommentTextArea = styled(Form.Control)`
     border-color: var(--tertiary-color);
     box-shadow: none; /* 기존의 포커스 효과 (박스 그림자) 제거 */
   }
+
+  /* 반응형 디자인 */
+  @media (max-width: 768px) {
+    font-size: 0.9rem;
+    height: 120px; /* 모바일에서 높이 조정 */
+  }
 `;
 
 export const FileLibel = styled(Form.Label)`
@@ -253,4 +290,9 @@ export const DivStar = styled.div`
   justify-content: left;
   align-items: center; /* 세로 중앙정렬 */
   gap: 20px; /* 별들 간의 간격을 설정 */
+
+  /* 반응형 디자인 */
+  @media (max-width: 768px) {
+    gap: 10px; /* 모바일에서 별 간격 좁힘 */
+  }
 `;
