@@ -61,7 +61,7 @@ const UserEdit = () => {
     const { name, phone, password } = formData;
 
     // 이름 유효성 검사: 한글 2자 이상, 10자 이하
-    const nameRegex = /^[가-힣]{2,10}$/;
+    const nameRegex = /^[a-zA-Z가-힣0-9]{1,10}$/;
     if (!nameRegex.test(name)) {
       Swal.fire({
         title: "오류",

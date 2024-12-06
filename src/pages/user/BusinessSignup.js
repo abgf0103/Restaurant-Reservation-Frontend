@@ -106,7 +106,7 @@ const BusinessSignup = () => {
     }
 
     // 이름 유효성 검사 (한글 2자 이상)
-    const namePattern = /^[가-힣]{2,}$/;
+    const namePattern = /^[a-zA-Z가-힣0-9]{1,10}$/;
     if (!namePattern.test(formData.name)) {
       validationErrors.name = "이름은 한글로 2자 이상 입력해야 합니다.";
     }

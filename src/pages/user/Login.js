@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setTokenInfo } from "../../hooks/tokenSlice";
-import { setUserInfo } from "../../hooks/userSlice";
+import { getUserInfo, setUserInfo } from "../../hooks/userSlice";
 import "./css/login.css";
 
 const Login = () => {
@@ -62,7 +62,7 @@ const Login = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log(loginInfo);
+
     axios
       .post(`${process.env.REACT_APP_HOST}/auth/login`, loginInfo)
       .then((res) => {
@@ -83,8 +83,10 @@ const Login = () => {
               Authorization: `${tokenType}${accessToken}`,
             },
           })
+
           .then((res) => {
             if (res) {
+              console.log(res.data.active);
               dispatch(setUserInfo(res.data));
               localStorage.setItem("userInfo", JSON.stringify(res.data)); // localStorage에 사용자 정보 저장
               navigate("/"); // 메인 페이지로 이동

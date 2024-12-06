@@ -21,7 +21,6 @@ const MemberSignup = () => {
     BusinessNum: 0,
     active: true,
     id: 0,
-    nikName: "",
   });
 
   const [errors, setErrors] = useState({});
@@ -71,7 +70,7 @@ const MemberSignup = () => {
       validationErrors.passwordConfirm = "비밀번호가 일치하지 않습니다.";
     }
 
-    const namePattern = /^[가-힣]{2,}$/;
+    const namePattern = /^[a-zA-Z가-힣0-9]{1,10}$/;
     if (!namePattern.test(formData.name)) {
       validationErrors.name = "이름은 한글로 2자 이상 입력해야 합니다.";
     }
@@ -178,19 +177,6 @@ const MemberSignup = () => {
           <Form.Control.Feedback type="invalid">
             {errors.name}
           </Form.Control.Feedback>
-        </Form.Group>
-
-        <Form.Group controlId="nikName">
-          <Form.Label className="business-text">닉네임</Form.Label>
-          <Form.Control
-            type="text"
-            name="nikName"
-            value={formData.nikName}
-            onChange={handleChange}
-            placeholder="닉네임을 입력해주세요"
-            className="business-input"
-            required
-          />
         </Form.Group>
 
         <Form.Group controlId="email">
