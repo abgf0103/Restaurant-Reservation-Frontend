@@ -351,13 +351,7 @@ const ReviewEdit = () => {
                   <div style={{ textAlign: "left" }}>
                     <Name>{userInfo.name}</Name>님,
                   </div>
-                  <div
-                    style={{
-                      textAlign: "left",
-                      display: "flex",
-                      alignItems: "center",
-                    }}
-                  >
+                  <div style={{ textAlign: "left" }}>
                     <StoreName>{storeName}</StoreName>에 대한 리뷰 수정
                   </div>
                 </div>
