@@ -23,8 +23,8 @@ const UserEdit = () => {
     name: userInfo.name,
     email: userInfo.email,
     phone: userInfo.phone,
-    password: location.state.password,
-    newPassword: userInfo.newPassword,
+    password: "",
+    newPassword: "",
     active: userInfo.active,
     roleNum: `${userInfo.roles[0].id}`,
     businessNum: "", // 사업자 등록 번호
@@ -83,9 +83,12 @@ const UserEdit = () => {
       return false;
     }
 
-    if (password) {
+    // 비밀번호 유효성검사
+    if (password !== "") {
+      console.log("ssss");
       const passwordPattern =
         /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,15}$/;
+      console.log(!passwordPattern.test(password));
       if (!passwordPattern.test(password)) {
         Swal.fire({
           title: "오류",
@@ -100,13 +103,14 @@ const UserEdit = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-
-    // 유효성 검사
-    if (!validateForm()) {
-      return; // 유효성 검사 실패 시, 제출하지 않음
-    }
+    console.log(userInfo.password);
+    console.log(formData.password);
 
     console.log(userInfo.phone);
+    const isValid = validateForm();
+    if (!isValid) {
+      return; // 유효성 검사를 통과하지 못한 경우, 서버 요청을 하지 않음
+    }
 
     // 백엔드에 수정 요청
     instance
@@ -118,7 +122,7 @@ const UserEdit = () => {
         email: userInfo.email,
         roleNum: formData.roleNum,
         active: true,
-        password: formData.password || userInfo.password,
+        password: formData.password || null,
         businessNum: "",
       })
       .then((response) => {
@@ -193,7 +197,7 @@ const UserEdit = () => {
           <Form.Control
             className="user-edit-input"
             type="password"
-            value={userInfo.password}
+            value={formData.password}
             onChange={onChange}
             placeholder="비밀번호를 입력하세요 (변경하려면 입력)"
           />
