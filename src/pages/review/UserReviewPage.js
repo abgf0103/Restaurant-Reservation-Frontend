@@ -99,16 +99,17 @@ const UserReviewPage = () => {
     Swal.fire({
       title: "리뷰 통계 정보",
       html: `
-        <p><strong>작성된 리뷰 수:</strong> ${reviews.length}개</p>  
-        <p><strong>내가 받은 좋아요 수:</strong> ${likeSum}개</p>    
-        <p><strong>현재 사용자 랭킹:</strong> ${
-          ranking ? ranking : "불러오는 중..."
-        }</p>
+        <p><strong>${name} 님이 작성한 리뷰 수:</strong> ${
+        reviews.length
+      }개</p>  
+        <p><strong>${name} 님이 받은 좋아요 수:</strong> ${likeSum}개</p>    
+        <p><strong>${name} 님의 랭킹:</strong> ${
+        ranking ? ranking + "등" : "불러오는 중..."
+      }</p>
         <br />
-        
-        <!-- 받은 좋아요 수와 랭킹에 대한 더 구체적이고 직관적인 설명 추가 -->
-        <p><em>참고:</em> 내가 받은 좋아요 수는 <strong>내가 작성한 모든 리뷰에서 받은 좋아요의 총합</strong>을 의미합니다. <strong>모든 리뷰의 좋아요를 합산하여 표시</strong>됩니다.</p>
-        <p><em>현재 사용자 랭킹:</em> 내 리뷰에 달린 <strong>좋아요 수</strong>를 기준으로 순위가 매겨집니다. <strong>내가 받은 모든 리뷰에서의 좋아요 수 총합</strong>을 반영하여, 다른 사용자들과의 비교를 통해 순위가 결정됩니다.</p>
+        <p><em>참고:</em></p>
+        <p><strong>현재 사용자 랭킹</strong>: <strong>${name}</strong> 님의 리뷰에 달린 <strong>좋아요 수</strong>를 기준으로 순위가 매겨집니다.
+        <strong>${name} 님이 작성한 모든 리뷰에서 받은 좋아요 수 총합</strong>을 반영하여, 다른 사용자들과의 비교를 통해 순위가 결정됩니다.</p>
       `,
       icon: "info",
       confirmButtonText: "확인",
