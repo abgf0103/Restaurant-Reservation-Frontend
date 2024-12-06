@@ -21,6 +21,7 @@ const MemberSignup = () => {
     BusinessNum: 0,
     active: true,
     id: 0,
+    nikName: "",
   });
 
   const [errors, setErrors] = useState({});
@@ -177,6 +178,19 @@ const MemberSignup = () => {
           <Form.Control.Feedback type="invalid">
             {errors.name}
           </Form.Control.Feedback>
+        </Form.Group>
+
+        <Form.Group controlId="nikName">
+          <Form.Label className="business-text">닉네임</Form.Label>
+          <Form.Control
+            type="text"
+            name="nikName"
+            value={formData.nikName}
+            onChange={handleChange}
+            placeholder="닉네임을 입력해주세요"
+            className="business-input"
+            required
+          />
         </Form.Group>
 
         <Form.Group controlId="email">

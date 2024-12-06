@@ -49,7 +49,8 @@ const Mypage = () => {
       instance
         .get(`/user/isAdminByUserId?userId=${userInfo.id}`)
         .then((res) => {
-          if (res.data === 3) {
+          console.log(res);
+          if (res.data >= 2) {
             setIsAdmin(true);
           }
         });
@@ -158,6 +159,7 @@ const Mypage = () => {
       }
     });
   };
+  console.log(isAdmin);
 
   return (
     <div className="mypage-height-cover">
@@ -191,6 +193,7 @@ const Mypage = () => {
               style={{ display: "none" }}
               id="profile-image-upload"
             />
+
             <label htmlFor="profile-image-upload">
               <Button
                 variant="primary"
@@ -221,7 +224,11 @@ const Mypage = () => {
               </Button>
             )}
           </div>
-
+          <div className="aaaaaa">
+            {userInfo.name}
+            <b />
+            {userInfo.email}
+          </div>
           {/* 나머지 마이페이지 버튼들 */}
           <div className="mypage-chooseUser1">
             <div>

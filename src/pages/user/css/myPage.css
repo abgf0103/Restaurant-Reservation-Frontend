@@ -1,5 +1,5 @@
 .mypage-height-cover {
-  height: 700px;
+  height: 800px;
   position: relative; /* 자식 요소의 absolute 위치 기준 설정 */
   display: flex;
   justify-content: center; /* 수평 중앙 정렬 */
@@ -18,9 +18,9 @@
   border-radius: 10px;
 }
 
-.mypage-profile-img{
-    border-radius: 100px;
-    border: 2px solid var(--secondary-color);
+.mypage-profile-img {
+  border-radius: 100px;
+  border: 2px solid var(--secondary-color);
 }
 
 .aaa {
@@ -44,7 +44,7 @@
   flex-direction: column; /* 기본적으로 세로 정렬 */
   align-items: center; /* 가운데 정렬 */
   gap: 40px; /* 각 섹션 간 간격 */
-  margin-top: 50px;
+  margin-top: 10px;
 }
 .mypage-detail-cover {
 }
@@ -91,4 +91,7 @@
 .mypage-text {
   font-size: 20px;
   font-weight: 600;
+}
+.aaaaaa {
+  margin: 0;
 }
