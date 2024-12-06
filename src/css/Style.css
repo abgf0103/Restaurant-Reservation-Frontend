@@ -206,7 +206,9 @@ header {
 }
 
 .nickname {
-  width: 64px;
+  width: 11vh;
+  height: 2vh;
+  line-height: 18px;
 }
 
 .logoImg {
