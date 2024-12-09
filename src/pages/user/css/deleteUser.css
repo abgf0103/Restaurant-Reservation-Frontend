@@ -1,20 +1,91 @@
 .deleteUser-container {
   min-height: 100vh;
-  position: relative; /* 자식 요소의 absolute 위치 기준 설정 */
   display: flex;
   justify-content: center; /* 수평 중앙 정렬 */
   align-items: center; /* 수직 중앙 정렬 */
+  padding: 20px; /* 작은 화면에서 여백을 줄임 */
 }
+
 .deleteUser-cover {
-  position: relative; /* 자식 요소의 absolute 위치 기준 설정 */
+  position: relative;
   display: flex;
-  justify-content: center; /* 수평 중앙 정렬 */
-  align-items: center; /* 수직 중앙 정렬 */
-  flex-direction: column; /* 수직으로 배치 */
-  padding: 100px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8); /* 그림자 효과 (선택사항) */
-}
-.deleteUser-text {
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 30px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
   width: 100%;
+  max-width: 500px; /* 최대 너비를 설정하여 너무 커지지 않도록 */
+  background-color: white;
+  border-radius: 8px; /* 둥근 모서리 */
+}
+
+.deleteUser-text {
   text-align: center;
+  margin-bottom: 20px;
+}
+
+.deleteUser-cover p {
+  font-size: 18px; /* 기본 텍스트 크기 */
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+button.deleteUser-btn {
+  width: 100%; /* 버튼이 부모의 너비에 맞게 크기 조정 */
+  height: 50px;
+  font-size: 18px;
+  padding: 10px;
+  background-color: #dc3545; /* 붉은 배경색 (danger 색상) */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button.deleteUser-btn:disabled {
+  background-color: #ccc; /* 로딩 중일 때 버튼 비활성화 */
+}
+
+button.deleteUser-btn:hover {
+  background-color: #c82333; /* hover 시 더 진한 붉은색 */
+}
+
+@media (max-width: 768px) {
+  .deleteUser-container {
+    padding: 10px;
+  }
+
+  .deleteUser-cover {
+    padding: 20px;
+    width: 90%; /* 화면 크기에 맞게 90%로 설정 */
+    max-width: 400px; /* 최대 너비를 더 작게 설정 */
+  }
+
+  .deleteUser-cover p {
+    font-size: 16px; /* 작은 화면에서 텍스트 크기 축소 */
+  }
+
+  button.deleteUser-btn {
+    width: 100%;
+    max-width: 300px; /* 최대 너비 300px */
+    font-size: 16px; /* 버튼 텍스트 크기 조정 */
+    height: 45px; /* 버튼 크기 축소 */
+  }
+}
+
+@media (max-width: 480px) {
+  .deleteUser-cover {
+    padding: 15px;
+    width: 95%; /* 95%로 크기 조정 */
+  }
+
+  .deleteUser-cover p {
+    font-size: 14px; /* 더 작은 화면에서는 글자 크기 추가로 축소 */
+  }
+
+  button.deleteUser-btn {
+    font-size: 14px; /* 버튼 텍스트 크기 축소 */
+    height: 45px; /* 버튼 크기 추가로 축소 */
+  }
 }

@@ -1,39 +1,82 @@
+.id-result-main {
+  height: 83vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
 .id-result-cover {
-  padding: 5vw; /* 화면 너비의 5%로 패딩 설정 */
-  width: 70%; /* 부모 화면 너비의 70% 크기 */
-  margin: 0 auto; /* 중앙 정렬 */
+  width: 100%;
+  max-width: 600px; /* 화면이 커지면 최대 너비를 제한 */
+  padding: 20px; /* 패딩을 상대적인 단위로 조정 */
+  margin: 0 auto;
   position: relative;
   top: 100px;
+  box-sizing: border-box; /* 패딩이 요소의 크기에 포함되도록 설정 */
 }
-.id-result-main {
-  min-height: 100vh;
-}
-.find-result-btn {
-  position: relative;
-  margin: 20px;
-  left: 14px;
-  width: 270px;
-  height: 70px;
-  margin-top: 80px;
-  background-color: var(--secondary-color);
-  font-size: 25px;
-  font-weight: 600;
-  border: 1px solid black;
-  border-radius: 40px;
-}
-.find-result-btn:hover {
-  background-color: var(--secondaryHover-color) !important;
-}
-.id-result-text {
-  color: blue;
-  text-align: center;
-  display: inline;
-}
+
 .id-result-h4 {
   text-align: center;
   font-weight: 800;
+  font-size: 24px; /* 기본 폰트 크기 설정 */
 }
+
+.id-result-text {
+  color: blue;
+  display: inline;
+  font-size: 18px;
+}
+
 .id-cause {
   font-weight: 800;
   color: red;
+}
+
+.find-result-btn {
+  width: 100%;
+  max-width: 270px; /* 버튼의 최대 너비 설정 */
+  height: 60px;
+  margin: 20px auto; /* 버튼 사이에 자동 마진 설정 */
+  background-color: var(--secondary-color);
+  font-size: 18px;
+  font-weight: 600;
+  border: 1px solid black;
+  border-radius: 40px;
+  display: block; /* 버튼을 블록 요소로 설정하여 가운데 정렬 */
+  text-align: center;
+}
+
+.find-result-btn:hover {
+  background-color: var(--secondaryHover-color) !important;
+}
+
+@media (max-width: 768px) {
+  .id-result-h4 {
+    font-size: 20px; /* 작은 화면에서는 글씨 크기 줄임 */
+  }
+
+  .find-result-btn {
+    font-size: 16px; /* 작은 화면에서 버튼 텍스트 크기 조정 */
+    height: 50px;
+  }
+
+  .id-result-text {
+    font-size: 16px; /* 작은 화면에서 텍스트 크기 조정 */
+  }
+}
+
+@media (max-width: 480px) {
+  .id-result-h4 {
+    font-size: 18px; /* 더 작은 화면에서는 글씨 크기 더 줄임 */
+  }
+
+  .find-result-btn {
+    font-size: 14px; /* 버튼 텍스트 크기를 더 줄임 */
+    height: 45px;
+  }
+
+  .id-result-text {
+    font-size: 14px; /* 텍스트 크기를 더 줄임 */
+  }
 }

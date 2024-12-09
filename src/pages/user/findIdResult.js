@@ -26,7 +26,7 @@ const FindIdResult = () => {
   };
 
   return (
-    <main className="id-result-main">
+    <div className="id-result-main">
       <div className="id-result-cover">
         <h4 className="id-result-h4">
           <span className="id-result-text">회원님의 아이디를 확인해주세요</span>
@@ -49,7 +49,7 @@ const FindIdResult = () => {
           비밀번호 찾기
         </Button>
       </div>
-    </main>
+    </div>
   );
 };
 

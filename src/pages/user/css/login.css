@@ -1,3 +1,4 @@
+/* 기본 스타일: 모바일 화면을 우선 고려 */
 .login-maincover {
   min-height: 100vh;
   position: relative; /* 자식 요소의 absolute 위치 기준 설정 */
@@ -5,32 +6,41 @@
   justify-content: center; /* 수평 중앙 정렬 */
   align-items: center; /* 수직 중앙 정렬 */
   background-color: var(--background-color-gray);
-}
-.login-container {
-  background-color: var(--background-color);
-  box-shadow: 0 4px 8px rgba(148, 50, 12, 0.8); /* 그림자 효과 (선택사항) */
-  padding: 80px;
-  width: 100%;
-  max-width: 600px;
-}
-.button-container1 {
-  color: gray;
-  margin-top: 50px; /* 아래로 50px 이동 */
-  display: flex; /* flexbox로 설정 */
-  justify-content: center; /* 가운데 정렬 */
-  gap: 20px; /* 아이디 찾기와 비밀번호 찾기 사이에 20px 간격 */
+  padding: 20px; /* 모바일에서 양옆 여백을 추가하여 공간을 확보 */
 }
 
+.login-container {
+  background-color: var(--background-color);
+  box-shadow: 0 4px 8px rgba(148, 50, 12, 0.8); /* 그림자 효과 */
+  padding: 30px; /* 모바일 화면에 맞게 패딩 감소 */
+  width: 100%;
+  max-width: 600px; /* 최대 너비를 600px로 제한 */
+  box-sizing: border-box;
+}
+
+/* 버튼 컨테이너 */
+.button-container1 {
+  color: gray;
+  margin-top: 30px; /* 아래로 30px 이동 */
+  display: flex; /* flexbox로 설정 */
+  justify-content: space-between; /* 양옆으로 배치 */
+  gap: 10px; /* 아이디 찾기와 비밀번호 찾기 사이에 10px 간격 */
+}
+
+/* 로그인 버튼 스타일 */
 .login-button {
   width: 100%;
   margin-bottom: 10px;
   background-color: var(--secondary-color) !important;
 }
+
 .login-button:hover {
   background-color: var(--secondaryHover-color) !important;
 }
-@media (min-width: 768px) {
-  .login-maincover {
-    flex-direction: row; /* 화면이 커지면 가로로 배치 */
+
+/* 추가적인 미디어 쿼리: 화면 크기가 1024px 이상일 때 */
+@media (min-width: 1024px) {
+  .login-container {
+    max-width: 600px; /* 화면이 더 클 때는 최대 너비를 600px로 설정 */
   }
 }

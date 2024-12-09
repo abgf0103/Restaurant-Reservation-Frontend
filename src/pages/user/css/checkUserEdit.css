@@ -1,32 +1,96 @@
 .check-edit-container {
   min-height: 100vh;
   display: flex;
+  justify-content: center; /* 수평 중앙 정렬 */
+  align-items: center; /* 수직 중앙 정렬 */
+  text-align: center; /* 텍스트 중앙 정렬 */
 }
+
 .check-box {
-  margin: 0 auto; /* 중앙 정렬 */
+  width: 80%; /* 화면 너비의 80%로 설정 (모바일에서 자동 축소) */
+  max-width: 500px; /* 최대 너비 제한 */
+  margin: 0 auto;
   position: relative;
-  top: 250px;
+  top: 0; /* 상단 여백 제거 */
 }
+
 .chek-user-edit-input {
-  width: 500px !important;
+  width: 100%; /* 입력 필드의 너비를 부모 요소에 맞게 설정 */
+  max-width: 500px; /* 최대 너비 500px로 제한 */
   height: 60px;
-  margin-top: 40px;
+  margin-top: 20px;
+  padding: 10px; /* 내부 여백 추가 */
+  font-size: 16px;
+  border-radius: 5px; /* 입력 필드에 둥근 모서리 추가 */
+  border: 1px solid #ccc; /* 기본 경계선 */
 }
+
 .chek-user-edit-input:hover {
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
-}
-.check-edit-container {
-  text-align: center; /*중앙정렬*/
 }
 
 .check-edit-btn {
   background-color: var(--secondary-color) !important;
-  width: 500px;
+  width: 100%; /* 버튼 너비를 부모 요소에 맞게 설정 */
+  max-width: 500px; /* 최대 너비 500px로 제한 */
   height: 60px;
+  margin-top: 20px;
+  font-size: 18px; /* 버튼 글씨 크기 설정 */
+  border-radius: 5px; /* 버튼 모서리 둥글게 */
 }
+
 .check-edit-btn:hover {
   background-color: var(--secondaryHover-color) !important;
 }
+
 .check-user-edit-text {
   font-weight: 600;
+  font-size: 18px; /* 텍스트 크기 설정 */
+  margin-bottom: 20px;
+}
+
+.text-danger {
+  color: red;
+  margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+  .check-box {
+    width: 90%; /* 화면 너비의 90%로 설정 */
+  }
+
+  .chek-user-edit-input {
+    font-size: 14px; /* 작은 화면에서 글자 크기 조정 */
+    height: 50px;
+  }
+
+  .check-edit-btn {
+    font-size: 16px; /* 작은 화면에서 버튼 텍스트 크기 조정 */
+    height: 50px;
+  }
+
+  .check-user-edit-text {
+    font-size: 16px; /* 텍스트 크기 조정 */
+    margin-bottom: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .check-box {
+    width: 95%; /* 화면 너비의 95%로 설정 */
+  }
+
+  .chek-user-edit-input {
+    font-size: 14px;
+    height: 45px;
+  }
+
+  .check-edit-btn {
+    font-size: 14px; /* 버튼 글자 크기 추가 축소 */
+    height: 45px;
+  }
+
+  .check-user-edit-text {
+    font-size: 14px; /* 텍스트 크기 추가 축소 */
+  }
 }

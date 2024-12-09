@@ -43,3 +43,32 @@
   justify-content: center; /* 수평 중앙 정렬 */
   align-items: center; /* 수직 중앙 정렬 */
 }
+@media (max-width: 480px) {
+  .edit-main-cover {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .edit-button {
+    font-size: 12px; /* 버튼 텍스트 크기 더 축소 */
+    padding: 8px 14px;
+    height: 40px; /* 버튼 크기 축소 */
+  }
+
+  .edit-icon {
+    margin-bottom: 10px; /* 아이콘과 버튼 간격을 더 줄임 */
+  }
+
+  .text1 h1 {
+    font-size: 22px; /* 제목 글씨 크기 더 줄이기 */
+  }
+
+  .text2 {
+    font-size: 14px; /* 부제목 글씨 크기 더 줄이기 */
+  }
+
+  .chooseUser1,
+  .chooseUser2 {
+    padding: 10px;
+    gap: 10px; /* 더 좁은 간격으로 설정 */
+  }
+}

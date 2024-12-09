@@ -1,34 +1,69 @@
+/* 기본 스타일: 모바일 우선으로 설정 */
 .find-id-cover {
   display: flex;
   justify-content: center; /* 수평 중앙 정렬 */
   align-items: center; /* 수직 중앙 정렬 */
   min-height: 100vh; /* 화면 전체 높이를 사용 */
+  padding: 20px; /* 모바일 화면에서 여백을 추가 */
+  box-sizing: border-box; /* 패딩 포함 크기 계산 */
 }
 
 .find-id-main {
   width: 100%;
-  max-width: 500px; /* 원하는 최대 너비를 설정 */
-  padding: 30px; /* 내부 여백을 추가 */
-  background-color: #fff; /* 배경색을 설정 (선택사항) */
-  border-radius: 10px; /* 모서리를 둥글게 (선택사항) */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8); /* 그림자 효과 (선택사항) */
-  transform: translateY(-20px); /* 위로 살짝 띄운 효과 */
+  max-width: 400px; /* 모바일 화면에서 최대 너비 설정 */
+  padding: 20px;
+  background-color: #fff; /* 배경색 설정 */
+  border-radius: 10px; /* 둥근 모서리 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
+  transform: translateY(-10px); /* 살짝 위로 띄움 */
 }
-.find-id-input {
-  border-color: var(--secondary-color) !important;
-}
-.find-id-btn {
-  background-color: var(--secondary-color) !important;
-  margin-top: 20px;
-  width: 100%;
 
-  display: flex;
-  justify-content: center;
+.findid-id-input,
+.findid-pw-input {
+  width: 100%; /* 입력 필드 너비를 100%로 설정 */
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
 }
+
+.find-id-btn {
+  width: 100%;
+  background-color: var(--secondary-color) !important;
+  padding: 12px;
+  font-size: 16px;
+  text-align: center;
+  border-radius: 5px;
+  color: white;
+  margin-top: 20px;
+  display: block; /* 버튼이 세로로 펼쳐지도록 설정 */
+}
+
 .find-id-btn:hover {
   background-color: var(--secondaryHover2-color) !important;
 }
+
 .find-id-message {
   margin-top: 10px;
   color: red;
+  text-align: center;
+}
+
+/* 화면 크기가 768px 이상일 때 (태블릿 이상) */
+@media (min-width: 768px) {
+  .find-id-main {
+    max-width: 500px; /* 더 큰 화면에서 최대 너비 증가 */
+    padding: 30px;
+  }
+
+  .find-id-input,
+  .find-pw-input {
+    padding: 12px;
+    font-size: 16px;
+  }
+
+  .find-id-btn {
+    font-size: 18px;
+    padding: 14px;
+  }
 }

@@ -47,43 +47,41 @@ const FindIdForm = () => {
 
   return (
     <main>
-      <main>
-        <Container className="find-id-cover">
-          <div className="find-id-main">
-            <h4>아이디 찾기</h4>
+      <Container className="find-id-cover">
+        <div className="find-id-main">
+          <h4>아이디 찾기</h4>
 
-            <Form onSubmit={handleSubmit} className="findIdBox">
-              <Form.Label>이메일</Form.Label>
+          <Form onSubmit={handleSubmit} className="findIdBox">
+            <Form.Label>이메일</Form.Label>
+            <Form.Control
+              type="email"
+              value={email}
+              onChange={handleEmailChange}
+              placeholder="이메일을 입력하세요"
+              className="findid-id-input"
+            />
+            <Form.Group controlId="phone">
+              <Form.Label>전화번호</Form.Label>
               <Form.Control
-                type="email"
-                value={email}
-                onChange={handleEmailChange}
-                placeholder="이메일을 입력하세요"
-                className="find-id-input"
+                type="text"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                required
+                placeholder="전화번호를 입력하세요"
+                className="findid-pw-input"
               />
-              <Form controlId="phone">
-                <Form.Label>전화번호</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  required
-                  placeholder="이름을 입력해주세요"
-                  className="find-pw-input"
-                />
-              </Form>
-              <Button type="submit" disabled={loading} className="find-id-btn">
-                {loading ? "로딩 중..." : "아이디 찾기"}
-              </Button>
-            </Form>
-            {message && (
-              <div className="find-id-message">
-                <p>{message}</p>
-              </div>
-            )}
-          </div>
-        </Container>
-      </main>
+            </Form.Group>
+            <Button type="submit" disabled={loading} className="find-id-btn">
+              {loading ? "로딩 중..." : "아이디 찾기"}
+            </Button>
+          </Form>
+          {message && (
+            <div className="find-id-message">
+              <p>{message}</p>
+            </div>
+          )}
+        </div>
+      </Container>
     </main>
   );
 };
