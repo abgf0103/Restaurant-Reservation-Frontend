@@ -1,5 +1,5 @@
 .login-maincover {
-  height: 785px;
+  min-height: 100vh;
   position: relative; /* 자식 요소의 absolute 위치 기준 설정 */
   display: flex;
   justify-content: center; /* 수평 중앙 정렬 */
@@ -28,4 +28,9 @@
 }
 .login-button:hover {
   background-color: var(--secondaryHover-color) !important;
+}
+@media (min-width: 768px) {
+  .login-maincover {
+    flex-direction: row; /* 화면이 커지면 가로로 배치 */
+  }
 }

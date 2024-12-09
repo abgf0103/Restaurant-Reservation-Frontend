@@ -6,7 +6,7 @@
   top: 100px;
 }
 .id-result-main {
-  height: 785px;
+  min-height: 100vh;
 }
 .find-result-btn {
   position: relative;

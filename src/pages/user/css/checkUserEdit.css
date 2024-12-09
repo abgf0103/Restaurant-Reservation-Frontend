@@ -1,5 +1,5 @@
 .check-edit-container {
-  height: 785px;
+  min-height: 100vh;
   display: flex;
 }
 .check-box {

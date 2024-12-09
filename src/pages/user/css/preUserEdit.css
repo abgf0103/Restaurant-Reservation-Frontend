@@ -36,7 +36,7 @@
 }
 
 .edit-cover {
-  height: 750px;
+  min-height: 100vh;
 }
 .edit-main-cover {
   display: flex;
