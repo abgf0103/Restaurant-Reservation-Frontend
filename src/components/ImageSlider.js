@@ -4,8 +4,10 @@ import '../css/ImageSlider.css';
 import ad1 from '../img/ad/ad1.PNG';
 import ad2 from '../img/ad/ad2.PNG';
 import ad3 from '../img/ad/ad3.PNG';
+import { useNavigate } from 'react-router-dom';
 
 const ImageSlider = () => {
+    const navigate = useNavigate();
     const images = [
         ad1,
         ad2,
@@ -24,9 +26,12 @@ const ImageSlider = () => {
       arrows: false, // 이전/다음 버튼 표시
       dots: true, // 하단에 점 표시
     };
-  
+
+    const goToEvent = () => {
+        navigate('/event');
+    }
     return (
-      <div className='imgSlider'>
+      <div className='imgSlider' onClick={goToEvent}>
         <Slider {...settings}>
           {images.map((image, index) => (
             <div key={index}>

@@ -40,6 +40,7 @@ import Admin from "./pages/Admin";
 import FindIdResult from "./pages/user/findIdResult";
 import FindPasswordResult from "./pages/user/findPasswordResult";
 import { useState } from "react";
+import EventPage from "./pages/store/Event";
 
 const ROLES = {
   ROLE_USER: 1,
@@ -112,6 +113,7 @@ function App() {
           {/* reserve 부분 */}
           <Route path="/store/reserve/:storeId" element={<StoreReserve />} />
           {/* 기타 */}
+          <Route path="/event" element={<EventPage />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/fileTest" element={<FileTest />} />
           <Route path="/map/:storeId" element={<Map />} />

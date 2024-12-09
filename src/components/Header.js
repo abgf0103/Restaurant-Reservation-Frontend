@@ -81,11 +81,11 @@ const Header = () => {
     <header>
       <Navbar expand="lg" className="header-nav">
         <Container id="headerContainer">
-          {window.location.pathname === "/" ? null : (
+          {/* {window.location.pathname === "/" ? null : (
             <Button id="back" onClick={goBack}>
               ←
             </Button>
-          )}
+          )} */}
           <Navbar.Brand href="/">
             <img src={logoImg} alt="Logo" className="logoImg" />
           </Navbar.Brand>
