@@ -12,7 +12,7 @@ import instance from "../api/instance";
 import logoImg from "../img/logo.png";
 import Notification from "./Notification";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
+import { faCircleUser, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 
 const Header = () => {
     const navigate = useNavigate();
@@ -68,11 +68,15 @@ const Header = () => {
         searchStore(searchKeyword);
     };
 
+    const goToMypage = () => {
+        navigate("/user/mypage");
+    };
+
     console.log(userInfo);
 
     return (
         <header>
-            <Navbar expand="lg">
+            <Navbar expand="lg" className="header-nav">
                 <Container id="headerContainer">
                     {window.location.pathname === "/" ? null : (
                         <Button id="back" onClick={goBack}>
@@ -93,18 +97,20 @@ const Header = () => {
                             />
                         </div>
                         <Button id="search" type="submit">
-                            검색
+                            <FontAwesomeIcon icon={faMagnifyingGlass} />
                         </Button>
                     </Form>
-                    {userInfo.username && <Notification />}
                     {isMobileView ? (
+                        // 모바일 상태
                         <Dropdown>
                             <Dropdown.Toggle id="dropdown-basic"></Dropdown.Toggle>
                             <Dropdown.Menu id="dropdown-menu">
                                 {userInfo && userInfo.username ? (
+                                    //모바일 로그인 상태
                                     <Dropdown.Item id="dropdown-item">
                                         <div className="btn-container">
                                             <div
+                                                onClick={goToMypage}
                                                 style={{
                                                     width: "40px",
                                                     height: "40px",
@@ -114,14 +120,17 @@ const Header = () => {
                                                     backgroundImage: `url(${process.env.REACT_APP_HOST}/file/viewId/${userInfo.fileId})`,
                                                     backgroundPosition: "center",
                                                     backgroundSize: "cover",
+                                                    cursor: "pointer",
                                                 }}
                                             ></div>
+                                            {userInfo.username && <Notification />}
                                             <Button onClick={handleLogout} id="logout">
                                                 로그아웃
                                             </Button>
                                         </div>
                                     </Dropdown.Item>
                                 ) : (
+                                     // 모바일 로그아웃 상태
                                     <div className="btn-container">
                                         <Dropdown.Item id="dropdown-item">
                                             <Button id="login" onClick={() => navigate("/user/login")}>
@@ -138,9 +147,12 @@ const Header = () => {
                             </Dropdown.Menu>
                         </Dropdown>
                     ) : (
+                        // PC 상태
                         <div id="user-buttons">
                             {userInfo && userInfo.username ? (
+                                // PC 로그인 상태
                                 <>
+                                    {userInfo.username && <Notification />}
                                     {userInfo.fileId ? (
                                         <Link to="/user/mypage" style={{ width: "40px", height: "40px" }}>
                                             {/* 프로필 사진이 있을 경우 */}
@@ -179,6 +191,7 @@ const Header = () => {
                                     </Button>
                                 </>
                             ) : (
+                                 // 로그아웃 상태
                                 <>
                                     <Button id="login" onClick={() => navigate("/user/login")}>
                                         로그인
