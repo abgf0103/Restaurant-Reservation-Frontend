@@ -258,8 +258,8 @@ header {
 /* :focus상태 (제거 시 클릭하면 파랗게 됨) */
 #notification-item:focus {
   outline: none;
-  background-color: inherit;
-  color: inherit;
+  background-color: inherit !important;
+  color: var(--text-color-black);
 }
 
 #no-notifications {
