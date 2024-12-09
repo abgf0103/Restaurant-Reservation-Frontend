@@ -347,6 +347,9 @@
   }
 
   .horizontal-scroll {
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    overflow-x: auto;
     height: 200px; /* 작은 화면에서 더 작은 높이로 설정 */
   }
 
