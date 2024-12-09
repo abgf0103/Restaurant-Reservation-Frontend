@@ -90,8 +90,8 @@ const Header = () => {
                         <div id="search-bar">
                             <FormControl
                                 type="search"
-                                placeholder="검색어를 입력하세요"
-                                className="mr-sm-2"
+                                placeholder="검색"
+                                className="mr-sm- search-input"
                                 value={searchKeyword}
                                 onChange={handleSearchChange}
                             />
