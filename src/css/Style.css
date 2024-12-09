@@ -370,6 +370,17 @@ body {
 
 @media (max-width: 768px) {
     /* mobile view */
+    .header-nav {
+        padding: 0px !important;
+    }
+    .logoImg{
+        width: 40px;
+        height: 40px;
+    }
+}
+
+@media (max-width: 768px) {
+    /* mobile view */
     .footer-nav .nav-link {
         font-size: 30px;
         margin: 0 15px;
