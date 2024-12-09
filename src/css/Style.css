@@ -3,410 +3,409 @@
 
 /* 색상 선언 */
 :root {
-    --primary-color: #ff4747; /* 기본 색상 */
-    --primaryHover-color: #ff2525; /* 기본 색상 */
-    --secondary-color: #ff9c73; /* 보조 색상 */
-    --secondaryHover-color: #ff451a; /* 보조 색상 하버 */
-    --secondaryHover2-color: #e68d67; /* 보조 색상 하버2 */
-    --tertiary-color: #fbd288; /* 보조 색상 */
-    --quaternary-color: #fcf596; /* 보조 색상 */
-    --background-color: #ffffff; /* 색상 white */
-    --background-color-gray: #efefef; /* 색상 gray */
-    --background-color-black: #3d3d3d; /* 검은 배경 색상 */
-    --text-color-black: #222222; /* 검은 텍스트 색상 */
-    --text-color-white: #f7f7f7; /* 하얀 텍스트 색상 */
-    --text-color-gray: #808080; /* 하얀 텍스트 색상 */
-    max-width: 100%; /* 화면 크기에 맞게 너비 조정 */
-    width: 1280px;
-    margin: 0 auto; /* 중앙 정렬 */
+  --primary-color: #ff4747; /* 기본 색상 */
+  --primaryHover-color: #ff2525; /* 기본 색상 */
+  --secondary-color: #ff9c73; /* 보조 색상 */
+  --secondaryHover-color: #ff451a; /* 보조 색상 하버 */
+  --secondaryHover2-color: #e68d67; /* 보조 색상 하버2 */
+  --tertiary-color: #fbd288; /* 보조 색상 */
+  --quaternary-color: #fcf596; /* 보조 색상 */
+  --background-color: #ffffff; /* 색상 white */
+  --background-color-gray: #efefef; /* 색상 gray */
+  --background-color-black: #3d3d3d; /* 검은 배경 색상 */
+  --text-color-black: #222222; /* 검은 텍스트 색상 */
+  --text-color-white: #f7f7f7; /* 하얀 텍스트 색상 */
+  --text-color-gray: #808080; /* 하얀 텍스트 색상 */
+  max-width: 100%; /* 화면 크기에 맞게 너비 조정 */
+  width: 1280px;
+  margin: 0 auto; /* 중앙 정렬 */
 }
 
 .kakaoMapContainer,
 .kakaoMapContainer > *,
 #__react-kakao-maps-sdk___Map,
 #__react-kakao-maps-sdk___Map > * {
-    transition: 0s !important;
+  transition: 0s !important;
 }
 
 /* style reset */
 ul,
 ol {
-    list-style-type: none;
+  list-style-type: none;
 }
 
 .btn.btn-colorPrimary {
-    background-color: var(--primary-color);
-    border: none;
-    color: var(--text-color-white);
+  background-color: var(--primary-color);
+  border: none;
+  color: var(--text-color-white);
 }
 
 .btn.btn-colorPrimary:hover {
-    background-color: var(--primaryHover-color);
-    color: var(--text-color-white);
+  background-color: var(--primaryHover-color);
+  color: var(--text-color-white);
 }
 
 .btn.btn-colorSecondary {
-    background-color: var(--secondary-color);
-    border: none;
-    color: var(--text-color-white);
+  background-color: var(--secondary-color);
+  border: none;
+  color: var(--text-color-white);
 }
 
 .btn.btn-colorSecondary:hover {
-    background-color: var(--secondaryHover-color);
-    color: var(--text-color-white);
+  background-color: var(--secondaryHover-color);
+  color: var(--text-color-white);
 }
 
 /* 고정된 헤더 스타일 */
 #headerContainer {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: nowrap;
-    min-width: 320px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  min-width: 320px;
 }
 
 header {
-    background-color: var(--background-color);
-    position: sticky;
-    top: 0;
-    left: 50%;
-    width: 100%;
-    max-width: 1280px; /* 최대 너비 */
-    /* transform: translateX(-50%); 중앙 정렬 */
-    z-index: 1000;
-    text-align: center;
-    line-height: 58px; /* 텍스트 수직 중앙 정렬 */
-    /*overflow: hidden; /* 내용이 넘어가지 않도록 설정 */
+  background-color: var(--background-color);
+  position: sticky;
+  top: 0;
+  left: 50%;
+  width: 100%;
+  max-width: 1280px; /* 최대 너비 */
+  /* transform: translateX(-50%); 중앙 정렬 */
+  z-index: 1000;
+  text-align: center;
+  line-height: 58px; /* 텍스트 수직 중앙 정렬 */
+  /*overflow: hidden; /* 내용이 넘어가지 않도록 설정 */
 }
 
 /* header Button*/
 /* 뒤로가기 버튼 */
 #back {
-    background-color: var(--background-color);
-    color: var(--text-color-black);
-    border: none;
-    width: 36px;
-    height: 36px;
+  background-color: var(--background-color);
+  color: var(--text-color-black);
+  border: none;
+  width: 36px;
+  height: 36px;
 }
 
 #back:hover {
-    background-color: var(--background-color-gray);
+  background-color: var(--background-color-gray);
 }
 
 /* 검색 바 */
 #search-form {
-    position: relative;
-    display: block;
+  position: relative;
+  display: block;
 }
 
 #search-bar {
-    padding-right: 70px;
+  padding-right: 70px;
 }
 
 /* 검색 버튼 */
 #search {
-    background-color: var(--secondary-color);
-    color: var(--text-color-white);
-    margin-left: 5px;
-    justify-content: center;
-    position: absolute;
-    top: 2px;
-    right: 15px;
-    border: none;
+  background-color: var(--secondary-color);
+  color: var(--text-color-white);
+  margin-left: 5px;
+  justify-content: center;
+  position: absolute;
+  top: 2px;
+  right: 15px;
+  border: none;
 }
 
 #search:hover {
-    background-color: var(--secondaryHover2-color);
-    color: var(--text-color-white);
+  background-color: var(--secondaryHover2-color);
+  color: var(--text-color-white);
 }
 
 /* 유저 버튼 */
 #user-buttons {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-right: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-right: 10px;
 }
 
 #profile {
-    width: "40px";
-    height: "40px";
-    border-radius: "50%";
-    border: "1.5px solid var(--secondary-color)";
-    overflow: "hidden";
-    background-position: center;
-    background-size: cover;
+  width: "40px";
+  height: "40px";
+  border-radius: "50%";
+  border: "1.5px solid var(--secondary-color)";
+  overflow: "hidden";
+  background-position: center;
+  background-size: cover;
 }
 
 /* 드롭다운 버튼 */
 #dropdown-basic {
-    background-color: var(--background-color);
-    color: var(--text-color-gray);
-    border: 1px solid var(--background-color-gray);
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 50px;
-    height: 50px;
-    margin-right: 10px;
+  background-color: var(--background-color);
+  color: var(--text-color-gray);
+  border: 1px solid var(--background-color-gray);
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
 }
 
 .dropdown-menu[data-bs-popper] {
-    right: 10px;
-    left: auto !important;
+  right: 10px;
+  left: auto !important;
 }
 
 #dropdown-basic:focus,
 #dropdown-basic:hover {
-    background-color: var(--background-color-gray);
+  background-color: var(--background-color-gray);
 }
 
 #dropdown-item {
-    cursor: auto;
-    margin: 0;
-    background-color: var(--background-color);
-    border-radius: 10px;
+  cursor: auto;
+  margin: 0;
+  background-color: var(--background-color);
+  border-radius: 10px;
 }
 
 #dropdown-item:hover {
-    background-color: var(--background-color);
+  background-color: var(--background-color);
 }
 /* 로그인 관련 버튼 */
 #login,
 #join,
 #logout {
-    margin: 0;
-    padding: 0;
-    border: none;
-    border-radius: 5px;
-    font-size: 12px;
-    width: 72px !important;
-    height: 30px;
-    position: relative;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 5px;
+  font-size: 12px;
+  width: 72px !important;
+  height: 30px;
+  position: relative;
 }
 
 #login:hover,
 #join:hover,
 #logout:hover {
-    transition: all 0.3s ease-out;
-    color: var(--text-color-white);
+  transition: all 0.3s ease-out;
+  color: var(--text-color-white);
 }
 
 #login,
 #join,
 #logout {
-    background-color: var(--secondary-color);
-    color: var(--text-color-white);
+  background-color: var(--secondary-color);
+  color: var(--text-color-white);
 }
 
 #login:hover,
 #join:hover,
 #logout:hover {
-    background-color: var(--secondaryHover2-color);
+  background-color: var(--secondaryHover2-color);
 }
 
 .nickname {
-    width: 11vh;
-    height: 2vh;
-    line-height: 18px;
+  width: 11vh;
+  height: 2vh;
+  line-height: 18px;
 }
 
 .logoImg {
-    width: 50px;
-    height: 50px;
+  width: 50px;
+  height: 50px;
 }
 
 /* 알림창 스타일 */
 #notification-dropdown-toggle {
-    width: 80px;
-    background-color: var(--secondary-color);
-    border: none;
-    margin-right: 15px;
+  width: 80px;
+  background-color: var(--secondary-color);
+  border: none;
+  margin-right: 15px;
 }
 
 #notification-dropdown-toggle:hover {
-    background-color: var(--secondaryHover2-color);
+  background-color: var(--secondaryHover2-color);
 }
 
 #notification-menu {
-    position: absolute;
-    width: auto;
-    height: 700px;
-    background-color: var(--background-color);
-    border: 1px solid var(--background-color);
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-    z-index: 1000;
-    overflow-y: auto;
-    right: 15px;
-    left: auto;
-    transform: translateX(0);
+  position: absolute;
+  width: auto;
+  height: 700px;
+  background-color: var(--background-color);
+  border: 1px solid var(--background-color);
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  overflow-y: auto;
+  right: -108px;
+  transform: translateX(0);
 }
 
 #notification-list {
-    padding: 10px;
-    max-height: 300px;
-    overflow-y: auto;
+  padding: 10px;
+  max-height: 300px;
+  overflow-y: auto;
 }
 
 #notification-item {
-    padding: 8px;
-    border-bottom: 1px solid var(--background-color-gray);
-    height: 180px;
-    cursor: auto;
+  padding: 8px;
+  border-bottom: 1px solid var(--background-color-gray);
+  height: 180px;
+  cursor: auto;
 }
 
 /* :focus상태 (제거 시 클릭하면 파랗게 됨) */
 #notification-item:focus {
-    outline: none;
-    background-color: inherit;
-    color: inherit;
+  outline: none;
+  background-color: inherit;
+  color: inherit;
 }
 
 #no-notifications {
-    padding: 10px;
-    text-align: center;
-    color: var(--text-color-gray);
+  padding: 10px;
+  text-align: center;
+  color: var(--text-color-gray);
 }
 
 #notification-dropdown .MuiSvgIcon-root {
-    font-size: 1.5rem;
-    color: var(--background-color-gray);
+  font-size: 1.5rem;
+  color: var(--background-color-gray);
 }
 
 #dropdown-item:active {
-    background-color: inherit !important;
-    color: inherit !important;
+  background-color: inherit !important;
+  color: inherit !important;
 }
 
 /* 알림창 버튼 */
 #btn-my {
-    background-color: var(--secondary-color);
-    color: var(--text-color-white);
-    border: none;
-    height: 31px;
+  background-color: var(--secondary-color);
+  color: var(--text-color-white);
+  border: none;
+  height: 31px;
 }
 
 #btn-my:hover {
-    background-color: var(--secondaryHover2-color);
-    color: var(--text-color-white);
+  background-color: var(--secondaryHover2-color);
+  color: var(--text-color-white);
 }
 
 #btn-all-delete {
-    background-color: var(--primary-color);
-    border: none;
-    transform: translateX(208px);
+  background-color: var(--primary-color);
+  border: none;
+  transform: translateX(208px);
 }
 
 #btn-all-delete:hover {
-    background-color: var(--primaryHover-color);
+  background-color: var(--primaryHover-color);
 }
 
 /* 고정된 푸터 스타일 */
 footer {
-    position: sticky;
-    bottom: 0;
-    left: 50%;
-    width: 100%;
-    max-width: 1280px; /* 최대 너비 */
-    /* transform: translateX(-50%); 중앙 정렬 */
-    text-align: center;
+  position: sticky;
+  bottom: 0;
+  left: 50%;
+  width: 100%;
+  max-width: 1280px; /* 최대 너비 */
+  /* transform: translateX(-50%); 중앙 정렬 */
+  text-align: center;
 
-    z-index: 1000;
-    /* height: 70px;  */
-    /* line-height: 50px;  */
+  z-index: 1000;
+  /* height: 70px;  */
+  /* line-height: 50px;  */
 }
 
 header form {
-    display: flex;
-    width: 640px;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 20px; /* 20px 여�� */
+  display: flex;
+  width: 640px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px; /* 20px 여�� */
 }
 
 /* 본문 내용에 상단과 하단 여백을 추가 */
 main {
-    background-color: var(--background-color-gray);
-    padding: 30px 50px;
-    max-width: 1280px; /* 최대 너비 */
-    width: 100%; /* 화면 크기에 맞게 너비 조정 */
-    margin: 0 auto; /* 중앙 정렬 */
-    box-sizing: border-box; /* padding 포함 */
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2); /* 수평, 수직, 흐림 정도, 색상 */
-    min-height: 100vh;
+  background-color: var(--background-color-gray);
+  padding: 30px 50px;
+  max-width: 1280px; /* 최대 너비 */
+  width: 100%; /* 화면 크기에 맞게 너비 조정 */
+  margin: 0 auto; /* 중앙 정렬 */
+  box-sizing: border-box; /* padding 포함 */
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2); /* 수평, 수직, 흐림 정도, 색상 */
+  min-height: 100vh;
 }
 
 html {
-    background-color: var(--background-color-black);
+  background-color: var(--background-color-black);
 }
 
 html,
 body {
-    margin: 0;
-    min-height: 100vh;
+  margin: 0;
+  min-height: 100vh;
 }
 
 /* footerNav 클래스로 Nav 항목을 flex로 설정 */
 .footer-nav {
-    display: flex; /* Flexbox로 설정 */
-    justify-content: center; /* 항목들 간에 균등한 간격을 두도록 설정 */
-    width: 100%; /* Nav 전체 폭을 100%로 설정 */
-    padding: 0; /* 불필요한 패딩 제거 */
+  display: flex; /* Flexbox로 설정 */
+  justify-content: center; /* 항목들 간에 균등한 간격을 두도록 설정 */
+  width: 100%; /* Nav 전체 폭을 100%로 설정 */
+  padding: 0; /* 불필요한 패딩 제거 */
 }
 
 .footer nav {
-    padding: 0 !important;
+  padding: 0 !important;
 }
 
 .footer-nav .nav-link {
-    font-size: 30px;
-    margin: 0 20px;
+  font-size: 30px;
+  margin: 0 20px;
 }
 
 .footer-nav .nav-link :only-child {
-    /* margin-bottom: 10px; */
+  /* margin-bottom: 10px; */
 }
 
 @media (max-width: 768px) {
-    /* mobile view */
-    .header-nav {
-        padding: 0px !important;
-    }
-    .logoImg{
-        width: 40px;
-        height: 40px;
-    }
+  /* mobile view */
+  .header-nav {
+    padding: 0px !important;
+  }
+  .logoImg {
+    width: 40px;
+    height: 40px;
+  }
 }
 
 @media (max-width: 768px) {
-    /* mobile view */
-    .footer-nav .nav-link {
-        font-size: 30px;
-        margin: 0 15px;
-    }
-    #search-form{
-        width: 245px !important;
-     }
-    .search-input{
-        width: 150px !important;
-    }
+  /* mobile view */
+  .footer-nav .nav-link {
+    font-size: 30px;
+    margin: 0 15px;
+  }
+  #search-form {
+    width: 245px !important;
+  }
+  .search-input {
+    width: 150px !important;
+  }
 }
 
 /* 페이지네이션 */
 .pagination {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
 }
 .pagination button {
-    border: none;
-    background-color: var(--background-color-gray);
-    color: var(--text-color-black);
-    box-shadow: none;
-    padding: 10px;
-    margin: 0 4px;
+  border: none;
+  background-color: var(--background-color-gray);
+  color: var(--text-color-black);
+  box-shadow: none;
+  padding: 10px;
+  margin: 0 4px;
 }
 .paginated-list {
-    list-style: none;
+  list-style: none;
 }
