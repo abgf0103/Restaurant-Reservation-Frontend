@@ -84,6 +84,7 @@ const MyReview = () => {
       .get("/review/LikedRanking") // 랭킹 API 호출
       .then((response) => {
         const myRanking = response.data; // 랭킹 데이터
+        console.log(response.data);
         setRanking(myRanking); // 랭킹 상태 업데이트
       })
       .catch((error) => {
