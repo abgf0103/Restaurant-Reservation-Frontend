@@ -88,8 +88,8 @@
 /* 작은 화면에서 버튼 크기 자동 조정 */
 @media (max-width: 768px) {
   .onClick-button {
-    font-size: 14px; /* 작은 화면에서 폰트 크기 줄이기 */
-    padding: 10px 25px; /* 버튼 크기 줄이기 */
+    font-size: 12px !important; /* 작은 화면에서 폰트 크기 줄이기 */
+    padding: 10px 15px; /* 버튼 크기 줄이기 */
   }
 }
 .review-button {

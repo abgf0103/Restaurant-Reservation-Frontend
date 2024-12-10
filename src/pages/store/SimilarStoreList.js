@@ -273,7 +273,7 @@ const SimilarStoreList = () => {
                             </Link>
                             <Card.Body className="menuInfo">
                                 <Link to="/store/info" state={item.storeId}>
-                                    <Card.Title onClick={reload} className="menuTitle">{item.storeName}</Card.Title>
+                                    <Card.Title onClick={reload} className="menuTitle horizontal-item-title">{item.storeName}</Card.Title>
                                     <Card.Text className="horizontal-item-text" onClick={reload}>
                                         ⭐{storeRatings[item.storeId] || 0}({storeReviewCounts[item.storeId] || 0}){" "}
                                         {item.identity}
