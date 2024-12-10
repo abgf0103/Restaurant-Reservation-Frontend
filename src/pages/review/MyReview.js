@@ -303,28 +303,16 @@ const MyReview = () => {
                     </ListGroup>
                   </Card.Body>
 
-                  {review.files.length > 0 ? (
+                  {review.files.length > 0 && (
                     <ReviewImage>
                       {review.files.map((file, index) => (
                         <img
                           key={index}
                           src={`${process.env.REACT_APP_HOST}/file/view/${file.saveFileName}`}
                           alt={`첨부 파일 ${index + 1}`}
-                          className="img-fluid"
+                          className="img"
                         />
                       ))}
-                    </ReviewImage>
-                  ) : (
-                    <ReviewImage>
-                      <FontAwesomeIcon
-                        className="mypage-default-icon"
-                        icon={faCircleUser} // 기본 아이콘
-                        style={{
-                          fontSize: "150px",
-                          width: "160px",
-                          height: "160px",
-                        }}
-                      />
                     </ReviewImage>
                   )}
                 </div>

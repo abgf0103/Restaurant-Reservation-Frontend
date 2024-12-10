@@ -23,8 +23,6 @@ export const Name = styled.span`
   font-weight: 600;
   display: block;
   margin-top: 10px;
-
-  /* 그라데이션 적용 */
   background: linear-gradient(
     135deg,
     var(--primary-color),
@@ -33,30 +31,30 @@ export const Name = styled.span`
   -webkit-background-clip: text;
   color: transparent;
 
-  /* 반응형 디자인 */
   @media (max-width: 768px) {
-    font-size: 1.5rem; /* 모바일에서 폰트 크기 약간 감소 */
+    font-size: 1.5rem;
   }
 `;
 
 // 프로필 이미지 스타일링
 export const ProfileImage = styled.div`
   display: flex;
-  align-items: center; /* 가로로 배치 */
+  align-items: center;
   justify-content: flex-start;
-  gap: 20px; /* 프로필 이미지와 텍스트 간 간격 */
+  gap: 20px;
   padding: 20px 0;
-  position: relative; /* 정보 아이콘을 우측 상단에 배치하기 위한 설정 */
+  position: relative;
 
-  img {
-    width: 100px; /* 프로필 이미지 크기 */
+  /* 프로필 이미지 */
+  .profile-img {
+    width: 100px;
     height: 100px;
     border-radius: 50%;
-    border: 2px solid var(--primary-color); /* 이미지에 테두리 추가 */
+    border: 2px solid var(--primary-color);
     object-fit: cover;
   }
 
-  /* 유저네임 */
+  /* 이름 텍스트 */
   ${Name} {
     margin-top: 0;
     display: inline-block;
@@ -64,9 +62,9 @@ export const ProfileImage = styled.div`
 
   /* 반응형 디자인 */
   @media (max-width: 768px) {
-    flex-direction: column; /* 모바일에서 세로로 배치 */
+    flex-direction: column;
     align-items: center;
-    gap: 10px; /* 간격 줄이기 */
+    gap: 10px;
   }
 `;
 
@@ -126,14 +124,13 @@ export const WLSumContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 20px; /* 제목과 WLSum 사이에 여백 추가 */
+  margin-top: 20px;
   font-size: 1.2rem;
   color: var(--text-color-black);
 
-  /* 반응형 디자인 */
   @media (max-width: 768px) {
-    flex-direction: column; /* 모바일에서 세로 배치 */
-    font-size: 1rem; /* 모바일에서 폰트 크기 감소 */
+    flex-direction: column;
+    font-size: 1rem;
     gap: 10px;
   }
 `;
@@ -170,12 +167,11 @@ export const WLSumItem = styled.span`
 
 // 전체 페이지 컨테이너 스타일
 export const MyReviewContainer = styled(Container)`
-  padding: 50px 0; /* 충분한 여백을 주어 화면 중앙 정렬 */
+  padding: 50px 0;
   background-color: var(--background-color);
 
-  /* 반응형 디자인 */
   @media (max-width: 768px) {
-    padding: 30px 0; /* 모바일에서 여백 감소 */
+    padding: 30px 0;
   }
 `;
 
@@ -188,30 +184,20 @@ export const ReviewCard = styled(Card)`
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s ease, transform 0.3s ease;
-  background-color: var(--background-color); /* 배경색 설정 */
+  background-color: var(--background-color);
 
   &:hover {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    transform: translateY(-5px); /* hover 시 카드가 약간 위로 올라오는 효과 */
-  }
-
-  .card-title {
-    color: var(--text-color-black); /* 텍스트 색상 */
-    font-size: 1.25rem;
-  }
-
-  .card-text {
-    color: var(--text-color-gray); /* 리뷰 본문 텍스트 색상 */
-    font-size: 1rem;
+    transform: translateY(-5px);
   }
 
   /* 반응형 디자인 */
   @media (max-width: 768px) {
     .card-title {
-      font-size: 1rem; /* 모바일에서 제목 폰트 크기 감소 */
+      font-size: 1.2rem;
     }
     .card-text {
-      font-size: 0.9rem; /* 모바일에서 본문 폰트 크기 감소 */
+      font-size: 1rem;
     }
   }
 `;
@@ -220,8 +206,8 @@ export const ReviewCard = styled(Card)`
 export const ReviewImage = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-content: center; /* 이미지를 가로로 가운데 정렬 */
-  align-items: center; /* 이미지를 세로로 가운데 정렬 */
+  justify-content: center;
+  align-items: center;
   gap: 10px;
   padding: 1rem;
 
@@ -230,13 +216,12 @@ export const ReviewImage = styled.div`
     max-height: 100px;
     object-fit: cover;
     border-radius: 5px;
-    border: 1px solid var(--tertiary-color); /* 이미지 테두리 색상 */
+    border: 1px solid var(--tertiary-color);
   }
 
-  /* 반응형 디자인 */
   @media (max-width: 768px) {
-    gap: 5px; /* 모바일에서 간격 좁힘 */
-    padding: 0.5rem; /* 모바일에서 패딩 줄이기 */
+    gap: 5px;
+    padding: 0.5rem;
   }
 `;
 
@@ -253,12 +238,11 @@ export const ReviewButtons = styled.div`
     padding: 10px;
   }
 
-  /* 반응형 디자인 */
   @media (max-width: 768px) {
-    flex-direction: column; /* 모바일에서 버튼 세로 배치 */
-    gap: 10px; /* 버튼 간 간격 추가 */
+    flex-direction: column;
+    gap: 10px;
     button {
-      width: 100%; /* 버튼 너비를 100%로 확장 */
+      width: 100%;
     }
   }
 `;
@@ -325,9 +309,8 @@ export const MiniTitle = styled.h2`
   font-weight: bold;
   color: var(--text-color-black);
 
-  /* 반응형 디자인 */
   @media (max-width: 768px) {
-    font-size: 1.2rem; /* 모바일에서 폰트 크기 약간 감소 */
+    font-size: 1.2rem;
   }
 `;
 
@@ -336,9 +319,8 @@ export const CardText = styled(Card.Text)`
   font-size: 14px;
   color: var(--text-color-gray);
 
-  /* 반응형 디자인 */
   @media (max-width: 768px) {
-    font-size: 12px; /* 모바일에서 텍스트 크기 감소 */
+    font-size: 12px;
   }
 `;
 
@@ -348,8 +330,7 @@ export const ListGroupItem = styled(ListGroup.Item)`
   padding: 10px;
   color: var(--text-color-black);
 
-  /* 반응형 디자인 */
   @media (max-width: 768px) {
-    font-size: 12px; /* 모바일에서 폰트 크기 감소 */
+    font-size: 12px;
   }
 `;
