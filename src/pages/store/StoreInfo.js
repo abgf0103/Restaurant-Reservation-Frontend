@@ -725,22 +725,15 @@ const StoreInfo = () => {
                 {/* 파일 첨부 부분 */}
                 <strong>리뷰 사진:</strong>
                 {review.files.length > 0 && (
-                  <div>
-                    <div>
-                      {review.files.map((fileItem, index) => (
-                        <img
-                          key={index}
-                          src={`${process.env.REACT_APP_HOST}/file/view/${fileItem.saveFileName}`}
-                          alt={`첨부 파일 ${index + 1}`}
-                          style={{
-                            width: "200px",
-                            marginTop: "10px",
-                            marginRight: "10px",
-                            marginBottom: "10px",
-                          }}
-                        />
-                      ))}
-                    </div>
+                  <div className="review-images">
+                    {review.files.map((fileItem, index) => (
+                      <img
+                        key={index}
+                        src={`${process.env.REACT_APP_HOST}/file/view/${fileItem.saveFileName}`}
+                        alt={`첨부 파일 ${index + 1}`}
+                        className="review-image"
+                      />
+                    ))}
                   </div>
                 )}
               </li>
