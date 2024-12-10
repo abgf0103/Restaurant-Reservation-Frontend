@@ -56,3 +56,13 @@
   height: 200px; /* 이미지 높이  */
   margin: 0 auto;
 }
+
+/* 화면 너비가 480px 이하일 때 */
+@media (max-width: 480px) {
+    .menuTitle{
+        font-size: 6px;
+    }
+    .menuDescription{
+        font-size: 12px;
+    }
+}
