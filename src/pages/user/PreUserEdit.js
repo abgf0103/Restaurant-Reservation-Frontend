@@ -65,7 +65,7 @@ const PreUserEdit = () => {
               onMouseEnter={handleUserMouseEnter} // 개인 회원 가입 hover 시 아이콘 변경
               onMouseLeave={handleUserMouseLeave} // hover 벗어날 때 아이콘 복원
             >
-              개인 회원 가입하기
+              일반 회원 가입하기
             </Button>
           </div>
         </div>
