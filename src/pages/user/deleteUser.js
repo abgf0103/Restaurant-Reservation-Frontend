@@ -68,7 +68,7 @@ const DeleteUser = () => {
         <hr />
         <p>계정 삭제를 진행하시겠습니까?</p>
         <button
-          className="btn btn-danger"
+          className="deleteUser-btn btn-danger"
           onClick={handleDeleteAccount}
           disabled={loading}
         >

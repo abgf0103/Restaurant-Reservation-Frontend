@@ -192,7 +192,7 @@ const StoreList = () => {
                     </Button>
                 ))}
             </div>
-            <ul className="storeList-card-list">
+            <ul className="storeList-card-list main-store-list">
                 {storeData.map((item) => (
                     <li key={item.storeId}>
                         <Card style={{ width: "18rem" }} className="storeList-card">

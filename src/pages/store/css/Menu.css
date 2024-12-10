@@ -1,58 +1,68 @@
-.horizontal-scroll-menu{
-    display: flex;
-    overflow-x: auto;
-    white-space: nowrap;
-    cursor: grab;
-    overflow: hidden;
+.horizontal-scroll-menu {
+  display: flex;
+  white-space: nowrap;
+  cursor: grab;
+  overflow: hidden;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  overflow-x: auto;
 }
 
 .menuInfo {
-    width: 100%;
-    position: relative;
+  width: 100%;
+  position: relative;
 }
-
 
 .menuTitle {
-    white-space: normal;
-    font-weight: bold !important;
-    margin-top: 5px!important;
+  white-space: normal;
+  font-weight: bold !important;
+  margin-top: 5px !important;
 }
 
-.menuDescription{
-    white-space: normal;
-    width: 200px;
+.menuDescription {
+  white-space: normal;
+  width: 200px;
 }
 
 .menuPrice {
-    position: absolute;
-    bottom: 0;
-    right: 0;
+  position: absolute;
+  bottom: 0;
+  right: 0;
 }
 
-
 /* 메뉴 관리 */
-.menuListManagement{
-    display: grid;               /* 그리드 레이아웃 사용 */
-    grid-template-columns: repeat(2, 1fr); /* 2열 레이아웃 */
-    gap: 50px;
+.menuListManagement {
+  display: grid; /* 그리드 레이아웃 사용 */
+  grid-template-columns: repeat(2, 1fr); /* 2열 레이아웃 */
+  gap: 50px;
 }
 
 .menuListManagement li {
-    text-align: center;          /* 텍스트 중앙 정렬 */
-    margin: 0 auto;
+  text-align: center; /* 텍스트 중앙 정렬 */
+  margin: 0 auto;
 }
 
-.menuManagementMain{
-    display: grid;
-    place-items: center;      /* 가로 및 세로 중앙 정렬 */
+.menuManagementMain {
+  display: grid;
+  place-items: center; /* 가로 및 세로 중앙 정렬 */
 }
 
-.addMenuBtn{
-    text-align: center;
+.addMenuBtn {
+  text-align: center;
 }
 
-.menuImg{
-    width: 200px;
-    height: 200px; /* 이미지 높이  */
-    margin: 0 auto;
+.menuImg {
+  width: 200px;
+  height: 200px; /* 이미지 높이  */
+  margin: 0 auto;
+}
+
+/* 화면 너비가 480px 이하일 때 */
+@media (max-width: 480px) {
+    .menuTitle{
+        font-size: 6px;
+    }
+    .menuDescription{
+        font-size: 12px;
+    }
 }

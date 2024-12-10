@@ -2,15 +2,26 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // useNavigate import
 import { Form, Button, Container, Alert } from "react-bootstrap"; // react-bootstrap 컴포넌트 임포트
 import instance from "../../api/instance"; // 커스텀 axios 인스턴스를 임포트
+import { formatPhoneNumber } from "../../utils/tools"; // 전화번호 포맷팅 함수 임포트
 import "./css/findPassword.css";
 
 function FindPassword() {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
-
   const [phone, setPhone] = useState("");
   const [message, setMessage] = useState("");
   const navigate = useNavigate(); // navigate 함수
+
+  // 전화번호 입력 처리 함수
+  const handlePhoneChange = (e) => {
+    const value = e.target.value;
+
+    if (value.replace(/\D/g, "").length > 11) {
+      return; // 11자 이상이면 더 이상 입력을 받지 않음
+    }
+    const formattedPhone = formatPhoneNumber(value); // 임포트된 전화번호 포맷팅 함수 사용
+    setPhone(formattedPhone); // 포맷팅된 전화번호 상태에 저장
+  };
 
   // 폼 제출 처리
   const handleSubmit = async (event) => {
@@ -82,7 +93,7 @@ function FindPassword() {
             <Form.Control
               type="text"
               value={phone}
-              onChange={(e) => setPhone(e.target.value)}
+              onChange={handlePhoneChange} // 수정된 전화번호 핸들러 사용
               required
               placeholder="전화번호를 입력해주세요"
               className="find-pw-input"
