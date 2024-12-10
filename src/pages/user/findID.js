@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom"; // useNavigate import
 import instance from "../../api/instance"; // 커스텀 axios 인스턴스를 임포트
 import "./css/findID.css";
 import { Button, Container, Form } from "react-bootstrap";
+import { formatPhoneNumber } from "../../utils/tools";
 
 const FindIdForm = () => {
   const [email, setEmail] = useState("");
@@ -14,7 +15,19 @@ const FindIdForm = () => {
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
   };
-  //폼 제출 처리
+
+  // 전화번호 입력 처리 함수
+  const handlePhoneChange = (e) => {
+    const value = e.target.value;
+
+    if (value.replace(/\D/g, "").length > 11) {
+      return; // 11자 이상이면 더 이상 입력을 받지 않음
+    }
+    const formattedPhone = formatPhoneNumber(value); // 임포트된 전화번호 포맷팅 함수 사용
+    setPhone(formattedPhone); // 포맷팅된 전화번호 상태에 저장
+  };
+
+  // 폼 제출 처리
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -65,7 +78,7 @@ const FindIdForm = () => {
               <Form.Control
                 type="text"
                 value={phone}
-                onChange={(e) => setPhone(e.target.value)}
+                onChange={handlePhoneChange} // 수정된 전화번호 핸들러 사용
                 required
                 placeholder="전화번호를 입력하세요"
                 className="findid-pw-input"
