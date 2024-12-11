@@ -336,23 +336,25 @@ const StoreInfo = () => {
         setButtonVisible(true); // 버튼 숨기기
       }
       // 새로 추가된 리뷰들에 대해 좋아요 상태 가져오기
-      nextReviews.forEach((review) => {
-        instance
-          .get(`/review/likes/status?reviewId=${review.reviewId}`)
-          .then((statusRes) => {
-            // 추가된 리뷰에 대한 좋아요 상태를 갱신
-            setReviews((prevReviews) =>
-              prevReviews.map((r) =>
-                r.reviewId === review.reviewId
-                  ? { ...r, liked: statusRes.data }
-                  : r
-              )
-            );
-          })
-          .catch((error) => {
-            console.error("좋아요 상태 확인 실패:", error);
-          });
-      });
+      if (userInfo.id !== "") {
+        nextReviews.forEach((review) => {
+          instance
+            .get(`/review/likes/status?reviewId=${review.reviewId}`)
+            .then((statusRes) => {
+              // 추가된 리뷰에 대한 좋아요 상태를 갱신
+              setReviews((prevReviews) =>
+                prevReviews.map((r) =>
+                  r.reviewId === review.reviewId
+                    ? { ...r, liked: statusRes.data }
+                    : r
+                )
+              );
+            })
+            .catch((error) => {
+              console.error("좋아요 상태 확인 실패:", error);
+            });
+        });
+      }
     }
   };
 
