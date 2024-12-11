@@ -679,7 +679,7 @@ const StoreInfo = () => {
                     width: "40px",
                     height: "40px",
                     textDecoration: "none",
-                    color: "var(--color--text)",
+                    color: "var(--color--text)", // 기본 텍스트 색상
                   }}
                 >
                   {review.fileId ? (
@@ -704,12 +704,23 @@ const StoreInfo = () => {
                         borderRadius: "50%",
                         objectFit: "cover",
                         verticalAlign: "middle",
-                        color: "black",
+                        color: "black !important",
                         border: "1.5px solid var(--secondary-color)",
                       }}
                     />
                   )}
-                  {" " + review.name}
+                  <span
+                    style={{ transition: "background-color 0.4s, color 0.4s" }}
+                    onMouseEnter={(e) => {
+                      e.target.style.color = "var(--primary-color)"; // 마우스 오버 시 텍스트 색상 변경
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.backgroundColor = ""; // 배경 색 초기화
+                      e.target.style.color = "var(--color--text)"; // 텍스트 색 초기화
+                    }}
+                  >
+                    {" " + review.name}
+                  </span>
                 </Link>
                 <br />
                 <strong>별점:</strong> {renderStars(review.rating)}
