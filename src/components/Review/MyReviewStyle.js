@@ -167,9 +167,9 @@ export const WLSumItem = styled.span`
 
 // 전체 페이지 컨테이너 스타일
 export const MyReviewContainer = styled(Container)`
-  padding: 50px 0;
   background-color: var(--background-color);
-
+  padding: 50px;
+  padding-bottom: 200px;
   @media (max-width: 768px) {
     padding: 30px 0;
   }

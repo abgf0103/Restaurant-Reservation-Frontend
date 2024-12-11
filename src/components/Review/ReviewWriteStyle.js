@@ -92,7 +92,8 @@ export const StoreName = styled.span`
 `;
 
 export const ReviewContainer = styled(Container)`
-  padding: 50px 0;
+  padding: 50px;
+  padding-bottom: 200px;
   background-color: var(--background-color); /* 배경 색상 */
 
   /* 반응형 디자인 */

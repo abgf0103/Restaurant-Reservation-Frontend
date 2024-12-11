@@ -92,7 +92,8 @@ export const StoreName = styled.span`
 `;
 
 export const ReveiwContainer = styled(Container)`
-  padding: 50px 0; /* 충분한 여백을 주어 화면 중앙 정렬 */
+  padding: 50px; /* 충분한 여백을 주어 화면 중앙 정렬 */
+  padding-bottom: 200px;
   background-color: var(--background-color);
   @media (max-width: 768px) {
     padding: 30px 0;

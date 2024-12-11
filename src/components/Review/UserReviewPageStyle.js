@@ -170,7 +170,8 @@ export const WLSumItem = styled.span`
 
 // 전체 페이지 컨테이너 스타일
 export const UserReviewPageContainer = styled(Container)`
-  padding: 50px 0; /* 충분한 여백을 주어 화면 중앙 정렬 */
+  padding: 50px; /* 충분한 여백을 주어 화면 중앙 정렬 */
+  padding-bottom: 250px;
   background-color: var(--background-color);
 
   /* 반응형 디자인 */
