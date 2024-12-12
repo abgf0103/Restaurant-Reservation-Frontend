@@ -202,7 +202,7 @@ export const UserReviewCard = styled(Card)`
   }
 
   .card-text {
-    color: var(--text-color-gray); /* 리뷰 본문 텍스트 색상 */
+    color: var(--text-color-black); /* 리뷰 본문 텍스트 색상 */
     font-size: 1rem;
   }
 

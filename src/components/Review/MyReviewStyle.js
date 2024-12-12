@@ -206,8 +206,8 @@ export const ReviewCard = styled(Card)`
 export const ReviewImage = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
+  justify-content: center; /* 이미지를 가로로 가운데 정렬 */
+  align-items: center; /* 이미지를 세로로 가운데 정렬 */
   gap: 10px;
   padding: 1rem;
 
@@ -216,12 +216,13 @@ export const ReviewImage = styled.div`
     max-height: 100px;
     object-fit: cover;
     border-radius: 5px;
-    border: 1px solid var(--tertiary-color);
+    border: 1px solid var(--tertiary-color); /* 이미지 테두리 색상 */
   }
 
+  /* 반응형 디자인 */
   @media (max-width: 768px) {
-    gap: 5px;
-    padding: 0.5rem;
+    gap: 5px; /* 모바일에서 간격 좁힘 */
+    padding: 0.5rem; /* 모바일에서 패딩 줄이기 */
   }
 `;
 
