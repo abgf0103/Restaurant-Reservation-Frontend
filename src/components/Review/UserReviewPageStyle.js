@@ -246,6 +246,7 @@ export const MiniTitle = styled.h2`
   font-size: 20px;
   font-weight: bold;
   color: var(--text-color-black);
+  transition: color 0.4s;
 
   /* 반응형 디자인 */
   @media (max-width: 768px) {

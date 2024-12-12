@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import instance from "../../api/instance"; // instance 임포트
 import {
@@ -231,7 +231,28 @@ const UserReviewPage = () => {
               <UserReviewCard>
                 <div>
                   <Card.Body>
-                    <MiniTitle>{review.storeName}</MiniTitle>
+                    <Link
+                      to={"/store/info"}
+                      state={review.storeId}
+                      style={{
+                        fontSize: "20px",
+                        fontWeight: "bold",
+                        textDecoration: "none",
+                        color: "var(--color--text)",
+                      }}
+                    >
+                      <span
+                        onMouseEnter={(e) => {
+                          e.target.style.color = "var(--primary-color)"; // 마우스 오버 시 텍스트 색상 변경
+                        }}
+                        onMouseLeave={(e) => {
+                          e.target.style.backgroundColor = ""; // 배경 색 초기화
+                          e.target.style.color = "var(--color--text)"; // 텍스트 색 초기화
+                        }}
+                      >
+                        <MiniTitle>{review.storeName}</MiniTitle>
+                      </span>
+                    </Link>
                     <CardText>{review.reviewComment}</CardText>
                     <ListGroup variant="flush">
                       <ListGroupItem>
