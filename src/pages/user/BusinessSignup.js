@@ -60,12 +60,13 @@ const BusinessSignup = () => {
   // 사업자 등록번호 자동 하이픈 추가
   const formatBusinessNumber = (value) => {
     const cleaned = value.replace(/\D/g, ""); // 숫자만 남기기
-    if (cleaned.length <= 3) {
-      return cleaned;
-    } else if (cleaned.length <= 5) {
-      return cleaned.replace(/(\d{3})(\d{0,2})/, "$1-$2");
+    const limited = cleaned.slice(0, 10); // 숫자만 10자리 제한
+    if (limited.length <= 3) {
+      return limited;
+    } else if (limited.length <= 5) {
+      return limited.replace(/(\d{3})(\d{0,2})/, "$1-$2");
     } else {
-      return cleaned.replace(/(\d{3})(\d{2})(\d{0,5})/, "$1-$2-$3");
+      return limited.replace(/(\d{3})(\d{2})(\d{0,5})/, "$1-$2-$3");
     }
   };
 
