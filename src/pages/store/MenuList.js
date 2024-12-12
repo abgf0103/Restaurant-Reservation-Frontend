@@ -124,7 +124,7 @@ const MenuList = () => {
                     onMouseDown={handleMouseDown} // 마우스 클릭 시작
                     onMouseMove={handleMouseMove} // 마우스 드래그 중
                     onMouseUp={handleMouseUp} // 마우스 클릭 종료
-                    className="horizontal-scroll-menu"
+                    className="horizontal-scroll"
                 >
                     {menuList.length > 0 ? (
                         menuList.map((item, index) => (
